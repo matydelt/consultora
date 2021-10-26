@@ -31,7 +31,7 @@ let sequelize =
       ssl: true,
     })
     : new Sequelize(
-      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/consultora`,
+      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/development`,
       { logging: false, native: false }
     );
 
@@ -65,19 +65,16 @@ const { Persona, Cliente, Usuario, Abogado, Materias, Casos } = sequelize.models
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 
-Usuario.hasOne(Persona)
 Persona.hasOne(Usuario)
 
-Usuario.hasOne(Cliente)
 Cliente.hasOne(Usuario)
 
-Usuario.hasOne(Abogado)
 Abogado.hasOne(Usuario)
 
-Casos.hasOne(Materias)
-Materias.hasMany(Casos)
+// Casos.hasOne(Materias)
+// Materias.hasMany(Casos)
 
-Abogado.hasMany(Materias)
+// Materias.belongsToMany(Abogado)
 
 
 

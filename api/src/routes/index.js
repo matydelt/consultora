@@ -11,6 +11,7 @@ const router = Router();
 
 module.exports = {
     casos: require("./casos"),
+    utiles: require("./utiles"),
     usuario: require("./usuario"),
     index: router
 };
