@@ -1,16 +1,24 @@
-const { Casos, Usuarios, Provincias } = require("../db")
+const { Casos, Usuario, Provincias } = require("../db")
 
-function getUsuarios(req, res) {
-    let vec = ["Buenos Aires", "Capital Federal", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones",
-        "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"]
-    for (let i = 0; i < vec.length; i++) {
-        Provincias.Build({
-            name: vec[i]
-        })
+async function getUsuarios(req, res) {
+    try {
+        let vec = ["Buenos Aires", "Capital Federal", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones",
+            "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"]
+        let provs = await Provincias.findAll({})
+        if (provs.length === 0) {
+            for (let i = 0; i < vec.length; i++) {
+                await Provincias.findOrCreate({
+                    where: { nombre: vec[i] }
+                })
+            }
+        }
+
+        const user = awaitUsuario.findAll()
+        res.json(user)
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
     }
-    console.log(req.body)
-    // Usuarios.findOne() 
-    res.sendStatus(200)
 }
 
 function getCasos(req, res) {

@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         dni: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTERGER,
             allowNull: false,
             primaryKey: true
         },
@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         celular: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTERGER,
             allowNull: false
         },
     });

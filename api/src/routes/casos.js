@@ -5,7 +5,7 @@ const get = require("../controllers/gets")
 const router = Router();
 
 
-router.get("/casos", (req, res) => get.getCasos(req, res))
+router.get("/casos", get.getCasos(req, res))
 
 
 

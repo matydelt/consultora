@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
             allowNull: false,
         },
         juzgado: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTERGER,
             allowNull: false,
             primaryKey: true
         },
@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         numeroExpediente: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTERGER,
             allowNull: false,
             primaryKey: true
         }
