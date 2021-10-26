@@ -10,7 +10,7 @@ const router = Router();
 
 
 module.exports = {
-    casos: require("./casos"),
     usuario: require("./usuario"),
+    casos: require("./casos"),
     index: router
 };

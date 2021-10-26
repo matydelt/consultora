@@ -4,7 +4,9 @@ const get = require("../controllers/gets")
 
 const router = Router();
 
-router.get("/usuarios", get.getUsuarios(res))
+router.get("/usuarios", (req, res) => get.getUsuarios(req, res))
+router.post("/usuarios", (req, res) => get.getUsuarios(req, res))
+
 
 
 
