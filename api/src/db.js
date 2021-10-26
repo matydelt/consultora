@@ -71,10 +71,7 @@ Cliente.hasOne(Usuario)
 
 Abogado.hasOne(Usuario)
 
-// Casos.hasOne(Materias)
-// Materias.hasMany(Casos)
 
-// Materias.belongsToMany(Abogado)
 
 
 
