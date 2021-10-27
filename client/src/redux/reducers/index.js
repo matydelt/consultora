@@ -27,6 +27,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         usuarios: action.payload
       }
+    case "GET_CASOS":
+      return {
+        ...state,
+        casos: action.payload
+      }
     default:
       return state;
   }
