@@ -68,7 +68,7 @@ async function usuario(req, res) {
         res.sendStatus(404)
     }
 }
-async function getAbogado(req, res) {
+async function getAbogados(req, res) {
     try {
         const user = await Usuario.findAll({})
         let abogados = []
@@ -85,6 +85,21 @@ async function getAbogado(req, res) {
     }
 }
 
+async function getAbogado(req, res) {
+    const { eMail } = req.body
+    try {
+        const user = await Usuario.findByPk(eMail)
+        const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
+        const abogado = await Abogado.findByPk(user.abogadoId)
+        if (abogado)
+            res.json({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
+        else res.sendStatus(404)
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
+
 function getCasos(req, res) {
 
 }
@@ -95,5 +110,6 @@ module.exports = {
     getProvincias,
     getMaterias,
     usuario,
-    getAbogado
+    getAbogado,
+    getAbogados
 }
