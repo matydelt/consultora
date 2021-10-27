@@ -81,3 +81,16 @@ export function postAbogado(abogado) {
     }
   };
 }
+
+export function getAbogado(abogado) {
+  return async function (dispatch) {
+    try {
+      await axios.get("http://localhost:3000/abogado", abogado);
+      return dispatch({
+        type: "GET_ABOGADO",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
