@@ -74,9 +74,12 @@ Abogado.hasOne(Usuario)
 Matricula.hasOne(Provincias)
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" })
-Materias.belongsToMany(Abogado, { through: "abogadomateria" })
+Abogado.belongsToMany(Materias, { through: "abogadomateria" })
 
+Cliente.hasMany(Casos)
+Casos.hasOne(Cliente)
 
+Abogado.hasMany(Cliente)
 
 
 module.exports = {
