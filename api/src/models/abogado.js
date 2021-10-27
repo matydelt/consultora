@@ -5,13 +5,9 @@ module.exports = (sequelize) => {
     // defino el modelo
     const Abogado = sequelize.define('abogado', {
         detalle: {
-            type: DataTypes.TEXT,
-            allowNull: false
+            type: DataTypes.TEXT
         },
-        matricula: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
+
     });
 
 };
