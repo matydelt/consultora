@@ -75,7 +75,6 @@ async function getAbogado(req, res) {
         for (let i = 0; i < user.length; i++) {
             const { firstName, lastName, dni, celular } = await Persona.findByPk(user[i].personaDni)
             const abogado = await Abogado.findByPk(user[i].abogadoId)
-            console.log(abogado)
             if (abogado)
                 abogados.push({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
         }
