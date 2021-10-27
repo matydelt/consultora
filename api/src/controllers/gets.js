@@ -5,6 +5,8 @@ const {
   Materias,
   Abogado,
   Persona,
+  Consulta,
+  Op,
 } = require("../db");
 
 async function getUsuarios(req, res) {
@@ -125,6 +127,58 @@ async function usuario(req, res) {
   }
 }
 
+function getCasos(req, res) {}
+
+async function getConsultas(req, res, next) {
+  const { nombre, apellido } = req.body;
+
+  if (nombre) {
+    try {
+      const nombresDB = await Consulta.findAll({
+        where: {
+          nombre: {
+            [Op.iLike]: `%${nombre}%`,
+          },
+        },
+      });
+      if (nombresDB !== null) {
+        res.json(nombresDB);
+      } else {
+        res.status(404).send({ msg: "no se encuentra persona con ese nombre" });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+  if (apellido) {
+    try {
+      const apellidosDB = await Consulta.findAll({
+        where: {
+          apellido: {
+            [Op.iLike]: `%${apellido}%`,
+          },
+        },
+      });
+      if (apellidosDB !== null) {
+        res.json(apellidosDB);
+      } else {
+        res
+          .status(404)
+          .send({ msg: "no se encuentra persona con ese apellido" });
+      }
+    } catch (error) {
+      console.log(error);
+      next({ msg: "error al conseguir la persona por apellido" });
+    }
+  }
+
+  try {
+    const todasConsultas = await Consulta.findAll();
+    res.json(todasConsultas);
+  } catch (error) {
+    next({ msg: "error en traer consultas de la DB" });
+  }
+}
 async function getAbogados(req, res) {
   try {
     const user = await Usuario.findAll({});
@@ -189,6 +243,7 @@ module.exports = {
   getProvincias,
   getMaterias,
   usuario,
+  getConsultas,
   getAbogados,
   getAbogado,
 };
