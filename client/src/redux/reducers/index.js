@@ -15,7 +15,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         abogados: action.payload,
       };
-
     default:
       return state;
   }
