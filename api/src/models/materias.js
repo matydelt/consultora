@@ -7,8 +7,7 @@ module.exports = (sequelize) => {
         nombre: {
             type: DataTypes.ENUM("Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
                 "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"),
-            allowNull: false,
-            primaryKey: true
+            allowNull: false
         },
     });
 
