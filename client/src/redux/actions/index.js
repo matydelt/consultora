@@ -14,12 +14,12 @@ export function getMaterias() {
   };
 }
 
-export function getUsuarios(nombre) {
+export function getAbogados() {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3000/abogado" + nombre);
+      const json = await axios.get("http://localhost:3000/abogados");
       return dispatch({
-        type: "GET_USUARIOS",
+        type: "GET_ABOGADOS",
         payload: json.data,
       });
     } catch (error) {

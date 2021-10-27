@@ -153,6 +153,7 @@ async function getAbogados(req, res) {
     res.sendStatus(404);
   }
 }
+
 async function getAbogado(req, res) {
   const { eMail } = req.body;
   try {
@@ -188,4 +189,6 @@ module.exports = {
   getProvincias,
   getMaterias,
   usuario,
+  getAbogados,
+  getAbogado,
 };
