@@ -27,3 +27,19 @@ export function getNombreAbogados(nombre) {
     }
   };
 }
+
+export function getProvincias() {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("http://localhost:3000/provincias");
+      return dispatch({
+        type: "GET_PROVINCIAS",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function postUsuario() {}
