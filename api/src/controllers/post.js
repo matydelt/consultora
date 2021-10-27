@@ -62,6 +62,7 @@ async function setCliente(req, res) {
         } else res.sendStatus(404)
     } catch (error) {
         console.log(error)
+        res.sendStatus(404)
     }
 }
 function casos(req, res) {

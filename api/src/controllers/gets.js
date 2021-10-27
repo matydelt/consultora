@@ -37,7 +37,6 @@ async function getMaterias(req, res) {
         let vec = ["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
             "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
         let materias = await Materias.findAll({})
-        console.log(materias.length)
         if (materias.length === 0) {
             for (let i = 0; i < vec.length; i++) {
                 await Materias.findOrCreate({
