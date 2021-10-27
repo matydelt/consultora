@@ -37,12 +37,14 @@ async function setAbogado(req, res) {
     try {
         const { eMail } = req.body
         let user = await Usuario.findByPk(eMail)
-        const abogado = await Abogado.create({})
-        if (user) {
-            abogado.setUsuario(user)
-            return res.sendStatus(304)
-        }
-        return res.sendStatus(404)
+        if (!user.abogadoId) {
+            const abogado = await Abogado.create({})
+            if (user) {
+                abogado.setUsuario(user)
+                return res.sendStatus(304)
+            }
+            return res.sendStatus(404)
+        } else res.sendStatus(404)
 
     } catch (error) {
         console.log(error)
