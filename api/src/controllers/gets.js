@@ -71,9 +71,10 @@ async function getAbogado(req, res) {
     const { eMail } = req.body
     try {
         const user = await Usuario.findOne({ where: { eMail } })
+        const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
         const abogado = await Abogado.findByPk(user.abogadoId)
 
-        res.json(abogado)
+        res.send({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
     } catch (error) {
         console.error(error)
         res.sendStatus(404)
