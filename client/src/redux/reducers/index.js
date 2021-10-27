@@ -25,8 +25,14 @@ const rootReducer = (state = initialState, action) => {
     case "GET_USUARIOS":
       return {
         ...state,
-        usuarios: action.payload
-      }
+        usuarios: action.payload,
+      };
+    case "POST_USUARIOS":
+      // que retorna el post?
+      return;
+    case "POST_ABOGADO":
+      // que retorna el post?
+      return;
     default:
       return state;
   }
