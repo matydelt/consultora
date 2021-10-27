@@ -7,7 +7,9 @@ const router = Router();
 
 router.get("/usuarios", (req, res) => get.getUsuarios(req, res)) // get all users 
 
-router.get("/usuario", (req, res) => get.usuario(req, res)) // get  user(for login)
+router.get("/usuario", (req, res) => get.usuario(req, res)) // get user(for login)
+
+router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get abogado
 
 router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuario
 

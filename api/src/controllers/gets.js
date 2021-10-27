@@ -67,6 +67,18 @@ async function usuario(req, res) {
         res.sendStatus(404)
     }
 }
+async function getAbogado(req, res) {
+    const { eMail } = req.body
+    try {
+        const user = await Usuario.findOne({ where: { eMail } })
+        const abogado = await Abogado.findByPk(user.abogadoId)
+
+        res.json(abogado)
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
 
 function getCasos(req, res) {
 
@@ -77,5 +89,6 @@ module.exports = {
     getCasos,
     getProvincias,
     getMaterias,
-    usuario
+    usuario,
+    getAbogado
 }
