@@ -42,4 +42,18 @@ export function getProvincias() {
   };
 }
 
+export function getUsuarios () {
+    return async function (dispatch) {
+        try {
+            const json = await axios.get("http://localhost:3000/usuarios");
+            return dispatch ({
+                type: "GET_USUARIOS",
+                payload: json.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 export function postUsuario() {}
