@@ -51,19 +51,7 @@ async function setAbogado(req, res) {
         res.sendStatus(500)
     }
 }
-// async function setCliente(req, res) {
-//     const { cliente, abogado } = req.body
-//     try {
-//         let clienteAux = Cliente.findByPk(cliente)
-//         let abogadoAux = Abogado.findByPk(abogado)
-//         if (clienteAux, abogadoAux) {
-//             abogadoAux.setCliente(clienteAux)
-//             res.sendStatus(200)
-//         } else res.sendStatus(404)
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+
 function casos(req, res) {
 
 }

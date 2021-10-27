@@ -23,7 +23,6 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
         let clienteAux = await Cliente.findByPk(clienteId)
         let abogadoAux = await Abogado.findByPk(abogadoId)
-        console.log(clienteAux)
         if (clienteAux, abogadoAux) {
             abogadoAux.setClientes(clienteAux)
             res.sendStatus(200)

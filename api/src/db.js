@@ -76,8 +76,8 @@ Matricula.hasOne(Provincias)
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" })
 Abogado.belongsToMany(Materias, { through: "abogadomateria" })
 
-Cliente.hasMany(Casos)
-// Casos.hasOne(Cliente)
+Casos.hasMany(Cliente)
+
 
 Abogado.hasMany(Cliente)
 

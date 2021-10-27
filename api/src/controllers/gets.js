@@ -1,4 +1,4 @@
-const { Casos, Usuario, Provincias, Materias, Abogado, Persona } = require("../db")
+const { Casos, Cliente, Usuario, Provincias, Materias, Abogado, Persona } = require("../db")
 const { use } = require("../routes/utiles")
 
 
@@ -89,10 +89,10 @@ async function getAbogado(req, res) {
     try {
         const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-        const abogado = await Abogado.findByPk(user.abogadoId)
-        if (abogado)
+        const abogado = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
+        if (abogado) {
             res.json({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
-        else res.sendStatus(404)
+        } else res.sendStatus(404)
     } catch (error) {
         console.error(error)
         res.sendStatus(404)
