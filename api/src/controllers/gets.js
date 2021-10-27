@@ -177,6 +177,8 @@ async function getConsultas(req, res, next) {
     res.json(todasConsultas);
   } catch (error) {
     next({ msg: "error en traer consultas de la DB" });
+  }
+}
 async function getAbogados(req, res) {
   try {
     const user = await Usuario.findAll({});
@@ -244,4 +246,4 @@ module.exports = {
   getConsultas,
   getAbogados,
   getAbogado,
-}
+};
