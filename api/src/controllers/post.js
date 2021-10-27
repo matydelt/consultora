@@ -52,9 +52,26 @@ async function setAbogado(req, res) {
     }
 }
 
-function casos(req, res) {
+async function casos(req, res) {
+    const { juez, numeroExpediente, juzgado, detalle, estado } = req.body;
+    let Case = {
+        juez,
+        numeroExpediente,
+        juzgado,
+        detalle,
+        estado
+    }
+    try {
+        await Casos.create(Case)
+        res.sendStatus(200)
+    }
+    catch (error) {
+        console.log(error)
+        res.sendStatus(404)
+    }
 
 }
+
 
 module.exports = {
     setUsuarios,
