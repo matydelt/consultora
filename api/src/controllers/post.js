@@ -66,7 +66,7 @@ async function setCliente(req, res) {
     }
 }
 async function casos(req, res) {
-    const { juez, numeroExpediente, juzgado, detalle, estado } = req.body;
+    const { juez, numeroExpediente, juzgado, detalle, estado, cliente } = req.body;
         let Case = { 
             juez,
             numeroExpediente,
@@ -76,7 +76,14 @@ async function casos(req, res) {
         }
         try {
             await Casos.create( Case )
-            res.sendStatus(200)
+            try{
+                await Casos.addCliente( cliente )
+                res.sendStatus(200)
+            }
+            catch (error){
+                console.log(error)
+                res.sendStatus(404)
+            }
         }
         catch (error){
             console.log(error)

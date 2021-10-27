@@ -100,13 +100,34 @@ async function getAbogado(req, res) {
 async function getCasos(req, res) {
     const { numeroExpediente, estado, juez } = req.body
     try {
-        const Cases = await  Casos.findAll()
-        console.log("Cases",Cases);
-        // const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-        // const abogado = await Abogado.findByPk(user.abogadoId)
-        // if (abogado)
-        //     res.json({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
-        // else res.sendStatus(404)
+        let Cases = await  Casos.findAll()
+        
+        if ( numeroExpediente != '' && numeroExpediente != null ){
+            Cases = Cases.filter(c => {
+                if(c.numeroExpediente == `${numeroExpediente}`){
+                    return c
+                }
+            })
+        }
+        
+        if ( estado != '' && estado != null ){
+            Cases = Cases.filter(c => {
+                if(c.estado == `${estado}`){
+                    return c
+                }
+            })
+        }
+
+        if ( juez != '' && juez != null ){
+            Cases = Cases.filter(c => {
+                if(c.juez == `${juez}`){
+                    return c
+                }
+            })
+        }
+        
+        // console.log("Cases",Cases);
+        
         return res.send({
             result: Cases, 
             count: Cases.length
