@@ -9,3 +9,18 @@ export function getMaterias () {
         })
     }
 }
+
+export function getNombreAbogados (nombre) {
+    return async function (dispatch) {
+        try {
+            var json = await axios.get("http://localhost:3001/abogados" + name);
+            return dispatch ({
+                type: "GET_NOMBRE_ABOGADOS",
+                payload: json.data
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+}
