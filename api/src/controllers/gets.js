@@ -1,4 +1,5 @@
 const { Casos, Usuario, Provincias, Materias, Abogado, Persona } = require("../db")
+const { use } = require("../routes/utiles")
 
 
 async function getUsuarios(req, res) {
@@ -67,6 +68,22 @@ async function usuario(req, res) {
         res.sendStatus(404)
     }
 }
+async function getAbogado(req, res) {
+    try {
+        const user = await Usuario.findAll({})
+        let abogados = []
+        for (let i = 0; i < user.length; i++) {
+            const { firstName, lastName, dni, celular } = await Persona.findByPk(user[i].personaDni)
+            const abogado = await Abogado.findByPk(user[i].abogadoId)
+            if (abogado)
+                abogados.push({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
+        }
+        res.send(abogados)
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
 
 function getCasos(req, res) {
 
@@ -77,5 +94,6 @@ module.exports = {
     getCasos,
     getProvincias,
     getMaterias,
-    usuario
+    usuario,
+    getAbogado
 }
