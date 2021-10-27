@@ -177,8 +177,63 @@ async function getConsultas(req, res, next) {
     res.json(todasConsultas);
   } catch (error) {
     next({ msg: "error en traer consultas de la DB" });
+async function getAbogados(req, res) {
+  try {
+    const user = await Usuario.findAll({});
+    let abogados = [];
+    for (let i = 0; i < user.length; i++) {
+      const { firstName, lastName, dni, celular } = await Persona.findByPk(
+        user[i].personaDni
+      );
+      const abogado = await Abogado.findByPk(user[i].abogadoId);
+      if (abogado)
+        abogados.push({
+          ...{
+            eMail: user.eMail,
+            password: user.password,
+            firstName,
+            lastName,
+            dni,
+            celular,
+          },
+          abogado,
+        });
+    }
+    res.send(abogados);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
   }
 }
+
+async function getAbogado(req, res) {
+  const { eMail } = req.body;
+  try {
+    const user = await Usuario.findByPk(eMail);
+    const { firstName, lastName, dni, celular } = await Persona.findByPk(
+      user.personaDni
+    );
+    const abogado = await Abogado.findByPk(user.abogadoId);
+    if (abogado)
+      res.json({
+        ...{
+          eMail: user.eMail,
+          password: user.password,
+          firstName,
+          lastName,
+          dni,
+          celular,
+        },
+        abogado,
+      });
+    else res.sendStatus(404);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
+}
+
+function getCasos(req, res) {}
 
 module.exports = {
   getUsuarios,
@@ -187,4 +242,6 @@ module.exports = {
   getMaterias,
   usuario,
   getConsultas,
-};
+  getAbogados,
+  getAbogado,
+}
