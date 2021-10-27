@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
         juzgado: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true
+
         },
         detalle: {
             type: DataTypes.TEXT,
@@ -26,6 +26,7 @@ module.exports = (sequelize) => {
             type: DataTypes.ENUM(["inicio", "prueba", "sentencia", "cerrado"]),
             allowNull: false
         },
+
     });
 
 };

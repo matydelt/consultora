@@ -15,7 +15,7 @@ async function getUsuarios(req, res) {
 }
 async function getProvincias(req, res) {
     try {
-
+        console.log("aaaa")
         let vec = ["Buenos Aires", "Capital Federal", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones",
             "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"]
         let provs = await Provincias.findAll({})
