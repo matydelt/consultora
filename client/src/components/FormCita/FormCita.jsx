@@ -1,99 +1,75 @@
 import React, { useState } from "react";
-import "./FormCita.css";
 
 export function validate(input) {
   let errors = {};
   if (!input.nombre) {
-    errors.nombre = "nombre is required";
+    errors.nombre = "nombre es requerido";
   } else if (!/\S+\S+/.test(input.nombre)) {
     errors.nombre = "nombre is invalid";
   }
+
+  if (!input.apellido) {
+    errors.apellido = "apellido es requerido";
+  } else if (!/\S+\S+/.test(input.nombre)) {
+    errors.apellido = "apellido is invalid";
+  }
+
+  if (!input.telefono) {
+    errors.telefono = "Teléfono es requerido";
+  } else if (
+    /^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(
+      input.telefono
+    )
+  ) {
+    errors.telefono = "el Teléfono ingresado contiene errores";
+  }
+
   return errors;
 }
 
 export default function FormCita() {
-  const [input, setInput] = useState({
-    nombre: "",
-    apellido: "",
-    dni: 0,
-    tel: 0,
-    email: "",
-    mensaje: "",
-  });
+  const dispatch = useDispatch();
+
+  const [input, setInput] = useState({});
   const [error, setError] = useState({});
 
   const handleChange = function (e) {
     setInput({
       ...input,
-      [e.target.nombre]: e.target.value,
+      [e.target.name]: e.target.value,
     });
     setError(
       validate({
         ...input,
-        [e.target.nombre]: e.target.value,
+        [e.target.name]: e.target.value,
       })
     );
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-
   return (
     <div classnombre="formulario-cita">
       <form onSubmit={handleSubmit}>
-        <label htmlFor="nombre">Nombre</label>
-        <input
-          nombre="nombre"
-          type="text"
-          value={input.nombre}
-          onChange={handleChange}
-          required
-        />
+        <label>Nombre</label>
+        <input name="nombre" type="text" required onChange={handleChange} />
 
-        <label htmlFor="apellido">Apellido</label>
-        <input
-          nombre="apellido"
-          type="text"
-          value={input.apellido}
-          onChange={handleChange}
-          required
-        />
+        <label>Apellido</label>
+        <input name="apellido" type="text" required onChange={handleChange} />
 
-        <label htmlFor="dni">DNI</label>
-        <input
-          nombre="dni"
-          type="text"
-          value={input.dni}
-          onChange={handleChange}
-          required
-        />
+        <label>Teléfono</label>
+        <input name="tel" type="tel" required onChange={handleChange} />
 
-        <label htmlFor="tel">Teléfono</label>
-        <input
-          nombre="tel"
-          type="tel"
-          value={input.tel}
-          onChange={handleChange}
-          required
-        />
+        <label>Email</label>
+        <input type="email" name="email" required onChange={handleChange} />
 
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          nombre="email"
-          value={input.email}
-          onChange={handleChange}
-          required
-        />
-
-        <label htmlFor="mensaje">Mensaje</label>
+        <label>Mensaje</label>
         <textarea
-          nombre="mensaje"
+          name="mensaje"
           cols="30"
           rows="10"
-          value={input.mensaje}
           required
+          onChange={handleChange}
         ></textarea>
       </form>
     </div>
