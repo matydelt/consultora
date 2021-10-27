@@ -97,8 +97,25 @@ async function getAbogado(req, res) {
     }
 }
 
-function getCasos(req, res) {
-
+async function getCasos(req, res) {
+    const { numeroExpediente, estado, juez } = req.body
+    try {
+        const Cases = await  Casos.findAll()
+        console.log("Cases",Cases);
+        // const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
+        // const abogado = await Abogado.findByPk(user.abogadoId)
+        // if (abogado)
+        //     res.json({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
+        // else res.sendStatus(404)
+        return res.send({
+            result: Cases, 
+            count: Cases.length
+        })
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+    // console.log("Cases",Cases);
 }
 
 module.exports = {
