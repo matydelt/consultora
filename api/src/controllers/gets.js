@@ -4,8 +4,6 @@ const { use } = require("../routes/utiles")
 
 async function getUsuarios(req, res) {
     try {
-
-
         const user = await Usuario.findAll()
         res.json(user)
     } catch (error) {
