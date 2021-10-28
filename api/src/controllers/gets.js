@@ -85,20 +85,25 @@ async function getAbogados(req, res) {
 async function getAbogado(req, res) {
     const { eMail } = req.body
     try {
-        let respuesta = []
         const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
         const { detalle, clientes } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
-        let re = []
+        let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular }, detalle }
+        abogado.clientes = []
         for (let i = 0; i < clientes.length; i++) {
-            re.push(await Cliente.findOne({ where: { id: clientes[i].id }, include: Persona }))
-            const { casos } = await Cliente.findOne({ where: { id: clientes[i].id }, include: Casos })
-            re.push({ casos: casos })
+            abogado.clientes.push(await Cliente.findOne({
+                where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
+                {
+                    model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
+                    ]
+                }]
+            }))
+            // const { casos } = await Cliente.findOne({ where: { id: clientes[i].id }, attributes: [], include: Casos })
+            // abogado.clientes[i].casos = [{ "asdasd": "asdasda" }]
+            console.log(abogado)
         }
         if (user) {
-            respuesta.push({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, detalle })
-            respuesta.push(re)
-            res.json(respuesta)
+            res.json(abogado)
         } else res.sendStatus(404)
     } catch (error) {
         console.error(error)

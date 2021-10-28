@@ -54,17 +54,13 @@ async function setAbogado(req, res) {
     }
 }
 
-async function casos(req, res) {
-    const { juez, numeroExpediente, juzgado, detalle, estado } = req.body;
-    let Case = {
-        juez,
-        numeroExpediente,
-        juzgado,
-        detalle,
-        estado
-    }
+async function setCasos(req, res) {
     try {
-        await Casos.create(Case)
+        const { juez, numeroExpediente, juzgado, detalle, estado, eMail } = req.body;
+        const caso = await Casos.create({ juez, numeroExpediente, juzgado, detalle, estado })
+        const { clienteId } = await Usuario.findByPk(eMail)
+        const cliente = await Cliente.findByPk(clienteId)
+        cliente.setCasos(caso)
         res.sendStatus(200)
     }
     catch (error) {
@@ -75,6 +71,6 @@ async function casos(req, res) {
 
 module.exports = {
     setUsuarios,
-    casos,
+    setCasos,
     setAbogado
 }

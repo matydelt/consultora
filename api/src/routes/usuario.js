@@ -6,7 +6,6 @@ const { Abogado, Cliente, Usuario } = require("../db")
 
 
 const router = Router();
-
 router.get("/usuarios", (req, res) => get.getUsuarios(req, res)) // get all users 
 
 router.get("/usuario", (req, res) => get.usuario(req, res)) // get  user(for login)
@@ -23,6 +22,7 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
         let clienteAux = await Cliente.findByPk(clienteId)
         let abogadoAux = await Abogado.findByPk(abogadoId)
+        console.log(abogadoAux)
         if (clienteAux, abogadoAux) {
             abogadoAux.setClientes(clienteAux)
             res.sendStatus(200)
