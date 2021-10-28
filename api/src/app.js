@@ -26,8 +26,8 @@ server.use((req, res, next) => {
 
 server.use('/', index);
 server.use(usuario);
+server.use(utiles);
 server.use(casos);
-server.use(utiles)
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
+  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_SERVER
 } = process.env;
 
 let sequelize =
@@ -31,7 +31,7 @@ let sequelize =
       ssl: true,
     })
     : new Sequelize(
-      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/dev`,
+      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
       { logging: false, native: false }
     );
 
@@ -77,7 +77,7 @@ Abogado.belongsToMany(Matricula, { through: "abogadomatricula" })
 Abogado.belongsToMany(Materias, { through: "abogadomateria" })
 
 Cliente.hasMany(Casos)
-Casos.hasOne(Cliente)
+// Casos.hasOne(Cliente)
 
 Abogado.hasMany(Cliente)
 

@@ -51,13 +51,49 @@ async function setAbogado(req, res) {
         res.sendStatus(500)
     }
 }
-
-function casos(req, res) {
-
+async function setCliente(req, res) {
+    const { cliente, abogado } = req.body
+    try {
+        let clienteAux = Cliente.findByPk(cliente)
+        let abogadoAux = Abogado.findByPk(abogado)
+        if (clienteAux, abogadoAux) {
+            abogadoAux.setCliente(clienteAux)
+            res.sendStatus(200)
+        } else res.sendStatus(404)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(404)
+    }
+}
+async function casos(req, res) {
+    const { juez, numeroExpediente, juzgado, detalle, estado, cliente } = req.body;
+        let Case = { 
+            juez,
+            numeroExpediente,
+            juzgado,
+            detalle,
+            estado
+        }
+        try {
+            await Casos.create( Case )
+            try{
+                await Casos.addCliente( cliente )
+                res.sendStatus(200)
+            }
+            catch (error){
+                console.log(error)
+                res.sendStatus(404)
+            }
+        }
+        catch (error){
+            console.log(error)
+            res.sendStatus(404)
+        }
 }
 
 module.exports = {
     setUsuarios,
     casos,
-    setAbogado
+    setAbogado,
+    setCliente
 }

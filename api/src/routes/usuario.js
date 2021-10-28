@@ -13,9 +13,17 @@ router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)) // get abo
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
 
+router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
+
+router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
+
+router.post("/cliente", (req, res) => post.setCliente(req, res))
+
 router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
 router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)) //set abogado
+
+
 
 
 

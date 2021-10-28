@@ -18,6 +18,11 @@ module.exports = (sequelize) => {
             allowNull: false,
             primaryKey: true
         },
+        juzgado: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+
+        },
         detalle: {
             type: DataTypes.TEXT,
             allowNull: false

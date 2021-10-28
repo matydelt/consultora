@@ -4,8 +4,6 @@ const { use } = require("../routes/utiles")
 
 async function getUsuarios(req, res) {
     try {
-
-
         const user = await Usuario.findAll()
         res.json(user)
     } catch (error) {
@@ -15,7 +13,7 @@ async function getUsuarios(req, res) {
 }
 async function getProvincias(req, res) {
     try {
-
+        console.log("aaaa")
         let vec = ["Buenos Aires", "Capital Federal", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones",
             "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego", "Tucumán"]
         let provs = await Provincias.findAll({})
@@ -37,18 +35,13 @@ async function getMaterias(req, res) {
         let vec = ["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
             "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
         let materias = await Materias.findAll({})
-        console.log(materias.length)
-        if (materias.length === 0) {
-            for (let i = 0; i < vec.length; i++) {
-                await Materias.findOrCreate({
-                    where: { nombre: vec[i] }
-                })
-            }
-        }
-        res.json(materias)
+
+        materias = await Promise.all(materias.map(e => Materias.findOrCreate({ where: e })))
+        return "Materias complete"
     } catch (error) {
         console.error(error)
         res.sendStatus(404)
+        return "Materias error"
     }
 }
 async function usuario(req, res) {
@@ -103,8 +96,61 @@ async function getAbogado(req, res) {
     }
 }
 
-function getCasos(req, res) {
+async function getAbogado(req, res) {
+    const { eMail } = req.body
+    try {
+        const user = await Usuario.findByPk(eMail)
+        const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
+        const abogado = await Abogado.findByPk(user.abogadoId)
+        if (abogado)
+            res.json({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
+        else res.sendStatus(404)
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
 
+async function getCasos(req, res) {
+    const { numeroExpediente, estado, juez } = req.body
+    try {
+        let Cases = await Casos.findAll()
+
+        if (numeroExpediente != '' && numeroExpediente != null) {
+            Cases = Cases.filter(c => {
+                if (c.numeroExpediente == `${numeroExpediente}`) {
+                    return c
+                }
+            })
+        }
+
+        if (estado != '' && estado != null) {
+            Cases = Cases.filter(c => {
+                if (c.estado == `${estado}`) {
+                    return c
+                }
+            })
+        }
+
+        if (juez != '' && juez != null) {
+            Cases = Cases.filter(c => {
+                if (c.juez == `${juez}`) {
+                    return c
+                }
+            })
+        }
+
+        // console.log("Cases",Cases);
+
+        return res.send({
+            result: Cases,
+            count: Cases.length
+        })
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+    // console.log("Cases",Cases);
 }
 
 module.exports = {
