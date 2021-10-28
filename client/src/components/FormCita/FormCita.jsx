@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export function validate(input) {
   let errors = {};
@@ -45,9 +46,11 @@ export default function FormCita() {
       })
     );
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
+
   return (
     <div classnombre="formulario-cita">
       <form onSubmit={handleSubmit}>

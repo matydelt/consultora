@@ -56,21 +56,20 @@ export function getUsuarios() {
   };
 }
 
-export function getCasos () {
-    return async function (dispatch) {
-        try {
-            const json = await axios.get("http://localhost:3000/casos");
-            return dispatch ({
-                type: "GET_CASOS",
-                payload: json.data
-            })
-        } catch (error) {
-            console.log(error)
-        }
+export function getCasos() {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("http://localhost:3000/casos");
+      return dispatch({
+        type: "GET_CASOS",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
     }
+  };
 }
 
-export function postUsuario() {}
 export function postUsuario(usuario) {
   return async function (dispatch) {
     try {
