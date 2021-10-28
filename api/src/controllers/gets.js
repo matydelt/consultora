@@ -4,8 +4,6 @@ const { use } = require("../routes/utiles")
 
 async function getUsuarios(req, res) {
     try {
-
-
         const user = await Usuario.findAll()
         res.json(user)
     } catch (error) {
@@ -103,18 +101,31 @@ async function getAbogado(req, res) {
         res.sendStatus(404)
     }
 }
+<<<<<<< HEAD
 async function getCasos(req, res) {
     const { numeroExpediente, estado, juez } = req.body
     try {
         const Cases = await Casos.findAll()
         console.log("Cases", Cases);
+=======
+
+async function getCasos(req, res) {
+    const { numeroExpediente, estado, juez } = req.body
+    try {
+        const Cases = await  Casos.findAll()
+        console.log("Cases",Cases);
+>>>>>>> origin/k-b
         // const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
         // const abogado = await Abogado.findByPk(user.abogadoId)
         // if (abogado)
         //     res.json({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
         // else res.sendStatus(404)
         return res.send({
+<<<<<<< HEAD
             result: Cases,
+=======
+            result: Cases, 
+>>>>>>> origin/k-b
             count: Cases.length
         })
     } catch (error) {

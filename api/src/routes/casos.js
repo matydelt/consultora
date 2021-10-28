@@ -1,6 +1,10 @@
 const { Router } = require('express');
 const get = require("../controllers/gets")
+<<<<<<< HEAD
 const post = require("../controllers/post")
+=======
+const post = require("../controllers/post") 
+>>>>>>> origin/k-b
 
 
 const router = Router();
