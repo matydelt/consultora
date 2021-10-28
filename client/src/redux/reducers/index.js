@@ -35,15 +35,15 @@ const rootReducer = (state = initialState, action) => {
       };
     case "POST_USUARIOS":
       return {
-        ...state,
+        ...state
       };
     case "POST_ABOGADO":
       return {
-        ...state,
+        ...state
       };
     case "POST_CONSULTA":
       return {
-        ...state,
+        ...state
       };
     case "GET_ABOGADO":
       return {
