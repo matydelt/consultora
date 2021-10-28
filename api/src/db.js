@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_SERVER
+  DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
 } = process.env;
 
 let sequelize =
@@ -69,7 +69,11 @@ Persona.hasOne(Usuario)
 
 Cliente.hasOne(Usuario)
 
+Cliente.hasOne(Persona)
+
 Abogado.hasOne(Usuario)
+
+Abogado.hasOne(Persona)
 
 Matricula.hasOne(Provincias)
 
@@ -77,7 +81,7 @@ Abogado.belongsToMany(Matricula, { through: "abogadomatricula" })
 Abogado.belongsToMany(Materias, { through: "abogadomateria" })
 
 Cliente.hasMany(Casos)
-// Casos.hasOne(Cliente)
+
 
 Abogado.hasMany(Cliente)
 

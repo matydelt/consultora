@@ -8,7 +8,6 @@ async function setUsuarios(req, res) {
         let aux = await Usuario.findByPk(eMail)
         let aux2 = await Persona.findByPk(dni)
         if (!aux && !aux2) {
-            console.log("x")
             const user = await Usuario.create({
                 eMail,
                 password
@@ -24,6 +23,7 @@ async function setUsuarios(req, res) {
 
             person.setUsuario(user)
             client.setUsuario(user)
+            client.setPersona(person)
             res.sendStatus(200)
         }
         else
@@ -37,10 +37,12 @@ async function setAbogado(req, res) {
     try {
         const { eMail } = req.body
         let user = await Usuario.findByPk(eMail)
+        let persona = await Persona.findByPk(user.personaDni)
         if (!user.abogadoId) {
             const abogado = await Abogado.create({})
             if (user) {
                 abogado.setUsuario(user)
+                abogado.setPersona(persona)
                 return res.sendStatus(304)
             }
             return res.sendStatus(404)
@@ -51,49 +53,49 @@ async function setAbogado(req, res) {
         res.sendStatus(500)
     }
 }
-async function setCliente(req, res) {
-    const { cliente, abogado } = req.body
+
+async function setCasos(req, res) {
     try {
-        let clienteAux = Cliente.findByPk(cliente)
-        let abogadoAux = Abogado.findByPk(abogado)
-        if (clienteAux, abogadoAux) {
-            abogadoAux.setCliente(clienteAux)
-            res.sendStatus(200)
-        } else res.sendStatus(404)
-    } catch (error) {
+        const { juez, numeroExpediente, juzgado, detalle, estado, eMail } = req.body;
+        const caso = await Casos.create({ juez, numeroExpediente, juzgado, detalle, estado })
+        const { clienteId } = await Usuario.findByPk(eMail)
+        const cliente = await Cliente.findByPk(clienteId)
+        cliente.setCasos(caso)
+        res.sendStatus(200)
+    }
+    catch (error) {
         console.log(error)
         res.sendStatus(404)
     }
 }
 async function casos(req, res) {
     const { juez, numeroExpediente, juzgado, detalle, estado, cliente } = req.body;
-        let Case = { 
-            juez,
-            numeroExpediente,
-            juzgado,
-            detalle,
-            estado
-        }
+    let Case = {
+        juez,
+        numeroExpediente,
+        juzgado,
+        detalle,
+        estado
+    }
+    try {
+        await Casos.create(Case)
         try {
-            await Casos.create( Case )
-            try{
-                await Casos.addCliente( cliente )
-                res.sendStatus(200)
-            }
-            catch (error){
-                console.log(error)
-                res.sendStatus(404)
-            }
+            await Casos.addCliente(cliente)
+            res.sendStatus(200)
         }
-        catch (error){
+        catch (error) {
             console.log(error)
             res.sendStatus(404)
         }
+    }
+    catch (error) {
+        console.log(error)
+        res.sendStatus(404)
+    }
 }
 
 module.exports = {
     setUsuarios,
-    casos,
-    setAbogado,
-    setCliente
+    setCasos,
+    setAbogado
 }
