@@ -68,31 +68,7 @@ async function setCasos(req, res) {
         res.sendStatus(404)
     }
 }
-async function casos(req, res) {
-    const { juez, numeroExpediente, juzgado, detalle, estado, cliente } = req.body;
-    let Case = {
-        juez,
-        numeroExpediente,
-        juzgado,
-        detalle,
-        estado
-    }
-    try {
-        await Casos.create(Case)
-        try {
-            await Casos.addCliente(cliente)
-            res.sendStatus(200)
-        }
-        catch (error) {
-            console.log(error)
-            res.sendStatus(404)
-        }
-    }
-    catch (error) {
-        console.log(error)
-        res.sendStatus(404)
-    }
-}
+
 
 module.exports = {
     setUsuarios,
