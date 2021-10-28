@@ -8,7 +8,6 @@ async function setUsuarios(req, res) {
         let aux = await Usuario.findByPk(eMail)
         let aux2 = await Persona.findByPk(dni)
         if (!aux && !aux2) {
-            console.log("x")
             const user = await Usuario.create({
                 eMail,
                 password
@@ -37,10 +36,12 @@ async function setAbogado(req, res) {
     try {
         const { eMail } = req.body
         let user = await Usuario.findByPk(eMail)
+        let persona = await Persona.findByPk(user.personaDni)
         if (!user.abogadoId) {
             const abogado = await Abogado.create({})
             if (user) {
                 abogado.setUsuario(user)
+                persona.setAbogado(abogado)
                 return res.sendStatus(304)
             }
             return res.sendStatus(404)
@@ -71,7 +72,6 @@ async function casos(req, res) {
     }
 
 }
-
 
 module.exports = {
     setUsuarios,

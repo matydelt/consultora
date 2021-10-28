@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
             primaryKey: true
         },
         lastName: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             allowNull: false
         },
         celular: {

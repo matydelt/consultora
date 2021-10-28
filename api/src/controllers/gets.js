@@ -87,11 +87,16 @@ async function getAbogados(req, res) {
 async function getAbogado(req, res) {
     const { eMail } = req.body
     try {
+        let respuesta = []
         const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
         const abogado = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
         if (abogado) {
-            res.json({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
+            respuesta.push({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
+            respuesta.push(abogado.clientes.map(e => {
+                Casos.findByPk(e.casoNumeroExpediente)
+            }))
+            res.json(respuesta)
         } else res.sendStatus(404)
     } catch (error) {
         console.error(error)
