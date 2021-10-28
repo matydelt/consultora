@@ -68,18 +68,35 @@ async function usuario(req, res) {
         res.sendStatus(404)
     }
 }
-async function getAbogado(req, res) {
+async function getAbogados(req, res) {
     try {
         const user = await Usuario.findAll({})
         let abogados = []
         for (let i = 0; i < user.length; i++) {
             const { firstName, lastName, dni, celular } = await Persona.findByPk(user[i].personaDni)
             const abogado = await Abogado.findByPk(user[i].abogadoId)
-            console.log(abogado)
             if (abogado)
-                abogados.push({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
+                abogados.push({ ...{ eMail: user[i].eMail, firstName, lastName, dni, celular }, abogado })
+
         }
         res.send(abogados)
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
+
+async function getAbogado(req, res) {
+    const { eMail } = req.params
+
+    console.log(eMail);
+    try {
+        const user = await Usuario.findByPk(eMail)
+        const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
+        const abogado = await Abogado.findByPk(user.abogadoId)
+        if (abogado)
+            res.json({ ...{ eMail: user.eMail, firstName, lastName, dni, celular }, abogado })
+        else res.sendStatus(404)
     } catch (error) {
         console.error(error)
         res.sendStatus(404)
@@ -96,5 +113,6 @@ module.exports = {
     getProvincias,
     getMaterias,
     usuario,
-    getAbogado
+    getAbogado,
+    getAbogados
 }
