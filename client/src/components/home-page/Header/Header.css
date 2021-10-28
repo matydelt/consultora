@@ -1,0 +1,122 @@
+.height_image {
+    object-fit: contain;
+}
+
+.height_image img {
+    object-fit: cover;
+    height    : 90vh;
+}
+
+.m_top_header {
+    top: 200px;
+}
+
+.caption_one h5 {
+    font-weight: 800;
+    font-size  : 50px;
+}
+
+.caption_one p {
+    font-size  : 25px;
+    font-weight: 800;
+}
+
+.caption_two h5 {
+    font-weight: 800;
+    font-size  : 50px;
+}
+
+.caption_two a {
+    display                   : inline-block;
+    width                     : calc(1054px / 4);
+    text-decoration           : none;
+    color                     : #033663;
+    text-align                : center;
+    font-weight               : 800;
+    font-size                 : 30px;
+    border                    : solid 1px white;
+    border-top-left-radius    : 7px;
+    border-bottom-right-radius: 7px;
+    padding                   : 6px;
+    transition                : all 0.5s;
+}
+
+.caption_two a {
+    color      : #033663;
+    font-weight: 800;
+    font-size  : 30px;
+    border     : solid 1px white;
+    margin-top : 25px;
+    transition : all 0.5s;
+}
+
+.caption_two a:hover {
+    color           : white;
+    background-color: #033663;
+}
+
+.caption_three {
+    top: 120px;
+}
+
+.caption_three * {
+    line-height: 1.3;
+}
+
+.caption_three h5 {
+    font-weight: 800;
+    font-size  : 50px;
+    margin     : auto;
+}
+
+.caption_three h5:last-of-type {
+    display      : inline-block;
+    padding      : 10px;
+    font-weight  : 800;
+    font-size    : 50px;
+    color        : #0287fd;
+    margin-bottom: 30px;
+}
+
+.caption_three h5:last-of-type::after {
+    content         : '';
+    width           : 200px;
+    height          : 2px;
+    display         : block;
+    background-color: #0287fd;
+}
+
+.caption_three a {
+    display            : block;
+    margin             : auto;
+    width              : 50%;
+    /* background-color:   white; */
+    color              : #0287fd;
+    font-weight        : 800;
+    font-size          : 30px;
+    border             : solid 1px #0287fd;
+    transition         : all 0.5s;
+}
+
+.caption_three a:hover {
+    background-color: #0287fd;
+    color           : #ccc;
+    border          : solid 1px #0287fd;
+}
+
+
+
+
+
+
+
+
+.color_pn {
+    background-color: #033663;
+    border-radius   : 20px;
+    padding         : 5px;
+}
+
+.color_pn span {
+    display: block;
+}
