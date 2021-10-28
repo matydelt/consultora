@@ -4,12 +4,13 @@ import PerfilAbogado from './components/perfilAbogado/PerfilAbogado';
 import Perfiles from './components/perfiles/Perfiles';
 
 function App() {
-  return (
+  return (<>
+  
     <Switch>
-      <Route path="/perfil/:id" component={PerfilAbogado}></Route>
-      <Route path="/perfiles" component={Perfiles}></Route>
+      <Route path="/perfil/:nombreAbogado" component={PerfilAbogado}></Route>
+      <Route path="/profesionales" component={Perfiles}></Route>
     </Switch>
-  );
+  </>);
 }
 
 export default App;
