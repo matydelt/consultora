@@ -43,7 +43,7 @@ const Navbar = () => {
                         className="textDecoration"
                         to="#"
                     >
-                        Ingresa Ahora
+                        Registrate Ahora
                     </Link>
                 </li>
             </ul>

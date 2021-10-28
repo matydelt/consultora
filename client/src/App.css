@@ -5,6 +5,10 @@
   list-style: none;
 }
 
+#root {
+  min-height: 2000px;
+}
+
 .textDecoration {
   text-decoration: none;
   list-style: none;

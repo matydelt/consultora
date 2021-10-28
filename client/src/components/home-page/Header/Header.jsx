@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Image_One from '../assets/img/pexels-cytonn-photography-955395.jpg'
 import Image_Two from '../assets/img/pexels-pixabay-261679.jpg';
 import Image_Three from '../assets/img/pexels-sora-shimazaki-5668481.jpg';
+import Logo from '../assets/img/buffet-buffet-law.png'
 import './Header.css'
 
 const Header = () => {
@@ -12,7 +13,8 @@ const Header = () => {
                 <div className="carousel-inner">
                     <div className="height_image carousel-item active">
                         <img src={Image_One} className="d-block w-100" alt="Image_One" />
-                        <div className="carousel-caption d-none d-md-block m_top_header caption_one text-white">
+                        <div className="carousel-caption d-none d-md-block text-white caption_one ">
+                            <img src={Logo} alt="Logo" />
                             <h5>Bienvenido a Buffet Law</h5>
                             <p>Tu lugar de Justicia Garantizada</p>
                         </div>
