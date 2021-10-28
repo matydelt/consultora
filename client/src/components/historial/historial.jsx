@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
 import Casos from "../casos/casos"
 let aux = {
     "eMail": "prueba@gmail.com",
@@ -15,19 +14,15 @@ let aux = {
             "asunto": null,
             "persona": {
                 "firstName": "matias",
-                "lastName": "Taborda",
                 "dni": 12336789,
-                "celular": 11234523
+                "lastName": "Taborda",
+                "celular": 11234523,
+                "createdAt": "2021-10-28T13:11:41.007Z",
+                "updatedAt": "2021-10-28T13:11:41.016Z",
+                "clienteId": 3,
+                "abogadoId": null
             },
-            "casos": [
-                {
-                    "juez": "jose pepito",
-                    "numeroExpediente": 1234,
-                    "juzgado": 2234,
-                    "detalle": "se mamo y le pego al perro",
-                    "estado": "inicio"
-                }
-            ]
+            "casos": []
         }
     ]
 }
@@ -38,17 +33,14 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     useEffect(() => {
         setClientes(aux.clientes)
     }, [])
-    return (<div className="conteiner card mt-3 me-3 ms-3">
+    return (<>
         {clientes?.map(e => {
             const { id, casos, persona } = e
-            return (<div>
+            return (<>
                 <Casos id={id} casos={casos} persona={persona} />
-                {/* <Link> */}
-                <button className="btn btn-primary mt-3 mb-3">Crear caso</button>
-                {/* </Link> */}
-            </div>
+            </>
             )
         })}
 
-    </div>)
+    </>)
 }
