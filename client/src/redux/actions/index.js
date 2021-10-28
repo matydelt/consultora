@@ -3,7 +3,7 @@ import axios from "axios";
 export function getMaterias() {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3000/materias");
+      const json = await axios.get("http://localhost:3000/materias");
       return dispatch({
         type: "GET_MATERIAS",
         payload: json.data,
@@ -83,6 +83,19 @@ export function postUsuario(usuario) {
   };
 }
 
+export function getUsuario(usuario) {
+  return async function (dispatch) {
+    try {
+      await axios.get("http://localhost:3000/usuarios", usuario);
+      return dispatch({
+        type: "GET_USUARIO",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function postAbogado(abogado) {
   return async function (dispatch) {
     try {
@@ -102,6 +115,19 @@ export function getAbogado(abogado) {
       await axios.get("http://localhost:3000/abogado", abogado);
       return dispatch({
         type: "GET_ABOGADO",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function postConsulta(consulta) {
+  return async function (dispatch) {
+    try {
+      await axios.post("http://localhost:3000/consultas", consulta);
+      return dispatch({
+        type: "POST_CONSULTA",
       });
     } catch (error) {
       console.log(error);

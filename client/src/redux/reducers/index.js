@@ -26,21 +26,25 @@ const rootReducer = (state = initialState, action) => {
     case "GET_USUARIOS":
       return {
         ...state,
-        usuarios: action.payload
-      }
+        usuarios: action.payload,
+      };
     case "GET_CASOS":
       return {
         ...state,
-        casos: action.payload
-      }
+        casos: action.payload,
+      };
     case "POST_USUARIOS":
       return {
-        ...state
-      }
+        ...state,
+      };
     case "POST_ABOGADO":
       return {
-        ...state
-      }
+        ...state,
+      };
+    case "POST_CONSULTA":
+      return {
+        ...state,
+      };
     case "GET_ABOGADO":
       return {
         ...state,

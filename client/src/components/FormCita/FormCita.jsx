@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { postConsulta } from "../../redux/actions/index";
 
 export function validate(input) {
   let errors = {};
@@ -49,6 +50,9 @@ export default function FormCita() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!error) {
+      dispatch(postConsulta(input));
+    }
   };
 
   return (
