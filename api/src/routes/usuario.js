@@ -2,9 +2,10 @@ const { Router } = require('express');
 const get = require("../controllers/gets")
 const post = require("../controllers/post")
 
+const { Abogado, Cliente, Usuario } = require("../db")
+
 
 const router = Router();
-
 router.get("/usuarios", (req, res) => get.getUsuarios(req, res)) // get all users 
 
 router.get("/usuario", (req, res) => get.usuario(req, res)) // get user(for login)
@@ -17,7 +18,24 @@ router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogado
 
 router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
 
-router.post("/cliente", (req, res) => post.setCliente(req, res))
+router.post("/cliente", async function (req, res) {    // set client to abogado
+    const { cliente, abogado } = req.body
+    try {
+        let { abogadoId } = await Usuario.findByPk(abogado)
+        let { clienteId } = await Usuario.findByPk(cliente)
+
+        let clienteAux = await Cliente.findByPk(clienteId)
+        let abogadoAux = await Abogado.findByPk(abogadoId)
+        console.log(abogadoAux)
+        if (clienteAux, abogadoAux) {
+            abogadoAux.setClientes(clienteAux)
+            res.sendStatus(200)
+        } else res.sendStatus(404)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(404)
+    }
+})
 
 router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
