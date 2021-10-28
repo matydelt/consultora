@@ -1,4 +1,12 @@
-const { Casos, Usuario, Persona, Cliente, Abogado } = require("../db")
+const { uuid } = require("uuidv4");
+const {
+    Casos,
+    Usuario,
+    Persona,
+    Cliente,
+    Abogado,
+    Consulta,
+} = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
 
@@ -52,7 +60,9 @@ async function setAbogado(req, res) {
         console.log(error)
         res.sendStatus(500)
     }
+    return res.sendStatus(404);
 }
+
 
 async function setCasos(req, res) {
     try {
@@ -68,10 +78,29 @@ async function setCasos(req, res) {
         res.sendStatus(404)
     }
 }
-
+async function setConsulta(req, res, next) {
+    const { nombre, apellido, telefono, email, mensaje } = req.body;
+    if (nombre && apellido && telefono && email && mensaje) {
+        try {
+            const consulta = {
+                id: uuid(),
+                nombre,
+                apellido,
+                telefono,
+                email,
+                mensaje,
+            };
+            await Consulta.create(consulta);
+            res.sendStatus(200);
+        } catch (error) {
+            next(error);
+        }
+    }
+}
 
 module.exports = {
     setUsuarios,
     setCasos,
-    setAbogado
-}
+    setAbogado,
+    setConsulta,
+};

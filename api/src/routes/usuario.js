@@ -39,11 +39,15 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
 router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
-router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)) //set abogado
+router.get("/usuario", (req, res) => get.usuario(req, res)); // get  user(for login)
 
+router.post("/usuarios", (req, res) => post.setUsuarios(req, res)); //crea usuario
 
+router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set abogado
 
+router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogados
 
+router.get("/abogado", (req, res) => get.getAbogado(req, res)); // get  abogado
 
 
 
