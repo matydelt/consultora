@@ -35,17 +35,13 @@ async function getMaterias(req, res) {
         let vec = ["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
             "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
         let materias = await Materias.findAll({})
-        if (materias.length === 0) {
-            for (let i = 0; i < vec.length; i++) {
-                await Materias.findOrCreate({
-                    where: { nombre: vec[i] }
-                })
-            }
-        }
-        res.json(materias)
+        
+        materias = await Promise.all(materias.map(e => Materias.findOrCreate({where:e})))
+        return "Materias complete"
     } catch (error) {
         console.error(error)
         res.sendStatus(404)
+        return "Materias error"
     }
 }
 async function usuario(req, res) {
@@ -125,7 +121,7 @@ async function getCasos(req, res) {
                 }
             })
         }
-        
+
         // console.log("Cases",Cases);
         
         return res.send({
