@@ -16,6 +16,11 @@ module.exports = (sequelize) => {
         juzgado: {
             type: DataTypes.INTEGER,
             allowNull: false,
+            primaryKey: true
+        },
+        juzgado: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
 
         },
         detalle: {
@@ -26,7 +31,6 @@ module.exports = (sequelize) => {
             type: DataTypes.ENUM(["inicio", "prueba", "sentencia", "cerrado"]),
             allowNull: false
         },
-
     });
 
 };
