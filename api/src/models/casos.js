@@ -8,10 +8,20 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        numeroExpediente: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true
+        },
         juzgado: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
+        },
+        juzgado: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+
         },
         detalle: {
             type: DataTypes.TEXT,
@@ -21,11 +31,6 @@ module.exports = (sequelize) => {
             type: DataTypes.ENUM(["inicio", "prueba", "sentencia", "cerrado"]),
             allowNull: false
         },
-        numeroExpediente: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true
-        }
     });
 
 };
