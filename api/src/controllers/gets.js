@@ -88,12 +88,14 @@ async function getAbogado(req, res) {
         let respuesta = []
         const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-        const abogado = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
-        if (abogado) {
-            respuesta.push({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
-            respuesta.push(abogado.clientes.map(e => {
-                Casos.findByPk(e.casoNumeroExpediente)
-            }))
+        const { detalle, clientes } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
+        let re = []
+        for (let i = 0; i < clientes.length; i++) {
+            re.push(await Cliente.findOne({ where: { id: clientes[i].id }, include: Persona, include: Casos }))
+        }
+        if (user) {
+            respuesta.push({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, detalle })
+            respuesta.push(re)
             res.json(respuesta)
         } else res.sendStatus(404)
     } catch (error) {
@@ -101,31 +103,18 @@ async function getAbogado(req, res) {
         res.sendStatus(404)
     }
 }
-<<<<<<< HEAD
 async function getCasos(req, res) {
     const { numeroExpediente, estado, juez } = req.body
     try {
         const Cases = await Casos.findAll()
         console.log("Cases", Cases);
-=======
-
-async function getCasos(req, res) {
-    const { numeroExpediente, estado, juez } = req.body
-    try {
-        const Cases = await  Casos.findAll()
-        console.log("Cases",Cases);
->>>>>>> origin/k-b
         // const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
         // const abogado = await Abogado.findByPk(user.abogadoId)
         // if (abogado)
         //     res.json({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, abogado })
         // else res.sendStatus(404)
         return res.send({
-<<<<<<< HEAD
             result: Cases,
-=======
-            result: Cases, 
->>>>>>> origin/k-b
             count: Cases.length
         })
     } catch (error) {

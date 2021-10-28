@@ -69,16 +69,18 @@ Persona.hasOne(Usuario)
 
 Cliente.hasOne(Usuario)
 
+Cliente.hasOne(Persona)
+
 Abogado.hasOne(Usuario)
 
-Persona.hasOne(Abogado)
+Abogado.hasOne(Persona)
 
 Matricula.hasOne(Provincias)
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" })
 Abogado.belongsToMany(Materias, { through: "abogadomateria" })
 
-Casos.hasMany(Cliente)
+Cliente.hasMany(Casos)
 
 
 Abogado.hasMany(Cliente)

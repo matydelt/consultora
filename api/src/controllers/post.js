@@ -23,6 +23,7 @@ async function setUsuarios(req, res) {
 
             person.setUsuario(user)
             client.setUsuario(user)
+            client.setPersona(person)
             res.sendStatus(200)
         }
         else
@@ -41,7 +42,7 @@ async function setAbogado(req, res) {
             const abogado = await Abogado.create({})
             if (user) {
                 abogado.setUsuario(user)
-                persona.setAbogado(abogado)
+                abogado.setPersona(persona)
                 return res.sendStatus(304)
             }
             return res.sendStatus(404)
@@ -70,28 +71,6 @@ async function casos(req, res) {
         console.log(error)
         res.sendStatus(404)
     }
-<<<<<<< HEAD
-
-=======
-}
-async function casos(req, res) {
-    const { juez, numeroExpediente, juzgado, detalle, estado } = req.body;
-        let Case = { 
-            juez,
-            numeroExpediente,
-            juzgado,
-            detalle,
-            estado
-        }
-        try {
-            await Casos.create( Case )
-            res.sendStatus(200)
-        }
-        catch (error){
-            console.log(error)
-            res.sendStatus(404)
-        }
->>>>>>> origin/k-b
 }
 
 module.exports = {

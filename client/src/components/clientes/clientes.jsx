@@ -27,10 +27,11 @@ let aux = {
 
 export default function Clientes() {   //muestra cards de cada cliente con sus casos
     const [clientes, setClientes] = useState([]);
+    const [abogado, setAbogado] = useState({})
 
     useEffect(() => {
         setClientes([...clientes, aux])
-    }, [])
+    }, [clientes])
 
     return (<>
         {clientes.map(e => {
