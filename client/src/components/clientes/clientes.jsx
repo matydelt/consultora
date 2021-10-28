@@ -1,41 +1,51 @@
 import React, { useEffect, useState } from "react";
-import { Casos } from "../casos/casos.jsx"
-let aux = {
-    "eMail": "prueba@gmail.com",
-    "password": "asdasd",
-    "firstName": "Pepito",
-    "lastName": "pe",
-    "dni": 23456451,
-    "celular": 11234523,
-    "abogado": {
-        "id": 1,
-        "detalle": null,
-        "createdAt": "2021-10-27T20:22:00.172Z",
-        "updatedAt": "2021-10-27T20:22:00.172Z",
-        "clientes": [
-            {
-                "id": 3,
-                "asunto": null,
-                "createdAt": "2021-10-27T20:21:52.719Z",
-                "updatedAt": "2021-10-27T20:22:16.544Z",
-                "casoNumeroExpediente": null,
-                "abogadoId": 1
+let aux = [
+    {
+        "eMail": "prueba@gmail.com",
+        "password": "asdasd",
+        "firstName": "Pepito",
+        "lastName": "pe",
+        "dni": 23456451,
+        "celular": 11234523,
+        "detalle": null
+    },
+    [
+        {
+            "id": 3,
+            "asunto": null,
+            "createdAt": "2021-10-28T13:11:41.008Z",
+            "updatedAt": "2021-10-28T13:11:46.885Z",
+            "abogadoId": 1,
+            "persona": {
+                "firstName": "matias",
+                "dni": 12336789,
+                "lastName": "Taborda",
+                "celular": 11234523,
+                "createdAt": "2021-10-28T13:11:41.007Z",
+                "updatedAt": "2021-10-28T13:11:41.016Z",
+                "clienteId": 3,
+                "abogadoId": null
             }
-        ]
-    }
-}
+        },
+        {
+            "casos": []
+        }
+    ]
+]
 
 export default function Clientes() {   //muestra cards de cada cliente con sus casos
     const [clientes, setClientes] = useState([]);
     const [abogado, setAbogado] = useState({})
 
     useEffect(() => {
-        setClientes([...clientes, aux])
-    }, [clientes])
+        setClientes([...clientes, aux[1]])
+        setAbogado([...abogado, aux[0]])
+    }, [abogado, clientes])
+    console.log(clientes)
 
     return (<>
         {clientes.map(e => {
-            <Casos cliente={e.abogado.clientes} />
+
         })}
 
     </>)

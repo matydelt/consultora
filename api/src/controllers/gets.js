@@ -91,7 +91,9 @@ async function getAbogado(req, res) {
         const { detalle, clientes } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
         let re = []
         for (let i = 0; i < clientes.length; i++) {
-            re.push(await Cliente.findOne({ where: { id: clientes[i].id }, include: Persona, include: Casos }))
+            re.push(await Cliente.findOne({ where: { id: clientes[i].id }, include: Persona }))
+            const { casos } = await Cliente.findOne({ where: { id: clientes[i].id }, include: Casos })
+            re.push({ casos: casos })
         }
         if (user) {
             respuesta.push({ ...{ eMail: user.eMail, password: user.password, firstName, lastName, dni, celular }, detalle })
