@@ -28,6 +28,35 @@
     font-size: 18px;
 }
 
+/* #menu ul li a:hover::after {
+    animation          : showBorder 0.6s linear;
+    content            : '';
+    width           : 0%;
+    height             : 3px;
+    background-color   : #033663;
+    display            : block;
+    opacity            : 0;
+
+}
+
+@keyframes showBorder {
+    from {
+        content         : '';
+        width           : 0%;
+        height          : 3px;
+        background-color: #033663;
+        display         : block;
+    }
+
+    to {
+        content         : '';
+        width           : 50%;
+        height          : 3px;
+        background-color: #033663;
+        display         : block;
+    }
+} */
+
 #menu ul li:last-of-type a {
     display                   : block;
     width                     : 100%;
