@@ -82,7 +82,6 @@ async function getMaterias(req, res) {
                 });
             }
         }
-        res.json(materias);
     } catch (error) {
         console.error(error);
         res.sendStatus(404);
