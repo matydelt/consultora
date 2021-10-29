@@ -87,8 +87,12 @@ async function getMaterias(req, res) {
         res.sendStatus(404);
     }
 }
-async function usuario(req, res) {
+
+async function getUsuario(req, res) {
     const { eMail } = req.body;
+    console.log("llega por body");
+    console.log("req.body?",req.body);
+    console.log("eMail?",eMail);
     try {
         const user = await Usuario.findOne({ where: { eMail } });
         if (user) {
@@ -125,8 +129,6 @@ async function usuario(req, res) {
         res.sendStatus(404);
     }
 }
-
-
 
 async function getAbogados(req, res) {
     try {
@@ -273,7 +275,7 @@ module.exports = {
     getCasos,
     getProvincias,
     getMaterias,
-    usuario,
+    getUsuario,
     getConsultas,
     getAbogados,
     getAbogado,

@@ -25,7 +25,6 @@ const { getMaterias } = require('./src/controllers/gets.js')
 conn.sync({ force: false }).then(() => {
   server.listen(process.env.PORT || "3001", async () => {
     const load = await getMaterias();
-    console.log(`%s ${load}`);
     console.log("%s listening at 3001"); // eslint-disable-line no-console
   });
 });

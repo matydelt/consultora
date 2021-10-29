@@ -83,11 +83,11 @@ Persona.hasOne(Usuario);
 
 Cliente.hasOne(Usuario);
 
-// Cliente.hasOne(Persona)
+Cliente.hasOne(Persona)
 
 Abogado.hasOne(Usuario)
 
-// Abogado.hasOne(Persona)
+Abogado.hasOne(Persona)
 
 Abogado.hasMany(Consulta)
 

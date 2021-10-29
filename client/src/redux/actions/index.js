@@ -83,10 +83,11 @@ export function postUsuario(usuario) {
   };
 }
 
-export function getUsuario(usuario) {
+export function getUsuario({usuario}) {
   return async function (dispatch) {
     try {
-      await axios.get("http://localhost:3001/usuarios", usuario);
+      console.log("usuario",{usuario});
+      await axios.get("http://localhost:3001/usuario", {usuario});
       return dispatch({
         type: "GET_USUARIO",
       });

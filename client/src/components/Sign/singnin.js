@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import Logo  from '../home-page/assets/img/buffet-buffet-law.png'
+import { getUsuario } from "../../redux/actions";
 
 export const Signin = () =>{
     
@@ -9,8 +11,10 @@ export const Signin = () =>{
     const [ celular, setPhone ] = useState('');
     const [ dni, setDni ] = useState('');
     const [ eMail, setEmail ] = useState(null);
-    const [ password, setPassword ] = useState('');
+    const [ password, setPassword ] = useState(null);
     const [ displayname, setDisplayName ] = useState(null);
+
+    const dispatch = useDispatch();
 
     const auth = getAuth();
     const google = new GoogleAuthProvider();
@@ -37,23 +41,26 @@ export const Signin = () =>{
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            // ...
-          })
-          .catch((error) => {
+            console.log(user);
+                // ...
+        })
+        .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-          });
-        setFirstName('');
-        setLastName('');
-        setPhone('');
-        setDni('');
-        setEmail(null);
-        setPassword('');
+        });
+        dispatch( getUsuario( eMail ) )
+        // setFirstName('');
+        // setLastName('');
+        // setPhone('');
+        // setDni('');
+        // setEmail(null);
+        setPassword(null);
+        
     }
     return(
         <div>
             {
-                displayname || eMail ? 
+                displayname ? 
                 (
                     <div className="container p-4">
             <div className="row">
@@ -68,7 +75,7 @@ export const Signin = () =>{
                         <img src={Logo} alt="Logo Consultora" className="card-img-top mx-auto m-2 rounded-circle w-50"/>
                         <div className="card-body">
                             <button className="btn btn-primary btn-block" onClick={logout}>
-                                Singout
+                                Signout
                             </button>
                         </div>
                     </div>
@@ -88,13 +95,19 @@ export const Signin = () =>{
                         <img src={Logo} alt="Logo Consultora" className="card-img-top mx-auto m-2 rounded-circle w-50"/>
                         <div className="card-body">
                             <div className="form-group">
-                                <input type="text" name="Mail" placeholder="Ejemplo@ejemplo.com" className="form-control" autoFocus/>
+                                <input type="text" name="Mail" placeholder="Ejemplo@ejemplo.com" className="form-control" autoFocus onChange={
+                                    (e)=>{
+                                        console.log("setEmail",e.target.value);
+                                        setEmail(e.target.value)}}/>
                             </div>
                             <div className="form-group">
-                                <input type="password" name="password" placeholder="Password" className="form-control"/>
+                                <input type="password" name="password" placeholder="Password" className="form-control" onChange={
+                                    (e)=>{
+                                        console.log("setPassword",e.target.value);
+                                        setPassword(e.target.value)}}/>
                             </div>
                             <button className="btn btn-primary btn-block" onClick={Login}>
-                                Singin
+                                Signin
                             </button>
                             <div className="form-group">
                                 <h6>-- O ingresar con Google --</h6>
