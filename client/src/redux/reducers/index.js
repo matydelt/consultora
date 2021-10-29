@@ -1,6 +1,7 @@
 const initialState = {
   materias: [],
   usuarios: [],
+  usuario: "",
   provincias: [],
   abogados: [],
   abogado: {},
@@ -33,9 +34,10 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         casos: action.payload,
       };
-    case "POST_USUARIOS":
+    case "POST_USUARIO":
       return {
         ...state,
+        usuario: action.payload
       };
     case "POST_ABOGADO":
       return {

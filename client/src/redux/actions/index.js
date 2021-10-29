@@ -86,9 +86,11 @@ export function postUsuario(usuario) {
 export function getUsuario(usuario) {
   return async function (dispatch) {
     try {
-      await axios.get("http://localhost:3001/usuarios", usuario);
+      console.log(usuario)
+      let user = await axios.put("http://localhost:3001/usuario", { "eMail": usuario });
       return dispatch({
         type: "GET_USUARIO",
+        payload: user
       });
     } catch (error) {
       console.log(error);
