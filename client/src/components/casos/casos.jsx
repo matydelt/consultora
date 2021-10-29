@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./casos.css"
 
 function Casos({ id, casos, persona }) {
     const { firstName, lastName, dni, celular } = persona

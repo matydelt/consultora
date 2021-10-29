@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 // import { Link } from "react-router-dom"
 import Casos from "../casos/casos"
+import "./clientes.css"
 let aux = {
     "eMail": "prueba@gmail.com",
     "firstName": "Pepito",
@@ -98,18 +99,20 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
         }
     }
 
-    return (<div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
-        <button className="btn btn-outline-primary mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes</button>
-        <button className="btn btn-outline-primary  mt-3 mb-3 " onClick={(e) => handleClick(e, 1)}>Historial</button>
-        <button className="btn btn-outline-primary  mt-3 mb-3 " onClick={(e) => handleClick(e, 2)}>Clear All</button>
+    return (<div className="mt-3 me-3 ms-3 d-inline-flex flex-row">
+        <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
+            <button className=" btn  btn-danger  mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes</button>
+            <button className="btn  btn-danger mt-3 mb-3 " onClick={(e) => handleClick(e, 1)}>Historial</button>
+            <button className="btn  btn-danger  mt-3 mb-3 " onClick={(e) => handleClick(e, 2)}>Clear All</button>
+        </div>
 
         <div className="conteiner card mt-3 me-3 ms-3 d-inline-flex flex-column">
             {clientes?.map(e => {
                 const { id, casos, persona } = e
-                return (<div className=" ">
-                    <Casos id={id} casos={casos} persona={persona} />
+                return (<div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
+                    <Casos key={id} id={id} casos={casos} persona={persona} />
                     {/* <Link> */}
-                    <button className="btn btn-primary mt-3 mb-3">Crear caso</button>
+                    <button className=" btn-warning btn mt-3 mb-3">Crear caso</button>
                     <br />
                     {/* </Link> */}
                 </div>

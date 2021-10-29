@@ -6,6 +6,7 @@ const {
     Abogado,
     Persona,
     Consulta,
+    Cliente,
     Op,
 } = require("../db");
 
@@ -147,7 +148,11 @@ async function getAbogados(req, res) {
     }
 }
 async function getAbogado(req, res) {
-    const { eMail } = req.body
+
+    let { eMail } = req.body
+    if (!eMail) {
+        eMail = req.params
+    }
     try {
         const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
@@ -162,9 +167,6 @@ async function getAbogado(req, res) {
                     ]
                 }]
             }))
-            // const { casos } = await Cliente.findOne({ where: { id: clientes[i].id }, attributes: [], include: Casos })
-            // abogado.clientes[i].casos = [{ "asdasd": "asdasda" }]
-            console.log(abogado)
         }
         if (user) {
             res.json(abogado)
