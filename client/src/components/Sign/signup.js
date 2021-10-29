@@ -3,8 +3,8 @@ import { useDispatch } from 'react-redux'
 import { Link } from "react-router-dom";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { postUsuario } from '../../redux/actions/index.js'
+
 export const Signup = () =>{
-    
     
     const [ firstName, setFirstName ] = useState('');
     const [ lastName, setLastName ] = useState('');
@@ -18,10 +18,6 @@ export const Signup = () =>{
     const auth = getAuth();
 
     const GoTo = async () =>{
-        // console.log("fullname",fullname);
-        // console.log("Number",number);
-        // console.log("email", email);
-        // console.log("password", password);
         await createUserWithEmailAndPassword(auth, eMail, password);
         dispatch( postUsuario( { eMail, firstName, dni, lastName, celular, password } ) )
         setFirstName('');
