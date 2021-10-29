@@ -3,7 +3,7 @@ import axios from "axios";
 export function getMaterias() {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3000/materias");
+      const json = await axios.get("http://localhost:3001/materias");
       return dispatch({
         type: "GET_MATERIAS",
         payload: json.data,
@@ -17,7 +17,7 @@ export function getMaterias() {
 export function getAbogados() {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3000/abogados");
+      const json = await axios.get("http://localhost:3001/abogados");
       return dispatch({
         type: "GET_ABOGADOS",
         payload: json.data,
@@ -31,7 +31,7 @@ export function getAbogados() {
 export function getProvincias() {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3000/provincias");
+      const json = await axios.get("http://localhost:3001/provincias");
       return dispatch({
         type: "GET_PROVINCIAS",
         payload: json.data,
@@ -45,7 +45,7 @@ export function getProvincias() {
 export function getUsuarios() {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3000/usuarios");
+      const json = await axios.get("http://localhost:3001/usuarios");
       return dispatch({
         type: "GET_USUARIOS",
         payload: json.data,
@@ -59,7 +59,7 @@ export function getUsuarios() {
 export function getCasos() {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3000/casos");
+      const json = await axios.get("http://localhost:3001/casos");
       return dispatch({
         type: "GET_CASOS",
         payload: json.data,
@@ -73,7 +73,7 @@ export function getCasos() {
 export function postUsuario(usuario) {
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3000/usuarios", usuario);
+      await axios.post("http://localhost:3001/usuarios", usuario);
       return dispatch({
         type: "POST_USUARIOS",
       });
@@ -86,7 +86,7 @@ export function postUsuario(usuario) {
 export function getUsuario(usuario) {
   return async function (dispatch) {
     try {
-      await axios.get("http://localhost:3000/usuarios", usuario);
+      await axios.get("http://localhost:3001/usuarios", usuario);
       return dispatch({
         type: "GET_USUARIO",
       });
@@ -99,7 +99,7 @@ export function getUsuario(usuario) {
 export function postAbogado(abogado) {
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3000/usuario/abogado", abogado);
+      await axios.post("http://localhost:3001/usuario/abogado", abogado);
       return dispatch({
         type: "POST_ABOGADO",
       });
@@ -112,7 +112,7 @@ export function postAbogado(abogado) {
 export function getAbogado(abogado) {
   return async function (dispatch) {
     try {
-      await axios.get("http://localhost:3000/abogado", abogado);
+      await axios.get("http://localhost:3001/abogado", abogado);
       return dispatch({
         type: "GET_ABOGADO",
       });
@@ -162,4 +162,8 @@ export function deleteConsulta(id) {
       alert("no se pudo borrar la consulta");
     }
   };
+}
+
+export function filtrarMaterias(payload) {
+  return { type: "FILTRAR_MATERIAS", payload };
 }
