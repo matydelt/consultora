@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router"
+import Navbar from "../home-page/Navbar/Navbar";
 
 
 import './PerfilAbogado.css';
@@ -11,7 +12,7 @@ export default function PerfilAbogado({ location }) {
 
     const history = useHistory();
 
-    const { nombreAbogado } = useParams();
+    const { eMail } = useParams();
 
     useEffect(() => {
 
@@ -22,7 +23,7 @@ export default function PerfilAbogado({ location }) {
 
     const getAbogado = () => {
         
-        return axios.get(`http://localhost:3000/abogado/${nombreAbogado}@gmail.com`).then(({ data }) => {
+        return axios.get(`http://localhost:3001/abogado/${eMail}@gmail.com`).then(({ data }) => {
             setAbogado(data);
         });
 
@@ -31,16 +32,17 @@ export default function PerfilAbogado({ location }) {
 
     return (<>
 
+        <Navbar></Navbar>
 
         <div className="animate__animated animate__fadeIn animate__faster">
 
-            <div className="row">
+            <div className="">
 
                 <div className="col bg-light">
                     <button className="btn border-end border-bottom shadow mr-5 text-left text-muted" onClick={() => history.goBack()}> &lt; Volver</button>
 
                     <div className="my-5">
-                        <img className="rounded mx-auto d-block shadow" width="450" src="https://abogados.com.ar/assets/img/articulos/2021-04-01-025119-mar-im-690-south-latam-arg-e-chl-tr-programa-intensivo-de-formacion-para-abogados-corporativos-segunda-edicion.jpg" alt="" />
+                        <img className="rounded mx-auto d-block shadow imagen-perfil-abogado" src={abogado?.imagen || 'https://www.caracteristicas.co/wp-content/uploads/2017/03/Derecho-e1564875517201.jpg'} alt="" />
                         <h1 className="text-secondary text-center mt-3">{abogado.firstName} {abogado.lastName}</h1>
                         <h5 className="color-titulo text-center mt-3">Abogado</h5>
                     </div>

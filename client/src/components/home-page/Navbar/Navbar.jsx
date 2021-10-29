@@ -9,7 +9,7 @@ const Navbar = () => {
                 <li className="col-xl-1 ">
                     <Link
                         className="textDecoration"
-                        to="#"
+                        to="/"
                     >
                         Home
                     </Link>
@@ -32,7 +32,7 @@ const Navbar = () => {
                 <li className="col-xl-1 ">
                     <Link
                         className=" textDecoration"
-                        to="#"
+                        to="/profesionales"
                     >
                         Nuestro Equipo
                     </Link>

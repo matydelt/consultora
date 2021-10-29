@@ -1,4 +1,7 @@
 const { uuid } = require("uuidv4");
+const cloudinary = require('cloudinary');
+require('../config/cloudinary');
+
 const {
     Casos,
     Usuario,
@@ -9,6 +12,54 @@ const {
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
+
+
+// CLOUDINARY
+async function subirImagen(req, res) {
+
+    const { email } = req.body;
+
+    try {
+        let result = await cloudinary.uploader.upload(req.files.image.tempFilePath, {
+            public_id: `${Date.now()}`,
+            resource_type: 'auto' // jpeg, png
+        });
+
+        const user = await Usuario.findByPk(email)
+        if (!user) return res.sendStatus(404);
+        // const abogado = await Abogado.update( { imagen: result.secure_url},{ where:  { id: user.abogadoId } });
+        const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
+        if (!abogado) return res.sendStatus(404);
+
+        if (abogado.imagen) {
+            await cloudinary.uploader.destroy(abogado.imagen.substring(abogado.imagen.lastIndexOf('/') + 1).slice(0,-4), (err, result) => {
+                // if(err) return res.json({err});
+                console.log(err);
+            });
+        }
+
+        abogado.imagen = result.secure_url;
+        await abogado.save()
+
+        return res.json({
+            public_id: result.public_id,
+            url: result.secure_url
+        })
+
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+function eliminarImagen(req, res) {
+    let imagenId = req.body.public_id;
+
+    cloudinary.uploader.destroy(imagenId, (err, result) => {
+        if (err) return res.json({ err });
+        res.sendStatus(200);
+    });
+};
+
 
 async function setUsuarios(req, res) {
     const { eMail, firstName, dni, lastName, celular, password } = req.body
@@ -98,9 +149,13 @@ async function setConsulta(req, res, next) {
     }
 }
 
+
+
 module.exports = {
     setUsuarios,
     setCasos,
     setAbogado,
     setConsulta,
+    subirImagen,
+    eliminarImagen
 };

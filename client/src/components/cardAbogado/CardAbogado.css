@@ -6,3 +6,9 @@
     background-color: #fff !important;
     box-shadow: 1px 5px 5px 1px rgb(221, 220, 220) !important;
 }
+
+.imagen-abogado {
+    width: 200px; /* You can set the dimensions to whatever you want */
+    height: 130px;
+    object-fit: cover;
+}

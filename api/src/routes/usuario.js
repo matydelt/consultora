@@ -16,7 +16,7 @@ router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogado
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
 
-router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
+// router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
 
 router.post("/cliente", async function (req, res) {    // set client to abogado
     const { cliente, abogado } = req.body

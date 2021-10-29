@@ -7,6 +7,15 @@ module.exports = (sequelize) => {
         detalle: {
             type: DataTypes.TEXT
         },
+        imagen: {
+            type: DataTypes.TEXT
+        },
+        estudios: {
+            type: DataTypes.TEXT
+        },
+        experiencia: {
+            type: DataTypes.TEXT
+        }
 
     });
 
