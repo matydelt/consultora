@@ -32,8 +32,8 @@ const rootReducer = (state = initialState, action) => {
     case "GET_USUARIOS":
       return {
         ...state,
-        usuarios: action.payload
-      }
+        usuarios: action.payload,
+      };
     case "GET_CASOS":
       return {
         ...state,
@@ -67,25 +67,23 @@ const rootReducer = (state = initialState, action) => {
         consultas: [],
       };
     case "FILTRAR_MATERIAS":
-      const abogados = state.abogados;
       const materiasFiltradas =
         action.payload === "todas"
-          ? abogados
-          : abogados.filter((e) => e.abogados === action.payload);
+          ? state.abogados
+          : state.abogados.filter((e) => e === action.payload.nombre);
       return {
         ...state,
         abogados: materiasFiltradas,
       };
     case "FILTRAR_PROVINCIAS":
-      const abogados = state.abogados;
       const provinciasFiltradas =
-      action.payload === "todas"
-      ? abogados
-      : abogados.filter((e) => e.abogados === action.payload);
+        action.payload === "todas"
+          ? state.abogados
+          : state.abogados.filter((e) => e === action.payload.nombre);
       return {
         ...state,
-        abogados: provinciasFiltradas
-      }
+        abogados: provinciasFiltradas,
+      };
     default:
       return state;
   }

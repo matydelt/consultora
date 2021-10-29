@@ -90,11 +90,14 @@ Abogado.hasOne(Persona);
 
 Abogado.hasMany(Consulta);
 
-Matricula.hasOne(Provincias);
+Abogado.hasMany(Provincias);
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" });
+
 Matricula.belongsTo(Abogado, { through: "abogadomatricula" });
+
 Abogado.belongsToMany(Materias, { through: "abogadomateria" });
+
 Materias.belongsToMany(Abogado, { through: "abogadomateria" });
 
 Cliente.hasMany(Casos);
