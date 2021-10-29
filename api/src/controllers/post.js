@@ -12,6 +12,13 @@ const {
 
 async function setUsuarios(req, res) {
     const { eMail, firstName, dni, lastName, celular, password } = req.body
+    console.log("llega por body");
+    console.log("lo mande yo eMail",eMail);
+    console.log("lo mande yo firstName",firstName);
+    console.log("lo mande yo dni",dni);
+    console.log("lo mande yo lastName",lastName);
+    console.log("lo mande yo celular",celular);
+    console.log("lo mande yo password",password);
     try {
         let aux = await Usuario.findByPk(eMail)
         let aux2 = await Persona.findByPk(dni)
@@ -31,7 +38,7 @@ async function setUsuarios(req, res) {
 
             person.setUsuario(user)
             client.setUsuario(user)
-            client.setPersona(person)
+            // client.setPersona(person)
             res.sendStatus(200)
         }
         else
@@ -41,6 +48,24 @@ async function setUsuarios(req, res) {
         res.sendStatus(500)
     }
 }
+// async function setPersona(req, res, next) {
+//     const { firstName, dni, lastName, celular } = req.body
+//     let persona = { firstName: firstName, dni: dni, lastName: lastName, celular: celular }
+//     console.log("Persona");
+//     console.log("lo mande yo firstName",firstName);
+//     console.log("lo mande yo dni",dni);
+//     console.log("lo mande yo lastName",lastName);
+//     console.log("lo mande yo celular",celular);
+    
+//     try {
+//         Persona.create( persona )
+//         res.sendStatus(200)
+//     }
+//     catch{
+//         console.log(error)
+//         res.sendStatus(500)
+//     }
+// }
 async function setAbogado(req, res) {
     try {
         const { eMail } = req.body
@@ -103,4 +128,5 @@ module.exports = {
     setCasos,
     setAbogado,
     setConsulta,
+    // setPersona,
 };

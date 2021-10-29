@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -8,13 +8,20 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from "react-redux";
 import store from "./redux/store/store";
+import { FirebaseAppProvider } from 'reactfire'
+import firebaseConfig from './firebase';
+import Loaded from './components/Loaded/Loaded';
 
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
-        <App />
+        <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+          <Suspense fallback={Loaded}>
+            <App />
+          </Suspense>
+          </FirebaseAppProvider>
       </Router>
     </Provider>
   </React.StrictMode>,
