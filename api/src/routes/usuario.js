@@ -41,7 +41,7 @@ router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuar
 
 router.get("/usuario", (req, res) => get.usuario(req, res)); // get  user(for login)
 
-router.post("/usuarios", (req, res) => post.setUsuarios(req, res)); //crea usuario
+router.post("/persona", (req, res) => post.setPersona(req, res)); //crea persona
 
 router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set abogado
 
