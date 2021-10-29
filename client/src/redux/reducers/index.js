@@ -71,6 +71,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         abogados: materiasFiltradas,
       };
+    case "FILTRAR_PROVINCIAS":
+      const abogados = state.abogados;
+      const provinciasFiltradas =
+      action.payload === "todas"
+      ? abogados
+      : abogados.filter((e) => e.abogados === action.payload);
+      return {
+        ...state,
+        abogados: provinciasFiltradas
+      }
     default:
       return state;
   }

@@ -167,3 +167,7 @@ export function deleteConsulta(id) {
 export function filtrarMaterias(payload) {
   return { type: "FILTRAR_MATERIAS", payload };
 }
+
+export function filtrarProvincias(payload) {
+    return { type: "FILTRAR_PROVINCIAS", payload}
+}
