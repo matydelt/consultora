@@ -1,11 +1,11 @@
 import React from "react";
 import "./Materia.css";
 
-const Materia = () => {
+const Materia = ({ nombre }) => {
   return (
-    <div>
-      <h1>Nombre de la materia</h1>
-      <button>Ver más información</button>
+    <div className="materia">
+      <h5 className="materia-nombre">{nombre}</h5>
+      <button className="materia-button">Ver más información</button>
     </div>
   );
 };

@@ -59,7 +59,6 @@ async function getProvincias(req, res) {
     let abogados = await Abogado.findAll({
       include: Provincias,
     });
-    console.log(abogados);
     res.json(provs);
   } catch (error) {
     console.error(error);

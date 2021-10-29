@@ -8,6 +8,8 @@ import {
   getMaterias,
 } from "../../redux/actions/index";
 import { useDispatch, useSelector } from "react-redux";
+import Materia from "../Materia/Materia";
+import "../Materia/Materia.css";
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -49,6 +51,11 @@ const HomePage = () => {
           </option>
         ))}
       </select>
+      <div className="materias-container">
+        {materias?.map((materia) => (
+          <Materia key={materia.id} nombre={materia.nombre} />
+        ))}
+      </div>
     </div>
   );
 };
