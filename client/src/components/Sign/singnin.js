@@ -10,8 +10,8 @@ export const Signin = () =>{
     const [ lastName, setLastName ] = useState('');
     const [ celular, setPhone ] = useState('');
     const [ dni, setDni ] = useState('');
-    const [ eMail, setEmail ] = useState(null);
-    const [ password, setPassword ] = useState(null);
+    const [ eMail, setEmail ] = useState('');
+    const [ password, setPassword ] = useState('');
     const [ displayname, setDisplayName ] = useState(null);
 
     const dispatch = useDispatch();
@@ -22,6 +22,7 @@ export const Signin = () =>{
         signInWithPopup(auth, google)
         .then( e =>{
             setDisplayName(e.user.displayName)
+            console.log("Datos google",e.user);
         })
         .catch( error =>{
             console.log(error);
@@ -54,7 +55,7 @@ export const Signin = () =>{
         // setPhone('');
         // setDni('');
         // setEmail(null);
-        setPassword(null);
+        // setPassword(null);
         
     }
     return(
@@ -95,13 +96,13 @@ export const Signin = () =>{
                         <img src={Logo} alt="Logo Consultora" className="card-img-top mx-auto m-2 rounded-circle w-50"/>
                         <div className="card-body">
                             <div className="form-group">
-                                <input type="text" name="Mail" placeholder="Ejemplo@ejemplo.com" className="form-control" autoFocus onChange={
+                                <input type="text" name="Mail" value={eMail} placeholder="Ejemplo@ejemplo.com" className="form-control" autoFocus onChange={
                                     (e)=>{
                                         console.log("setEmail",e.target.value);
                                         setEmail(e.target.value)}}/>
                             </div>
                             <div className="form-group">
-                                <input type="password" name="password" placeholder="Password" className="form-control" onChange={
+                                <input type="password" name="password" value={password} placeholder="Password" className="form-control" onChange={
                                     (e)=>{
                                         console.log("setPassword",e.target.value);
                                         setPassword(e.target.value)}}/>
