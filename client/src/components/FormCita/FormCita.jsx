@@ -26,6 +26,20 @@ export function validate(input) {
     errors.telefono = "el Teléfono ingresado contiene errores";
   }
 
+  if (!input.email) {
+    errors.email = "Email es requerido";
+  } else if (
+    /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/.test(
+      input.email
+    )
+  ) {
+    errors.email = "Email contiene caracteres no permitidos";
+  }
+  if (!input.texto) {
+    errors.texto = "Se debe escribir la consulta que desea realizar";
+  } else if (input.texto === "") {
+    errors.texto = "El texto se encuentra vacio";
+  }
   return errors;
 }
 
@@ -78,6 +92,7 @@ export default function FormCita() {
           required
           onChange={handleChange}
         ></textarea>
+        <button>Enviar</button>
       </form>
     </div>
   );

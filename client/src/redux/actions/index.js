@@ -125,12 +125,41 @@ export function getAbogado(abogado) {
 export function postConsulta(consulta) {
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3000/consultas", consulta);
+      await axios.post("http://localhost:3001/consultas", consulta);
       return dispatch({
         type: "POST_CONSULTA",
       });
     } catch (error) {
       console.log(error);
+    }
+  };
+}
+
+export function getConsultas() {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("http://localhost:3001/consultas");
+      return dispatch({
+        type: "GET_CONSULTAS",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+      alert("no se pudo conseguir las consultas");
+    }
+  };
+}
+
+export function deleteConsulta(id) {
+  return async function (dispatch) {
+    try {
+      await axios.delete(`http://localhost:3001/consultas/${id}`);
+      return dispatch({
+        type: "DELETE_CONSULTA",
+      });
+    } catch (error) {
+      console.log(error);
+      alert("no se pudo borrar la consulta");
     }
   };
 }
