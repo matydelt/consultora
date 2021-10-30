@@ -5,6 +5,7 @@ import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
 import PerfilAbogado from "./components/perfilAbogado/PerfilAbogado";
 import VistaConsultasAbogado from "./components/vistaConsultasAbogado/VistaConsultasAbogado";
+import Casos from "./components/casos/casos";
 
 function App() {
   return (
@@ -22,7 +23,6 @@ function App() {
         <Perfiles path="/abogados" />
       </Route>
     </div>
-    // <VistaConsultasAbogado />
   );
 }
 

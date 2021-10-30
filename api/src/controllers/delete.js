@@ -1,7 +1,7 @@
 const { Consulta } = require("../db");
 
 async function deleteConsulta(req, res, next) {
-  const { id } = req.params;
+  const { id } = req.body;
   try {
     await Consulta.destroy({ where: { id: `${id}` } });
     res.sendStatus(200);

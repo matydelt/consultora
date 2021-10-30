@@ -169,5 +169,5 @@ export function filtrarMaterias(payload) {
 }
 
 export function filtrarProvincias(payload) {
-    return { type: "FILTRAR_PROVINCIAS", payload}
+  return { type: "FILTRAR_PROVINCIAS", payload };
 }
