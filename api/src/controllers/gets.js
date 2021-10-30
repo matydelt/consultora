@@ -161,9 +161,6 @@ async function getAbogado(req, res) {
                     ]
                 }]
             }))
-            // const { casos } = await Cliente.findOne({ where: { id: clientes[i].id }, attributes: [], include: Casos })
-            // abogado.clientes[i].casos = [{ "asdasd": "asdasda" }]
-            console.log(abogado)
         }
         if (user) {
             res.json(abogado)
@@ -202,8 +199,6 @@ async function getCasos(req, res) {
             })
         }
 
-        // console.log("Cases",Cases);
-
         return res.send({
             result: Cases,
             count: Cases.length
@@ -212,8 +207,8 @@ async function getCasos(req, res) {
         console.error(error)
         res.sendStatus(404)
     }
-    // console.log("Cases",Cases);
 }
+
 async function getConsultas(req, res, next) {
     const { nombre, apellido } = req.body;
 

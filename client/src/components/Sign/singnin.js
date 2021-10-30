@@ -30,6 +30,8 @@ export const Signin = () =>{
             console.log(error);
         })
     }
+    // let nameUser = null;
+
     const logout = ()=>{
         signOut(auth).then(() => {
             setEmail('');
@@ -46,6 +48,7 @@ export const Signin = () =>{
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
+            dispatch( getUsuario( { eMail: eMail } ) );
             console.log("user",user);
                 // ...
         })
@@ -53,16 +56,7 @@ export const Signin = () =>{
             const errorCode = error.code;
             const errorMessage = error.message;
         });
-        dispatch( getUsuario( { eMail: eMail } ) );
-        // const usuario = dispatch( getUsuario( { eMail: eMail } ) );
-        console.log("vamo",usuario);
-        setDisplayName(usuario?.firstName + " " + usuario?.lastName)
-        setFirstName('');
-        setLastName('');
-        setPhone('');
-        setDni('');
-        setEmail('');
-        setPassword('');
+        setTimeout(setDisplayName(usuario?.firstName + " " + usuario?.lastName),200);
         
     }
     return(
@@ -78,7 +72,7 @@ export const Signin = () =>{
                             <h2>WELCOME</h2>
                         </div>
                         <div className="card-header">
-                            <h3>{displayname?displayname:eMail}</h3>
+                            <h3>{(`${usuario.firstName} ${usuario.lastName}`)}</h3>
                         </div>
                         <img src={Logo} alt="Logo Consultora" className="card-img-top mx-auto m-2 rounded-circle w-50"/>
                         <div className="card-body">

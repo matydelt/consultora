@@ -87,7 +87,6 @@ export const getUsuario = (usuario) =>{
   return (dispatch)=>{
     axios.put("http://localhost:3001/usuario", usuario)
     .then(user =>{
-      console.log("algo aqui?",user.data);
       return dispatch({
         type: "GET_USUARIO",
         payload: user.data
@@ -97,7 +96,7 @@ export const getUsuario = (usuario) =>{
       console.log(error);
       return dispatch({
         type: "GET_USUARIO",
-        payload: {}
+        payload: []
       })
     })
   }

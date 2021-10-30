@@ -25,7 +25,6 @@ const rootReducer = (state = initialState, action) => {
         provincias: action.payload,
       };
     case "GET_USUARIO":
-      console.log("action.payload", action.payload);
       return {
         ...state,
         usuario: action.payload,
