@@ -1,7 +1,7 @@
 const initialState = {
   materias: [],
   usuarios: [],
-  usuario: [],
+  usuario: {},
   provincias: [],
   abogados: [],
   abogado: {},

@@ -12,6 +12,7 @@ const {
 
 async function setUsuarios(req, res) {
     const { eMail, firstName, dni, lastName, celular, password } = req.body
+    console.log("req.body",req.body);
     try {
         let aux = await Usuario.findByPk(eMail)
         let aux2 = await Persona.findByPk(dni)
