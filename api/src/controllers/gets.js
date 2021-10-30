@@ -90,18 +90,15 @@ async function getMaterias(req, res) {
 
 async function getUsuario(req, res) {
     const { eMail } = req.body;
-    console.log("llega por body");
-    console.log("req.body?",req.body);
-    console.log("eMail?",eMail);
     try {
-        const user = await Usuario.findOne({ where: { eMail } });
+        let user = await Usuario.findOne({ where: { eMail } });
         if (user) {
-            const abogado = await Abogado.findByPk(user.abogadoId);
+            let abogado = await Abogado.findByPk(user.abogadoId);
             const { firstName, lastName, dni, celular } = await Persona.findByPk(
                 user.personaDni
             );
             if (abogado)
-                res.send({
+                res.json({
                     ...{
                         eMail: user.eMail,
                         password: user.password,
@@ -112,8 +109,8 @@ async function getUsuario(req, res) {
                     },
                     abogado,
                 });
-            else
-                res.send({
+            else{
+                res.json({
                     ...{
                         eMail: user.eMail,
                         password: user.password,
@@ -123,6 +120,7 @@ async function getUsuario(req, res) {
                         celular,
                     },
                 });
+            }
         } else res.sendStatus(404);
     } catch (error) {
         console.error(error);

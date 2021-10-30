@@ -83,18 +83,24 @@ export function postUsuario(usuario) {
   };
 }
 
-export function getUsuario(usuario) {
-  return async function (dispatch) {
-    try {
-      console.log("usuario",usuario);
-      await axios.get("http://localhost:3001/usuario", usuario);
+export const getUsuario = (usuario) =>{
+  return (dispatch)=>{
+    axios.put("http://localhost:3001/usuario", usuario)
+    .then(user =>{
+      console.log("algo aqui?",user.data);
       return dispatch({
         type: "GET_USUARIO",
-      });
-    } catch (error) {
+        payload: user.data
+      })
+    })
+    .catch((error)=>{
       console.log(error);
-    }
-  };
+      return dispatch({
+        type: "GET_USUARIO",
+        payload: {}
+      })
+    })
+  }
 }
 
 export function postAbogado(abogado) {
