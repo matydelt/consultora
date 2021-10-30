@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const get = require("../controllers/gets")
 const post = require("../controllers/post")
+const put = require("../controllers/put")
 
 const { Abogado, Cliente, Usuario } = require("../db")
 
@@ -48,6 +49,9 @@ router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogados
 
 router.get("/abogado", (req, res) => get.getAbogado(req, res)); // get  abogado
+
+
+router.put("/abogado/:eMail", (req, res) => put.modificarAbogado(req, res)); // modificar abogado, actualizar foto etc
 
 
 

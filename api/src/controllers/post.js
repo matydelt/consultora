@@ -1,6 +1,5 @@
 const { uuid } = require("uuidv4");
-const cloudinary = require('cloudinary');
-require('../config/cloudinary');
+const cloudinary = require('../config/cloudinary');
 
 const {
     Casos,
@@ -18,6 +17,8 @@ const {
 async function subirImagen(req, res) {
 
     const { email } = req.body;
+
+    console.log(req.files);
 
     try {
         let result = await cloudinary.uploader.upload(req.files.image.tempFilePath, {

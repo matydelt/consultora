@@ -1,0 +1,10 @@
+.pointer {
+    cursor: pointer;
+}
+
+.imagen-cambiar-abogado {
+    transition: 0.2s;
+}
+.imagen-cambiar-abogado:hover {
+    opacity: 0.8;
+}

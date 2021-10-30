@@ -57,9 +57,9 @@ export default function PerfilAbogado({ location }) {
                     <div className="mx-5 col">
                         <p className="fs-4 text-muted">Formación y experiencia</p>
                         <ul>
-                            <li className="text-muted">Abogado (Universidad de Buenos Aires). Especialista en Derecho Laboral y Recursos Humanos (UCA).</li>
-                            <li className="text-muted">Intervino como representante ante la Asociación Internacional de Abogados Laboralistas (IusLaboris – Venecia – Italia, mayo 2003).</li>
-                            <li className="text-muted">Participa activamente en la gestión de litigios transnacionales, con amplia experiencia en USA, donde ha sido convocado como testigo experto sobre el Derecho Laboral Argentino y ha gestionado litigios complejos.</li>
+                            <li className="text-muted">{abogado.estudios}</li>
+                            <li className="text-muted">{abogado.detalle}</li>
+                            <li className="text-muted">{abogado.experiencia}</li>
                         </ul>
                     </div>
 
