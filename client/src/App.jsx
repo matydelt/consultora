@@ -6,6 +6,8 @@ import Perfiles from "./components/perfiles/Perfiles";
 import PerfilAbogado from "./components/perfilAbogado/PerfilAbogado";
 import VistaConsultasAbogado from "./components/vistaConsultasAbogado/VistaConsultasAbogado";
 import Casos from "./components/casos/casos";
+import Clientes from "./components/historial/historial";
+import HomeAbogado from "./components/home-Abogado/HomeAbogado";
 
 function App() {
   return (
@@ -21,6 +23,9 @@ function App() {
       </Route>
       <Route>
         <Perfiles path="/abogados" />
+      </Route>
+      <Route exact path="/home/client/abogado">
+        <HomeAbogado />
       </Route>
     </div>
   );
