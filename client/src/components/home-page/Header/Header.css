@@ -1,10 +1,18 @@
+.bg-blue {
+    background-image: linear-gradient(to bottom, #033663, #0e4475, #175288, #20619b, #2870af);
+}
+
+.opacity_carru {
+    opacity: .8;
+}
+
 .height_image {
     object-fit: contain;
 }
 
 .height_image img {
     object-fit: cover;
-    height    : 90vh;
+    height    : 86vh;
 }
 
 .m_top_header {
@@ -54,6 +62,9 @@
     border-bottom-right-radius: 7px;
     padding                   : 6px;
     transition                : all 0.5s;
+}
+ img {
+    backdrop-filter: blur(25px);
 }
 
 .caption_two a {

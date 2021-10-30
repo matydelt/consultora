@@ -8,9 +8,9 @@ import './Header.css'
 
 const Header = () => {
     return (
-        <div className="bg-opacity-100 bg-black">
-            <div id="carouselExampleFade" className="opacity-75 carousel slide carousel-fade" data-bs-ride="carousel">
-                <div className="carousel-inner">
+        <div className="carrusel bg-opacity-100 bg-blue">
+            <div id="carouselExampleFade" className="opacity_carru  carousel slide carousel-fade" data-bs-ride="carousel">
+                <div className="carousel-inner ">
                     <div className="height_image carousel-item active">
                         <img src={Image_One} className="d-block w-100" alt="Image_One" />
                         <div className="carousel-caption d-none d-md-block text-white caption_one ">
@@ -19,8 +19,8 @@ const Header = () => {
                             <p>Tu lugar de Justicia Garantizada</p>
                         </div>
                     </div>
-                    <div className="height_image carousel-item">
-                        <img src={Image_Two} className=" d-block w-100" alt="Image_Two" />
+                    <div className="height_image carousel-item ">
+                        <img src={Image_Two} className="d-block w-100" alt="Image_Two" />
                         <div className="carousel-caption d-none d-md-block m_top_header caption_two">
                             <h5>¿Quieres una Consulta rápida?</h5>
                             <Link className="btn" to="#">Presiona aquí</Link>
