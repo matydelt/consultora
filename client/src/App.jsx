@@ -15,7 +15,7 @@ function App() {
       <Route path="/consulta">
         <FormCita />
       </Route>
-      <Route path="/abogados/:eMail">
+      <Route path="/perfil/:eMail">
         <PerfilAbogado />
       </Route>
       <Route>
