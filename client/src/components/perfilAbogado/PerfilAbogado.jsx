@@ -67,7 +67,7 @@ export default function PerfilAbogado({ location }) {
                         <p className="fs-4 text-muted">Especialidades</p>
                         <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p>
                         <hr className="w-25 text-black"></hr>
-                        <i className="bi bi-telephone"></i><p>asdsa</p>
+                        <i className="bi bi-telephone"></i><p></p>
                     </div>
                 </div>
 
