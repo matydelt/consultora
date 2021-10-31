@@ -21,7 +21,7 @@ const Navbar = () => {
                 />
 
                 <li className="col-xl-1">
-                    <ButtonsNav link="#" text='Nuestro Equipo' />
+                    <a className="textDecoration" href="#contain_title_abogado">Nuestro Equipo</a>
                 </li>
 
                 <li className="col-xl-1">
