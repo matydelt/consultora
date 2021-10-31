@@ -9,7 +9,7 @@
     align-items       : center;
     margin-top        : 40px;
     color             : #ccc;
-    /* overflow       : hidden; */
+    overflow       : hidden;
 }
 
 .contenedor_banner_diagonal .banner_diagonal_left {
