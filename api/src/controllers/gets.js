@@ -6,6 +6,7 @@ const {
     Abogado,
     Persona,
     Consulta,
+    Cliente,
     Op,
 } = require("../db");
 
@@ -74,7 +75,6 @@ async function getMaterias(req, res) {
             "Derecho Notarial",
         ];
         let materias = await Materias.findAll({});
-        console.log(materias.length);
         if (materias.length === 0) {
             for (let i = 0; i < vec.length; i++) {
                 await Materias.findOrCreate({
@@ -82,16 +82,17 @@ async function getMaterias(req, res) {
                 });
             }
         }
-        res.json(materias);
     } catch (error) {
         console.error(error);
         res.sendStatus(404);
     }
 }
 async function usuario(req, res) {
-    const { eMail } = req.body;
     try {
+        console.log(req.body, req.params, req.query)
+        const { eMail } = req.body;
         const user = await Usuario.findOne({ where: { eMail } });
+        console.log(user)
         if (user) {
             const abogado = await Abogado.findByPk(user.abogadoId);
             const { firstName, lastName, dni, celular } = await Persona.findByPk(
@@ -100,8 +101,7 @@ async function usuario(req, res) {
             if (abogado)
                 res.send({
                     ...{
-                        eMail: user.eMail,
-                        password: user.password,
+                        ...user,
                         firstName,
                         lastName,
                         dni,
@@ -112,8 +112,7 @@ async function usuario(req, res) {
             else
                 res.send({
                     ...{
-                        eMail: user.eMail,
-                        password: user.password,
+                        ...user,
                         firstName,
                         lastName,
                         dni,
@@ -147,7 +146,11 @@ async function getAbogados(req, res) {
     }
 }
 async function getAbogado(req, res) {
-    const { eMail } = req.body
+
+    let { eMail } = req.body
+    if (!eMail) {
+        eMail = req.params
+    }
     try {
         const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
@@ -162,9 +165,6 @@ async function getAbogado(req, res) {
                     ]
                 }]
             }))
-            // const { casos } = await Cliente.findOne({ where: { id: clientes[i].id }, attributes: [], include: Casos })
-            // abogado.clientes[i].casos = [{ "asdasd": "asdasda" }]
-            console.log(abogado)
         }
         if (user) {
             res.json(abogado)

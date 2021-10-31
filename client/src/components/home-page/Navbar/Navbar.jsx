@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import Logo  from '../assets/img/buffet-buffet-law.png'
+import Logo from '../assets/img/buffet-buffet-law.png'
 import './Navbar.css'
 const Navbar = () => {
     return (
@@ -23,12 +23,12 @@ const Navbar = () => {
                     </Link>
                 </li>
 
-                <img 
-                src={Logo} 
-                alt="Logo"
-                className="col-xl-1"
+                <img
+                    src={Logo}
+                    alt="Logo"
+                    className="col-xl-1"
                 />
-                
+
                 <li className="col-xl-1 ">
                     <Link
                         className=" textDecoration"
@@ -41,7 +41,7 @@ const Navbar = () => {
                 <li className="col-xl-4 ">
                     <Link
                         className="textDecoration"
-                        to="#"
+                        to="/ingreso"
                     >
                         Ingresa Ahora
                     </Link>

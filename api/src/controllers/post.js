@@ -6,6 +6,7 @@ const {
     Cliente,
     Abogado,
     Consulta,
+    Admin
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
@@ -31,7 +32,7 @@ async function setUsuarios(req, res) {
 
             person.setUsuario(user)
             client.setUsuario(user)
-            client.setPersona(person)
+            // client.setPersona(person)
             res.sendStatus(200)
         }
         else
@@ -41,20 +42,46 @@ async function setUsuarios(req, res) {
         res.sendStatus(500)
     }
 }
+// async function setPersona(req, res, next) {
+//     const { firstName, dni, lastName, celular } = req.body
+//     let persona = { firstName: firstName, dni: dni, lastName: lastName, celular: celular }
+//     console.log("Persona");
+//     console.log("lo mande yo firstName",firstName);
+//     console.log("lo mande yo dni",dni);
+//     console.log("lo mande yo lastName",lastName);
+//     console.log("lo mande yo celular",celular);
+
+//     try {
+//         Persona.create( persona )
+//         res.sendStatus(200)
+//     }
+//     catch{
+//         console.log(error)
+//         res.sendStatus(500)
+//     }
+// }
 async function setAbogado(req, res) {
     try {
-        const { eMail } = req.body
+        const { eMail, flag } = req.body
         let user = await Usuario.findByPk(eMail)
         let persona = await Persona.findByPk(user.personaDni)
-        if (!user.abogadoId) {
-            const abogado = await Abogado.create({})
-            if (user) {
-                abogado.setUsuario(user)
-                abogado.setPersona(persona)
-                return res.sendStatus(304)
-            }
-            return res.sendStatus(404)
-        } else res.sendStatus(404)
+        if (flag) {
+            if (!user.abogadoId) {
+                const abogado = await Abogado.create({})
+                if (user) {
+                    abogado.setUsuario(user)
+                    abogado.setPersona(persona)
+                    return res.sendStatus(200)
+                }
+                return res.sendStatus(404)
+            } else return res.sendStatus(404)
+        } else {
+            let abogado = await Abogado.findByPk(user.abogadoId)
+            await abogado.destroy()
+            abogado = await Abogado.findByPk(user.abogadoId)
+            if (!abogado) return res.sendStatus(200)
+            else return res.sendStatus(500)
+        }
 
     } catch (error) {
         console.log(error)
@@ -97,10 +124,43 @@ async function setConsulta(req, res, next) {
         }
     }
 }
+async function setAdmin(req, res) {
+    const { eMail, firstName, dni, lastName, celular, password } = req.body
+    try {
+        let aux = await Usuario.findByPk(eMail)
+        let aux2 = await Persona.findByPk(dni)
+        if (!aux && !aux2) {
+            const user = await Usuario.create({
+                eMail,
+                password
+            })
 
+            const person = await Persona.create({
+                firstName,
+                dni,
+                lastName,
+                celular
+            })
+            const admin = await Admin.create({})
+
+            person.setUsuario(user)
+            admin.setUsuario(user)
+            // client.setPersona(person)
+            res.sendStatus(200)
+        }
+        else
+            res.sendStatus(500)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500)
+    }
+
+}
 module.exports = {
     setUsuarios,
     setCasos,
     setAbogado,
     setConsulta,
+    // setPersona,
+    setAdmin
 };

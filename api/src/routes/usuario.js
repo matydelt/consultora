@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const get = require("../controllers/gets")
 const post = require("../controllers/post")
+const put = require("../controllers/put")
 
 const { Abogado, Cliente, Usuario } = require("../db")
 
@@ -39,15 +40,17 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
 router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
-router.get("/usuario", (req, res) => get.usuario(req, res)); // get  user(for login)
+router.put("/usuario", (req, res) => put.usuario(req, res)); // get  user(for login)
 
-router.post("/usuarios", (req, res) => post.setUsuarios(req, res)); //crea usuario
+router.post("/persona", (req, res) => post.setPersona(req, res)); //crea persona
 
 router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set abogado
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogados
 
 router.get("/abogado", (req, res) => get.getAbogado(req, res)); // get  abogado
+
+router.post("/adm", (req, res) => post.setAdmin(req, res))
 
 
 
