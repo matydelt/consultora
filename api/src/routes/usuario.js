@@ -39,7 +39,7 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
 router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
-// router.get("/usuario", (req, res) => get.getUsuario(req, res)); // get  user(for login)
+router.get("/Personas", (req, res) => get.getPersonas(req, res)); // get  user(for login)
 
 router.post("/persona", (req, res) => post.setPersona(req, res)); //crea persona
 

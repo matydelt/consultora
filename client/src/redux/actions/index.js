@@ -56,6 +56,20 @@ export function getUsuarios() {
   };
 }
 
+export function getPersonas() {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("http://localhost:3001/personas");
+      return dispatch({
+        type: "GET_PERSONAS",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function getCasos() {
   return async function (dispatch) {
     try {
@@ -96,7 +110,7 @@ export const getUsuario = (usuario) =>{
       console.log(error);
       return dispatch({
         type: "GET_USUARIO",
-        payload: []
+        payload: {}
       })
     })
   }

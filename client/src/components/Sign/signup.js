@@ -1,14 +1,22 @@
-import React, { useState } from "react";
-import { useDispatch } from 'react-redux'
-// import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { postUsuario } from '../../redux/actions/index.js';
-import { createNoOK, createOK } from "./alert.js";
+import { getPersonas, getUsuarios, postUsuario } from '../../redux/actions/index.js';
+import { correoNoOK, createOK, dniNoOK,  } from "./alert.js";
 import md5 from 'md5'
 
 
 export const Signup = () =>{
     
+    const { usuarios, personas } = useSelector( state => state )
+
+    const dispatch = useDispatch();
+
+    useEffect( () => {
+        dispatch( getPersonas( ))
+        dispatch( getUsuarios( ))
+    },[ dispatch ])
+
     const [ firstName, setFirstName ] = useState('');
     const [ lastName, setLastName ] = useState('');
     const [ celular, setPhone ] = useState('');
@@ -16,27 +24,28 @@ export const Signup = () =>{
     const [ eMail, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
 
-    const dispatch = useDispatch();
-
     const auth = getAuth();
 
     const GoTo = async () =>{
-        await createUserWithEmailAndPassword(auth, eMail, md5(password) )
-        .then(() => {
+        if (usuarios.some(e => e.eMail == eMail) || personas.some(e => e.dni == dni)){
+            usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
+        }
+        else{
             dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ))
-            createOK()
-        })
-        .catch((error) => {
-            createNoOK()
-            console.log(error);
-        })
-        setFirstName('');
-        setLastName('');
-        setPhone('');
-        setDni('');
-        setEmail('');
-        setPassword('');
-
+            await createUserWithEmailAndPassword(auth, eMail, md5(password) )
+            .then(() => {
+                createOK()
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            setFirstName('');
+            setLastName('');
+            setPhone('');
+            setDni('');
+            setEmail('');
+            setPassword('');
+        }
     }
     return(
         <div className="container p-4">
@@ -47,7 +56,6 @@ export const Signup = () =>{
                             <h3>Register</h3>
                         </div>
                         <div className="card-body">
-                            {/* <form action="/signup" method="POST" > */}
                                 <div className="form-group">
                                     <input type="type" value={firstName} name="firstName" autoComplete="off" placeholder=" First Name" className="form-control" autoFocus required onChange={ (e)=>{setFirstName(e.target.value)}}/>
                                 </div>
@@ -73,7 +81,6 @@ export const Signup = () =>{
                                     
                                     </button>
                                 </div>
-                            {/* </form> */}
                         </div>
                     </div>
                 </div>

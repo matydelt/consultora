@@ -18,6 +18,17 @@ async function getUsuarios(req, res) {
         res.sendStatus(404);
     }
 }
+
+async function getPersonas(req, res) {
+    try {
+        const user = await Persona.findAll();
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(404);
+    }
+}
+
 async function getProvincias(req, res) {
     try {
         let vec = [
@@ -265,10 +276,11 @@ async function getConsultas(req, res, next) {
 
 module.exports = {
     getUsuarios,
+    getUsuario,
+    getPersonas,
     getCasos,
     getProvincias,
     getMaterias,
-    getUsuario,
     getConsultas,
     getAbogados,
     getAbogado,

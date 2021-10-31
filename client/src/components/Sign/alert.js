@@ -11,7 +11,7 @@ export const createOK = ()=>{
     
 }
 
-export const createNoOK = ()=>{
+export const correoNoOK = ()=>{
     swal({
         title: "Correo ya se encuentra registrado",
         text:'',
@@ -19,6 +19,16 @@ export const createNoOK = ()=>{
         button: "Aceptar"
     })
 }
+
+export const dniNoOK = ()=>{
+    swal({
+        title: "DNI ya se encuentra registrado",
+        text:'',
+        icon: "warning",
+        button: "Aceptar"
+    })
+}
+
 export const sessionIN = ()=>{
     swal({
         title: "WELCOME",
