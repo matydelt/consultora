@@ -51,18 +51,23 @@ async function subirImagen(req, res) {
 };
 
 async function eliminarImagen(req, res) {
-    let { public_id, email } = req.body;
+    const { public_id, email } = req.body;
 
-    await cloudinary.uploader.destroy(public_id, (err, result) => {
-        if (err) return res.json({ err });
-    });
+    try {
+        await cloudinary.uploader.destroy(public_id, (err, result) => {
+            if (err) return res.json({ err });
+        });
+    
+        const user = await Usuario.findByPk(email)
+        if (!user) return res.sendStatus(404);
+        const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
+        if (!abogado) return res.sendStatus(404);
+        abogado.imagen = '';
+        await abogado.save()
+    } catch (error) {
+        return res.sendStatus(500);
+    }
 
-    const user = await Usuario.findByPk(email)
-    if (!user) return res.sendStatus(404);
-    const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
-    if (!abogado) return res.sendStatus(404);
-    abogado.imagen = '';
-    await abogado.save()
 };
 
 
