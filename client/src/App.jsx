@@ -1,15 +1,19 @@
 import './App.css';
 import HomePage from './components/home-page/HomePage';
 import { Route } from 'react-router-dom';
-import HomeAbogado from './components/homeAbogado/homeAbogado';
 import Signin from './components/Sign/singnin';
 import Signup from './components/Sign/signup';
+import Clientes from './components/clientes/clientes';
+import AdminPage from './components/adminPage/adminPage';
 
 function App() {
   return (
     <div className="App container-fluid p-0">
       <Route path={"/abogado"} exact>
-        <HomeAbogado />
+        <Clientes />
+      </Route>
+      <Route path={"/admin"} exact>
+        <AdminPage />
       </Route>
       <Route path="/" exact>
         <HomePage />

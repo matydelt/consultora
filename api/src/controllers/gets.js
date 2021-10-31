@@ -75,7 +75,6 @@ async function getMaterias(req, res) {
             "Derecho Notarial",
         ];
         let materias = await Materias.findAll({});
-        console.log(materias.length);
         if (materias.length === 0) {
             for (let i = 0; i < vec.length; i++) {
                 await Materias.findOrCreate({
@@ -89,9 +88,11 @@ async function getMaterias(req, res) {
     }
 }
 async function usuario(req, res) {
-    const { eMail } = req.body;
     try {
+        console.log(req.body, req.params, req.query)
+        const { eMail } = req.body;
         const user = await Usuario.findOne({ where: { eMail } });
+        console.log(user)
         if (user) {
             const abogado = await Abogado.findByPk(user.abogadoId);
             const { firstName, lastName, dni, celular } = await Persona.findByPk(
@@ -100,8 +101,7 @@ async function usuario(req, res) {
             if (abogado)
                 res.send({
                     ...{
-                        eMail: user.eMail,
-                        password: user.password,
+                        ...user,
                         firstName,
                         lastName,
                         dni,
@@ -112,8 +112,7 @@ async function usuario(req, res) {
             else
                 res.send({
                     ...{
-                        eMail: user.eMail,
-                        password: user.password,
+                        ...user,
                         firstName,
                         lastName,
                         dni,

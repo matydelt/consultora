@@ -5,6 +5,7 @@ const initialState = {
   provincias: [],
   abogados: [],
   abogado: {},
+  error: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -34,11 +35,24 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         casos: action.payload,
       };
-    case "POST_USUARIO":
-      return {
-        ...state,
-        usuario: action.payload
-      };
+    case "POST_USUARIO":   //for login
+      let user = action.payload
+      if (user.adminId) {
+        return {
+          ...state,
+          admin: action.payload
+        };
+      } else if (user.abogadoId) {
+        return {
+          ...state,
+          abogado: action.payload
+        };
+      } else {
+        return {
+          ...state,
+          usuario: action.payload
+        };
+      }
     case "POST_ABOGADO":
       return {
         ...state,
@@ -52,6 +66,10 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         abogado: action.payload,
       };
+    case "SET_ABOGADO":
+      return {
+        ...state,
+      }
     default:
       return state;
   }

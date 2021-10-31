@@ -136,3 +136,17 @@ export function postConsulta(consulta) {
     }
   };
 }
+
+export function setAbogado(user) {
+  return async function (dispatch) {
+    try {
+      await axios.post("http://localhost:3001/usuario/abogado", user);
+      return dispatch({
+        type: "SET_ABOGADO"
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+

@@ -32,13 +32,13 @@ let aux = {
                     "numeroExpediente": 2314,
                     "juzgado": 412,
                     "detalle": "se mamo en plena avenida y causo choques multiples",
-                    "estado": "inicio"
+                    "estado": "sentencia"
                 }, {
                     "juez": "jose pepito",
                     "numeroExpediente": 2323114,
                     "juzgado": 4412,
                     "detalle": "se mamo en plena avenida y causo choques multiples",
-                    "estado": "inicio"
+                    "estado": "sentencia"
                 }
             ]
         },
@@ -57,19 +57,19 @@ let aux = {
                     "numeroExpediente": 1234,
                     "juzgado": 2234,
                     "detalle": "asdasf",
-                    "estado": "inicio"
+                    "estado": "inicial"
                 }, {
                     "juez": "jose pepito",
                     "numeroExpediente": 2314,
                     "juzgado": 412,
                     "detalle": "se mamo en plena avenida y causo choques multiples",
-                    "estado": "inicio"
+                    "estado": "inicial"
                 }, {
                     "juez": "jose pepito",
                     "numeroExpediente": 2323114,
                     "juzgado": 4412,
                     "detalle": "se mamo en plena avenida y causo choques multiples",
-                    "estado": "inicio"
+                    "estado": "proceso"
                 }
             ]
         }
@@ -81,38 +81,71 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
 
 
     useEffect(() => {
-        setClientes([...aux.clientes])
+        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
+        AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
+        AllClients = AllClients.filter(e => e.casos.length > 0)
+        setClientes([...AllClients])
     }, [])
+
     const handleClick = function (e, flag) {
         e.preventDefault()
-        let cliente = JSON.parse(JSON.stringify(aux.clientes));
+        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
         if (flag === 0) {
-            cliente.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
-            cliente = cliente.filter(e => e.casos.length > 0)
-            setClientes([...cliente])
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
         } else if (flag === 1) {
-            cliente.map(e => e.casos = e.casos.filter(e => e.estado === "cerrado"))
-            cliente = cliente.filter(e => e.casos.length > 0)
-            setClientes([...cliente])
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "cerrado"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
         } else {
-            setClientes([...aux.clientes])
+            let AllClients = JSON.parse(JSON.stringify(aux.clientes));
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
         }
+    }
+    const handleChange = (e) => {
+        e.preventDefault();
+        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
+        if (e.target.value === "inicial") {
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "inicial"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
+            if (clientes.length === 0) return <h3>No hay casos con el estado inicial</h3>
+        } else if (e.target.value === "Proceso") {
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "proceso"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
+            if (clientes.length === 0) return <h3>No hay casos con el estado inicial</h3>
+        } else if (e.target.value === "sentencia") {
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "sentencia"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
+            if (clientes.length === 0) return <h3>No hay casos con el estado inicial</h3>
+        }
+
     }
 
     return (<div className="mt-3 me-3 ms-3 d-inline-flex flex-row">
         <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
-            <button className=" btn  btn-danger  mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes</button>
+            <button className=" btn  btn-danger  mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes Actuales</button>
             <button className="btn  btn-danger mt-3 mb-3 " onClick={(e) => handleClick(e, 1)}>Historial</button>
-            <button className="btn  btn-danger  mt-3 mb-3 " onClick={(e) => handleClick(e, 2)}>Clear All</button>
+            <select class="form-select" aria-label="Default select example" onChange={e => handleChange(e)}>
+                <option selected>Seleccion por estado</option>
+                <option value="inicial">inicial</option>
+                <option value="Proceso">Proceso</option>
+                <option value="sentencia">sentencia</option>
+            </select>
         </div>
 
-        <div className="conteiner card mt-3 me-3 ms-3 d-inline-flex flex-column">
+        <div className="conteiner card mt-3 me-3 ms-3  flex-column">
             {clientes?.map(e => {
                 const { id, casos, persona } = e
                 return (<div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
                     <Casos key={id} id={id} casos={casos} persona={persona} />
                     {/* <Link> */}
-                    <button className=" btn-warning btn mt-3 mb-3">Crear caso</button>
+                    <button className=" btn-warning btn mt-3  ms-3 me-3">Crear caso</button>
                     <br />
                     {/* </Link> */}
                 </div>
@@ -120,5 +153,5 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
             })}
 
         </div>
-    </div>)
+    </div >)
 }
