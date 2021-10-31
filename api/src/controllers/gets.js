@@ -50,11 +50,16 @@ async function getProvincias(req, res) {
         let provs = await Provincias.findAll({});
         if (provs.length === 0) {
             for (let i = 0; i < vec.length; i++) {
-                await Provincias.findOrCreate({
-                    where: { nombre: vec[i] },
-                });
+                provs.push(
+                    await Provincias.findOrCreate({
+                        where: { nombre: vec[i] },
+                    })
+                );
             }
         }
+        let abogados = await Abogado.findAll({
+            include: Provincias,
+        });
         res.json(provs);
     } catch (error) {
         console.error(error);
@@ -77,11 +82,12 @@ async function getMaterias(req, res) {
         let materias = await Materias.findAll({});
         if (materias.length === 0) {
             for (let i = 0; i < vec.length; i++) {
-                await Materias.findOrCreate({
+                materias = await Materias.findOrCreate({
                     where: { nombre: vec[i] },
                 });
             }
         }
+        res.send(materias);
     } catch (error) {
         console.error(error);
         res.sendStatus(404);
@@ -129,28 +135,31 @@ async function getUsuario(req, res) {
 
 async function getAbogados(req, res) {
     try {
-        const user = await Usuario.findAll({})
-        let abogados = []
+        const user = await Usuario.findAll({});
+        let abogados = [];
         for (let i = 0; i < user.length; i++) {
-            const { firstName, lastName, dni, celular } = await Persona.findByPk(user[i].personaDni)
-            const abogado = await Abogado.findByPk(user[i].abogadoId)
+            const { firstName, lastName, dni, celular } = await Persona.findByPk(
+                user[i].personaDni
+            );
+            const abogado = await Abogado.findByPk(user[i].abogadoId);
             if (abogado)
-                abogados.push({ ...{ eMail: user[i].eMail, firstName, lastName, dni, celular }, abogado })
-
+                abogados.push({
+                    ...{ eMail: user[i].eMail, firstName, lastName, dni, celular },
+                    abogado,
+                });
         }
-        res.send(abogados)
+        res.send(abogados);
     } catch (error) {
-        console.error(error)
-        res.sendStatus(404)
+        console.error(error);
+        res.sendStatus(404);
     }
 }
 async function getAbogado(req, res) {
-
-    let { eMail } = req.body
-    if (!eMail) {
-        eMail = req.params
-    }
     try {
+        let { eMail } = req.body
+        if (!eMail) {
+            eMail = req.params
+        }
         const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
         const { detalle, clientes } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
@@ -173,44 +182,45 @@ async function getAbogado(req, res) {
         res.sendStatus(404)
     }
 }
+
 async function getCasos(req, res) {
-    const { numeroExpediente, estado, juez } = req.body
+    const { numeroExpediente, estado, juez } = req.body;
     try {
-        let Cases = await Casos.findAll()
+        let Cases = await Casos.findAll();
 
-        if (numeroExpediente != '' && numeroExpediente != null) {
-            Cases = Cases.filter(c => {
+        if (numeroExpediente != "" && numeroExpediente != null) {
+            Cases = Cases.filter((c) => {
                 if (c.numeroExpediente == `${numeroExpediente}`) {
-                    return c
+                    return c;
                 }
-            })
+            });
         }
 
-        if (estado != '' && estado != null) {
-            Cases = Cases.filter(c => {
+        if (estado != "" && estado != null) {
+            Cases = Cases.filter((c) => {
                 if (c.estado == `${estado}`) {
-                    return c
+                    return c;
                 }
-            })
+            });
         }
 
-        if (juez != '' && juez != null) {
-            Cases = Cases.filter(c => {
+        if (juez != "" && juez != null) {
+            Cases = Cases.filter((c) => {
                 if (c.juez == `${juez}`) {
-                    return c
+                    return c;
                 }
-            })
+            });
         }
 
         // console.log("Cases",Cases);
 
         return res.send({
             result: Cases,
-            count: Cases.length
-        })
+            count: Cases.length,
+        });
     } catch (error) {
-        console.error(error)
-        res.sendStatus(404)
+        console.error(error);
+        res.sendStatus(404);
     }
     // console.log("Cases",Cases);
 }
@@ -264,9 +274,6 @@ async function getConsultas(req, res, next) {
         next({ msg: "error en traer consultas de la DB" });
     }
 }
-
-
-
 
 module.exports = {
     getUsuarios,

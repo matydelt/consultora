@@ -7,32 +7,31 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 let sequelize =
   process.env.NODE_ENV === "production"
     ? new Sequelize({
-      database: DB_NAME,
-      dialect: "postgres",
-      host: DB_HOST,
-      port: 5432,
-      username: DB_USER,
-      password: DB_PASSWORD,
-      pool: {
-        max: 3,
-        min: 1,
-        idle: 10000,
-      },
-      dialectOptions: {
-        ssl: {
-          require: true,
-          // Ref.: https://github.com/brianc/node-postgres/issues/2009
-          rejectUnauthorized: false,
+        database: DB_NAME,
+        dialect: "postgres",
+        host: DB_HOST,
+        port: 5432,
+        username: DB_USER,
+        password: DB_PASSWORD,
+        pool: {
+          max: 3,
+          min: 1,
+          idle: 10000,
         },
-        keepAlive: true,
-      },
-      ssl: true,
-    })
+        dialectOptions: {
+          ssl: {
+            require: true,
+            // Ref.: https://github.com/brianc/node-postgres/issues/2009
+            rejectUnauthorized: false,
+          },
+          keepAlive: true,
+        },
+        ssl: true,
+      })
     : new Sequelize(
-      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-      { logging: false, native: false }
-    );
-
+        `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+        { logging: false, native: false }
+      );
 
 // const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/countries`, {
 //   logging: false, // set to console.log to see the raw SQL queries
@@ -86,23 +85,27 @@ Admin.hasOne(Usuario)
 
 Cliente.hasOne(Usuario);
 
-Cliente.hasOne(Persona)
+Cliente.hasOne(Persona);
 
-Abogado.hasOne(Usuario)
+Abogado.hasOne(Usuario);
 
-Abogado.hasOne(Persona)
+Abogado.hasOne(Persona);
 
-Abogado.hasMany(Consulta)
+Abogado.hasMany(Consulta);
 
-Matricula.hasOne(Provincias)
+Abogado.hasMany(Provincias);
 
 Abogado.hasMany(Provincias)
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" });
+
+Matricula.belongsTo(Abogado, { through: "abogadomatricula" });
+
 Abogado.belongsToMany(Materias, { through: "abogadomateria" });
 
-Cliente.hasMany(Casos)
+Materias.belongsToMany(Abogado, { through: "abogadomateria" });
 
+Cliente.hasMany(Casos);
 
 Abogado.hasMany(Cliente);
 

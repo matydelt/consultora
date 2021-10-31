@@ -7,6 +7,7 @@ const initialState = {
   error: "",
   personas: [],
   usuario: {},
+  consultas: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -27,10 +28,9 @@ const rootReducer = (state = initialState, action) => {
         provincias: action.payload,
       };
     case "GET_USUARIO":
-      console.log("action.payload", action.payload);
       return {
         ...state,
-        usuario: action.payload,
+        usuarios: action.payload,
       };
     case "GET_USUARIOS":
       return {
@@ -77,6 +77,34 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
       }
+    case "GET_CONSULTAS":
+      return {
+        ...state,
+        consultas: action.payload,
+      };
+    case "DELETE_CONSULTA":
+      return {
+        ...state,
+        consultas: [],
+      };
+    case "FILTRAR_MATERIAS":
+      const materiasFiltradas =
+        action.payload === "todas"
+          ? state.abogados
+          : state.abogados.filter((e) => e === action.payload.nombre);
+      return {
+        ...state,
+        abogados: materiasFiltradas,
+      };
+    case "FILTRAR_PROVINCIAS":
+      const provinciasFiltradas =
+        action.payload === "todas"
+          ? state.abogados
+          : state.abogados.filter((e) => e === action.payload.nombre);
+      return {
+        ...state,
+        abogados: provinciasFiltradas,
+      };
     default:
       return state;
   }

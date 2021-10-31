@@ -86,8 +86,7 @@ export function postUsuario(usuario) {
 export function getUsuario({ usuario }) {
   return async function (dispatch) {
     try {
-      console.log(usuario)
-      let user = await axios.put("http://localhost:3001/usuario", { "eMail": usuario });
+      let user = await axios.get("http://localhost:3001/usuarios", usuario);
       return dispatch({
         type: "GET_USUARIO",
         payload: user
@@ -147,6 +146,20 @@ export function setAbogado(user) {
     } catch (error) {
       console.log(error);
     }
+  }
+}
+export function getConsultas() {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("http://localhost:3001/consultas");
+      return dispatch({
+        type: "GET_CONSULTAS",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+      alert("no se pudo conseguir las consultas");
+    }
   };
 }
 
@@ -161,6 +174,26 @@ export function getPersonas() {
     } catch (error) {
       console.log(error);
     }
+  }
+}
+export function deleteConsulta(id) {
+  return async function (dispatch) {
+    try {
+      await axios.delete(`http://localhost:3001/consultas/${id}`);
+      return dispatch({
+        type: "DELETE_CONSULTA",
+      });
+    } catch (error) {
+      console.log(error);
+      alert("no se pudo borrar la consulta");
+    }
   };
 }
 
+export function filtrarMaterias(payload) {
+  return { type: "FILTRAR_MATERIAS", payload };
+}
+
+export function filtrarProvincias(payload) {
+  return { type: "FILTRAR_PROVINCIAS", payload }
+}

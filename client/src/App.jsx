@@ -1,15 +1,56 @@
-import './App.css';
-import HomePage from './components/home-page/HomePage';
-import { Route } from 'react-router-dom';
-import Signin from './components/Sign/singnin';
-import Signup from './components/Sign/signup';
-import Clientes from './components/clientes/clientes';
-import AdminPage from './components/adminPage/adminPage';
+import "./App.css";
+import HomePage from "./components/home-page/HomePage";
+import { Route, Switch } from "react-router-dom";
+import FormCita from "./components/FormCita/FormCita";
+import Perfiles from "./components/perfiles/Perfiles";
+import PerfilAbogado from "./components/perfilAbogado/PerfilAbogado";
+import VistaConsultasAbogado from "./components/vistaConsultasAbogado/VistaConsultasAbogado";
+import Clientes from "./components/clientes/clientes";
+import HomeAbogado from "./components/home-Abogado/HomeAbogado";
+import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
+import Footer from "./components/home-Abogado/Footer/Footer";
+import Signin from "./components/Sign/singnin";
+import Signup from "./components/Sign/signup";
 
 function App() {
   return (
     <div className="App container-fluid p-0">
-      <Route path={"/abogado"} exact>
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+        <Route path="/consulta">
+          <FormCita />
+        </Route>
+        <Route path="/perfil/:eMail">
+          <PerfilAbogado />
+        </Route>
+        <Route exact path="/abogados">
+          <Perfiles />
+        </Route>
+        <Route exact path="/user/abogado">
+          <HomeAbogado />
+        </Route>
+        <Route exact path="/user/abogado/clientes">
+          <NavAbogado />
+          <Clientes />
+          <Footer />
+        </Route>
+        <Route exact path="/user/abogado/consultas">
+          <NavAbogado />
+          <VistaConsultasAbogado />
+          <Footer />
+        </Route>
+        <Route exact path="/ingreso" component={Signin} />
+        <Route exact path="/signup" component={Signup} />
+      </Switch>
+    </div>
+  );
+}
+
+export default App;
+
+{/* <Route path={"/abogado"} exact>
         <Clientes />
       </Route>
       <Route path={"/admin"} exact>
@@ -19,9 +60,6 @@ function App() {
         <HomePage />
       </Route>
       <Route exact path="/ingreso" component={Signin} />
-      <Route exact path="/signup" component={Signup} />
-    </div>
-  );
-}
+      <Route exact path="/signup" component={Signup} /> */}
 
-export default App;
+

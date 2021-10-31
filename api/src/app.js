@@ -14,7 +14,7 @@ require("./db.js");
 
 const server = express();
 const cors = require("cors");
-const consulta = require("./models/consulta.js");
+// const consulta = require("./models/consulta.js");
 
 server.name = "API";
 

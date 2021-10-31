@@ -33,7 +33,7 @@ export const Signin = () => {
             .then(e => {
                 setDisplayName(e.user.displayName)
                 let aux = e.user.email
-                if (usuarios.some(e => e.eMail == aux))
+                if (usuarios.some(e => e.eMail === aux))
                     dispatch(getUsuario({ eMail: e.user.email }))
                 else {
                     setEmail(e.user.email)

@@ -1,0 +1,19 @@
+.materias-container {
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  width: fit-content;
+}
+.materia {
+  padding: 30px;
+  border: 1px solid;
+  text-align: center;
+  margin: 5px;
+  background-color: #ccc;
+}
+.materia-nombre {
+}
+.materia-button {
+  padding: 3px 20px;
+}
