@@ -56,7 +56,6 @@ export default function ModificarAbogado() {
     };
 
     function eliminarImagen() {
-        console.log(imagen.substring(imagen.lastIndexOf('/') + 1).slice(0, -4));
         axios.post(`${ENDPOINT_URL}/eliminarimagen`, { public_id: imagen.substring(imagen.lastIndexOf('/') + 1).slice(0, -4), 'email': '12@gmail.com' })
             .then(() => {
                 setForm({ ...form, imagen: '' })
@@ -148,7 +147,6 @@ export default function ModificarAbogado() {
                 {errores.length > 0 &&
                     <div className="alert alert-danger">
                         {errores.map((e, i) => {
-                            console.log(errores);
                             return <p key={i}><span className="fw-bold">X </span>{e}</p>
                         })}
                     </div>
