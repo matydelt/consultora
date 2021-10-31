@@ -8,8 +8,6 @@ async function modificarAbogado(req, res) {
 
     const { nombre, apellido, detalle, estudios, experiencia } = req.body;
 
-    console.log(nombre,'-----------------------------------------------------------------------');
-
     try {
         const user = await Usuario.findByPk(eMail);
         if(!user) return res.sendStatus(404);

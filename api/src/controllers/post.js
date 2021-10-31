@@ -28,13 +28,11 @@ async function subirImagen(req, res) {
 
         const user = await Usuario.findByPk(email)
         if (!user) return res.sendStatus(404);
-        // const abogado = await Abogado.update( { imagen: result.secure_url},{ where:  { id: user.abogadoId } });
         const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
         if (!abogado) return res.sendStatus(404);
 
         if (abogado.imagen) {
-            await cloudinary.uploader.destroy(abogado.imagen.substring(abogado.imagen.lastIndexOf('/') + 1).slice(0,-4), (err, result) => {
-                // if(err) return res.json({err});
+            await cloudinary.uploader.destroy(abogado.imagen.substring(abogado.imagen.lastIndexOf('/') + 1).slice(0, -4), (err, result) => {
                 console.log(err);
             });
         }
@@ -52,13 +50,19 @@ async function subirImagen(req, res) {
     }
 };
 
-function eliminarImagen(req, res) {
-    let imagenId = req.body.public_id;
+async function eliminarImagen(req, res) {
+    let { public_id, email } = req.body;
 
-    cloudinary.uploader.destroy(imagenId, (err, result) => {
+    await cloudinary.uploader.destroy(public_id, (err, result) => {
         if (err) return res.json({ err });
-        res.sendStatus(200);
     });
+
+    const user = await Usuario.findByPk(email)
+    if (!user) return res.sendStatus(404);
+    const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
+    if (!abogado) return res.sendStatus(404);
+    abogado.imagen = '';
+    await abogado.save()
 };
 
 

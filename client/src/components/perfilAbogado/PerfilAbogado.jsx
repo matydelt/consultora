@@ -41,10 +41,10 @@ export default function PerfilAbogado({ location }) {
                 <div className="col bg-light">
                     <button className="btn border-end border-bottom shadow mr-5 text-left text-muted" onClick={() => history.goBack()}> &lt; Volver</button>
 
-                    <div className="my-5">
+                    <div className="my-4">
                         <img className="rounded mx-auto d-block shadow imagen-perfil-abogado" src={abogado?.imagen || 'https://www.caracteristicas.co/wp-content/uploads/2017/03/Derecho-e1564875517201.jpg'} alt="" />
-                        <h1 className="text-secondary text-center mt-3">{abogado.firstName} {abogado.lastName}</h1>
-                        <h5 className="color-titulo text-center mt-3">Abogado</h5>
+                        <h1 className="text-secondary text-center mt-4">{abogado.firstName} {abogado.lastName}</h1>
+                        <h5 className="color-titulo text-center p-4">Abogado</h5>
                     </div>
 
                 </div>
@@ -57,9 +57,9 @@ export default function PerfilAbogado({ location }) {
                     <div className="mx-5 col">
                         <p className="fs-4 text-muted">Formación y experiencia</p>
                         <ul>
-                            <li className="text-muted">{abogado.estudios}</li>
-                            <li className="text-muted">{abogado.detalle}</li>
-                            <li className="text-muted">{abogado.experiencia}</li>
+                            <li className="text-muted my-1">{abogado.estudios}</li>
+                            <li className="text-muted my-1">{abogado.detalle}</li>
+                            <li className="text-muted my-1">{abogado.experiencia}</li>
                         </ul>
                     </div>
 
