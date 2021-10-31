@@ -87,7 +87,8 @@ async function getMaterias(req, res) {
         res.sendStatus(404);
     }
 }
-async function usuario(req, res) {
+
+async function getUsuario(req, res) {
     try {
         console.log(req.body, req.params, req.query)
         const { eMail } = req.body;
@@ -125,8 +126,6 @@ async function usuario(req, res) {
         res.sendStatus(404);
     }
 }
-
-
 
 async function getAbogados(req, res) {
     try {
@@ -274,7 +273,7 @@ module.exports = {
     getCasos,
     getProvincias,
     getMaterias,
-    usuario,
+    getUsuario,
     getConsultas,
     getAbogados,
     getAbogado,

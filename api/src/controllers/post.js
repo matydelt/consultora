@@ -32,7 +32,7 @@ async function setUsuarios(req, res) {
 
             person.setUsuario(user)
             client.setUsuario(user)
-            // client.setPersona(person)
+            client.setPersona(person)
             res.sendStatus(200)
         }
         else
@@ -42,24 +42,6 @@ async function setUsuarios(req, res) {
         res.sendStatus(500)
     }
 }
-// async function setPersona(req, res, next) {
-//     const { firstName, dni, lastName, celular } = req.body
-//     let persona = { firstName: firstName, dni: dni, lastName: lastName, celular: celular }
-//     console.log("Persona");
-//     console.log("lo mande yo firstName",firstName);
-//     console.log("lo mande yo dni",dni);
-//     console.log("lo mande yo lastName",lastName);
-//     console.log("lo mande yo celular",celular);
-
-//     try {
-//         Persona.create( persona )
-//         res.sendStatus(200)
-//     }
-//     catch{
-//         console.log(error)
-//         res.sendStatus(500)
-//     }
-// }
 async function setAbogado(req, res) {
     try {
         const { eMail, flag } = req.body
@@ -90,7 +72,6 @@ async function setAbogado(req, res) {
     return res.sendStatus(404);
 }
 
-
 async function setCasos(req, res) {
     try {
         const { juez, numeroExpediente, juzgado, detalle, estado, eMail } = req.body;
@@ -105,6 +86,7 @@ async function setCasos(req, res) {
         res.sendStatus(404)
     }
 }
+
 async function setConsulta(req, res, next) {
     const { nombre, apellido, telefono, email, mensaje } = req.body;
     if (nombre && apellido && telefono && email && mensaje) {
