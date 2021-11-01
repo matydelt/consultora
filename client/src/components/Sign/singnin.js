@@ -28,7 +28,7 @@ export const Signin = () =>{
 
     const auth = getAuth();
     const google = new GoogleAuthProvider();
-    const loginGoogle = ()=>{
+    const loginGoogle = () => {
         signInWithPopup(auth, google)
         .then( e =>{
             setDisplayName(e.user.displayName)
@@ -78,7 +78,7 @@ export const Signin = () =>{
             sessionOUT()
           }).catch((error) => {
             // An error happened.
-          });
+        });
     }
 console.log("!!usuario.firstName",!!usuario.firstName);
     const Login = async () =>{
@@ -102,7 +102,7 @@ console.log("!!usuario.firstName",!!usuario.firstName);
             setPassword('');
         });
     }
-    return(
+    return (
         <div>
             {
                 !!usuario.firstName ? 
@@ -205,7 +205,7 @@ console.log("!!usuario.firstName",!!usuario.firstName);
                     )
                 )
             }
-        
+
         </div>
     )
 }

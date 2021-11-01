@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const get = require("../controllers/gets")
 const post = require("../controllers/post")
+const put = require("../controllers/put")
 
 const { Abogado, Cliente, Usuario } = require("../db")
 
@@ -16,7 +17,7 @@ router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogado
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
 
-router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
+// router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
 
 router.post("/cliente", async function (req, res) {    // set client to abogado
     const { cliente, abogado } = req.body
@@ -39,7 +40,7 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
 router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
-router.get("/Personas", (req, res) => get.getPersonas(req, res)); // get  user(for login)
+router.put("/usuario", (req, res) => put.usuario(req, res)); // get  user(for login)
 
 router.post("/persona", (req, res) => post.setPersona(req, res)); //crea persona
 
@@ -48,6 +49,11 @@ router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogados
 
 router.get("/abogado", (req, res) => get.getAbogado(req, res)); // get  abogado
+
+router.post("/adm", (req, res) => post.setAdmin(req, res))
+
+
+router.put("/abogado/:eMail", (req, res) => put.modificarAbogado(req, res)); // modificar abogado, actualizar foto etc
 
 
 

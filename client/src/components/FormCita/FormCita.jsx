@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { postConsulta } from "../../redux/actions/index";
+import "./FormCita.css";
 
 export function validate(input) {
   let errors = {};
@@ -12,20 +13,27 @@ export function validate(input) {
 
   if (!input.apellido) {
     errors.apellido = "apellido es requerido";
-  } else if (!/\S+\S+/.test(input.nombre)) {
+  } else if (!/\S+\S+/.test(input.apellido)) {
     errors.apellido = "apellido is invalid";
   }
 
-  if (!input.telefono) {
-    errors.telefono = "Teléfono es requerido";
-  } else if (
-    /^(?:(?:00)?549?)?0?(?:11|[2368]\d)(?:(?=\d{0,2}15)\d{2})??\d{8}$/.test(
-      input.telefono
-    )
-  ) {
-    errors.telefono = "el Teléfono ingresado contiene errores";
+  // if (!input.telefono) {
+  //   errors.telefono = "Teléfono es requerido";
+  // } else if (/\n# $&:\n\t/.test(input.telefono)) {
+  //   errors.telefono = "el Teléfono ingresado contiene errores";
+  // }
+
+  if (!input.email) {
+    errors.email = "email is required";
+  } else if (!/\S+@\S+\.\S+/.test(input.email)) {
+    errors.email = "email is invalid";
   }
 
+  if (!input.mensaje) {
+    errors.mensaje = "Se debe escribir la consulta que desea realizar";
+  } else if (input.mensaje === "") {
+    errors.mensaje = "El texto se encuentra vacio";
+  }
   return errors;
 }
 
@@ -50,8 +58,12 @@ export default function FormCita() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!error) {
+    if (Object.keys(error).length === 0) {
       dispatch(postConsulta(input));
+      alert("consulta enviada con exito");
+      setInput(" ");
+    } else {
+      alert("Hay campos que no se ingresaron correctamente por favor revise");
     }
   };
 
@@ -64,8 +76,11 @@ export default function FormCita() {
         <label>Apellido</label>
         <input name="apellido" type="text" required onChange={handleChange} />
 
+        <label>DNI</label>
+        <input name="dni" type="number" required onChange={handleChange} />
+
         <label>Teléfono</label>
-        <input name="tel" type="tel" required onChange={handleChange} />
+        <input name="telefono" type="tel" required onChange={handleChange} />
 
         <label>Email</label>
         <input type="email" name="email" required onChange={handleChange} />
@@ -78,6 +93,7 @@ export default function FormCita() {
           required
           onChange={handleChange}
         ></textarea>
+        <button>Enviar</button>
       </form>
     </div>
   );

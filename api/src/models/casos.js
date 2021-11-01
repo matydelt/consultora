@@ -6,21 +6,23 @@ module.exports = (sequelize) => {
     const Casos = sequelize.define('casos', {
         juez: {
             type: DataTypes.STRING,
+        },
+        numeroLiquidacion: {
+            type: DataTypes.INTEGER,
             allowNull: false,
+            primaryKey: true
         },
         numeroExpediente: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true
         },
         juzgado: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true
+
+
         },
         juzgado: {
             type: DataTypes.INTEGER,
-            allowNull: false,
+
 
         },
         detalle: {
@@ -30,6 +32,22 @@ module.exports = (sequelize) => {
         estado: {
             type: DataTypes.ENUM(["inicio", "prueba", "sentencia", "cerrado"]),
             allowNull: false
+        },
+        medidaCautelar: {
+            type: DataTypes.TEXT
+        },
+        trabaAfectiva: {
+            type: DataTypes.TEXT
+        },
+        vtoMedidaCautelar: {
+            type: DataTypes.DATE
+        },
+        vtoTrabaAfectiva: {
+            type: DataTypes.DATE
+        }
+        ,
+        jurisdiccion: {
+            type: DataTypes.STRING
         },
     });
 

@@ -5,6 +5,14 @@
   list-style: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+#root {
+  min-height: 2000px;
+}
+
 .textDecoration {
   text-decoration: none;
   list-style: none;

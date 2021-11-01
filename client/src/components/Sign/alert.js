@@ -1,56 +1,55 @@
-import React from "react";
 import swal from 'sweetalert';
 
-export const createOK = ()=>{
+export const createOK = () => {
     swal({
         title: "Usuario Creado Exitosamente",
-        text:'',
+        text: '',
         icon: "success",
         button: "Aceptar"
     })
-    
+
 }
 
-export const correoNoOK = ()=>{
+export const correoNoOK = () => {
     swal({
         title: "Correo ya se encuentra registrado",
-        text:'',
+        text: '',
         icon: "warning",
         button: "Aceptar"
     })
 }
 
-export const dniNoOK = ()=>{
+export const dniNoOK = () => {
     swal({
         title: "DNI ya se encuentra registrado",
-        text:'',
+        text: '',
         icon: "warning",
         button: "Aceptar"
     })
 }
 
-export const sessionIN = ()=>{
+export const sessionIN = () => {
     swal({
         title: "WELCOME",
-        text:'',
+        text: '',
         icon: "success",
         button: "Aceptar"
     })
 }
 
-export const sessionOUT = ()=>{
+export const sessionOUT = () => {
     swal({
         title: "GOODBYE",
-        text:'',
+        text: '',
         icon: "warning",
         button: "Aceptar"
     })
 }
 
-export const sessionERR = ()=>{
+export const sessionERR = () => {
     swal({
         title: "Usuario o Contraseña incorrecta",
-        text:'',
+        text: '',
         icon: "error",
         button: "Aceptar"
     })
