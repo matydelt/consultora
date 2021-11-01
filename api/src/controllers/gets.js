@@ -105,45 +105,45 @@ async function getMaterias(req, res) {
     }
 }
 
-async function getUsuario(req, res) {
-    try {
-        console.log(req.body, req.params, req.query)
-        const { eMail } = req.body;
-        const user = await Usuario.findOne({ where: { eMail } });
-        console.log(user)
-        if (user) {
-            let abogado = await Abogado.findByPk(user.abogadoId);
-            const { firstName, lastName, dni, celular } = await Persona.findByPk(
-                user.personaDni
-            );
-            if (abogado)
-                res.json({
-                    ...{
-                        ...user,
-                        firstName,
-                        lastName,
-                        dni,
-                        celular,
-                    },
-                    abogado,
-                });
-            else{
-                res.json({
-                    ...{
-                        ...user,
-                        firstName,
-                        lastName,
-                        dni,
-                        celular,
-                    },
-                });
-            }
-        } else res.sendStatus(404);
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(404);
-    }
-}
+// async function getUsuario(req, res) {
+//     try {
+//         console.log(req.body, req.params, req.query)
+//         const { eMail } = req.body;
+//         const user = await Usuario.findOne({ where: { eMail } });
+//         console.log(user)
+//         if (user) {
+//             let abogado = await Abogado.findByPk(user.abogadoId);
+//             const { firstName, lastName, dni, celular } = await Persona.findByPk(
+//                 user.personaDni
+//             );
+//             if (abogado)
+//                 res.json({
+//                     ...{
+//                         ...user,
+//                         firstName,
+//                         lastName,
+//                         dni,
+//                         celular,
+//                     },
+//                     abogado,
+//                 });
+//             else{
+//                 res.json({
+//                     ...{
+//                         ...user,
+//                         firstName,
+//                         lastName,
+//                         dni,
+//                         celular,
+//                     },
+//                 });
+//             }
+//         } else res.sendStatus(404);
+//     } catch (error) {
+//         console.error(error);
+//         res.sendStatus(404);
+//     }
+// }
 
 async function getAbogados(req, res) {
     try {
@@ -287,7 +287,7 @@ async function getConsultas(req, res, next) {
 
 module.exports = {
     getUsuarios,
-    getUsuario,
+    // getUsuario,
     getPersonas,
     getCasos,
     getProvincias,

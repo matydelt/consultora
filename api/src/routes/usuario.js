@@ -9,13 +9,13 @@ const { Abogado, Cliente, Usuario } = require("../db")
 const router = Router();
 router.get("/usuarios", (req, res) => get.getUsuarios(req, res)) // get all users 
 
-router.put("/usuario", (req, res) => get.getUsuario(req, res)) // get user(for login)
+/* router.put("/usuario", (req, res) => get.getUsuario(req, res)) */ // get user(for login)
 
 router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)) // get abogado
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
 
-router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
+/* router.get("/abogados", (req, res) => get.getAbogados(req, res)) */ // get  abogados
 
 // router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
 

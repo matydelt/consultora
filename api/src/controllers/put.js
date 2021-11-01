@@ -3,10 +3,11 @@ const { Casos, Usuario, Provincias, Materias, Abogado, Persona } = require("../d
 
 async function usuario(req, res) {
     try {
-        console.log(req.body, req.params, req.query)
+        // console.log(req.body, req.params, req.query)
         const { eMail } = req.body;
         const user = await Usuario.findOne({ where: { eMail } });
         if (user) {
+            console.log(user)
             const abogado = await Abogado.findByPk(user.abogadoId);
             const { firstName, lastName, dni, celular } = await Persona.findByPk(
                 user.personaDni
@@ -60,11 +61,11 @@ async function asignaConsulta(req, res, next) {
 }
 
 // asigna materia y matricula al abogado
-async function actualizarAbogado(req, res, next) { }
 
 module.exports = {
     usuario,
     asignaConsulta,
+    modificarAbogado
 };
 async function modificarAbogado(req, res) {
 
@@ -101,8 +102,3 @@ async function modificarAbogado(req, res) {
 
 
 };
-
-
-module.exports = {
-    modificarAbogado,
-}
