@@ -17,13 +17,6 @@ module.exports = (sequelize) => {
         },
         juzgado: {
             type: DataTypes.INTEGER,
-
-
-        },
-        juzgado: {
-            type: DataTypes.INTEGER,
-
-
         },
         detalle: {
             type: DataTypes.TEXT,

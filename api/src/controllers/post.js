@@ -133,14 +133,34 @@ async function setAbogado(req, res) {
 
 async function setCasos(req, res) {
   try {
-    const { juez, numeroExpediente, juzgado, detalle, estado, eMail } =
-      req.body;
+    const { 
+      juez, 
+      numeroLiquidacion,
+      numeroExpediente, 
+      juzgado, 
+      detalle, 
+      estado, 
+      eMail,
+      medidaCautelar,
+      trabaAfectiva,
+      vtoMedidaCautelar,
+      vtoTrabaAfectiva,
+      jurisdiccion
+     } = req.body;
+
+
     const caso = await Casos.create({
       juez,
+      numeroLiquidacion,
       numeroExpediente,
       juzgado,
       detalle,
       estado,
+      medidaCautelar,
+      trabaAfectiva,
+      vtoMedidaCautelar,
+      vtoTrabaAfectiva,
+      jurisdiccion
     });
     const { clienteId } = await Usuario.findByPk(eMail);
     const cliente = await Cliente.findByPk(clienteId);

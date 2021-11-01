@@ -11,8 +11,8 @@ form {
   width: 60%;
   margin-bottom: 10px;
 }
-button {
-  background-color: #4caf50; /* Green */
+/* button {
+  background-color: #4caf50; Green
   border: none;
   color: white;
   padding: 16px 32px;
@@ -28,4 +28,4 @@ button {
 button:hover {
   background-color: chartreuse;
   color: white;
-}
+} */

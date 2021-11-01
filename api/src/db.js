@@ -95,7 +95,7 @@ Abogado.hasMany(Consulta);
 
 Abogado.hasMany(Provincias);
 
-Abogado.hasMany(Provincias)
+// Abogado.hasMany(Provincias)
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" });
 

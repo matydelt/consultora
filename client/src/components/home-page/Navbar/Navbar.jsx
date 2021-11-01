@@ -7,7 +7,7 @@ const Navbar = () => {
         <nav id="menu" className="col-12 col-xl-12">
             <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
                 <li className="col-xl-1">
-                    <ButtonsNav link="#" text='Home' />
+                    <ButtonsNav link="/" text='Home' />
                 </li>
 
                 <li className="col-xl-1">
