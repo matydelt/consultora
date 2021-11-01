@@ -51,7 +51,14 @@ export const Signin = () =>{
             usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
         }
         else{
-            dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ))
+            dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ) )
+            .then(()=>{
+
+                dispatch( getUsuario( { eMail: eMail } ) )
+            })
+                .catch((error)=>{
+                    
+                })
             createOK()
             setFirstName('');
             setLastName('');
@@ -59,7 +66,6 @@ export const Signin = () =>{
             setDni('');
             setEmail('');
             setPassword('');
-            
         }
     }
 
@@ -74,7 +80,7 @@ export const Signin = () =>{
             // An error happened.
           });
     }
-
+console.log("!!usuario.firstName",!!usuario.firstName);
     const Login = async () =>{
         await signInWithEmailAndPassword(auth, eMail, md5(password))
         .then((userCredential) => {
@@ -95,7 +101,6 @@ export const Signin = () =>{
             setEmail('');
             setPassword('');
         });
-        
     }
     return(
         <div>
