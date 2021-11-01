@@ -8,7 +8,7 @@ export default function VistaConsultasAbogado() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getConsultas());
-  }, []);
+  }, [dispatch]);
   const consultas = useSelector((state) => state.consultas);
   console.log(consultas);
   return (

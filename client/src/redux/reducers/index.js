@@ -30,7 +30,7 @@ const rootReducer = (state = initialState, action) => {
     case "GET_USUARIO":
       return {
         ...state,
-        usuarios: action.payload,
+        usuario: action.payload,
       };
     case "GET_USUARIOS":
       return {
@@ -42,22 +42,22 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         casos: action.payload,
       };
-    case "POST_USUARIO":   //for login
-      let user = action.payload
+    case "POST_USUARIO": //for login
+      let user = action.payload;
       if (user.adminId) {
         return {
           ...state,
-          admin: action.payload
+          admin: action.payload,
         };
       } else if (user.abogadoId) {
         return {
           ...state,
-          abogado: action.payload
+          abogado: action.payload,
         };
       } else {
         return {
           ...state,
-          usuario: action.payload
+          usuario: action.payload,
         };
       }
     case "POST_ABOGADO":
@@ -76,7 +76,7 @@ const rootReducer = (state = initialState, action) => {
     case "SET_ABOGADO":
       return {
         ...state,
-      }
+      };
     case "GET_CONSULTAS":
       return {
         ...state,

@@ -86,10 +86,10 @@ export function postUsuario(usuario) {
 export function getUsuario({ usuario }) {
   return async function (dispatch) {
     try {
-      let user = await axios.get("http://localhost:3001/usuarios", usuario);
+      let user = await axios.get("http://localhost:3001/usuario", usuario);
       return dispatch({
         type: "GET_USUARIO",
-        payload: user
+        payload: user,
       });
     } catch (error) {
       console.log(error);
@@ -141,12 +141,12 @@ export function setAbogado(user) {
     try {
       await axios.post("http://localhost:3001/usuario/abogado", user);
       return dispatch({
-        type: "SET_ABOGADO"
+        type: "SET_ABOGADO",
       });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 export function getConsultas() {
   return async function (dispatch) {
@@ -174,7 +174,7 @@ export function getPersonas() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 export function deleteConsulta(id) {
   return async function (dispatch) {
@@ -195,5 +195,5 @@ export function filtrarMaterias(payload) {
 }
 
 export function filtrarProvincias(payload) {
-  return { type: "FILTRAR_PROVINCIAS", payload }
+  return { type: "FILTRAR_PROVINCIAS", payload };
 }
