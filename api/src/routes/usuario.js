@@ -13,7 +13,7 @@ router.get("/usuarios", (req, res) => get.getUsuarios(req, res)) // get all user
 
 router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)) // get abogado
 
-router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
+// router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
 

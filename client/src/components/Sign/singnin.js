@@ -54,9 +54,9 @@ export const Signin = () =>{
             usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
         }
         else{
-            dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ) )
+            dispatch( postUsuario( { eMail:eMail, firstName:firstName, personaDni:dni, lastName:lastName, celular:celular, password:md5(password) } ) )
             .then(()=>{
-                dispatch( getUsuario( { eMail: eMail } ) )
+                dispatch( getUsuario( {eMail: eMail} ) )
             })
                 .catch((error)=>{
                 })

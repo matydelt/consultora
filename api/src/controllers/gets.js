@@ -108,6 +108,7 @@ async function getMaterias(req, res) {
 async function getUsuario(req, res) {
     try {
         console.log(req.body, req.params, req.query)
+        console.log('CUALQUIER COSA')
         const { eMail } = req.body;
         const user = await Usuario.findOne({ where: { eMail } });
         console.log(user)
@@ -138,10 +139,12 @@ async function getUsuario(req, res) {
                     },
                 });
             }
-        } else res.sendStatus(404);
+        } else {
+            console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA GET');
+            res.sendStatus(404);}
     } catch (error) {
         console.error(error);
-        res.sendStatus(404);
+        res.sendStatus(500);
     }
 }
 

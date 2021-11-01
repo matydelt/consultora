@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getPersonas, getUsuarios, postUsuario } from '../../redux/actions/index.js';
-import { correoNoOK, createOK, dniNoOK,  } from "./alert.js";
+import { correoNoOK, createNOOK, createOK, dniNoOK,  } from "./alert.js";
 import { Link } from "react-router-dom";
 import md5 from 'md5'
 
@@ -34,12 +34,13 @@ export const Signup = () =>{
         else{
             console.log(usuarios.some(e => e.eMail == eMail));
             console.log(personas.some(e => e.dni == dni));
-            dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ))
+            dispatch( postUsuario( { eMail:eMail, firstName:firstName, personaDni:dni, lastName:lastName, celular:celular, password:md5(password) } ))
             await createUserWithEmailAndPassword(auth, eMail, md5(password) )
             .then(() => {
                 createOK()
             })
             .catch((error) => {
+                createNOOK()
                 console.log(error);
             })
             setFirstName('');
