@@ -44,7 +44,8 @@ const Navbar = () => {
                             <a class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 {usuario.firstName}
                             </a>
-                            { (usuario.dataValues.abogado.estudios || usuario.abogado.estudios) && <ul class="dropdown-menu bg-light shadow border-0" aria-labelledby="dropdownMenuButton1">
+                            {/* { (usuario.dataValues.abogado.estudios || usuario.abogado.estudios) && <ul class="dropdown-menu bg-light shadow border-0" aria-labelledby="dropdownMenuButton1"> */}
+                            { <ul class="dropdown-menu bg-light shadow border-0" aria-labelledby="dropdownMenuButton1">
                                 {/* <span class="dropdown-item pointer" href="#">Panel</span> */}
                                 <Link to="/user/abogado">
                                     <span class="dropdown-item pointer" >Panel</span>

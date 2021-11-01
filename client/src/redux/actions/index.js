@@ -99,7 +99,6 @@ export const getUsuario = (usuario) =>{
   return (dispatch)=>{
     axios.put("http://localhost:3001/usuario", usuario)
     .then(user =>{
-      localStorage.setItem('emailparaperfil', usuario.eMail);
       return dispatch({
         type: "GET_USUARIO",
         payload: user.data

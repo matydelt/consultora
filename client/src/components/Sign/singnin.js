@@ -89,8 +89,8 @@ export const Signin = () =>{
             const user = userCredential.user;
             dispatch( getUsuario( { eMail: eMail } ) );
             sessionIN()
-            setEmail('');
-            setPassword('');
+            // setEmail('');
+            // setPassword('');
                 // ...
         })
         .catch((error) => {

@@ -9,7 +9,8 @@ async function usuario(req, res) {
         if (user) {
             const abogado = await Abogado.findByPk(user.abogadoId);
             const persona = await Persona.findByPk(user.personaDni);
-            if (abogado)
+            if (abogado) {
+                console.log(abogado);
                 res.send({
                     ...{
                         eMail: user.eMail,
@@ -23,7 +24,7 @@ async function usuario(req, res) {
                     },
                     abogado,
                 });
-            else
+            } else
                 res.send({
                     ...{
                         eMail: user.eMail,
@@ -60,16 +61,12 @@ async function asignaConsulta(req, res, next) {
 // asigna materia y matricula al abogado
 async function actualizarAbogado(req, res, next) { }
 
-module.exports = {
-    usuario,
-    asignaConsulta,
-};
 async function modificarAbogado(req, res) {
-
+    
     const { eMail } = req.params;
-
+    
     const { nombre, apellido, detalle, estudios, experiencia } = req.body;
-
+    
     try {
         const user = await Usuario.findByPk(eMail);
         if (!user) return res.sendStatus(404);
@@ -88,21 +85,23 @@ async function modificarAbogado(req, res) {
         await abogado.save();
 
         abogado = { ...{ eMail: user.eMail, firstName: persona.firstName, lastName: persona.lastName }, dataValues:  {abogado} }
-
+        
         return res.json(abogado);
-
+        
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             msj: 'Ocurrió un error al modificar al abogado'
         });
     }
-
-
+    
+    
 
 };
 
 
 module.exports = {
+    usuario,
+    asignaConsulta,
     modificarAbogado,
-}
+};
