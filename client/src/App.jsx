@@ -11,8 +11,12 @@ import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
 import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
 import Signup from "./components/Sign/signup";
+<<<<<<< HEAD
 import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
 import AdminPage from "./components/adminPage/adminPage";
+=======
+import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado.jsx";
+>>>>>>> origin/k-b
 
 function App() {
   return (
