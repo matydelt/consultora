@@ -44,6 +44,8 @@ router.put("/usuario", (req, res) => put.usuario(req, res)); // get  user(for lo
 
 router.post("/persona", (req, res) => post.setPersona(req, res)); //crea persona
 
+router.get("/personas", (req, res) => get.getPersonas(req, res)); //busca personas
+
 router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set abogado
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogados

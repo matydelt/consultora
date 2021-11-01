@@ -33,6 +33,7 @@ export const Signin = () =>{
         .then( e =>{
             setDisplayName(e.user.displayName)
             let aux = e.user.email
+            console.log(usuarios.some(e => e.eMail == aux))
             if(usuarios.some(e => e.eMail == aux))
                 dispatch( getUsuario( { eMail:  e.user.email } ) )
             else{
@@ -78,7 +79,6 @@ export const Signin = () =>{
             // An error happened.
         });
     }
-console.log("!!usuario.firstName",!!usuario.firstName);
     const Login = async () =>{
         await signInWithEmailAndPassword(auth, eMail, md5(password))
         .then((userCredential) => {
@@ -100,6 +100,7 @@ console.log("!!usuario.firstName",!!usuario.firstName);
             setPassword('');
         });
     }
+
     return (
         <div>
             {

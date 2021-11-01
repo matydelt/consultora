@@ -1,17 +1,12 @@
 const initialState = {
   materias: [],
   usuarios: [],
-<<<<<<< HEAD
   personas: [],
   usuario: {},
-=======
->>>>>>> 052a45a4412f626f46c6b99c4a00ceb5e6cb3cb3
   provincias: [],
   abogados: [],
   abogado: {},
   error: "",
-  personas: [],
-  usuario: {},
   consultas: [],
 };
 
@@ -33,9 +28,10 @@ const rootReducer = (state = initialState, action) => {
         provincias: action.payload,
       };
     case "GET_USUARIO":
+      console.log();
       return {
         ...state,
-        usuarios: action.payload,
+        usuario: action.payload,
       };
     case "GET_USUARIOS":
         return {
