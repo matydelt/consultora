@@ -56,6 +56,8 @@ export function getUsuarios() {
   };
 }
 
+
+
 export function getCasos() {
   return async function (dispatch) {
     try {
@@ -74,6 +76,7 @@ export function postUsuario(usuario) {
   return async function (dispatch) {
     try {
       await axios.post("http://localhost:3001/usuario", usuario);
+      
       return dispatch({
         type: "POST_USUARIOS",
       });
@@ -83,18 +86,33 @@ export function postUsuario(usuario) {
   };
 }
 
-export function getUsuario({ usuario }) {
-  return async function (dispatch) {
-    try {
-      let user = await axios.get("http://localhost:3001/usuarios", usuario);
+export const setUsuario = (usuario) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "SET_USUARIO",
+      payload: usuario
+    })
+  };
+};
+
+export const getUsuario = (usuario) =>{
+  return (dispatch)=>{
+    axios.put("http://localhost:3001/usuario", usuario)
+    .then(user =>{
+      localStorage.setItem('emailparaperfil', usuario.eMail);
       return dispatch({
         type: "GET_USUARIO",
-        payload: user
-      });
-    } catch (error) {
+        payload: user.data
+      })
+    })
+    .catch((error)=>{
       console.log(error);
-    }
-  };
+      return dispatch({
+        type: "GET_USUARIO",
+        payload: {}
+      })
+    })
+  }
 }
 
 export function postAbogado(abogado) {

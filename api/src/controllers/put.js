@@ -77,7 +77,7 @@ async function modificarAbogado(req, res) {
         if (!user) return res.sendStatus(404);
         const persona = await Persona.findByPk(user.personaDni);
         if (!persona) return res.sendStatus(404);
-        const abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
+        let abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
         if (!abogado) return res.sendStatus(404);
 
         persona.firstName = nombre;
@@ -88,6 +88,8 @@ async function modificarAbogado(req, res) {
 
         await persona.save();
         await abogado.save();
+
+        abogado = { ...{ eMail: user.eMail, firstName: persona.firstName, lastName: persona.lastName }, dataValues:  {abogado} }
 
         return res.json(abogado);
 

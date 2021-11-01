@@ -19,6 +19,17 @@ async function getUsuarios(req, res) {
         res.sendStatus(404);
     }
 }
+
+async function getPersonas(req, res) {
+    try {
+        const user = await Persona.findAll();
+        res.json(user);
+    } catch (error) {
+        console.error(error);
+        res.sendStatus(404);
+    }
+}
+
 async function getProvincias(req, res) {
     try {
         let vec = [
@@ -101,12 +112,12 @@ async function getUsuario(req, res) {
         const user = await Usuario.findOne({ where: { eMail } });
         console.log(user)
         if (user) {
-            const abogado = await Abogado.findByPk(user.abogadoId);
+            let abogado = await Abogado.findByPk(user.abogadoId);
             const { firstName, lastName, dni, celular } = await Persona.findByPk(
                 user.personaDni
             );
             if (abogado)
-                res.send({
+                res.json({
                     ...{
                         ...user,
                         firstName,
@@ -116,8 +127,8 @@ async function getUsuario(req, res) {
                     },
                     abogado,
                 });
-            else
-                res.send({
+            else{
+                res.json({
                     ...{
                         ...user,
                         firstName,
@@ -126,6 +137,7 @@ async function getUsuario(req, res) {
                         celular,
                     },
                 });
+            }
         } else res.sendStatus(404);
     } catch (error) {
         console.error(error);
@@ -223,8 +235,6 @@ async function getCasos(req, res) {
             });
         }
 
-        // console.log("Cases",Cases);
-
         return res.send({
             result: Cases,
             count: Cases.length,
@@ -233,8 +243,8 @@ async function getCasos(req, res) {
         console.error(error);
         res.sendStatus(404);
     }
-    // console.log("Cases",Cases);
 }
+
 async function getConsultas(req, res, next) {
     const { nombre, apellido } = req.body;
 
@@ -288,10 +298,11 @@ async function getConsultas(req, res, next) {
 
 module.exports = {
     getUsuarios,
+    getUsuario,
+    getPersonas,
     getCasos,
     getProvincias,
     getMaterias,
-    getUsuario,
     getConsultas,
     getAbogados,
     getAbogado,
