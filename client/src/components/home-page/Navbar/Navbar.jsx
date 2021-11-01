@@ -25,7 +25,7 @@ const Navbar = () => {
                 </li>
 
                 <li className="col-xl-1">
-                    <ButtonsNav link="#" text='Registrate Ahora' />
+                    <ButtonsNav link="/registro" text='Registrate Ahora' />
                 </li>
             </ul>
         </nav>

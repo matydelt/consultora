@@ -11,6 +11,7 @@ export const Signin = () => {
 
     const { usuarios, personas, usuario } = useSelector(state => state)
 
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -47,8 +48,8 @@ export const Signin = () => {
     }
 
     const GoTo = async () => {
-        if (usuarios.some(e => e.eMail == eMail) || personas.some(e => e.dni == dni)) {
-            usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
+        if (usuarios.some(e => e.eMail === eMail) || personas.some(e => e.dni === dni)) {
+            usuarios.some(e => e.eMail === eMail) ? correoNoOK() : dniNoOK()
         }
         else {
             dispatch(postUsuario({ eMail: eMail, firstName: firstName, dni: dni, lastName: lastName, celular: celular, password: md5(password) }))
