@@ -12,5 +12,6 @@ module.exports = {
   utiles: require("./utiles"),
   usuario: require("./usuario"),
   consultas: require("./consultas"),
+  cloudinary: require("./cloudinary"),
   index: router,
 };

@@ -60,6 +60,9 @@ export default App;
         <HomePage />
       </Route>
       <Route exact path="/ingreso" component={Signin} />
-      <Route exact path="/signup" component={Signup} /> */}
+      <Route exact path="/signup" component={Signup} /> 
+      <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>
+        <Route exact path="/modificar-perfil" component={ModificarAbogado}></Route>
+      */}
 
 

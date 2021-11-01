@@ -1,4 +1,6 @@
 const { uuid } = require("uuidv4");
+const cloudinary = require('../config/cloudinary');
+
 const {
   Casos,
   Usuario,
@@ -10,6 +12,65 @@ const {
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
+
+
+// CLOUDINARY
+async function subirImagen(req, res) {
+
+  const { email } = req.body;
+
+  console.log(req.files);
+
+  try {
+    let result = await cloudinary.uploader.upload(req.files.image.tempFilePath, {
+      public_id: `${Date.now()}`,
+      resource_type: 'auto' // jpeg, png
+    });
+
+    const user = await Usuario.findByPk(email)
+    if (!user) return res.sendStatus(404);
+    const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
+    if (!abogado) return res.sendStatus(404);
+
+    if (abogado.imagen) {
+      await cloudinary.uploader.destroy(abogado.imagen.substring(abogado.imagen.lastIndexOf('/') + 1).slice(0, -4), (err, result) => {
+        console.log(err);
+      });
+    }
+
+    abogado.imagen = result.secure_url;
+    await abogado.save()
+
+    return res.json({
+      public_id: result.public_id,
+      url: result.secure_url
+    })
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+async function eliminarImagen(req, res) {
+  const { public_id, email } = req.body;
+
+  try {
+    await cloudinary.uploader.destroy(public_id, (err, result) => {
+      if (err) return res.json({ err });
+    });
+
+    const user = await Usuario.findByPk(email)
+    if (!user) return res.sendStatus(404);
+    const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
+    if (!abogado) return res.sendStatus(404);
+    abogado.imagen = '';
+    await abogado.save()
+  } catch (error) {
+    return res.sendStatus(500);
+  }
+
+};
+
 
 async function setUsuarios(req, res) {
   const { eMail, firstName, dni, lastName, celular, password } = req.body;

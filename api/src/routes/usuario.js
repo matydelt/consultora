@@ -17,7 +17,7 @@ router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogado
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
 
-router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
+// router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
 
 router.post("/cliente", async function (req, res) {    // set client to abogado
     const { cliente, abogado } = req.body
@@ -51,6 +51,9 @@ router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogad
 router.get("/abogado", (req, res) => get.getAbogado(req, res)); // get  abogado
 
 router.post("/adm", (req, res) => post.setAdmin(req, res))
+
+
+router.put("/abogado/:eMail", (req, res) => put.modificarAbogado(req, res)); // modificar abogado, actualizar foto etc
 
 
 

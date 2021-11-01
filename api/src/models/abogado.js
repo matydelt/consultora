@@ -3,15 +3,20 @@ const { DataTypes } = require("sequelize");
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  const Abogado = sequelize.define("abogado", {
+  const Abogado = sequelize.define('abogado', {
     detalle: {
-      type: DataTypes.TEXT,
+      type: DataTypes.TEXT
     },
-    experiencia: {
-      type: DataTypes.STRING(),
+    imagen: {
+      type: DataTypes.TEXT
     },
     estudios: {
-      type: DataTypes.STRING(),
+      type: DataTypes.TEXT
     },
+    experiencia: {
+      type: DataTypes.TEXT
+    }
+
   });
+
 };
