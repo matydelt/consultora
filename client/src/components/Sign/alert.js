@@ -10,6 +10,15 @@ export const createOK = () => {
 
 }
 
+export const createNOOK = () => {
+    swal({
+        title: "Ups.. No se pudo crear el usuario",
+        text: '',
+        icon: "error",
+        button: "Aceptar"
+    })
+}
+
 export const correoNoOK = () => {
     swal({
         title: "Correo ya se encuentra registrado",

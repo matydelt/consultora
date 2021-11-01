@@ -61,12 +61,15 @@ async function asignaConsulta(req, res, next) {
 }
 
 // asigna materia y matricula al abogado
+<<<<<<< HEAD
 
 module.exports = {
     usuario,
     asignaConsulta,
     modificarAbogado
 };
+=======
+>>>>>>> 9d91b044917824e0706131a22c8b9661c6bb4c3b
 async function modificarAbogado(req, res) {
 
     const { eMail } = req.params;
@@ -102,3 +105,12 @@ async function modificarAbogado(req, res) {
 
 
 };
+<<<<<<< HEAD
+=======
+
+module.exports = {
+    usuario,
+    asignaConsulta,
+    modificarAbogado,
+}
+>>>>>>> 9d91b044917824e0706131a22c8b9661c6bb4c3b

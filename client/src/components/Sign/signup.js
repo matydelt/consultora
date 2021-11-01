@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getPersonas, getUsuarios, postUsuario } from '../../redux/actions/index.js';
-import { correoNoOK, createOK, dniNoOK,  } from "./alert.js";
+import { correoNoOK, createNOOK, createOK, dniNoOK,  } from "./alert.js";
+import { Link } from "react-router-dom";
 import md5 from 'md5'
 
 
@@ -33,12 +34,13 @@ export const Signup = () =>{
         else{
             console.log(usuarios.some(e => e.eMail == eMail));
             console.log(personas.some(e => e.dni == dni));
-            dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ))
+            dispatch( postUsuario( { eMail:eMail, firstName:firstName, personaDni:dni, lastName:lastName, celular:celular, password:md5(password) } ))
             await createUserWithEmailAndPassword(auth, eMail, md5(password) )
             .then(() => {
                 createOK()
             })
             .catch((error) => {
+                createNOOK()
                 console.log(error);
             })
             setFirstName('');
@@ -62,7 +64,7 @@ export const Signup = () =>{
                                     <input type="type" value={firstName} name="firstName" autoComplete="off" placeholder=" First Name" className="form-control" autoFocus required onChange={ (e)=>{setFirstName(e.target.value)}}/>
                                 </div>
                                 <div className="form-group">
-                                    <input type="type" value={lastName} name="lastName" autoComplete="off" placeholder=" Last Name" className="form-control" autoFocus required onChange={ (e)=>{setLastName(e.target.value)}}/>
+                                    <input type="type" value={lastName} name="lastName" autoComplete="off" placeholder=" Last Name" className="form-control" required onChange={ (e)=>{setLastName(e.target.value)}}/>
                                 </div>
                                 <div className="form-group">
                                     <input type="text" value={dni} name="DNI" autoComplete="off" placeholder="DNI : 1234567" className="form-control" required onChange={ (e)=>{setDni(e.target.value)}}/>
@@ -82,6 +84,16 @@ export const Signup = () =>{
                                     Register
                                     
                                     </button>
+                                </div>
+                                <div className="form-group">
+                                    <h6>-- -- -- -- -- -- -- -- -- -- -- -- </h6>
+                                </div>
+                                <div className="form-group">
+                                    <Link to="/ingreso">
+                                        <label>
+                                            Go to Login → → →
+                                        </label>
+                                    </Link>
                                 </div>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvide
 import Logo  from '../home-page/assets/img/buffet-buffet-law.png'
 import { getUsuario, postUsuario, getPersonas, getUsuarios } from "../../redux/actions";
 import { sessionERR, sessionIN, sessionOUT, createOK, correoNoOK, dniNoOK } from "./alert";
+import { Link } from "react-router-dom";
 import md5 from 'md5'
 
 
@@ -52,9 +53,9 @@ export const Signin = () =>{
             usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
         }
         else{
-            dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ) )
+            dispatch( postUsuario( { eMail:eMail, firstName:firstName, personaDni:dni, lastName:lastName, celular:celular, password:md5(password) } ) )
             .then(()=>{
-                dispatch( getUsuario( { eMail: eMail } ) )
+                dispatch( getUsuario( {eMail: eMail} ) )
             })
                 .catch((error)=>{
                 })
@@ -196,6 +197,16 @@ export const Signin = () =>{
                                             <button className="btn btn-primary btn-block" onClick={loginGoogle}>
                                                 Google
                                             </button>
+                                        </div>
+                                        <div className="form-group">
+                                            <h6>-- -- -- -- -- -- -- -- -- -- -- -- </h6>
+                                        </div>
+                                        <div className="form-group">
+                                            <Link to="/signup">
+                                                <label>
+                                                ← ← ← Go to Register 
+                                                </label>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
