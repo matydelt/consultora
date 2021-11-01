@@ -88,12 +88,12 @@ export const Signin = () => {
                 // ...
             })
             .catch((error) => {
-                console.log("error");
+                console.log('error');
                 sessionERR();
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                setEmail('');
-                setPassword('');
+                // setEmail('');
+                // setPassword('');
             });
 
     }
@@ -171,7 +171,7 @@ export const Signin = () => {
                                         <div className="col-md-4 mx-auto">
                                             <div className="card text-center">
                                                 <div className="card-header">
-                                                    <h3>Iniciar SesiÃ³n</h3>
+                                                    <h3>Iniciar Sesión</h3>
                                                 </div>
                                                 <img src={Logo} alt="Logo Consultora" className="card-img-top mx-auto m-2 rounded-circle w-50" />
                                                 <div className="card-body">

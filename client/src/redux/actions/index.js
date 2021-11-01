@@ -73,7 +73,7 @@ export function getCasos() {
 export function postUsuario(usuario) {
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3001/usuarios", usuario);
+      await axios.post("http://localhost:3001/usuario", usuario);
       return dispatch({
         type: "POST_USUARIOS",
       });
@@ -166,7 +166,7 @@ export function getConsultas() {
 export function getPersonas() {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3001/personas%22");
+      const json = await axios.get("http://localhost:3001/personas");
       return dispatch({
         type: "GET_PERSONAS",
         payload: json.data,

@@ -30,7 +30,7 @@ const rootReducer = (state = initialState, action) => {
     case "GET_USUARIO":
       return {
         ...state,
-        usuarios: action.payload,
+        usuario: action.payload,
       };
     case "GET_USUARIOS":
       return {

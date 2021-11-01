@@ -11,7 +11,9 @@ import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
 import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
 import Signup from "./components/Sign/signup";
-import { modificarAbogado } from "../../api/src/controllers/put";
+import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -45,8 +47,9 @@ function App() {
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>
-        <Route exact path="/modificar-perfil" component={modificarAbogado}></Route>
+        <Route exact path="/modificar-perfil" component={ModificarAbogado}></Route>
       </Switch>
+      <ToastContainer></ToastContainer>
     </div>
   );
 }

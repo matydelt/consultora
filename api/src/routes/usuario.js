@@ -48,7 +48,9 @@ router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set 
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogados
 
-router.get("/abogado", (req, res) => get.getAbogado(req, res)); // get  abogado
+router.get("/personas", (req, res) => get.getPersonas(req, res)); // get  abogados
+
+router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)); // get  abogado
 
 router.post("/adm", (req, res) => post.setAdmin(req, res))
 
