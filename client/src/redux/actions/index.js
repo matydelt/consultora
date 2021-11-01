@@ -56,6 +56,20 @@ export function getUsuarios() {
   };
 }
 
+export function getPersonas() {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("http://localhost:3001/personas");
+      return dispatch({
+        type: "GET_PERSONAS",
+        payload: json.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function getCasos() {
   return async function (dispatch) {
     try {
@@ -94,18 +108,23 @@ export function postUsuario(usuario) {
   };
 }
 
-export function getUsuario({ usuario }) {
-  return async function (dispatch) {
-    try {
-      let user = await axios.get("http://localhost:3001/usuarios", usuario);
+export const getUsuario = (usuario) =>{
+  return (dispatch)=>{
+    axios.put("http://localhost:3001/usuario", usuario)
+    .then(user =>{
       return dispatch({
         type: "GET_USUARIO",
-        payload: user
-      });
-    } catch (error) {
+        payload: user.data
+      })
+    })
+    .catch((error)=>{
       console.log(error);
-    }
-  };
+      return dispatch({
+        type: "GET_USUARIO",
+        payload: {}
+      })
+    })
+  }
 }
 
 export function postAbogado(abogado) {
@@ -174,19 +193,6 @@ export function getConsultas() {
   };
 }
 
-export function getPersonas() {
-  return async function (dispatch) {
-    try {
-      const json = await axios.get("http://localhost:3001/personas%22");
-      return dispatch({
-        type: "GET_PERSONAS",
-        payload: json.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
 export function deleteConsulta(id) {
   return async function (dispatch) {
     try {
