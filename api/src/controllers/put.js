@@ -4,11 +4,13 @@ const { Casos, Usuario, Provincias, Materias, Abogado, Persona } = require("../d
 async function usuario(req, res) {
     try {
         console.log(req.body, req.params, req.query)
-        const { eMail, firstName, lastName, dni, celular } = req.body;
+        const { eMail } = req.body;
         const user = await Usuario.findOne({ where: { eMail } });
         if (user) {
             const abogado = await Abogado.findByPk(user.abogadoId);
-            const persona = await Persona.findByPk(user.personaDni);
+            const { firstName, lastName, dni, celular } = await Persona.findByPk(
+                user.personaDni
+            );
             if (abogado)
                 res.send({
                     ...{
@@ -58,12 +60,6 @@ async function asignaConsulta(req, res, next) {
 }
 
 // asigna materia y matricula al abogado
-async function actualizarAbogado(req, res, next) { }
-
-module.exports = {
-    usuario,
-    asignaConsulta,
-};
 async function modificarAbogado(req, res) {
 
     const { eMail } = req.params;
@@ -100,7 +96,8 @@ async function modificarAbogado(req, res) {
 
 };
 
-
 module.exports = {
+    usuario,
+    asignaConsulta,
     modificarAbogado,
 }
