@@ -107,6 +107,7 @@ async function getMaterias(req, res) {
 
 async function getUsuario(req, res) {
     try {
+        console.log(req.body, req.params, req.query)
         const { eMail } = req.body;
         const user = await Usuario.findOne({ where: { eMail } });
         if (user) {
@@ -136,9 +137,20 @@ async function getUsuario(req, res) {
                     },
                 });
             }
-        } else res.sendStatus(404);
+        } else {
+            res.sendStatus(404);}
     } catch (error) {
         console.error(error);
+        res.sendStatus(500);
+    }
+}
+
+async function getPersonas(req, res) {
+    try {
+        const user = await Persona.findAll();
+        res.json(user);
+    } catch (error) {
+        console.log(error);
         res.sendStatus(404);
     }
 }
@@ -168,8 +180,9 @@ async function getAbogado(req, res) {
     try {
         let { eMail } = req.body
         if (!eMail) {
-            eMail = req.params
+            eMail = req.params.eMail
         }
+
         const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
         const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
@@ -293,4 +306,5 @@ module.exports = {
     getConsultas,
     getAbogados,
     getAbogado,
+    getPersonas
 };

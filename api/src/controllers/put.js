@@ -12,7 +12,7 @@ async function usuario(req, res) {
             const { firstName, lastName, dni, celular } = await Persona.findByPk(
                 user.personaDni
             );
-            if (abogado)
+            if (abogado) {
                 res.send({
                     ...{
                         eMail: user.eMail,
@@ -26,7 +26,7 @@ async function usuario(req, res) {
                     },
                     abogado,
                 });
-            else
+            } else
                 res.send({
                     ...{
                         eMail: user.eMail,
@@ -40,10 +40,12 @@ async function usuario(req, res) {
 
                     },
                 });
-        } else res.sendStatus(404);
+        } else{ 
+            res.sendStatus(404);
+        }
     } catch (error) {
         console.error(error);
-        res.sendStatus(404);
+        res.sendStatus(500);
     }
 }
 
@@ -61,6 +63,7 @@ async function asignaConsulta(req, res, next) {
 }
 
 // asigna materia y matricula al abogado
+<<<<<<< HEAD
 
 module.exports = {
     usuario,
@@ -68,17 +71,22 @@ module.exports = {
     modificarAbogado
 };
 async function modificarAbogado(req, res) {
+=======
+async function actualizarAbogado(req, res, next) { }
+>>>>>>> e013d96184633d026c88b43b76bcb4cc4561f258
 
+async function modificarAbogado(req, res) {
+    
     const { eMail } = req.params;
-
+    
     const { nombre, apellido, detalle, estudios, experiencia } = req.body;
-
+    
     try {
         const user = await Usuario.findByPk(eMail);
         if (!user) return res.sendStatus(404);
         const persona = await Persona.findByPk(user.personaDni);
         if (!persona) return res.sendStatus(404);
-        const abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
+        let abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
         if (!abogado) return res.sendStatus(404);
 
         persona.firstName = nombre;
@@ -90,15 +98,26 @@ async function modificarAbogado(req, res) {
         await persona.save();
         await abogado.save();
 
+        abogado = { ...{ eMail: user.eMail, firstName: persona.firstName, lastName: persona.lastName }, dataValues:  {abogado} }
+        
         return res.json(abogado);
-
+        
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             msj: 'Ocurrió un error al modificar al abogado'
         });
     }
-
-
+    
+    
 
 };
+<<<<<<< HEAD
+=======
+
+module.exports = {
+    usuario,
+    asignaConsulta,
+    modificarAbogado,
+};
+>>>>>>> e013d96184633d026c88b43b76bcb4cc4561f258

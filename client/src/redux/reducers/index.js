@@ -27,6 +27,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         provincias: action.payload,
       };
+    case "SET_USUARIO":
+      return {
+        ...state,
+        usuario: action.payload,
+      };
     case "GET_USUARIO":
       console.log();
       return {

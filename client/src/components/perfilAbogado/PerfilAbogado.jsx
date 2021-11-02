@@ -6,7 +6,7 @@ import Navbar from "../home-page/Navbar/Navbar";
 
 import './PerfilAbogado.css';
 
-export default function PerfilAbogado({ location }) {
+export default function PerfilAbogado() {
 
   const [abogado, setAbogado] = useState({});
 
@@ -55,7 +55,7 @@ export default function PerfilAbogado({ location }) {
         <div className="row mt-4">
 
           <div className="mx-5 col">
-            <p className="fs-4 text-muted">FormaciÃ³n y experiencia</p>
+            <p className="fs-4 text-muted">Formación y experiencia</p>
             <ul>
               <li className="text-muted my-1">{abogado.estudios}</li>
               <li className="text-muted my-1">{abogado.detalle}</li>

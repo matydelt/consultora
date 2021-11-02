@@ -6,6 +6,7 @@ import { getUsuario, postUsuario, getPersonas, getUsuarios } from "../../redux/a
 import { sessionERR, sessionIN, sessionOUT, createOK, correoNoOK, dniNoOK } from "./alert";
 import { Link } from "react-router-dom";
 import md5 from 'md5'
+import Navbar from "../home-page/Navbar/Navbar";
 
 
 export const Signin = () =>{
@@ -94,8 +95,8 @@ export const Signin = () =>{
             const user = userCredential.user;
             dispatch( getUsuario( { eMail: eMail } ) );
             sessionIN()
-            setEmail('');
-            setPassword('');
+            // setEmail('');
+            // setPassword('');
                 // ...
         })
         .catch((error) => {
@@ -110,6 +111,9 @@ export const Signin = () =>{
 
     return (
         <div>
+
+            <Navbar></Navbar>
+            
             {
                 !!usuario.firstName ? 
                 (
