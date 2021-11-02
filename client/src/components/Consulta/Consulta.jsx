@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Consulta(params) {
-  const { nombre, apellido, telefono, email, mensaje } = params;
+  const { nombre, apellido, telefono, email, mensaje, abogadoId } = params;
   return (
     <>
       <div className="datos de cliente">
@@ -12,6 +12,7 @@ export default function Consulta(params) {
       </div>
       <div className="consulta-mensaje">
         <p>{mensaje}</p>
+        <p>abogado asignado:{abogadoId ? abogadoId : "sin asignar"}</p>
       </div>
     </>
   );

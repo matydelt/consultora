@@ -162,6 +162,21 @@ export function getConsultas() {
     }
   };
 }
+export function asignarConsulta(consultaId, abogadoId) {
+  return async function (dispatch) {
+    try {
+      await axios.put("http://localhost:3001/consultas", {
+        consultaId,
+        abogadoId,
+      });
+      return dispatch({
+        type: "ASIGNAR_CONSULTA",
+      });
+    } catch (error) {
+      alert("no se pudo asignar");
+    }
+  };
+}
 
 export function getPersonas() {
   return async function (dispatch) {

@@ -3,7 +3,22 @@ const initialState = {
   usuarios: [],
   provincias: [],
   abogados: [],
-  abogado: {},
+  abogado: {
+    eMail: "jonito@gmail.com",
+    firstName: "jony",
+    lastName: "lolin",
+    dni: 12312123,
+    celular: 114512873,
+    abogado: {
+      id: 1,
+      detalle: null,
+      imagen: null,
+      estudios: null,
+      experiencia: null,
+      createdAt: "2021-11-01T19:44:04.807Z",
+      updatedAt: "2021-11-01T19:44:04.807Z",
+    },
+  },
   error: "",
   personas: [],
   usuario: {},
@@ -81,6 +96,10 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         consultas: action.payload,
+      };
+    case "ASIGNAR_CONSULTA":
+      return {
+        ...state,
       };
     case "DELETE_CONSULTA":
       return {

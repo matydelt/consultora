@@ -1,23 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "./Footer/Footer";
+import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 import NavAbogado from "./NavAbogado/NavAbogado";
+import "./HomeAbogado.css";
+import axios from "axios";
+import Casos from "../casos/casos";
 
 export default function HomeAbogado() {
+  const abogado = useSelector((state) => state.abogado);
+  const usuario = useSelector((state) => state.usuario);
+  const [casos, setcasos] = useState([]);
+
+  let history = useHistory();
+  if (!abogado.abogado.hasOwnProperty("id") && usuario) {
+    history.push("/");
+  } else if (usuario.abogadoId === null) {
+    history.push("/usuario/usuario");
+  }
+
+  async function getCasos() {
+    let aux = await axios.get("http://localhost:3001/casos");
+    setcasos(aux.result);
+  }
+  useEffect(() => {
+    getCasos();
+  }, []);
+
   return (
     <div>
       <NavAbogado />
-      <div>
-        What is Lorem Ipsum? <br />
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum.
-      </div>
+      home abogado
       <Footer />
     </div>
   );

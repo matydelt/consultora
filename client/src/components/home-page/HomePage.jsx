@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <div className="height">
       <Header />
-      <Navbar />
+      <Navbar navId={"menu"} />
       <BannerDiagonal
         contenedorBannerDiagonal={"contenedor_banner_diagonal"}
         bannerDirection={"banner_diagonal_left"}

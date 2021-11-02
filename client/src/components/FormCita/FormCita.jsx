@@ -93,7 +93,7 @@ export default function FormCita() {
           required
           onChange={handleChange}
         ></textarea>
-        <button>Enviar</button>
+        <button className="enviar">Enviar</button>
       </form>
     </div>
   );

@@ -6,7 +6,7 @@ import { getAbogado } from "../../redux/actions/index";
 
 import "./PerfilAbogado.css";
 
-export default function PerfilAbogado() {
+export default function PerfilAbogado({ navId }) {
   const dispatch = useDispatch();
   const { abogado } = useSelector((state) => state);
 
@@ -20,7 +20,7 @@ export default function PerfilAbogado() {
 
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar navId={navId} />
       <div className="animate__animated animate__fadeIn animate__faster">
         <div className="">
           <div className="col bg-light">
