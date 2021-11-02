@@ -4,13 +4,12 @@ import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import NavAbogado from "./NavAbogado/NavAbogado";
 import "./HomeAbogado.css";
-import axios from "axios";
-import Casos from "../casos/casos";
+import VistaConsultasAbogado from "../vistaConsultasAbogado/VistaConsultasAbogado";
+import Clientes from "../clientes/clientes";
 
 export default function HomeAbogado() {
   const abogado = useSelector((state) => state.abogado);
   const usuario = useSelector((state) => state.usuario);
-  const [casos, setcasos] = useState([]);
 
   let history = useHistory();
   if (!abogado.abogado.hasOwnProperty("id") && usuario) {
@@ -19,18 +18,14 @@ export default function HomeAbogado() {
     history.push("/usuario/usuario");
   }
 
-  async function getCasos() {
-    let aux = await axios.get("http://localhost:3001/casos");
-    setcasos(aux.result);
-  }
-  useEffect(() => {
-    getCasos();
-  }, []);
-
   return (
     <div>
       <NavAbogado />
-      home abogado
+      <h3>Clientes</h3>
+      <Clientes />
+      <h3>Consultas</h3>
+      <VistaConsultasAbogado />
+
       <Footer />
     </div>
   );

@@ -25,10 +25,10 @@ export default function VistaConsultasAbogado() {
 
   return (
     <>
-      <div className="consultas">
+      <div className="card-group">
         {consultas.map((consulta) => {
           return (
-            <div>
+            <div className="card">
               <Consulta
                 key={consulta.id}
                 nombre={consulta.nombre}
@@ -39,6 +39,8 @@ export default function VistaConsultasAbogado() {
                 abogadoId={consulta.abogadoId}
               />
               <button
+                type="button"
+                class="btn btn-outline-primary"
                 onClick={() =>
                   dispatch(asignarConsulta(consulta.id, abogado.abogado.id))
                 }
