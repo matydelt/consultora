@@ -43,12 +43,12 @@ export const Signup = () =>{
                 createNOOK()
                 console.log(error);
             })
-            // setFirstName('');
-            // setLastName('');
-            // setPhone('');
-            // setDni('');
-            // setEmail('');
-            // setPassword('');
+            setFirstName('');
+            setLastName('');
+            setPhone('');
+            setDni('');
+            setEmail('');
+            setPassword('');
         }
     }
     return(

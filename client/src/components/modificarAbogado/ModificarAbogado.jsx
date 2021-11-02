@@ -31,7 +31,6 @@ export default function ModificarAbogado() {
 
 
     useEffect(() => {
-        console.log(usuario);
         return axios.get(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`).then(({ data }) => {
             setForm({ nombre: data.firstName, apellido: data.lastName, detalle: data.detalle || '', experiencia: data.experiencia || '', estudios: data.estudios || '', imagen: data.imagen })
         });
@@ -101,10 +100,7 @@ export default function ModificarAbogado() {
         axios.put(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`, form).then(({data}) => {
             setLoading(false);
             toast.success("Los cambios fueron guardados");
-            
-            console.log(data);
             dispatch(setUsuario(data))
-            console.log(usuario);
 
         }).catch(err => console.log(err));
     };
@@ -121,8 +117,6 @@ export default function ModificarAbogado() {
 
             <hr></hr>
 
-
-        {console.log(usuario)}
             <form onSubmit={enviarForm}>
 
                 <div className="text-center">

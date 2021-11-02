@@ -106,7 +106,7 @@ async function setAbogado(req, res) {
     const { eMail, flag } = req.body
     let user = await Usuario.findByPk(eMail)
     let persona = await Persona.findByPk(user.personaDni)
-    // if (flag) {
+    if (flag) {
       if (!user.abogadoId) {
         const abogado = await Abogado.create({})
         if (user) {
@@ -116,13 +116,13 @@ async function setAbogado(req, res) {
         }
         return res.sendStatus(404)
       } else return res.sendStatus(404)
-    // } else {
-    //   let abogado = await Abogado.findByPk(user.abogadoId)
-    //   await abogado.destroy()
-    //   abogado = await Abogado.findByPk(user.abogadoId)
-    //   if (!abogado) return res.sendStatus(200)
-    //   else return res.sendStatus(500)
-    // }
+    } else {
+      let abogado = await Abogado.findByPk(user.abogadoId)
+      await abogado.destroy()
+      abogado = await Abogado.findByPk(user.abogadoId)
+      if (!abogado) return res.sendStatus(200)
+      else return res.sendStatus(500)
+    }
 
   } catch (error) {
     console.log(error)
