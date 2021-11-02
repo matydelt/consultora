@@ -72,13 +72,24 @@ export function getCasos() {
   };
 }
 
+export function postCasos (payload) {
+  return async function () {
+    try {
+      const newCaso = await axios.post("http://localhost:3001/casos/new", payload);
+      return newCaso;
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export function postUsuario(usuario) {
   return async function (dispatch) {
     try {
       await axios.post("http://localhost:3001/usuario", usuario);
 
       return dispatch({
-        type: "POST_USUARIOS",
+        type: "POST_USUARIO",
       });
     } catch (error) {
       console.log(error);

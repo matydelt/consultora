@@ -155,10 +155,10 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
                     const { id, casos, persona } = e
                     return (<div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
                         <Casos key={id} id={id} casos={casos} persona={persona} />
-                        <Link to="/crear/caso">
-                            <button className=" btn-warning btn mt-3  ms-3 me-3">Crear caso</button>
+                        <Link className=" btn-warning btn mt-3 d-block  ms-3 me-3" to="/user/abogado/nuevo-caso">
+                            Crear caso
+                            <br />
                         </Link>
-                        <br />
                     </div>
                     )
                 })}

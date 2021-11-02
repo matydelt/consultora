@@ -74,6 +74,8 @@ async function eliminarImagen(req, res) {
 
 async function setUsuarios(req, res) {
   const { eMail, firstName, dni, lastName, celular, password } = req.body;
+
+  // console.log(eMail, firstName, dni, lastName, celular, password )
   try {
     let aux = await Usuario.findByPk(eMail);
     let aux2 = await Persona.findByPk(dni);
@@ -133,17 +135,42 @@ async function setAbogado(req, res) {
 
 async function setCasos(req, res) {
   try {
+<<<<<<< HEAD
     const { juez, numeroExpediente, numeroLiquidacion, juzgado, detalle, estado, eMail, medidaCautelar, trabaAfectiva } =
       req.body;
+=======
+    const { 
+      juez, 
+      numeroLiquidacion,
+      numeroExpediente, 
+      juzgado, 
+      detalle, 
+      estado, 
+      eMail,
+      medidaCautelar,
+      trabaAfectiva,
+      vtoMedidaCautelar,
+      vtoTrabaAfectiva,
+      jurisdiccion
+     } = req.body;
+
+
+>>>>>>> origin/Angelo
     const caso = await Casos.create({
       trabaAfectiva,
       medidaCautelar,
       numeroLiquidacion,
       juez,
+      numeroLiquidacion,
       numeroExpediente,
       juzgado,
       detalle,
       estado,
+      medidaCautelar,
+      trabaAfectiva,
+      vtoMedidaCautelar,
+      vtoTrabaAfectiva,
+      jurisdiccion
     });
     const { clienteId } = await Usuario.findByPk(eMail);
     const cliente = await Cliente.findByPk(clienteId);

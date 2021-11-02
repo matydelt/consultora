@@ -298,7 +298,7 @@ async function getConsultas(req, res, next) {
 
 module.exports = {
     getUsuarios,
-    getUsuario,
+    // getUsuario,
     getPersonas,
     getCasos,
     getProvincias,

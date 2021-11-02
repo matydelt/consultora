@@ -10,7 +10,7 @@ import { getUsuario } from '../../../redux/actions';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-const Navbar = () => {
+const Navbar = ({ navId }) => {
 
     let usuario = useSelector(state => state.usuario);
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav id="menu" className="col-12 col-xl-12">
+        <nav id={navId} className="col-12 col-xl-12">
             <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
                 <li className="col-xl-1">
                     <Link to="/">
