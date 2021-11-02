@@ -55,12 +55,12 @@ const rootReducer = (state = initialState, action) => {
       };
     case "POST_USUARIO":   //for login
       let user = action.payload
-      if (user.adminId) {
+      if (!!user.adminId) {
         return {
           ...state,
           admin: action.payload
         };
-      } else if (user.abogadoId) {
+      } else if (!!user.abogadoId) {
         return {
           ...state,
           abogado: action.payload
