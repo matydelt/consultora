@@ -63,17 +63,13 @@ async function asignaConsulta(req, res, next) {
 }
 
 // asigna materia y matricula al abogado
-<<<<<<< HEAD
 
 module.exports = {
     usuario,
     asignaConsulta,
     modificarAbogado
 };
-async function modificarAbogado(req, res) {
-=======
-async function actualizarAbogado(req, res, next) { }
->>>>>>> e013d96184633d026c88b43b76bcb4cc4561f258
+// async function modificarAbogado(req, res) {
 
 async function modificarAbogado(req, res) {
     
@@ -108,16 +104,4 @@ async function modificarAbogado(req, res) {
             msj: 'Ocurrió un error al modificar al abogado'
         });
     }
-    
-    
-
 };
-<<<<<<< HEAD
-=======
-
-module.exports = {
-    usuario,
-    asignaConsulta,
-    modificarAbogado,
-};
->>>>>>> e013d96184633d026c88b43b76bcb4cc4561f258
