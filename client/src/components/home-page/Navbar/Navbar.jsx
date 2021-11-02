@@ -2,9 +2,9 @@ import React from 'react'
 import Logo from '../assets/img/buffet-buffet-law.png'
 import ButtonsNav from '../../ButtonsNav/ButtonsNav';
 import './Navbar.css'
-const Navbar = () => {
+const Navbar = ({ navId }) => {
     return (
-        <nav id="menu" className="col-12 col-xl-12">
+        <nav id={navId} className="col-12 col-xl-12">
             <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
                 <li className="col-xl-1">
                     <ButtonsNav link="/" text='Home' />

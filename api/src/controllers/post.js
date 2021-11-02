@@ -74,6 +74,8 @@ async function eliminarImagen(req, res) {
 
 async function setUsuarios(req, res) {
   const { eMail, firstName, dni, lastName, celular, password } = req.body;
+
+  // console.log(eMail, firstName, dni, lastName, celular, password )
   try {
     let aux = await Usuario.findByPk(eMail);
     let aux2 = await Persona.findByPk(dni);
