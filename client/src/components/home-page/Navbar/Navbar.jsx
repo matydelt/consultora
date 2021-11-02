@@ -61,7 +61,10 @@ const Navbar = () => {
                                 {usuario.firstName}
                             </a>
 
+
+
                             <ul class="dropdown-menu bg-light shadow border-0" aria-labelledby="dropdownMenuButton1">
+                            <ButtonsNav link={'/cita'} text='Consulta' />
                                 <span onClick={logout} class="dropdown-item pointer">Cerrar sesión</span>
                             </ul>
 
