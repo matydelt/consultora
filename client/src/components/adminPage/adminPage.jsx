@@ -6,7 +6,7 @@ import { Redirect } from "react-router";
 
 export default function AdminPage() {
     const dispatch = useDispatch()
-    const adm = useSelector(state => state.adm)
+    const { usuario } = useSelector(state => state)
     const allUsers = useSelector(state => state.usuarios)
     let arrBolean = []
     var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
@@ -32,7 +32,7 @@ export default function AdminPage() {
         }
         arrBolean[i] = !arrBolean[i]
         var wrapper = document.createElement('div')
-        wrapper.innerHTML = '<div className="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+        wrapper.innerHTML = '<div className="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
 
         alertPlaceholder.append(wrapper)
     }
@@ -41,7 +41,7 @@ export default function AdminPage() {
 
 
     return (
-        !adm ? <Redirect to="/" /> :
+        !usuario.adminId ? <Redirect to="/" /> :
             <div className="ms-5 me-5 mt-3 mb-3">
 
                 <table className="table table-striped  ">

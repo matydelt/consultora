@@ -9,16 +9,16 @@ const HomePage = () => {
   return (
     <div className="height">
       <Header />
-      <Navbar />
-      <BannerDiagonal
-        contenedorBannerDiagonal={"contenedor_banner_diagonal"}
+      <Navbar navId={"menu"}/>
+      {/* <BannerDiagonal
+        contenedorBannerDiagonal={"contenedor_banner_diagonal"} 
         bannerDirection={"banner_diagonal_left"}
         containBanner={"banner_contain_left"}
         bannerContent={"banner_content_left"}
         bannerTitle={"text_banner_title"}
         title={"Somos"}
         cardFlex={"card_flex"}
-      />
+      /> */}
       <BannerDiagonal
         contenedorBannerDiagonal={"contenedor_banner_diagonal"}
         bannerDirection={"banner_diagonal_left"}

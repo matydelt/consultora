@@ -14,12 +14,12 @@ const BannerDiagonal = (props) => {
     cardFlex
   } = props;
   return (
-    <div class={contenedorBannerDiagonal}>
-      <div class={bannerDirection}>
-        <div class={containBanner}>
-          <div class={bannerContent}>
+    <div className={contenedorBannerDiagonal}>
+      <div className={bannerDirection}>
+        <div className={containBanner}>
+          <div className={bannerContent}>
             <div className={bannerTitle}>
-              <h1 class="fw-bold">{title}</h1>
+              <h1 className="fw-bold">{title}</h1>
             </div>
             <div className={cardFlex}>
               {/* <div></div>
@@ -27,7 +27,7 @@ const BannerDiagonal = (props) => {
               <div></div> */}
               <CardBanner nameStyle="card_banner" img={ImgCard} text="Leales" />
               <CardBanner nameStyle="card_banner" img={ImgCard} text="Leales" />
-              <CardBanner nameStyle="card_banner" img={ImgCard} text="Leales" /> 
+              <CardBanner nameStyle="card_banner" img={ImgCard} text="Leales" />
             </div>
           </div>
         </div>

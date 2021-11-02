@@ -10,20 +10,14 @@ module.exports = (sequelize) => {
         numeroLiquidacion: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true,
         },
         numeroExpediente: {
             type: DataTypes.INTEGER,
         },
         juzgado: {
             type: DataTypes.INTEGER,
-
-
-        },
-        juzgado: {
-            type: DataTypes.INTEGER,
-
-
         },
         detalle: {
             type: DataTypes.TEXT,
@@ -34,10 +28,10 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         medidaCautelar: {
-            type: DataTypes.TEXT
+            type: DataTypes.BOOLEAN
         },
         trabaAfectiva: {
-            type: DataTypes.TEXT
+            type: DataTypes.BOOLEAN
         },
         vtoMedidaCautelar: {
             type: DataTypes.DATE
