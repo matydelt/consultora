@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom"
 import { getAbogado } from "../../redux/actions";
 import Casos from "../casos/casos"
 import "./clientes.css"
+import { Redirect } from "react-router";
 
 
 export default function Clientes() {   //muestra cards de cada cliente con sus casos
@@ -11,12 +13,12 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     const { usuario, abogado } = useSelector(state => state)
     const dispatch = useDispatch()
 
-    console.log(abogado)
-    if (!abogado) dispatch(getAbogado(usuario))
+    if (!usuario.abogadoId) return (<Redirect to="/" />)
+    if (!abogado) dispatch(getAbogado(usuario.eMail))
     useEffect(() => {
-        dispatch(getAbogado(usuario))
+        dispatch(getAbogado(usuario.eMail))
 
-    }, [dispatch, usuario])
+    }, [dispatch, usuario.eMail])
     useEffect(() => {
         if (clientes.length === 0) return (<p>Loading....</p>)
         let AllClients = JSON.parse(JSON.stringify(abogado.clientes));

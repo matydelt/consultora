@@ -46,8 +46,8 @@ function App() {
           <Footer />
         </Route>
         <Route exact path={"/admin"} component={AdminPage}></Route>
-        <Route exact path="/signin" component={Signin} />
-        <Route exact path="/registro" component={Signup} />
+        <Route exact path="/ingreso" component={Signin} />
+        <Route exact path="/signup" component={Signup} />
         <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>
         <Route exact path="/modificar-perfil" component={ModificarAbogado}></Route>
         <Route exact path={"/clientes"}> <Clientes></Clientes></Route>

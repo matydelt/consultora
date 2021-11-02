@@ -33,49 +33,17 @@ export const Signin = () => {
     const google = new GoogleAuthProvider();
     const loginGoogle = () => {
         signInWithPopup(auth, google)
-<<<<<<< HEAD
-        .then( e =>{
-            setDisplayName(e.user.displayName)
-            const aux = e.user.email
-            console.log("aux",aux);
-            console.log("e.user", e.user);
-            console.log(usuarios.some(e => e.eMail == aux))
-            if(usuarios.some(e => e.eMail == aux))
-                dispatch( getUsuario( { eMail:  e.user.email } ) )
-            else{
-                setEmail(aux)
-                console.log("google",eMail);
-                setFirstName(e.user.displayName)
-                setPassword(md5(e.user.email))
-            }
-        })
-        .catch( error =>{
-            console.log(error);
-        })
-    }
-
-    const GoTo = async () =>{
-        if (usuarios.some(e => e.eMail.toString() === eMail.toString()) || personas.some(e => e.dni.toString() === dni.toString())){
-            usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
-        }
-        else{
-            console.log("email",eMail);
-            dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ))
-            .then(()=>{
-                console.log("usuario", usuario);
-                dispatch( getUsuario( {eMail: eMail} ) )
-            })
-                .catch((error)=>{
-                    console.log("falla postUsuario")
-=======
             .then(e => {
                 setDisplayName(e.user.displayName)
-                let aux = e.user.email
-                console.log(usuarios.some(e => e.eMail === aux))
-                if (usuarios.some(e => e.eMail === aux))
+                const aux = e.user.email
+                console.log("aux", aux);
+                console.log("e.user", e.user);
+                console.log(usuarios.some(e => e.eMail == aux))
+                if (usuarios.some(e => e.eMail == aux))
                     dispatch(getUsuario({ eMail: e.user.email }))
                 else {
-                    setEmail(e.user.email)
+                    setEmail(aux)
+                    console.log("google", eMail);
                     setFirstName(e.user.displayName)
                     setPassword(md5(e.user.email))
                 }
@@ -86,16 +54,18 @@ export const Signin = () => {
     }
 
     const GoTo = async () => {
-        if (usuarios.some(e => e.eMail === eMail) || personas.some(e => e.dni === dni)) {
-            usuarios.some(e => e.eMail === eMail) ? correoNoOK() : dniNoOK()
+        if (usuarios.some(e => e.eMail.toString() === eMail.toString()) || personas.some(e => e.dni.toString() === dni.toString())) {
+            usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
         }
         else {
+            console.log("email", eMail);
             dispatch(postUsuario({ eMail: eMail, firstName: firstName, dni: dni, lastName: lastName, celular: celular, password: md5(password) }))
                 .then(() => {
+                    console.log("usuario", usuario);
                     dispatch(getUsuario({ eMail: eMail }))
                 })
                 .catch((error) => {
->>>>>>> mati
+                    console.log("falla postUsuario")
                 })
             createOK()
             setFirstName('');
@@ -120,25 +90,14 @@ export const Signin = () => {
     }
     const Login = async () => {
         await signInWithEmailAndPassword(auth, eMail, md5(password))
-<<<<<<< HEAD
-        .then((userCredential) => {
-            // Signed in
-            console.log("login");
-            const user = userCredential.user;
-            dispatch( getUsuario( { eMail: eMail } ) );
-            sessionIN()
-            // setEmail('');
-            // setPassword('');
-=======
             .then((userCredential) => {
                 // Signed in
                 console.log("login");
                 const user = userCredential.user;
                 dispatch(getUsuario({ eMail: eMail }));
                 sessionIN()
-                setEmail('');
-                setPassword('');
->>>>>>> mati
+                // setEmail('');
+                // setPassword('');
                 // ...
             })
             .catch((error) => {
@@ -155,7 +114,7 @@ export const Signin = () => {
         <div>
 
             <Navbar></Navbar>
-            
+
             {
                 !!usuario.firstName ?
                     (
@@ -171,18 +130,17 @@ export const Signin = () => {
                                         </div>
                                         <img src={Logo} alt="Logo Consultora" className="card-img-top mx-auto m-2 rounded-circle w-50" />
                                         <div className="card-body">
-<<<<<<< HEAD
                                             <div className="form-group">
-                                                <input type="type" value={firstName} name="firstName" autoComplete="off" placeholder=" First Name" className="form-control" autoFocus required onChange={ (e)=>{setFirstName(e.target.value)}}/>
+                                                <input type="type" value={firstName} name="firstName" autoComplete="off" placeholder=" First Name" className="form-control" autoFocus required onChange={(e) => { setFirstName(e.target.value) }} />
                                             </div>
                                             <div className="form-group">
-                                                <input type="type" value={lastName} name="lastName" autoComplete="off" placeholder=" Last Name" className="form-control" autoFocus required onChange={ (e)=>{setLastName(e.target.value)}}/>
+                                                <input type="type" value={lastName} name="lastName" autoComplete="off" placeholder=" Last Name" className="form-control" autoFocus required onChange={(e) => { setLastName(e.target.value) }} />
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" value={dni} name="DNI" autoComplete="off" placeholder="DNI : 1234567" className="form-control" required onChange={ (e)=>{setDni(e.target.value)}}/>
+                                                <input type="text" value={dni} name="DNI" autoComplete="off" placeholder="DNI : 1234567" className="form-control" required onChange={(e) => { setDni(e.target.value) }} />
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" value={celular} name="Number" autoComplete="off" placeholder="Number : 11 1111-1111" className="form-control" required onChange={ (e)=>{setPhone(e.target.value)}}/>
+                                                <input type="text" value={celular} name="Number" autoComplete="off" placeholder="Number : 11 1111-1111" className="form-control" required onChange={(e) => { setPhone(e.target.value) }} />
                                             </div>
                                             <div className="form-group">
                                                 <input type="text" value={eMail} name="Mail" disabled='on' autoComplete="off" placeholder="Mail : Ejemplo@ejemplo.com" className="form-control" required />
@@ -191,15 +149,10 @@ export const Signin = () => {
                                                 <input type="password" value={password} disabled='on' name="password" autoComplete="off" placeholder="Password min 6 digits" className="form-control" required />
                                             </div>
                                             <div className="form-group">
-                                                <button className="btn btn-success btn-block" onClick={GoTo} disabled={ (firstName==='')||(lastName==='')||(dni==='')||(celular==='')||(eMail==='')||(password.length<6)}>
+                                                <button className="btn btn-success btn-block" onClick={GoTo} disabled={(firstName === '') || (lastName === '') || (dni === '') || (celular === '') || (eMail === '') || (password.length < 6)}>
                                                     Register
                                                 </button>
                                             </div>
-=======
-                                            <button className="btn btn-primary btn-block" onClick={logout}>
-                                                Signout
-                                            </button>
->>>>>>> mati
                                         </div>
                                     </div>
                                 </div>
@@ -284,7 +237,7 @@ export const Signin = () => {
                                         <div className="form-group">
                                             <Link to="/signup">
                                                 <label>
-                                                ← ← ← Go to Register 
+                                                    ← ← ← Go to Register
                                                 </label>
                                             </Link>
                                         </div>

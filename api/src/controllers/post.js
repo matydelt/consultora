@@ -196,8 +196,12 @@ async function setAdmin(req, res) {
       // client.setPersona(person)
       res.sendStatus(200)
     }
-    else
-      res.sendStatus(500)
+    else if (!aux.adminId) {
+      const admin = await Admin.create({})
+      admin.setUsuario(aux)
+      res.sendStatus(200)
+    } else res.sendStatus(500)
+
   } catch (error) {
     console.log(error)
     res.sendStatus(500)

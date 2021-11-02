@@ -39,7 +39,7 @@ async function usuario(req, res) {
 
                     },
                 });
-        } else{ 
+        } else {
             res.sendStatus(404);
         }
     } catch (error) {
@@ -65,11 +65,11 @@ async function asignaConsulta(req, res, next) {
 async function actualizarAbogado(req, res, next) { }
 
 async function modificarAbogado(req, res) {
-    
+
     const { eMail } = req.params;
-    
+
     const { nombre, apellido, detalle, estudios, experiencia } = req.body;
-    
+
     try {
         const user = await Usuario.findByPk(eMail);
         if (!user) return res.sendStatus(404);
@@ -87,18 +87,18 @@ async function modificarAbogado(req, res) {
         await persona.save();
         await abogado.save();
 
-        abogado = { ...{ eMail: user.eMail, firstName: persona.firstName, lastName: persona.lastName }, dataValues:  {abogado} }
-        
+        abogado = { ...{ eMail: user.eMail, firstName: persona.firstName, lastName: persona.lastName }, dataValues: { abogado } }
+
         return res.json(abogado);
-        
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             msj: 'Ocurrió un error al modificar al abogado'
         });
     }
-    
-    
+
+
 
 };
 async function getAbogado(req, res) {
@@ -135,9 +135,5 @@ module.exports = {
     usuario,
     asignaConsulta,
     modificarAbogado,
-<<<<<<< HEAD
-};
-=======
     getAbogado
 }
->>>>>>> mati
