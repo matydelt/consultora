@@ -100,7 +100,7 @@ export function postUsuario(usuario) {
     try {
       await axios.post("http://localhost:3001/usuarios", usuario);
       return dispatch({
-        type: "POST_USUARIOS",
+        type: "POST_USUARIO",
       });
     } catch (error) {
       console.log(error);
