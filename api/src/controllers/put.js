@@ -7,7 +7,6 @@ async function usuario(req, res) {
         const { eMail } = req.body;
         const user = await Usuario.findOne({ where: { eMail } });
         if (user) {
-            console.log('BBBBBBBBBBBBBBBBBBBBBBBBBB');
             const abogado = await Abogado.findByPk(user.abogadoId);
             const { firstName, lastName, dni, celular } = await Persona.findByPk(
                 user.personaDni
@@ -41,7 +40,6 @@ async function usuario(req, res) {
                     },
                 });
         } else{ 
-            console.log('AAAAAAAAAAAAAAA------');
             res.sendStatus(404);
         }
     } catch (error) {

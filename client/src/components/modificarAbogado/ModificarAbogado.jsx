@@ -32,7 +32,7 @@ export default function ModificarAbogado() {
 
     useEffect(() => {
         console.log(usuario);
-        return axios.get(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.dataValues.eMail}`).then(({ data }) => {
+        return axios.get(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`).then(({ data }) => {
             setForm({ nombre: data.firstName, apellido: data.lastName, detalle: data.detalle || '', experiencia: data.experiencia || '', estudios: data.estudios || '', imagen: data.imagen })
         });
     }, []);
@@ -47,14 +47,14 @@ export default function ModificarAbogado() {
         
         let formData = new FormData();
         formData.append('image', e.target.files[0])
-        formData.append('email', usuario.dataValues.eMail || usuario.eMail)
+        formData.append('email', usuario.eMail || usuario.eMail)
 
         axios.post(`${ENDPOINT_URL}/subirimagen`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(() => {
-            axios.get(`${ENDPOINT_URL}/abogado/${usuario.dataValues.eMail || usuario.eMail}`).then(({ data }) => {
+            axios.get(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`).then(({ data }) => {
                 setForm({ ...form, imagen: data.imagen })
                 toast.success("La imagen fue cambiada con éxito");
                 setLoadingImage(false);
@@ -63,7 +63,7 @@ export default function ModificarAbogado() {
     };
 
     function eliminarImagen() {
-        axios.post(`${ENDPOINT_URL}/eliminarimagen`, { public_id: imagen.substring(imagen.lastIndexOf('/') + 1).slice(0, -4), 'email': usuario.dataValues.eMail })
+        axios.post(`${ENDPOINT_URL}/eliminarimagen`, { public_id: imagen.substring(imagen.lastIndexOf('/') + 1).slice(0, -4), 'email': usuario.eMail })
             .then(() => {
                 setForm({ ...form, imagen: '' })
                 toast.info('La foto fue eliminada');
@@ -98,7 +98,7 @@ export default function ModificarAbogado() {
 
 
         setLoading(true);
-        axios.put(`${ENDPOINT_URL}/abogado/${usuario.dataValues.eMail || usuario.eMail}`, form).then(({data}) => {
+        axios.put(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`, form).then(({data}) => {
             setLoading(false);
             toast.success("Los cambios fueron guardados");
             
@@ -122,7 +122,7 @@ export default function ModificarAbogado() {
             <hr></hr>
 
 
-
+        {console.log(usuario)}
             <form onSubmit={enviarForm}>
 
                 <div className="text-center">

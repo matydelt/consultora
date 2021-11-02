@@ -38,7 +38,7 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
     }
 })
 
-router.post("/usuarios", (req, res) => post.setUsuarios(req, res))  //crea usuario
+router.post("/usuario", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
 router.put("/usuario", (req, res) => put.usuario(req, res)); // get  user(for login)
 
