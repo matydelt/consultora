@@ -49,6 +49,7 @@ const rootReducer = (state = initialState, action) => {
         personas: action.payload,
       };
     case "GET_CASOS":
+      console.log(action.payload)
       return {
         ...state,
         casos: action.payload,

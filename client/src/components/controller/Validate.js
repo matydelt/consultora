@@ -15,7 +15,7 @@ export const validate = (input) => {
     }
 
     /* Verificacion de numero de Liquidacion */
-    if (!input.numeroLiquidacion) {
+    else if (!input.numeroLiquidacion) {
         errors.numeroLiquidacion = 'Se requiere el numero de Liquidación';
     } else if (!expresiones.num.test(input.numeroLiquidacion)   ) {
         errors.numeroLiquidacion = 'Se permiten solo números por favor';
