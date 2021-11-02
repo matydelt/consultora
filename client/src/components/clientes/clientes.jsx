@@ -1,74 +1,75 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
-// import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom"
+// import { getAbogado } from "../../redux/actions";
 import Casos from "../casos/casos"
 import "./clientes.css"
+import { Redirect } from "react-router";
+
 let aux = {
-    "eMail": "prueba@gmail.com",
-    "firstName": "Pepito",
-    "lastName": "pe",
-    "dni": 23456451,
-    "celular": 11234523,
+    "eMail": "prueba4@gmail.com",
+    "firstName": "asfagsdg",
+    "lastName": "asdasgsdg",
+    "dni": 214126234,
+    "celular": 21536267,
     "detalle": null,
+    "imagen": null,
+    "experiencia": null,
+    "estudios": null,
     "clientes": [
         {
-            "id": 3,
+            "id": 2,
             "asunto": null,
             "persona": {
-                "firstName": "Matias",
-                "lastName": "Taborda",
-                "dni": 12336789,
-                "celular": 11234523
+                "firstName": "cliente123",
+                "lastName": "cliente1234",
+                "dni": 214125,
+                "celular": 24125246
             },
             "casos": [
                 {
-                    "juez": "Jose pepito",
-                    "numeroExpediente": 1234,
-                    "juzgado": 2234,
-                    "detalle": "se mamo y le pego al perro",
-                    "estado": "cerrado"
-                }, {
-                    "juez": "jose pepito",
-                    "numeroExpediente": 2314,
-                    "juzgado": 412,
-                    "detalle": "se mamo en plena avenida y causo choques multiples",
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 1244,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y no se",
                     "estado": "sentencia"
                 }, {
-                    "juez": "jose pepito",
-                    "numeroExpediente": 2323114,
-                    "juzgado": 4412,
-                    "detalle": "se mamo en plena avenida y causo choques multiples",
-                    "estado": "sentencia"
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 1235,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
+                    "estado": "inicial"
                 }
             ]
         },
         {
-            "id": 3,
+            "id": 2,
             "asunto": null,
             "persona": {
-                "firstName": "julio",
-                "lastName": "Cesar",
-                "dni": 32415,
-                "celular": 25326
+                "firstName": "pedrito",
+                "lastName": "sol",
+                "dni": 1245623,
+                "celular": 2352626
             },
             "casos": [
                 {
-                    "juez": "jose pepito",
-                    "numeroExpediente": 1234,
-                    "juzgado": 2234,
-                    "detalle": "asdasf",
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 244,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y no se, paso algo",
+                    "estado": "cerrado"
+                }, {
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 12353,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
                     "estado": "inicial"
                 }, {
-                    "juez": "jose pepito",
-                    "numeroExpediente": 2314,
-                    "juzgado": 412,
-                    "detalle": "se mamo en plena avenida y causo choques multiples",
-                    "estado": "inicial"
-                }, {
-                    "juez": "jose pepito",
-                    "numeroExpediente": 2323114,
-                    "juzgado": 4412,
-                    "detalle": "se mamo en plena avenida y causo choques multiples",
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 12356,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
                     "estado": "proceso"
                 }
             ]
@@ -76,11 +77,19 @@ let aux = {
     ]
 }
 
+
 export default function Clientes() {   //muestra cards de cada cliente con sus casos
     const [clientes, setClientes] = useState([]);
+    const { usuario, abogado } = useSelector(state => state)
+    const dispatch = useDispatch()
 
-
+    if (!usuario.abogadoId) return (<Redirect to="/" />)
+    // console.log(usuario.eMail)
+    // useEffect(() => {
+    //     dispatch(getAbogado({ "eMail": usuario.eMail }))
+    // }, [dispatch, usuario.eMail])
     useEffect(() => {
+        if (clientes.length === 0) return (<p>Loading....</p>)
         let AllClients = JSON.parse(JSON.stringify(aux.clientes));
         AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
         AllClients = AllClients.filter(e => e.casos.length > 0)
@@ -127,31 +136,33 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
 
     }
 
-    return (<div className="mt-3 me-3 ms-3 d-inline-flex flex-row">
-        <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
-            <button className=" btn  btn-danger  mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes Actuales</button>
-            <button className="btn  btn-danger mt-3 mb-3 " onClick={(e) => handleClick(e, 1)}>Historial</button>
-            <select class="form-select" aria-label="Default select example" onChange={e => handleChange(e)}>
-                <option selected>Seleccion por estado</option>
-                <option value="inicial">inicial</option>
-                <option value="Proceso">Proceso</option>
-                <option value="sentencia">sentencia</option>
-            </select>
-        </div>
+    return (
+        // clientes.length === 0 ? <p>no hay clientes con estas especificaciones</p> :
+        <div className="mt-3 me-3 ms-3 d-inline-flex flex-row">
+            <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
+                <button className=" btn  btn-danger  mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes Actuales</button>
+                <button className="btn  btn-danger mt-3 mb-3 " onClick={(e) => handleClick(e, 1)}>Historial</button>
+                <select className="form-select" aria-label="Default select example" onChange={e => handleChange(e)}>
+                    <option selected>Seleccion por estado</option>
+                    <option value="inicial">inicial</option>
+                    <option value="Proceso">Proceso</option>
+                    <option value="sentencia">sentencia</option>
+                </select>
+            </div>
 
-        <div className="conteiner card mt-3 me-3 ms-3  flex-column">
-            {clientes?.map(e => {
-                const { id, casos, persona } = e
-                return (<div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
-                    <Casos key={id} id={id} casos={casos} persona={persona} />
-                    {/* <Link> */}
-                    <button className=" btn-warning btn mt-3  ms-3 me-3">Crear caso</button>
-                    <br />
-                    {/* </Link> */}
-                </div>
-                )
-            })}
+            <div className="conteiner card mt-3 me-3 ms-3  flex-column">
+                {clientes?.map(e => {
+                    const { id, casos, persona } = e
+                    return (<div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
+                        <Casos key={id} id={id} casos={casos} persona={persona} />
+                        <Link className=" btn-warning btn mt-3 d-block  ms-3 me-3" to="/user/abogado/nuevo-caso">
+                            Crear caso
+                            <br />
+                        </Link>
+                    </div>
+                    )
+                })}
 
-        </div>
-    </div >)
+            </div>
+        </div >)
 }

@@ -1,12 +1,13 @@
-const { Casos, Usuario, Provincias, Materias, Abogado, Persona } = require("../db")
+const { Casos, Usuario, Provincias, Materias, Abogado, Persona, Cliente } = require("../db")
 
 
 async function usuario(req, res) {
     try {
-        console.log(req.body, req.params, req.query)
+        // console.log(req.body, req.params, req.query)
         const { eMail } = req.body;
         const user = await Usuario.findOne({ where: { eMail } });
         if (user) {
+            console.log(user)
             const abogado = await Abogado.findByPk(user.abogadoId);
             const { firstName, lastName, dni, celular } = await Persona.findByPk(
                 user.personaDni
@@ -39,7 +40,7 @@ async function usuario(req, res) {
 
                     },
                 });
-        } else{ 
+        } else {
             res.sendStatus(404);
         }
     } catch (error) {
@@ -62,14 +63,19 @@ async function asignaConsulta(req, res, next) {
 }
 
 // asigna materia y matricula al abogado
-async function actualizarAbogado(req, res, next) { }
+
+module.exports = {
+    usuario,
+    asignaConsulta,
+    modificarAbogado
+};
 
 async function modificarAbogado(req, res) {
-    
+
     const { eMail } = req.params;
-    
+
     const { nombre, apellido, detalle, estudios, experiencia } = req.body;
-    
+
     try {
         const user = await Usuario.findByPk(eMail);
         if (!user) return res.sendStatus(404);
@@ -87,23 +93,59 @@ async function modificarAbogado(req, res) {
         await persona.save();
         await abogado.save();
 
-        abogado = { ...{ eMail: user.eMail, firstName: persona.firstName, lastName: persona.lastName }, dataValues:  {abogado} }
-        
+        abogado = { ...{ eMail: user.eMail, firstName: persona.firstName, lastName: persona.lastName }, dataValues: { abogado } }
+
         return res.json(abogado);
-        
+
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             msj: 'Ocurrió un error al modificar al abogado'
         });
     }
-    
-    
+
+
 
 };
+
+async function getAbogado(req, res) {
+    try {
+        console.log(req.body)
+        let { eMail } = req.body
+        if (!eMail) {
+            eMail = req.params
+        }
+        const user = await Usuario.findByPk(eMail)
+        const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
+        const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
+        let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular }, detalle, imagen, experiencia, estudios }
+        abogado.clientes = []
+        for (let i = 0; i < clientes.length; i++) {
+            abogado.clientes.push(await Cliente.findOne({
+                where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
+                {
+                    model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
+                    ]
+                }]
+            }))
+        }
+        if (user) {
+            res.json(abogado)
+        } else res.sendStatus(404)
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
+
 
 module.exports = {
     usuario,
     asignaConsulta,
     modificarAbogado,
-};
+
+    getAbogado
+}
+
+
+

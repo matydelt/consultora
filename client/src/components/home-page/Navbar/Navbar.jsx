@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import Logo from '../assets/img/buffet-buffet-law.png'
 import ButtonsNav from '../../ButtonsNav/ButtonsNav';
@@ -9,7 +10,7 @@ import { getUsuario } from '../../../redux/actions';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
-const Navbar = () => {
+const Navbar = ({ navId }) => {
 
     let usuario = useSelector(state => state.usuario);
     const dispatch = useDispatch();
@@ -28,7 +29,7 @@ const Navbar = () => {
     }
 
     return (
-        <nav id="menu" className="col-12 col-xl-12">
+        <nav id={navId} className="col-12 col-xl-12">
             <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
                 <li className="col-xl-1">
                     <Link to="/">
@@ -55,11 +56,11 @@ const Navbar = () => {
 
                 {usuario.firstName ?
                     <li>
-                        {(!usuario.abogadoId&&!usuario.dataValues) &&
+                        {(!usuario.abogadoId && !usuario.dataValues) &&
                             <div class="dropdown">
-                            <a class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                {usuario.firstName}
-                            </a>
+                                <a class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {usuario.firstName}
+                                </a>
 
 
 
@@ -68,7 +69,7 @@ const Navbar = () => {
                                 <span onClick={logout} class="dropdown-item pointer">Cerrar sesión</span>
                             </ul>
 
-                        </div>
+                            </div>
                         }
 
                         {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) &&
@@ -97,7 +98,7 @@ const Navbar = () => {
                     <li className="col-xl-1">
                         {/* <Link to="/signup"> */}
                         <ButtonsNav link={'/signup'} text='Registrate Ahora' />
-                            {/* Registrate Ahora */}
+                        {/* Registrate Ahora */}
                         {/* </Link> */}
                     </li>
                 }
