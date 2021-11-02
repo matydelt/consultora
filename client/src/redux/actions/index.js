@@ -113,9 +113,11 @@ export function postAbogado(abogado) {
 export function getAbogado(abogado) {
   return async function (dispatch) {
     try {
-      await axios.get("http://localhost:3001/abogado", abogado);
+      console.log("user")
+      let user = await axios.put("http://localhost:3001/abogado", abogado);
       return dispatch({
         type: "GET_ABOGADO",
+        payload: user.data
       });
     } catch (error) {
       console.log(error);

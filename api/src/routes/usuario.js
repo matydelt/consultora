@@ -50,7 +50,7 @@ router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set 
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogados
 
-router.get("/abogado", (req, res) => get.getAbogado(req, res)); // get  abogado
+router.put("/abogado", (req, res) => put.getAbogado(req, res)); // get  abogado
 
 router.post("/adm", (req, res) => post.setAdmin(req, res))
 

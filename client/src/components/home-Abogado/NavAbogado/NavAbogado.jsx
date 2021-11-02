@@ -4,30 +4,30 @@ import { Link } from "react-router-dom";
 export default function NavAbogado() {
   return (
     <>
-      <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <Link to="/" class="nav-link">
+      <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
+        <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link to="/" className="nav-link">
               Home
             </Link>
           </li>
-          <li class="nav-item">
-            <Link to="/user/abogado" class="nav-link">
+          <li className="nav-item">
+            <Link to="/user/abogado" className="nav-link">
               Detalles
             </Link>
           </li>
-          <li class="nav-item">
-            <Link to="#" class="nav-link">
+          <li className="nav-item">
+            <Link to="#" className="nav-link">
               Casos
             </Link>
           </li>
-          <li class="nav-item">
-            <Link to="/user/abogado/consultas" class="nav-link">
+          <li className="nav-item">
+            <Link to="/user/abogado/consultas" className="nav-link">
               Consultas
             </Link>
           </li>
-          <li class="nav-item">
-            <Link to="/user/abogado/clientes" class="nav-link">
+          <li className="nav-item">
+            <Link to="/user/abogado/clientes" className="nav-link">
               Clientes
             </Link>
           </li>

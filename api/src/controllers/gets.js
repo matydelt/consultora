@@ -127,7 +127,7 @@ async function getUsuario(req, res) {
                     },
                     abogado,
                 });
-            else{
+            else {
                 res.json({
                     ...{
                         ...user,
@@ -166,34 +166,7 @@ async function getAbogados(req, res) {
         res.sendStatus(404);
     }
 }
-async function getAbogado(req, res) {
-    try {
-        let { eMail } = req.body
-        if (!eMail) {
-            eMail = req.params
-        }
-        const user = await Usuario.findByPk(eMail)
-        const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-        const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
-        let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular }, detalle, imagen, experiencia, estudios }
-        abogado.clientes = []
-        for (let i = 0; i < clientes.length; i++) {
-            abogado.clientes.push(await Cliente.findOne({
-                where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
-                {
-                    model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
-                    ]
-                }]
-            }))
-        }
-        if (user) {
-            res.json(abogado)
-        } else res.sendStatus(404)
-    } catch (error) {
-        console.error(error)
-        res.sendStatus(404)
-    }
-}
+
 
 async function getCasos(req, res) {
     const { numeroExpediente, estado, juez } = req.body;
@@ -294,5 +267,5 @@ module.exports = {
     getMaterias,
     getConsultas,
     getAbogados,
-    getAbogado,
+
 };
