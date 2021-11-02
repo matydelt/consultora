@@ -6,7 +6,7 @@ import { Redirect } from "react-router";
 
 export default function AdminPage() {
     const dispatch = useDispatch()
-    const adm = useSelector(state => state.adm)
+    const { usuario } = useSelector(state => state)
     const allUsers = useSelector(state => state.usuarios)
     let arrBolean = []
     var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
@@ -41,7 +41,7 @@ export default function AdminPage() {
 
 
     return (
-        !adm ? <Redirect to="/" /> :
+        !usuario.adminId ? <Redirect to="/" /> :
             <div className="ms-5 me-5 mt-3 mb-3">
 
                 <table className="table table-striped  ">

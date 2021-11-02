@@ -133,9 +133,12 @@ async function setAbogado(req, res) {
 
 async function setCasos(req, res) {
   try {
-    const { juez, numeroExpediente, juzgado, detalle, estado, eMail } =
+    const { juez, numeroExpediente, numeroLiquidacion, juzgado, detalle, estado, eMail, medidaCautelar, trabaAfectiva } =
       req.body;
     const caso = await Casos.create({
+      trabaAfectiva,
+      medidaCautelar,
+      numeroLiquidacion,
       juez,
       numeroExpediente,
       juzgado,

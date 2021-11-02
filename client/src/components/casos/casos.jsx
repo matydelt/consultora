@@ -18,12 +18,12 @@ function Casos({ id, casos, persona }) {
 
                         <div class="accordion accordion-flush ancho" id="accordionFlushExample">
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id={'a'+numeroExpediente}>
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={'#e'+numeroExpediente} aria-expanded="false" aria-controls={'e'+numeroExpediente}>
-                                    <b>N° Expediente: {numeroExpediente}</b>
+                                <h2 class="accordion-header" id={'a' + numeroExpediente}>
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={'#e' + numeroExpediente} aria-expanded="false" aria-controls={'e' + numeroExpediente}>
+                                        <b>N° Expediente: {numeroExpediente}</b>
                                     </button>
                                 </h2>
-                                <div id={'e'+numeroExpediente} class="accordion-collapse collapse" aria-labelledby={'a'+numeroExpediente} data-bs-parent="#accordionFlushExample">
+                                <div id={'e' + numeroExpediente} class="accordion-collapse collapse" aria-labelledby={'a' + numeroExpediente} data-bs-parent="#accordionFlushExample">
                                     <ul className="list-group">
                                         <li className="list-group-item">Juez: {juez}</li>
                                         <li className="list-group-item">Estado: {estado}</li>
@@ -33,7 +33,6 @@ function Casos({ id, casos, persona }) {
                                 </div>
                             </div>
                         </div>
-
                         // <div className="conteiner card mt-3 me-3 ms-3 mb-3 " >
                         //     <p className="mt-2 ms-2 d-flex justify-content-center">juez: {juez}</p>
                         //     <p className="me-2 ms-2 d-flex justify-content-center">estado: {estado}</p>
@@ -41,6 +40,7 @@ function Casos({ id, casos, persona }) {
                         //     <p className="me-2 ms-2 d-flex justify-content-center">N° Expediente: {numeroExpediente}</p>
                         //     <p className="me-2 ms-2 d-flex justify-content-center">detalles: {detalle}</p>
                         // </div>
+
 
 
 

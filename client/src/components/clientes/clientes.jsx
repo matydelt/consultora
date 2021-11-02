@@ -7,6 +7,76 @@ import Casos from "../casos/casos"
 import "./clientes.css"
 import { Redirect } from "react-router";
 
+let aux = {
+    "eMail": "prueba4@gmail.com",
+    "firstName": "asfagsdg",
+    "lastName": "asdasgsdg",
+    "dni": 214126234,
+    "celular": 21536267,
+    "detalle": null,
+    "imagen": null,
+    "experiencia": null,
+    "estudios": null,
+    "clientes": [
+        {
+            "id": 2,
+            "asunto": null,
+            "persona": {
+                "firstName": "cliente123",
+                "lastName": "cliente1234",
+                "dni": 214125,
+                "celular": 24125246
+            },
+            "casos": [
+                {
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 1244,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y no se",
+                    "estado": "sentencia"
+                }, {
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 1235,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
+                    "estado": "inicial"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "asunto": null,
+            "persona": {
+                "firstName": "pedrito",
+                "lastName": "sol",
+                "dni": 1245623,
+                "celular": 2352626
+            },
+            "casos": [
+                {
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 244,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y no se, paso algo",
+                    "estado": "cerrado"
+                }, {
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 12353,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
+                    "estado": "inicial"
+                }, {
+                    "juez": "jafgs asfg",
+                    "numeroExpediente": 12356,
+                    "juzgado": 1234,
+                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
+                    "estado": "proceso"
+                }
+            ]
+        }
+    ]
+}
+
 
 export default function Clientes() {   //muestra cards de cada cliente con sus casos
     const [clientes, setClientes] = useState([]);
@@ -14,22 +84,21 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     const dispatch = useDispatch()
 
     if (!usuario.abogadoId) return (<Redirect to="/" />)
-    if (!abogado) dispatch(getAbogado(usuario.eMail))
-    useEffect(() => {
-        dispatch(getAbogado(usuario.eMail))
-
-    }, [dispatch, usuario.eMail])
+    // console.log(usuario.eMail)
+    // useEffect(() => {
+    //     dispatch(getAbogado({ "eMail": usuario.eMail }))
+    // }, [dispatch, usuario.eMail])
     useEffect(() => {
         if (clientes.length === 0) return (<p>Loading....</p>)
-        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
         AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
         AllClients = AllClients.filter(e => e.casos.length > 0)
         setClientes([...AllClients])
-    }, [abogado.clientes, clientes.length])
+    }, [])
 
     const handleClick = function (e, flag) {
         e.preventDefault()
-        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
         if (flag === 0) {
             AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
             AllClients = AllClients.filter(e => e.casos.length > 0)
@@ -39,7 +108,7 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
             AllClients = AllClients.filter(e => e.casos.length > 0)
             setClientes([...AllClients])
         } else {
-            let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+            let AllClients = JSON.parse(JSON.stringify(aux.clientes));
             AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
             AllClients = AllClients.filter(e => e.casos.length > 0)
             setClientes([...AllClients])
@@ -47,7 +116,7 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     }
     const handleChange = (e) => {
         e.preventDefault();
-        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
         if (e.target.value === "inicial") {
             AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "inicial"))
             AllClients = AllClients.filter(e => e.casos.length > 0)
