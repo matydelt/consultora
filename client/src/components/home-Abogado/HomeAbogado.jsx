@@ -3,15 +3,22 @@ import Footer from "./Footer/Footer";
 import NavAbogado from "./NavAbogado/NavAbogado";
 import { useDispatch, useSelector } from "react-redux";
 import { getAbogado } from "../../redux/actions";
+import { useHistory } from "react-router";
 
 export default function HomeAbogado() {
 
   const dispatch = useDispatch()
-  const { usuario } = useSelector(state => state)
+  const { usuario, abogado } = useSelector(state => state)
   useEffect(() => {
-
     dispatch(getAbogado({ "eMail": usuario.eMail }))
   }, [])
+
+  let history = useHistory();
+  if (!abogado.abogado.hasOwnProperty("id") && usuario) {
+    history.push("/");
+  } else if (usuario.abogadoId === null) {
+    history.push("/usuario/usuario");
+  }
   return (
     <div>
       <NavAbogado />
