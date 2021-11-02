@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+
 import { postConsulta } from "../../redux/actions/index";
+import Navbar from "../home-page/Navbar/Navbar";
 import "./FormCita.css";
 
 export function validate(input) {
@@ -67,25 +69,28 @@ export default function FormCita() {
     }
   };
 
-  return (
+  return (<>
+    
+    <Navbar />
+    
     <div classnombre="formulario-cita">
-      <form onSubmit={handleSubmit} className="form-cita">
-        <label>Nombre</label>
-        <input name="nombre" type="text" required onChange={handleChange} />
+      <form onSubmit={handleSubmit} className="form-cita mt-5">
+        <label className="form-label">Nombre</label>
+        <input className="form-control" name="nombre" type="text" required onChange={handleChange} />
 
-        <label>Apellido</label>
-        <input name="apellido" type="text" required onChange={handleChange} />
+        <label className="form-label">Apellido</label>
+        <input className="form-control" name="apellido" type="text" required onChange={handleChange} />
 
-        <label>DNI</label>
-        <input name="dni" type="number" required onChange={handleChange} />
+        <label className="form-label">DNI</label>
+        <input className="form-control" name="dni" type="number" required onChange={handleChange} />
 
-        <label>Teléfono</label>
-        <input name="telefono" type="tel" required onChange={handleChange} />
+        <label className="form-label">Teléfono</label>
+        <input className="form-control" name="telefono" type="tel" required onChange={handleChange} />
 
-        <label>Email</label>
-        <input type="email" name="email" required onChange={handleChange} />
+        <label className="form-label">Email</label>
+        <input className="form-control" type="email" name="email" required onChange={handleChange} />
 
-        <label>Mensaje</label>
+        <label className="form-label">Mensaje</label>
         <textarea
           name="mensaje"
           cols="30"
@@ -93,8 +98,8 @@ export default function FormCita() {
           required
           onChange={handleChange}
         ></textarea>
-        <button>Enviar</button>
+        <button className="btn btn-secondary mt-1">Enviar</button>
       </form>
     </div>
-  );
+  </>);
 }
