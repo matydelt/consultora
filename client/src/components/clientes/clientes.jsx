@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom"
-import { getAbogado } from "../../redux/actions";
+// import { getAbogado } from "../../redux/actions";
 import Casos from "../casos/casos"
 import "./clientes.css"
 import { Redirect } from "react-router";
