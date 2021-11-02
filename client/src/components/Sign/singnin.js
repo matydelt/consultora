@@ -33,12 +33,15 @@ export const Signin = () =>{
         signInWithPopup(auth, google)
         .then( e =>{
             setDisplayName(e.user.displayName)
-            let aux = e.user.email
+            const aux = e.user.email
+            console.log("aux",aux);
+            console.log("e.user", e.user);
             console.log(usuarios.some(e => e.eMail == aux))
             if(usuarios.some(e => e.eMail == aux))
                 dispatch( getUsuario( { eMail:  e.user.email } ) )
             else{
-                setEmail(e.user.email)
+                setEmail(aux)
+                console.log("google",eMail);
                 setFirstName(e.user.displayName)
                 setPassword(md5(e.user.email))
             }
@@ -49,15 +52,18 @@ export const Signin = () =>{
     }
 
     const GoTo = async () =>{
-        if (usuarios.some(e => e.eMail == eMail) || personas.some(e => e.dni == dni)){
+        if (usuarios.some(e => e.eMail.toString() === eMail.toString()) || personas.some(e => e.dni.toString() === dni.toString())){
             usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
         }
         else{
-            dispatch( postUsuario( { eMail:eMail, firstName:firstName, personaDni:dni, lastName:lastName, celular:celular, password:md5(password) } ) )
+            console.log("email",eMail);
+            dispatch( postUsuario( { eMail:eMail, firstName:firstName, dni:dni, lastName:lastName, celular:celular, password:md5(password) } ))
             .then(()=>{
+                console.log("usuario", usuario);
                 dispatch( getUsuario( {eMail: eMail} ) )
             })
                 .catch((error)=>{
+                    console.log("falla postUsuario")
                 })
             createOK()
             setFirstName('');
@@ -153,10 +159,10 @@ export const Signin = () =>{
                                                 <input type="text" value={celular} name="Number" autoComplete="off" placeholder="Number : 11 1111-1111" className="form-control" required onChange={ (e)=>{setPhone(e.target.value)}}/>
                                             </div>
                                             <div className="form-group">
-                                                <input type="text" value={eMail} name="Mail" disabled='on' autoComplete="off" placeholder="Mail : Ejemplo@ejemplo.com" className="form-control" required onChange={ (e)=>{setEmail(e.target.value)}}/>
+                                                <input type="text" value={eMail} name="Mail" disabled='on' autoComplete="off" placeholder="Mail : Ejemplo@ejemplo.com" className="form-control" required />
                                             </div>
                                             <div className="form-group">
-                                                <input type="password" value={password} disabled='on' name="password" autoComplete="off" placeholder="Password min 6 digits" className="form-control" required onChange={ (e)=>{setPassword(e.target.value)}}/>
+                                                <input type="password" value={password} disabled='on' name="password" autoComplete="off" placeholder="Password min 6 digits" className="form-control" required />
                                             </div>
                                             <div className="form-group">
                                                 <button className="btn btn-success btn-block" onClick={GoTo} disabled={ (firstName==='')||(lastName==='')||(dni==='')||(celular==='')||(eMail==='')||(password.length<6)}>
