@@ -53,6 +53,7 @@ const Navbar = () => {
                     </Link>
                 </li>
 
+<<<<<<< HEAD
                 {usuario.firstName ?
                     <li>
                         {(!usuario.abogadoId&&!usuario.dataValues) &&
@@ -98,6 +99,11 @@ const Navbar = () => {
                         {/* </Link> */}
                     </li>
                 }
+=======
+                <li className="col-xl-1">
+                    <ButtonsNav link="/registro" text='Registrate Ahora' />
+                </li>
+>>>>>>> mati
             </ul>
         </nav>
     )

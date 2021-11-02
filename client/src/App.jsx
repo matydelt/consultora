@@ -14,6 +14,7 @@ import Signup from "./components/Sign/signup";
 import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import AdminPage from "./components/adminPage/adminPage";
 
 function App() {
   return (
@@ -44,10 +45,12 @@ function App() {
           <VistaConsultasAbogado />
           <Footer />
         </Route>
-        <Route exact path="/ingreso" component={Signin} />
-        <Route exact path="/signup" component={Signup} />
+        <Route exact path={"/admin"} component={AdminPage}></Route>
+        <Route exact path="/signin" component={Signin} />
+        <Route exact path="/registro" component={Signup} />
         <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>
         <Route exact path="/modificar-perfil" component={ModificarAbogado}></Route>
+        <Route exact path={"/clientes"}> <Clientes></Clientes></Route>
       </Switch>
       <ToastContainer></ToastContainer>
     </div>

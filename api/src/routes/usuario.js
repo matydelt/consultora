@@ -54,6 +54,8 @@ router.get("/personas", (req, res) => get.getPersonas(req, res)); // get  abogad
 
 router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)); // get  abogado
 
+router.put("/abogado", (req, res) => put.getAbogado(req, res)); // get  abogado
+
 router.post("/adm", (req, res) => post.setAdmin(req, res))
 
 

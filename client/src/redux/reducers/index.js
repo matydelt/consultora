@@ -39,7 +39,7 @@ const rootReducer = (state = initialState, action) => {
         usuario: action.payload,
       };
     case "GET_USUARIOS":
-        return {
+      return {
         ...state,
         usuarios: action.payload,
       };
