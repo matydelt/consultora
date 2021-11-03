@@ -10,7 +10,7 @@ const Abogado = ({ abogado, frase }) => {
                 </div>
                 <div className="text_equipo">
                     <p>{abogado.firstName} {abogado.lastName}</p>
-                    <p>"{frase.message}"</p>
+                    <p>"{frase?.message}"</p>
                 </div>
             </div>
             <div className="button_ver_mas">

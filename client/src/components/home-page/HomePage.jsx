@@ -11,7 +11,7 @@ const HomePage = () => {
       <Header />
       <Navbar navId={"menu"}/>
       {/* <BannerDiagonal
-        contenedorBannerDiagonal={"contenedor_banner_diagonal"}
+        contenedorBannerDiagonal={"contenedor_banner_diagonal"} 
         bannerDirection={"banner_diagonal_left"}
         containBanner={"banner_contain_left"}
         bannerContent={"banner_content_left"}

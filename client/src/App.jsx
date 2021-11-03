@@ -17,6 +17,7 @@ import FormCasos from "./components/FormCasos/FormCasos";
 // import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import AdminPage from "./components/adminPage/adminPage";
 
 function App() {
   return (
@@ -47,10 +48,12 @@ function App() {
           <VistaConsultasAbogado />
           <Footer />
         </Route>
+        <Route exact path={"/admin"} component={AdminPage}></Route>
         <Route exact path="/user/abogado/nuevo-caso">
           <FormCasos />
         </Route>
         <Route exact path="/ingreso" component={Signin} />
+        <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>
         <Route exact path="/modificar-perfil" component={ModificarAbogado}></Route>

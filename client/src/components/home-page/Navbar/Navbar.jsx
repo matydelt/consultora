@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import Logo from '../assets/img/buffet-buffet-law.png'
 import ButtonsNav from '../../ButtonsNav/ButtonsNav';
@@ -55,17 +56,20 @@ const Navbar = ({ navId }) => {
 
                 {usuario.firstName ?
                     <li>
-                        {(!usuario.abogadoId&&!usuario.dataValues) &&
+                        {(!usuario.abogadoId && !usuario.dataValues) &&
                             <div class="dropdown">
-                            <a class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                {usuario.firstName}
-                            </a>
+                                <a class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {usuario.firstName}
+                                </a>
+
+
 
                             <ul class="dropdown-menu bg-light shadow border-0" aria-labelledby="dropdownMenuButton1">
+                            <ButtonsNav link={'/cita'} text='Consulta' />
                                 <span onClick={logout} class="dropdown-item pointer">Cerrar sesión</span>
                             </ul>
 
-                        </div>
+                            </div>
                         }
 
                         {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) &&
@@ -94,7 +98,7 @@ const Navbar = ({ navId }) => {
                     <li className="col-xl-1">
                         {/* <Link to="/signup"> */}
                         <ButtonsNav link={'/signup'} text='Registrate Ahora' />
-                            {/* Registrate Ahora */}
+                        {/* Registrate Ahora */}
                         {/* </Link> */}
                     </li>
                 }

@@ -13,7 +13,6 @@ const FormCasos = ({ label }) => {
 
   const [input, setInput] = useState({
     juez: "",
-    numeroLiquidacion: parseInt("0"),
     numeroExpediente: parseInt("0"),
     juzgado: parseInt("0"),
     detalle: "",
@@ -73,7 +72,6 @@ const FormCasos = ({ label }) => {
     );
     if (
       input.juez &&
-      input.numeroLiquidacion &&
       input.numeroExpediente &&
       input.juzgado &&
       input.detalle &&
@@ -92,7 +90,7 @@ const FormCasos = ({ label }) => {
     }
     setInput({
       juez: "",
-      numeroLiquidacion: 0,
+
       numeroExpediente: "",
       juzgado: "",
       detalle: "",
@@ -111,7 +109,7 @@ const FormCasos = ({ label }) => {
       <div className="">
         <div>
           <form onSubmit={handleSubmit}>
-            <div>
+            <div className="">
               <label htmlFor="Nombre">Juez:</label>
               <div className="Input_form">
                 <InputGlobal
@@ -125,7 +123,7 @@ const FormCasos = ({ label }) => {
               {errors.juez && <p className="errors">{errors.juez}</p>}
             </div>
 
-            <div>
+            {/* <div>
               <label htmlFor="Nombre">Numero de Liquidacion:</label>
               <div className="Input_form">
                 <InputGlobal
@@ -139,7 +137,7 @@ const FormCasos = ({ label }) => {
               {errors.numeroLiquidacion && (
                 <p className="errors">{errors.numeroLiquidacion}</p>
               )}
-            </div>
+            </div> */}
 
             <div>
               <label>Número de Expediente:</label>

@@ -135,23 +135,26 @@ async function setAbogado(req, res) {
 
 async function setCasos(req, res) {
   try {
-    const { 
-      juez, 
+    const {
+      juez,
       numeroLiquidacion,
-      numeroExpediente, 
-      juzgado, 
-      detalle, 
-      estado, 
+      numeroExpediente,
+      juzgado,
+      detalle,
+      estado,
       eMail,
       medidaCautelar,
       trabaAfectiva,
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion
-     } = req.body;
+    } = req.body;
 
 
     const caso = await Casos.create({
+      trabaAfectiva,
+      medidaCautelar,
+      numeroLiquidacion,
       juez,
       numeroLiquidacion,
       numeroExpediente,
@@ -218,8 +221,12 @@ async function setAdmin(req, res) {
       // client.setPersona(person)
       res.sendStatus(200)
     }
-    else
-      res.sendStatus(500)
+    else if (!aux.adminId) {
+      const admin = await Admin.create({})
+      admin.setUsuario(aux)
+      res.sendStatus(200)
+    } else res.sendStatus(500)
+
   } catch (error) {
     console.log(error)
     res.sendStatus(500)

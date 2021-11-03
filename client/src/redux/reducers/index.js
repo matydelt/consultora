@@ -1,3 +1,4 @@
+
 const initialState = {
   materias: [],
   usuarios: [],
@@ -8,6 +9,7 @@ const initialState = {
   abogado: {},
   error: "",
   consultas: [],
+  admin: {}
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -33,13 +35,27 @@ const rootReducer = (state = initialState, action) => {
         usuario: action.payload,
       };
     case "GET_USUARIO":
-      console.log();
-      return {
-        ...state,
-        usuario: action.payload,
-      };
-    case "GET_USUARIOS":
+      let user = action.payload
+      if (!user.abogadoId && !user.adminId) {
         return {
+          ...state,
+          usuario: action.payload,
+        }
+      } else if (user.adminId) {
+        return {
+          ...state,
+          usuario: action.payload,
+          admin: action.payload
+        }
+      } else {
+        return {
+          ...state,
+          usuario: action.payload,
+          abogado: action.payload
+        }
+      }
+    case "GET_USUARIOS":
+      return {
         ...state,
         usuarios: action.payload,
       };
@@ -55,13 +71,13 @@ const rootReducer = (state = initialState, action) => {
         casos: action.payload,
       };
     case "POST_USUARIO":   //for login
-      let user = action.payload
-      if (!!user.adminId) {
+      let aux = action.payload
+      if (!!aux.adminId) {
         return {
           ...state,
           admin: action.payload
         };
-      } else if (!!user.abogadoId) {
+      } else if (!!aux.abogadoId) {
         return {
           ...state,
           abogado: action.payload

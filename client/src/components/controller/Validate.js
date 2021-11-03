@@ -5,7 +5,7 @@ const expresiones = {
 
 export const validate = (input) => {
     let errors = {};
-    
+
     console.log(input.numeroLiquidacion)
     /* Verificacion de juez__________ */
     if (!input.juez) {
@@ -13,13 +13,11 @@ export const validate = (input) => {
     } else if (!expresiones.name.test(input.juez)) {
         errors.juez = 'Se permiten solo letras por favor';
     }
-
-    /* Verificacion de numero de Liquidacion */
-    else if (!input.numeroLiquidacion) {
-        errors.numeroLiquidacion = 'Se requiere el numero de Liquidación';
-    } else if (!expresiones.num.test(input.numeroLiquidacion)   ) {
-        errors.numeroLiquidacion = 'Se permiten solo números por favor';
-    }
+    // } else if (!input.numeroLiquidacion) {                                       //Verificacion de numero de Liquidacion
+    //     errors.numeroLiquidacion = 'Se requiere el numero de Liquidación';
+    // } else if (!expresiones.num.test(input.numeroLiquidacion)) {
+    //     errors.numeroLiquidacion = 'Se permiten solo números por favor';
+    // }
 
     /* Verificacion de numero de expediente________ */
     else if (!input.numeroExpediente) {
@@ -48,18 +46,18 @@ export const validate = (input) => {
     else if (!input.estado) {
         errors.estado = 'Se requiere el estado del caso';
     }
-    
-    
+
+
     /* Verificacion del email________________ */
     else if (!input.eMail) {
         errors.eMail = 'Se requiere un email';
     }
-    
+
     /* Verificacion de la medida Cautelar */
     else if (!input.medidaCautelar) {
         errors.medidaCautelar = 'Se requiere el ingreso de la medida cautelar por favor';
     }
-    
+
     /* Verificacion de la traba afectiva */
     else if (!input.trabaAfectiva) {
         errors.trabaAfectiva = 'Se requiere el ingreso de la traba afectiva por favor';
@@ -79,6 +77,6 @@ export const validate = (input) => {
     else if (!input.jurisdiccion) {
         errors.jurisdiccion = 'Se requiere el ingreso de la jurisdiccion por favor';
     }
-    
+
     return errors;
 }
