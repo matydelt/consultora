@@ -1,6 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-redeclare */
 import React, { useEffect } from "react";
-import { getUsuarios, setAbogado } from "../../redux/actions";
+import { getUsuarios, setAbogado, setAdmin } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import Navbar from "../home-page/Navbar/Navbar";
@@ -9,35 +10,49 @@ export default function AdminPage() {
     const dispatch = useDispatch()
     const { usuario } = useSelector(state => state)
     const allUsers = useSelector(state => state.usuarios)
-    let arrBolean = []
     var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
     useEffect(() => {
         dispatch(getUsuarios())
-    }, [])
+    }, [dispatch])
 
 
-
-    const hadleChange = (e, i) => {
+    const hadleChange = (e, type) => {
         e.preventDefault();
-        let mensaje = ""
-        let type = ""
-        let user = { eMail: e.target.value, flag: arrBolean[i] }
-        dispatch(setAbogado(user))
-        if (arrBolean[i]) {
-            mensaje = "Abogado asignado"
-            type = 'success'
+        if (type === "abogado") {
+            let mensaje = ""
+            let type = ""
+            let user = { eMail: e.target.value, flag: e.target.checked }
+            dispatch(setAbogado(user))
+            if (user.flag) {
+                mensaje = "Abogado asignado"
+                type = 'success'
+            }
+            else {
+                mensaje = "Abogado eliminado"
+                type = 'danger'
+            }
+            var wrapper = document.createElement('div')
+            wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+            alertPlaceholder.append(wrapper)
+        } else if (type === "admin") {
+            let mensaje = ""
+            let type = ""
+            let user = { eMail: e.target.value, flag: e.target.checked }
+            dispatch(setAdmin(user))
+            if (user.flag) {
+                mensaje = "admin  asignado"
+                type = 'success'
+            }
+            else {
+                mensaje = "admin eliminado"
+                type = 'danger'
+            }
+            var wrapper = document.createElement('div')
+            wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+            alertPlaceholder.append(wrapper)
         }
-        else {
-            mensaje = "Abogado eliminado"
-            type = 'danger'
-        }
-        arrBolean[i] = !arrBolean[i]
-        var wrapper = document.createElement('div')
-        wrapper.innerHTML = '<div className="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
-
-        alertPlaceholder.append(wrapper)
     }
-
+    console.log(usuario)
 
 
 
@@ -51,6 +66,7 @@ export default function AdminPage() {
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
+                                <th scope="col">Admin</th>
                                 <th scope="col">Abogado</th>
                                 <th scope="col">Usuario</th>
                                 <th scope="col">Dni</th>
@@ -58,36 +74,37 @@ export default function AdminPage() {
                         </thead>
                         <tbody>
                             {allUsers?.map((e, i) => {
-                                if (e.abogadoId) {
-                                    arrBolean.push(false)  // bandera avisa a la api de que ya tiene stado de abogado y debe eliminarlo
-                                    return (
-                                        <tr key={i}>
-                                            <th scope="row">{i}</th>
+                                let type = ""
+                                return (
+                                    <tr key={i}>
+                                        <th scope="row">{i}</th>
+                                        {e.adminId ? usuario.adminId !== 1 || e.adminId === 1 ?
                                             <td >
-                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => hadleChange(e, i)} defaultChecked />
+                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "admin") }} defaultChecked disabled />
+                                            </td> :
+                                            <td >
+                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "admin") }} defaultChecked />
+                                            </td> :
+                                            <td >
+                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "admin") }} />
                                             </td>
-                                            <td>{e.eMail}</td>
-                                            <td>{e.personaDni} </td>
-                                        </tr>
-                                    )
-                                }
-                                else {
-                                    arrBolean.push(true)
-                                    return (
-                                        <tr key={i}>
-                                            <th scope="row">{i}</th>
-                                            <td className="">
-                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => hadleChange(e, i)} />
+                                        }
+                                        {e.abogadoId ? usuario.eMail !== e.eMail && e.adminId !== 1 ?
+                                            <td >
+                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "abogado") }} defaultChecked />
+                                            </td> :
+                                            <td >
+                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "abogado") }} defaultChecked disabled />
+                                            </td> :
+                                            <td >
+                                                <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "abogado") }} />
                                             </td>
-                                            <td>{e.eMail} </td>
-                                            <td>{e.personaDni} </td>
-
-                                        </tr>
-                                    )
-                                }
+                                        }
+                                        <td>{e.eMail}</td>
+                                        <td>{e.personaDni} </td>
+                                    </tr>
+                                )
                             })}
-
-
                         </tbody>
                     </table>
 

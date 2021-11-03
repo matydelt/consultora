@@ -4,8 +4,10 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
     // defino el modelo
     const Admin = sequelize.define('admin', {
-
-
+        tipo: {
+            type: DataTypes.ENUM(["gm", "normal"]),
+            allowNull: false
+        }
     });
 
 };

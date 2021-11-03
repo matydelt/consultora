@@ -14,12 +14,6 @@ router.get("/usuarios", (req, res) => get.getUsuarios(req, res)) // get all user
 
 router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)) // get abogado
 
-// router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
-
-/* router.get("/abogados", (req, res) => get.getAbogados(req, res)) */ // get  abogados
-
-// router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
-
 router.post("/cliente", async function (req, res) {    // set client to abogado
     const { cliente, abogado } = req.body
     try {
@@ -28,9 +22,8 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
         let clienteAux = await Cliente.findByPk(clienteId)
         let abogadoAux = await Abogado.findByPk(abogadoId)
-        console.log(abogadoAux)
         if (clienteAux, abogadoAux) {
-            abogadoAux.setClientes(clienteAux)
+            abogadoAux.addClientes(clienteAux)
             res.sendStatus(200)
         } else res.sendStatus(404)
     } catch (error) {

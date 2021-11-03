@@ -110,7 +110,6 @@ async function modificarAbogado(req, res) {
 
 async function getAbogado(req, res) {
     try {
-        console.log(req.body)
         let { eMail } = req.body
         if (!eMail) {
             eMail = req.params
@@ -125,10 +124,12 @@ async function getAbogado(req, res) {
                 where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
                 {
                     model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
+                        "numeroLiquidacion", "medidaCautelar", "trabaAfectiva", "vtoMedidaCautelar", "vtoTrabaAfectiva", "jurisdiccion"
                     ]
                 }]
             }))
         }
+
         if (user) {
             res.json(abogado)
         } else res.sendStatus(404)
