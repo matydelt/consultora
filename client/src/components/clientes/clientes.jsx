@@ -84,10 +84,7 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     const dispatch = useDispatch()
 
     if (!usuario.abogadoId) return (<Redirect to="/" />)
-    // console.log(usuario.eMail)
-    // useEffect(() => {
-    //     dispatch(getAbogado({ "eMail": usuario.eMail }))
-    // }, [dispatch, usuario.eMail])
+
     useEffect(() => {
         if (clientes.length === 0) return (<p>Loading....</p>)
         let AllClients = JSON.parse(JSON.stringify(aux.clientes));
@@ -155,9 +152,10 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
                     const { id, casos, persona } = e
                     return (<div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
                         <Casos key={id} id={id} casos={casos} persona={persona} />
-                        <Link className=" btn-warning btn mt-3 d-block  ms-3 me-3" to="/user/abogado/nuevo-caso">
-                            Crear caso
-                            <br />
+                        <Link to="/user/abogado/nuevo-caso">
+                            <div className="d-flex justify-content-center">
+                                <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3" >Crear caso </button>
+                            </div>
                         </Link>
                     </div>
                     )
