@@ -9,7 +9,9 @@
     margin: 0;
 }
 
-
+nav ul .imgLogo{
+    width: 15%;
+  }
 
 /* #menu .width_image {
     width: 15px; 

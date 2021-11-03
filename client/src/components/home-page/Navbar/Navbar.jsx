@@ -44,7 +44,7 @@ const Navbar = ({ navId }) => {
                 <img
                     src={Logo}
                     alt="Logo"
-                    className="col-xl-1"
+                    className="col-xl-1 imgLogo"
                 />
 
                 <li className="col-xl-1">
