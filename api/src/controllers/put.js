@@ -69,10 +69,6 @@ module.exports = {
     asignaConsulta,
     modificarAbogado
 };
-<<<<<<< HEAD
-// async function modificarAbogado(req, res) {
-=======
->>>>>>> ea8404c6505e10fb5057c51320fe9e4e44ed9cfd
 
 async function modificarAbogado(req, res) {
 
@@ -107,9 +103,6 @@ async function modificarAbogado(req, res) {
             msj: 'Ocurrió un error al modificar al abogado'
         });
     }
-<<<<<<< HEAD
-};
-=======
 
 
 
@@ -156,4 +149,3 @@ module.exports = {
 
 
 
->>>>>>> ea8404c6505e10fb5057c51320fe9e4e44ed9cfd
