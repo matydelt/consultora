@@ -14,6 +14,9 @@ module.exports = (sequelize) => {
             allowNull: false,
 
         },
+        slug: {
+            type: DataTypes.STRING
+        }
     });
 
 };

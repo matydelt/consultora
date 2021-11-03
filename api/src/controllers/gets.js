@@ -166,7 +166,7 @@ async function getAbogados(req, res) {
             const abogado = await Abogado.findByPk(user[i].abogadoId);
             if (abogado)
                 abogados.push({
-                    ...{ eMail: user[i].eMail, firstName, lastName, dni, celular },
+                    ...{ eMail: user[i].eMail, firstName, lastName, dni, celular, slug: user[i].slug },
                     abogado,
                 });
         }
@@ -179,14 +179,16 @@ async function getAbogados(req, res) {
 async function getAbogado(req, res) {
     try {
         let { eMail } = req.body
+        let user = {};
         if (!eMail) {
-            eMail = req.params.eMail
+            const { slug } = req.params
+            user = await Usuario.findOne({where: {slug}})
+        } else {
+            user = await Usuario.findByPk(eMail)
         }
-
-        const user = await Usuario.findByPk(eMail)
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
         const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
-        let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular }, detalle, imagen, experiencia, estudios }
+        let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular, slug: user.slug }, detalle, imagen, experiencia, estudios }
         abogado.clientes = []
         for (let i = 0; i < clientes.length; i++) {
             abogado.clientes.push(await Cliente.findOne({
@@ -306,5 +308,6 @@ module.exports = {
     getConsultas,
     getAbogados,
     getAbogado,
-    getPersonas
+    getPersonas,
+    getUsuario
 };

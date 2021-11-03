@@ -44,6 +44,10 @@
     font-weight: 800;
 }
 
+.caption_two {
+    backdrop-filter: blur(10px);
+}
+
 .caption_two h5 {
     font-weight: 800;
     font-size  : 50px;
@@ -63,9 +67,9 @@
     padding                   : 6px;
     transition                : all 0.5s;
 }
- img {
+ /* img {
     backdrop-filter: blur(25px);
-}
+} */
 
 .caption_two a {
     color      : #033663;
@@ -148,6 +152,24 @@
 
 
 /* -------------------Medias Query------------------- */
+@media (max-width: 1920px) {
+    .caption_one {
+        top     : 40%;
+        position: relative;
+    }
+
+    .caption_two {
+        position: absolute !important;
+        left    : 15% !important;
+        top     : 35% !important;
+    }
+
+    .caption_three {
+        position: absolute !important;
+        left    : 15% !important;
+        top     : 28% !important;
+    }
+}
 
 @media (max-width: 1398px) {
     .caption_one {
@@ -163,3 +185,4 @@
         left      : 31.2%;
     }
 }
+

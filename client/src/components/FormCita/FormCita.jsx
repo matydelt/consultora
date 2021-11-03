@@ -70,35 +70,52 @@ export default function FormCita() {
   };
 
   return (<>
-    
+
     <Navbar />
-    
-    <div classnombre="formulario-cita">
+
+    <div classnombre="">
       <form onSubmit={handleSubmit} className="form-cita mt-5">
-        <label className="form-label">Nombre</label>
-        <input className="form-control" name="nombre" type="text" required onChange={handleChange} />
 
-        <label className="form-label">Apellido</label>
-        <input className="form-control" name="apellido" type="text" required onChange={handleChange} />
 
-        <label className="form-label">DNI</label>
-        <input className="form-control" name="dni" type="number" required onChange={handleChange} />
+        <div className="form-group mt-3">
+          <label className="form-label">Nombre</label>
+          <input className="form-control" name="nombre" type="text" required onChange={handleChange} />
+        </div>
 
-        <label className="form-label">Teléfono</label>
-        <input className="form-control" name="telefono" type="tel" required onChange={handleChange} />
+        <div className="form-group mt-3">
+          <label className="form-label">Apellido</label>
+          <input className="form-control" name="apellido" type="text" required onChange={handleChange} />
+        </div>
 
-        <label className="form-label">Email</label>
-        <input className="form-control" type="email" name="email" required onChange={handleChange} />
+        <div className="form-group mt-3">
+          <label className="form-label">DNI</label>
+          <input className="form-control" name="dni" type="number" required onChange={handleChange} />
+        </div>
 
-        <label className="form-label">Mensaje</label>
-        <textarea
-          name="mensaje"
-          cols="30"
-          rows="10"
-          required
-          onChange={handleChange}
-        ></textarea>
-        <button className="btn btn-secondary mt-1">Enviar</button>
+        <div className="form-group mt-3">
+          <label className="form-label">Teléfono</label>
+          <input className="form-control" name="telefono" type="tel" required onChange={handleChange} />
+        </div>
+
+        <div className="form-group mt-3">
+          <label className="form-label">Email</label>
+          <input className="form-control" type="email" name="email" required onChange={handleChange} />
+        </div>
+
+        <div className="form-group mt-3">
+
+          <label className="form-label">Mensaje</label>
+          <textarea
+            className="form-control"
+            name="mensaje"
+            cols="30"
+            rows="10"
+            required
+            onChange={handleChange}
+          ></textarea>
+        </div>
+
+        <button className="btn btn-secondary mt-3">Enviar</button>
       </form>
     </div>
   </>);

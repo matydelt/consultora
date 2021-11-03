@@ -29,7 +29,7 @@ function App() {
         <Route path="/consulta">
           <FormCita />
         </Route>
-        <Route path="/perfil/:eMail">
+        <Route path="/perfil/:slug">
           <PerfilAbogado />
         </Route>
         <Route exact path="/abogados">
@@ -55,7 +55,6 @@ function App() {
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>
         <Route exact path="/modificar-perfil" component={ModificarAbogado}></Route>
       </Switch>
       <ToastContainer></ToastContainer>

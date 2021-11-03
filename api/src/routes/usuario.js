@@ -12,7 +12,7 @@ router.get("/usuarios", (req, res) => get.getUsuarios(req, res)) // get all user
 /* router.put("/usuario", (req, res) => get.getUsuario(req, res)) */ // get user(for login)
 // router.put("/usuario", (req, res) => get.getUsuario(req, res)) // get user(for login)
 
-router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)) // get abogado
+router.get("/abogado/:slug", (req, res) => get.getAbogado(req, res)) // get abogado
 
 // router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
 
@@ -53,7 +53,7 @@ router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogad
 
 router.get("/personas", (req, res) => get.getPersonas(req, res)); // get  abogados
 
-router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)); // get  abogado
+// router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)); // get  abogado
 
 router.put("/abogado", (req, res) => put.getAbogado(req, res)); // get  abogado
 

@@ -9,6 +9,8 @@ import md5 from 'md5'
 import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
 
+import './sign.css';
+
 
 export const Signin = () => {
 
@@ -124,7 +126,7 @@ export const Signin = () => {
                                     <div className="col-md-4 mx-auto">
                                         <div className="card text-center">
                                             <div className="card-header">
-                                                <h2>WELCOME</h2>
+                                                <h2>Bienvenido</h2>
                                             </div>
                                             <div className="card-header">
                                                 <h3>{displayname ? displayname : (`${usuario.firstName} ${usuario.lastName}`)}</h3>
@@ -132,7 +134,7 @@ export const Signin = () => {
                                             <img src={Logo} alt="Logo Consultora" className="card-img-top mx-auto m-2 rounded-circle w-50" />
                                             <div className="card-body">
                                                 <button className="btn btn-primary btn-block" onClick={logout}>
-                                                    Signout
+                                                    Cerrar sesión
                                                 </button>
                                             </div>
                                         </div>
@@ -151,7 +153,7 @@ export const Signin = () => {
                                                     <div className="card-header">
                                                         <h3>Register</h3>
                                                     </div>
-                                                    <div className="card-body">
+                                                    <div className="card-body form-sign">
                                                         <div className="form-group">
                                                             <input type="type" value={firstName} name="firstName" autoComplete="off" placeholder=" First Name" className="form-control" autoFocus required onChange={(e) => { setFirstName(e.target.value) }} />
                                                         </div>
@@ -191,7 +193,7 @@ export const Signin = () => {
                                                         <h3>Iniciar Sesión</h3>
                                                     </div>
                                                     <img src={Logo} alt="Logo Consultora" className="card-img-top mx-auto m-2 rounded-circle w-50" />
-                                                    <div className="card-body">
+                                                    <div className="card-body form-sign">
                                                         <div className="form-group">
                                                             <input type="text" value={eMail} name="Mail" autoComplete="off" required placeholder="Ejemplo@ejemplo.com" className="form-control" autoFocus onChange={
                                                                 (e) => { setEmail(e.target.value) }} />
@@ -201,22 +203,23 @@ export const Signin = () => {
                                                                 (e) => { setPassword(e.target.value) }} />
                                                         </div>
                                                         <button className="btn btn-primary btn-block" onClick={Login}>
-                                                            Signin
+                                                            Ingresar
                                                         </button>
-                                                        <div className="form-group">
-                                                            <h6>-- O ingresar con --</h6>
-                                                        </div>
-                                                        <button className="btn btn-primary btn-block" onClick={loginGoogle}>
+                                            
+                                                            <p>-- O ingresar con --</p>
+                                                    
+                                                        {/* <button className="btn btn-primary btn-block" onClick={loginGoogle}>
                                                             Google
-                                                        </button>
+                                                        </button> */}
+                                                        <div className="row">
+                                                            <div className="col-md-12" onClick={loginGoogle}> <a class="btn btn-block btn-outline-primary" href="#"><img src="https://img.icons8.com/color/16/000000/google-logo.png" />  Google</a> </div>
+                                                        </div> 
                                                     </div>
-                                                    <div className="form-group">
-                                                        <h6>-- -- -- -- -- -- -- -- -- -- -- -- </h6>
-                                                    </div>
-                                                    <div className="form-group">
+
+                                                    <div className="card-footer">
                                                         <Link to="/signup">
-                                                            <label>
-                                                                ← ← ←Go to Register
+                                                            <label className="pointer p-1">
+                                                                Crear una cuenta nueva
                                                             </label>
                                                         </Link>
                                                     </div>

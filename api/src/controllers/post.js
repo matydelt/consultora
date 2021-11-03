@@ -1,5 +1,6 @@
 const { uuid } = require("uuidv4");
 const cloudinary = require('../config/cloudinary');
+const enviarEmail = require('../email/email');
 
 const {
   Casos,
@@ -96,6 +97,13 @@ async function setUsuarios(req, res) {
       person.setUsuario(user);
       client.setUsuario(user);
       client.setPersona(person);
+
+      enviarEmail.send({
+        email: eMail,
+        subject: 'Confirmación de cuenta',
+        htmlFile: 'confirm.html'
+    });
+      
       res.sendStatus(200);
     } else res.sendStatus(500);
   } catch (error) {
@@ -111,10 +119,14 @@ async function setAbogado(req, res) {
     if (flag) {
       if (!user.abogadoId) {
         const abogado = await Abogado.create({})
+        console.log(persona.firstName, persona.lastName);
         if (user) {
+          user.slug = `${persona.firstName}-${persona.lastName}`;
           abogado.setUsuario(user)
           abogado.setPersona(persona)
-          return res.sendStatus(200)
+
+          return res.json({abogado})
+          // return res.sendStatus(200)
         }
         return res.sendStatus(404)
       } else return res.sendStatus(404)
@@ -191,6 +203,14 @@ async function setConsulta(req, res, next) {
         mensaje,
       };
       await Consulta.create(consulta);
+
+      enviarEmail.send({
+        email,
+        mensaje,
+        subject: 'Consulta recibida',
+        htmlFile: 'consulta.html'
+    });
+
       res.sendStatus(200);
     } catch (error) {
       next(error);
