@@ -1,23 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Footer from "./Footer/Footer";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import NavAbogado from "./NavAbogado/NavAbogado";
-import "./HomeAbogado.css";
-import VistaConsultasAbogado from "../vistaConsultasAbogado/VistaConsultasAbogado";
 import Clientes from "../clientes/clientes";
+import VistaConsultasAbogado from "../vistaConsultasAbogado/VistaConsultasAbogado";
 
 export default function HomeAbogado() {
-  const abogado = useSelector((state) => state.abogado);
-  const usuario = useSelector((state) => state.usuario);
+  const { usuario, abogado } = useSelector((state) => state);
 
   let history = useHistory();
-  if (!abogado.abogado.hasOwnProperty("id") && usuario) {
+  if (abogado && usuario) {
     history.push("/");
   } else if (usuario.abogadoId === null) {
     history.push("/usuario/usuario");
   }
-
   return (
     <div>
       <NavAbogado />
@@ -25,7 +22,6 @@ export default function HomeAbogado() {
       <Clientes />
       <h3>Consultas</h3>
       <VistaConsultasAbogado />
-
       <Footer />
     </div>
   );

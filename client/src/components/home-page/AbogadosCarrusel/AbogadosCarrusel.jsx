@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Abogado from './Abogado/Abogado.jsx';
-import abogados from './abogados.js';
+import frases from './abogados.js';
 import Carousel from 'react-elastic-carousel';
 import './AbogadosCarrusel.css'
+import { useDispatch } from 'react-redux';
+import { getAbogados } from '../../../redux/actions/index.js';
+import { useSelector } from 'react-redux';
 
 const AbogadosCarrusel = () => {
     const breakPoints = [
@@ -12,6 +15,16 @@ const AbogadosCarrusel = () => {
         { width: 1200, itemsToShow: 5 },
 
     ]
+
+    const dispatch = useDispatch();
+    const abogados = useSelector(state => state.abogados);
+
+    useEffect(() => {
+        dispatch(getAbogados());
+    }, []);
+
+
+    
     return (
         <div id="contain_title_abogado" className="flex_h2_carrusel container-fluid">
             <div>
@@ -27,13 +40,11 @@ const AbogadosCarrusel = () => {
                 >
                     {
 
-                        abogados.map(({ name, lastName, url, message }, i) => (
+                        abogados.map((abogado, i) => (
                             <div className="me-3 col-xl-6 p-1 abogado" key={i}>
                                 <Abogado
-                                    name={name}
-                                    lastName={lastName}
-                                    message={message}
-                                    img={url}
+                                    abogado={abogado}
+                                    frase={frases[i]}
                                 />
                             </div>
 

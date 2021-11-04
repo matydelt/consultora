@@ -1,9 +1,14 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import "./App.css";
+import { getAuth } from "@firebase/auth";
+import { getUsuario } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import { Route, Switch } from "react-router-dom";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
 import PerfilAbogado from "./components/perfilAbogado/PerfilAbogado";
+import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
 import VistaConsultasAbogado from "./components/vistaConsultasAbogado/VistaConsultasAbogado";
 import Clientes from "./components/clientes/clientes";
 import HomeAbogado from "./components/home-Abogado/HomeAbogado";
@@ -11,9 +16,21 @@ import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
 import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
 import Signup from "./components/Sign/signup";
-import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
+import FormCasos from "./components/FormCasos/FormCasos";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AdminPage from "./components/adminPage/adminPage";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const auth = getAuth();
+    auth.onAuthStateChanged((user) => {
+      user?.uid ? dispatch(getUsuario({ eMail: user.email })) : console.log();
+    });
+  });
+
   return (
     <div className="App container-fluid p-0">
       <Switch>
@@ -42,6 +59,10 @@ function App() {
           <VistaConsultasAbogado />
           <Footer />
         </Route>
+        <Route exact path={"/admin"} component={AdminPage}></Route>
+        <Route exact path="/user/abogado/nuevo-caso">
+          <FormCasos />
+        </Route>
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>
@@ -51,6 +72,7 @@ function App() {
           component={ModificarAbogado}
         ></Route>
       </Switch>
+      <ToastContainer></ToastContainer>
     </div>
   );
 }

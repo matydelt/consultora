@@ -10,15 +10,15 @@ const HomePage = () => {
     <div className="height">
       <Header />
       <Navbar navId={"menu"} />
-      <BannerDiagonal
-        contenedorBannerDiagonal={"contenedor_banner_diagonal"}
+      {/* <BannerDiagonal
+        contenedorBannerDiagonal={"contenedor_banner_diagonal"} 
         bannerDirection={"banner_diagonal_left"}
         containBanner={"banner_contain_left"}
         bannerContent={"banner_content_left"}
         bannerTitle={"text_banner_title"}
         title={"Somos"}
         cardFlex={"card_flex"}
-      />
+      /> */}
       <BannerDiagonal
         contenedorBannerDiagonal={"contenedor_banner_diagonal"}
         bannerDirection={"banner_diagonal_left"}
