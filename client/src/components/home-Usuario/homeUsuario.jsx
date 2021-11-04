@@ -1,11 +1,5 @@
 import React from "react";
 
-
-export default function homeUsuario() {
-    return (
-        <div>
-            
-        </div>
-    )
+export default function HomeUsuario() {
+  return <div></div>;
 }
-

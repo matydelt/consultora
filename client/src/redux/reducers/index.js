@@ -23,6 +23,7 @@ const initialState = {
   personas: [],
   usuario: {},
   consultas: [],
+  casos: [],
 };
 
 const rootReducer = (state = initialState, action) => {
