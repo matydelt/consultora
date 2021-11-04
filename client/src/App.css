@@ -10,7 +10,7 @@ a:focus,
 a:visited,
 a:link {
   box-shadow: none !important;
-  border    : none !;
+  border    : none;
 }
 
 html {

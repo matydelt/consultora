@@ -24,7 +24,7 @@ const Header = () => {
             </div>
           </div>
 
-          <div className="bg_two_caption height_image carousel-item col-xxl-5">
+          <div className="bg_two_caption height_image carousel-item col-md-5">
             {/* <img src={Image_Two} className="d-block w-100" alt="Image_Two" /> */}
             <div className="carousel-caption d-none d-md-block m_top_header caption_two">
               <h5>¿Quieres una Consulta rápida?</h5>

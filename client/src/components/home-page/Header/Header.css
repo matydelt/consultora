@@ -40,8 +40,8 @@
     background-repeat  : no-repeat;
     background-size    : cover;
     background-position: right top !important;
-    transform: translate(50%);
-    object-fit: cover;
+    transform          : translate(50%);
+    object-fit         : cover;
 }
 
 .caption_one h5 {
@@ -69,17 +69,17 @@
     background-repeat  : no-repeat;
     background-size    : cover;
     background-position: center center;
-    object-fit: cover;
+    object-fit         : cover;
 }
 
 .bg_two_caption .caption_two {
-    height   : 72% !important;
-    left     : 20% !important;
-    top      : 18%;
-    /* border: 1px solid white; */
-    width    : 35% !important;
-    overflow : hidden;
-    transform: scale(1.1);
+    height      : 72% !important;
+    left        : 20% !important;
+    top         : 18%;
+    /* border   : 1px solid white; */
+    width       : 35% !important;
+    overflow    : hidden;
+    transform   : scale(1.1);
 
 }
 
@@ -112,22 +112,50 @@
 
 
 .bg_two_caption .caption_two a {
-    position                  : relative;
-    left                      : -20%;
-    display                   : inline-block;
-    width                     : 40%;
-    text-decoration           : none;
-    color                     : white;
-    text-align                : center;
-    font-weight               : 400;
-    font-size                 : 25px;
+    position                     : relative;
+    left                         : 10%;
+    display                      : block;
+    width                        : 40%;
+    text-decoration              : none;
+    color                        : white;
+    text-align                   : center;
+    font-weight                  : 400;
+    font-size                    : 25px;
+    border                       : solid 1px #033663;
+    /* background-color          : #033663; */
+    border-top-left-radius       : 7px;
+    border-bottom-right-radius   : 7px;
+    padding                      : 4px;
+    margin-top                   : 13px;
+    transition                   : all 0.5s;
+}
+
+.bg_two_caption .caption_two a:hover {
+    color : #033663;
+    border: solid 1px #033663;
+}
+
+.bg_two_caption .caption_two a::before {
+    content         : '';
+    position        : absolute;
+    bottom          : 0px;
+    left            : 0;
+    display         : block;
+    width           : 100%;
+    height          : 100%;
+    background-color: #fff;
+    transform       : scaleY(0);
+    transform-origin: 0 bottom 0;
+    transition      : 0.4s ease-out;
+    padding         : 4px;
+    z-index         : -1;
+}
+
+.bg_two_caption .caption_two a:hover:before {
+    transform                 : scaleY(1);
     border                    : solid 1px #033663;
-    background-color          : #033663;
     border-top-left-radius    : 7px;
     border-bottom-right-radius: 7px;
-    padding                   : 1px;
-    margin-top                : 13px;
-    transition                : all 0.5s;
 }
 
 
@@ -140,10 +168,6 @@
     transition : all 0.5s;
 } */
 
-.bg_two_caption .caption_two a:hover {
-    color           : #033663;
-    background-color: white;
-}
 /* .bg_two_caption .caption_two a:focus,
 .bg_two_caption .caption_two a:active,
 .bg_two_caption .caption_two a:link {
@@ -153,14 +177,14 @@
 
 
 .bg_three_caption {
-    position: relative;
+    position           : relative;
     min-height         : 86vh !important;
     background-image   : linear-gradient(to left, #03366371, #012f586e, #012a4e62, #0125436c, #011f3970), url("../assets/img/equipo-abogados.jpg") !important;
     background-repeat  : no-repeat;
     background-size    : cover;
     background-position: center top;
-    object-fit: cover;
-    z-index: -10;
+    object-fit         : cover;
+    z-index            : -10;
 }
 
 /* .bg_three_caption:before {
@@ -176,9 +200,9 @@
 
 
 .bg_three_caption .caption_three {
-    position: absolute;
-    top: 120px;
-    z-index: 30;
+    position   : absolute;
+    top        : 17%;
+    /* z-index : 30; */
 }
 
 .bg_three_caption .caption_three * {
@@ -209,6 +233,7 @@
 }
 
 .bg_three_caption .caption_three a {
+    position   : relative;
     display    : block;
     margin     : auto;
     width      : 30%;
@@ -217,13 +242,43 @@
     font-size  : 30px;
     border     : solid 1px #033663;
     transition : all 0.5s;
+    z-index    : 1;
 }
 
-.caption_three a:hover {
+/* .caption_three a:hover {
     background-color: #ffffff;
     color           : #033663;
     border          : solid 1px #033663;
+} */
+
+.bg_three_caption .caption_three a:hover {
+    color: #033663;
 }
+
+.bg_three_caption .caption_three a::before {
+    content         : '';
+    position        : absolute;
+    bottom          : 0px;
+    left            : 0;
+    display         : block;
+    width           : 100%;
+    height          : 100%;
+    background-color: #ccc;
+    transform       : scaleY(0);
+    transform-origin: 0 bottom 0;
+    transition      : 0.4s ease-out;
+    padding         : 4px;
+    z-index         : -1;
+}
+
+.bg_three_caption .caption_three a:hover:before {
+    transform                 : scaleY(1);
+    border                    : solid 1px #033663;
+    border-top-left-radius    : 7px;
+    border-bottom-right-radius: 7px;
+}
+
+
 
 
 .color_pn {

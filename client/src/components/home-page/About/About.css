@@ -1,0 +1,51 @@
+.About_container {
+    position     : relative;
+    min-height   : 70vh;
+    border-top   : 1px solid #033663;
+    border-bottom: 1px solid #033663;
+    padding      : 60px 10px;
+    margin       : 100px 0px !important;
+    /* background-color: rgba(204, 204, 204, 0.308); */
+}
+
+.About_container * {
+    line-height: 30px;
+    letter-spacing: .8px;
+    text-align: justify;
+}
+.About_container h3 {
+    color: #033663;
+    margin-bottom: 20px;
+}
+
+.button_about a {
+    position: relative;
+    display: block;
+    width: 50%;
+    padding: 8px;
+    border: solid 1px #033663;
+    color: #033663;
+    transition: all .3s ease;
+    text-align: center;
+}
+.button_about a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #033663; 
+    transform-origin: left 0;
+    transform: scaleX(0);  
+    z-index: -1;
+    transition      : 0.4s ease-out;
+}
+.button_about a:hover::before {
+    transform: scaleX(1);
+}
+.button_about a:hover {
+    color: #fff;
+    border: solid 1px #033663 !important;
+    background-color: inherit;
+}
