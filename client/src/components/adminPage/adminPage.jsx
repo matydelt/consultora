@@ -14,6 +14,11 @@ export default function AdminPage() {
     var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
     useEffect(() => {
         dispatch(getUsuarios())
+        let type = "danger"
+        let mensaje = "Cuidado , una vez eliminado el estado de abogado el mismo pierde toda su informacion"
+        var wrapper = document.createElement('div')
+        wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+        alertPlaceholder.append(wrapper)
     }, [cont, dispatch])
 
 
@@ -136,7 +141,7 @@ export default function AdminPage() {
                                                 <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "admin") }} />
                                             </td>
                                         }
-                                        {e.abogadoId ? usuario.eMail !== e.eMail || (e.adminId !== 1 || usuario.adminId === 1) ?
+                                        {e.abogadoId ? usuario.eMail === e.eMail || (e.adminId !== 1 || usuario.adminId === 1) ?
                                             <td >
                                                 <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "abogado") }} defaultChecked />
                                             </td> :
