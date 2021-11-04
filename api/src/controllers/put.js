@@ -5,6 +5,7 @@ async function usuario(req, res) {
     try {
         // console.log(req.body, req.params, req.query)
         const { eMail } = req.body;
+        if (eMail){ 
         const user = await Usuario.findOne({ where: { eMail } });
         if (user) {
             console.log(user)
@@ -43,10 +44,13 @@ async function usuario(req, res) {
         } else {
             res.sendStatus(404);
         }
+    }
+    else res.send({})
     } catch (error) {
         console.error(error);
         res.sendStatus(500);
     }
+    
 }
 
 async function asignaConsulta(req, res, next) {

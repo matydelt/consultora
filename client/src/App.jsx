@@ -1,4 +1,8 @@
+import { useEffect } from "react";
+import { useDispatch } from 'react-redux'
 import "./App.css";
+import { getAuth } from "@firebase/auth";
+import { getUsuario } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import { Route, Switch } from "react-router-dom";
 import FormCita from "./components/FormCita/FormCita";
@@ -20,6 +24,16 @@ import 'react-toastify/dist/ReactToastify.css';
 import AdminPage from "./components/adminPage/adminPage";
 
 function App() {
+
+  const dispatch = useDispatch()
+
+  useEffect(  () => {
+    const auth = getAuth();
+    auth.onAuthStateChanged( user => {
+      user?.uid ? dispatch(getUsuario({eMail: user.email})) : console.log()
+    })
+  })
+
   return (
     <div className="App container-fluid p-0">
       <Switch>

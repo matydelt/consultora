@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut,
+    setPersistence, browserSessionPersistence, inMemoryPersistence, signInWithRedirect } from "firebase/auth";
 import Logo from '../home-page/assets/img/buffet-buffet-law.png'
 import { getUsuario, postUsuario, getPersonas, getUsuarios } from "../../redux/actions";
 import { sessionERR, sessionIN, sessionOUT, createOK, correoNoOK, dniNoOK } from "./alert";
@@ -13,7 +14,8 @@ import { Redirect } from "react-router";
 export const Signin = () => {
 
     const { usuarios, personas, usuario } = useSelector(state => state)
-
+console.log("browserSessionPersistence",browserSessionPersistence.type);
+console.log("inMemoryPersistence", inMemoryPersistence.type);
     const dispatch = useDispatch();
 
 
@@ -34,15 +36,18 @@ export const Signin = () => {
     const auth = getAuth();
     const google = new GoogleAuthProvider();
     const loginGoogle = () => {
-        signInWithPopup(auth, google)
+        setPersistence(auth, browserSessionPersistence)
+        .then(async () => {
+            console.log("google",inMemoryPersistence.type);
+            
+            await signInWithPopup(auth, google)
             .then(e => {
                 setDisplayName(e.user.displayName)
                 const aux = e.user.email
-                console.log("aux", aux);
-                console.log("e.user", e.user);
-                console.log(usuarios.some(e => e.eMail == aux))
-                if (usuarios.some(e => e.eMail == aux))
+                if (usuarios.some(e => e.eMail == aux)){
+                    console.log("auth",auth);
                     dispatch(getUsuario({ eMail: e.user.email }))
+                }
                 else {
                     setEmail(aux)
                     console.log("google", eMail);
@@ -53,11 +58,17 @@ export const Signin = () => {
             .catch(error => {
                 console.log(error);
             })
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
     }
 
     const GoTo = async () => {
         if (usuarios.some(e => e.eMail.toString() === eMail.toString()) || personas.some(e => e.dni.toString() === dni.toString())) {
-            usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
+            usuarios.some(e => e.eMail.toString() === eMail.toString()) ? correoNoOK() : dniNoOK()
         }
         else {
             console.log("email", eMail);
@@ -79,8 +90,8 @@ export const Signin = () => {
         }
     }
 
-    const logout = () => {
-        signOut(auth).then(() => {
+    const logout = async () => {
+        await signOut(auth).then(() => {
             setEmail('');
             setPassword('');
             dispatch(getUsuario({}));
@@ -91,7 +102,10 @@ export const Signin = () => {
         });
     }
     const Login = async () => {
-        await signInWithEmailAndPassword(auth, eMail, md5(password))
+        await setPersistence(auth, browserSessionPersistence)
+        .then( async () => {
+            console.log("que trae",browserSessionPersistence);
+            await signInWithEmailAndPassword(auth, eMail, md5(password))
             .then((userCredential) => {
                 // Signed in
                 console.log("login");
@@ -110,6 +124,12 @@ export const Signin = () => {
                 setEmail('');
                 setPassword('');
             });
+        })
+        .catch((error) => {
+          // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
     }
 
     return (
