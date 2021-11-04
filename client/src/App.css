@@ -9,9 +9,9 @@ html {
   scroll-behavior: smooth;
 }
 
-#root {
+/* #root {
   min-height: 2000px;
-}
+} */
 
 .textDecoration {
   text-decoration: none;

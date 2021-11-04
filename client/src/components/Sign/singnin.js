@@ -6,6 +6,10 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  setPersistence,
+  browserSessionPersistence,
+  inMemoryPersistence,
+  signInWithRedirect,
 } from "firebase/auth";
 import Logo from "../home-page/assets/img/buffet-buffet-law.png";
 import {
@@ -22,11 +26,15 @@ import {
   correoNoOK,
   dniNoOK,
 } from "./alert";
+import { Link } from "react-router-dom";
 import md5 from "md5";
+import Navbar from "../home-page/Navbar/Navbar";
+import { Redirect } from "react-router";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
-
+  console.log("browserSessionPersistence", browserSessionPersistence.type);
+  console.log("inMemoryPersistence", inMemoryPersistence.type);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,30 +53,45 @@ export const Signin = () => {
   const auth = getAuth();
   const google = new GoogleAuthProvider();
   const loginGoogle = () => {
-    signInWithPopup(auth, google)
-      .then((e) => {
-        setDisplayName(e.user.displayName);
-        let aux = e.user.email;
-        if (usuarios.some((e) => e.eMail === aux))
-          dispatch(getUsuario({ eMail: e.user.email }));
-        else {
-          setEmail(e.user.email);
-          setFirstName(e.user.displayName);
-          setPassword(md5(e.user.email));
-        }
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        console.log("google", inMemoryPersistence.type);
+
+        await signInWithPopup(auth, google)
+          .then((e) => {
+            setDisplayName(e.user.displayName);
+            const aux = e.user.email;
+            if (usuarios.some((e) => e.eMail === aux)) {
+              console.log("auth", auth);
+              dispatch(getUsuario({ eMail: e.user.email }));
+            } else {
+              setEmail(aux);
+              console.log("google", eMail);
+              setFirstName(e.user.displayName);
+              setPassword(md5(e.user.email));
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
-        console.log(error);
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
       });
   };
 
   const GoTo = async () => {
     if (
-      usuarios.some((e) => e.eMail === eMail) ||
-      personas.some((e) => e.dni === dni)
+      usuarios.some((e) => e.eMail.toString() === eMail.toString()) ||
+      personas.some((e) => e.dni.toString() === dni.toString())
     ) {
-      usuarios.some((e) => e.eMail === eMail) ? correoNoOK() : dniNoOK();
+      usuarios.some((e) => e.eMail.toString() === eMail.toString())
+        ? correoNoOK()
+        : dniNoOK();
     } else {
+      console.log("email", eMail);
       dispatch(
         postUsuario({
           eMail: eMail,
@@ -78,7 +101,14 @@ export const Signin = () => {
           celular: celular,
           password: md5(password),
         })
-      );
+      )
+        .then(() => {
+          console.log("usuario", usuario);
+          dispatch(getUsuario({ eMail: eMail }));
+        })
+        .catch((error) => {
+          console.log("falla postUsuario");
+        });
       createOK();
       setFirstName("");
       setLastName("");
@@ -89,8 +119,8 @@ export const Signin = () => {
     }
   };
 
-  const logout = () => {
-    signOut(auth)
+  const logout = async () => {
+    await signOut(auth)
       .then(() => {
         setEmail("");
         setPassword("");
@@ -102,30 +132,44 @@ export const Signin = () => {
         // An error happened.
       });
   };
-
   const Login = async () => {
-    await signInWithEmailAndPassword(auth, eMail, md5(password))
-      .then((userCredential) => {
-        // Signed in
-        console.log("login");
-        const user = userCredential.user;
-        dispatch(getUsuario({ eMail: eMail }));
-        sessionIN();
-        setEmail("");
-        setPassword("");
-        // ...
+    await setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        console.log("que trae", browserSessionPersistence);
+        await signInWithEmailAndPassword(auth, eMail, md5(password))
+          .then((userCredential) => {
+            // Signed in
+            console.log("login");
+            const user = userCredential.user;
+            dispatch(getUsuario({ eMail: eMail }));
+            sessionIN();
+            setEmail("");
+            setPassword("");
+            // ...
+          })
+          .catch((error) => {
+            console.log("error");
+            sessionERR();
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setEmail("");
+            setPassword("");
+          });
       })
       .catch((error) => {
-        console.log("error");
-        sessionERR();
+        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
-        setEmail("");
-        setPassword("");
       });
   };
-  return (
+
+  return usuario?.adminId ? (
+    <Redirect to="/admin" />
+  ) : usuario?.abogadoId ? (
+    <Redirect to="/user/abogado" />
+  ) : (
     <div>
+      <Navbar />
       {!!usuario.firstName ? (
         <div className="container p-4">
           <div className="row">
@@ -235,9 +279,6 @@ export const Signin = () => {
                       placeholder="Mail : Ejemplo@ejemplo.com"
                       className="form-control"
                       required
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
                     />
                   </div>
                   <div className="form-group">
@@ -250,9 +291,6 @@ export const Signin = () => {
                       placeholder="Password min 6 digits"
                       className="form-control"
                       required
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                      }}
                     />
                   </div>
                   <div className="form-group">
@@ -282,7 +320,7 @@ export const Signin = () => {
             <div className="col-md-4 mx-auto">
               <div className="card text-center">
                 <div className="card-header">
-                  <h3>Iniciar SesiÃ³n</h3>
+                  <h3>Iniciar Sesi�n</h3>
                 </div>
                 <img
                   src={Logo}
@@ -331,6 +369,14 @@ export const Signin = () => {
                   >
                     Google
                   </button>
+                </div>
+                <div className="form-group">
+                  <h6>-- -- -- -- -- -- -- -- -- -- -- -- </h6>
+                </div>
+                <div className="form-group">
+                  <Link to="/signup">
+                    <label>? ? ?Go to Register</label>
+                  </Link>
                 </div>
               </div>
             </div>

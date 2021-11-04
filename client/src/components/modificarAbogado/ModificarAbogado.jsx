@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { setUsuario } from "../../redux/actions";
 import Navbar from "../home-page/Navbar/Navbar";
 
 import './ModificarAbogado.css';
@@ -24,10 +26,13 @@ export default function ModificarAbogado() {
 
     let { nombre, apellido, detalle, experiencia, estudios, imagen } = form;
 
+    let usuario = useSelector(state => state.usuario);
+    const dispatch = useDispatch();
+
 
     useEffect(() => {
-        return axios.get(`${ENDPOINT_URL}/abogado/12@gmail.com`).then(({ data }) => {
-            setForm({ nombre: data.firstName, apellido: data.lastName, detalle: data.detalle, experiencia: data.experiencia, estudios: data.estudios, imagen: data.imagen })
+        return axios.get(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`).then(({ data }) => {
+            setForm({ nombre: data.firstName, apellido: data.lastName, detalle: data.detalle || '', experiencia: data.experiencia || '', estudios: data.estudios || '', imagen: data.imagen })
         });
     }, []);
 
@@ -38,16 +43,17 @@ export default function ModificarAbogado() {
         if (!e.target.files[0]) return;
 
         setLoadingImage(true);
+        
         let formData = new FormData();
         formData.append('image', e.target.files[0])
-        formData.append('email', '12@gmail.com')
+        formData.append('email', usuario.eMail || usuario.eMail)
 
         axios.post(`${ENDPOINT_URL}/subirimagen`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(() => {
-            axios.get(`${ENDPOINT_URL}/abogado/12@gmail.com`).then(({ data }) => {
+            axios.get(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`).then(({ data }) => {
                 setForm({ ...form, imagen: data.imagen })
                 toast.success("La imagen fue cambiada con éxito");
                 setLoadingImage(false);
@@ -56,7 +62,7 @@ export default function ModificarAbogado() {
     };
 
     function eliminarImagen() {
-        axios.post(`${ENDPOINT_URL}/eliminarimagen`, { public_id: imagen.substring(imagen.lastIndexOf('/') + 1).slice(0, -4), 'email': '12@gmail.com' })
+        axios.post(`${ENDPOINT_URL}/eliminarimagen`, { public_id: imagen.substring(imagen.lastIndexOf('/') + 1).slice(0, -4), 'email': usuario.eMail })
             .then(() => {
                 setForm({ ...form, imagen: '' })
                 toast.info('La foto fue eliminada');
@@ -91,9 +97,10 @@ export default function ModificarAbogado() {
 
 
         setLoading(true);
-        axios.put(`${ENDPOINT_URL}/abogado/12@gmail.com`, form).then(data => {
+        axios.put(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`, form).then(({data}) => {
             setLoading(false);
             toast.success("Los cambios fueron guardados");
+            dispatch(setUsuario(data))
 
         }).catch(err => console.log(err));
     };
@@ -109,7 +116,6 @@ export default function ModificarAbogado() {
             <h2 className="">Modificar perfil</h2>
 
             <hr></hr>
-
 
             <form onSubmit={enviarForm}>
 

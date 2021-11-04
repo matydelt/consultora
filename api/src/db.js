@@ -95,7 +95,7 @@ Abogado.hasMany(Consulta);
 
 Abogado.hasMany(Provincias);
 
-Abogado.hasMany(Provincias)
+// Abogado.hasMany(Provincias)
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" });
 
@@ -109,7 +109,7 @@ Cliente.hasMany(Casos);
 
 Abogado.hasMany(Cliente);
 
-Abogado.hasMany(Consulta);
+// Abogado.hasMany(Consulta);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');

@@ -1,4 +1,4 @@
-form {
+.form-cita {
   display: grid;
   align-content: center;
   justify-content: center;
@@ -13,6 +13,8 @@ form {
 }
 .enviar {
   background-color: #4caf50; /* Green */
+  /* button {
+  background-color: #4caf50; Green
   border: none;
   color: white;
   padding: 16px 32px;
@@ -26,6 +28,8 @@ form {
 }
 
 .enviar:hover {
+/* button:hover {
   background-color: chartreuse;
   color: white;
+} */
 }

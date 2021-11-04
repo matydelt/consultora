@@ -70,12 +70,27 @@ export function getCasos() {
   };
 }
 
+export function postCasos(payload) {
+  return async function () {
+    try {
+      const newCaso = await axios.post(
+        "http://localhost:3001/casos/new",
+        payload
+      );
+      return newCaso;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function postUsuario(usuario) {
   return async function (dispatch) {
     try {
-      await axios.post("http://localhost:3001/usuarios", usuario);
+      await axios.post("http://localhost:3001/usuario", usuario);
+
       return dispatch({
-        type: "POST_USUARIOS",
+        type: "POST_USUARIO",
       });
     } catch (error) {
       console.log(error);
@@ -83,19 +98,34 @@ export function postUsuario(usuario) {
   };
 }
 
-export function getUsuario({ usuario }) {
-  return async function (dispatch) {
-    try {
-      let user = await axios.get("http://localhost:3001/usuario", usuario);
-      return dispatch({
-        type: "GET_USUARIO",
-        payload: user,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+export const setUsuario = (usuario) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "SET_USUARIO",
+      payload: usuario,
+    });
   };
-}
+};
+
+export const getUsuario = (usuario) => {
+  return (dispatch) => {
+    axios
+      .put("http://localhost:3001/usuario", usuario)
+      .then((user) => {
+        return dispatch({
+          type: "GET_USUARIO",
+          payload: user.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        return dispatch({
+          type: "GET_USUARIO",
+          payload: {},
+        });
+      });
+  };
+};
 
 export function postAbogado(abogado) {
   return async function (dispatch) {
@@ -113,7 +143,7 @@ export function postAbogado(abogado) {
 export function getAbogado(abogado) {
   return async function (dispatch) {
     try {
-      await axios.get("http://localhost:3001/abogado", abogado);
+      await axios.put("http://localhost:3001/abogado", abogado);
       return dispatch({
         type: "GET_ABOGADO",
       });
@@ -181,7 +211,7 @@ export function asignarConsulta(consultaId, abogadoId) {
 export function getPersonas() {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3001/personas%22");
+      const json = await axios.get("http://localhost:3001/personas");
       return dispatch({
         type: "GET_PERSONAS",
         payload: json.data,

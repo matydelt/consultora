@@ -69,7 +69,7 @@ export default function FormCita() {
 
   return (
     <div classnombre="formulario-cita">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form-cita">
         <label>Nombre</label>
         <input name="nombre" type="text" required onChange={handleChange} />
 
