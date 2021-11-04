@@ -29,6 +29,10 @@
     position : relative;
 }
 
+#menu ul img {
+    width: 9%;
+}
+
 #menu ul li a:after {
     display         : block;
     content         : '';
@@ -69,7 +73,7 @@
     text-transform: uppercase;
     transition    : all 0.5s;
     text-align    : center;
-    width         : 226px;
+    width         : 236px;
 }
 
 #menu ul li:last-of-type:hover {
