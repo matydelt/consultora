@@ -18,8 +18,28 @@ import FormCasos from "./components/FormCasos/FormCasos";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import AdminPage from "./components/adminPage/adminPage";
+import { useEffect } from "react";
+import { getAuth } from "@firebase/auth";
+import { getUsuario } from "./redux/actions";
+import { useDispatch } from "react-redux";
 
 function App() {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+
+    const auth = getAuth();
+    auth.onAuthStateChanged( user => {
+      console.log(user);
+      if(user?.uid) {
+        dispatch(getUsuario({eMail: user.email}))
+
+      }
+    })
+  })
+  
+  
   return (
     <div className="App container-fluid p-0">
       <Switch>

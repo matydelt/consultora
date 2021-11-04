@@ -25,7 +25,7 @@ let transport = nodemailer.createTransport({
 exports.send = async (options) => {
 
     const file = await readFile(`${__dirname}/plantillas/${options.htmlFile}`, 'utf8');
-    const result = file.replace('[[mensaje]]', options.mensaje);
+    const result = file.replace('[[respuesta]]', options.respuesta);
     
     let mailOptions = {
         from: '',

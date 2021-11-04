@@ -97,12 +97,6 @@ async function setUsuarios(req, res) {
       person.setUsuario(user);
       client.setUsuario(user);
       client.setPersona(person);
-
-      enviarEmail.send({
-        email: eMail,
-        subject: 'Confirmación de cuenta',
-        htmlFile: 'confirm.html'
-    });
       
       res.sendStatus(200);
     } else res.sendStatus(500);

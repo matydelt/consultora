@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
+
 import Logo from '../home-page/assets/img/buffet-buffet-law.png'
 import { getUsuario, postUsuario, getPersonas, getUsuarios } from "../../redux/actions";
 import { sessionERR, sessionIN, sessionOUT, createOK, correoNoOK, dniNoOK } from "./alert";
@@ -36,24 +37,27 @@ export const Signin = () => {
     const auth = getAuth();
     const google = new GoogleAuthProvider();
     const loginGoogle = () => {
-        signInWithPopup(auth, google)
-            .then(e => {
-                setDisplayName(e.user.displayName)
-                const aux = e.user.email
-                console.log("aux", aux);
-                console.log("e.user", e.user);
-                console.log(usuarios.some(e => e.eMail == aux))
-                if (usuarios.some(e => e.eMail == aux))
-                    dispatch(getUsuario({ eMail: e.user.email }))
-                else {
-                    setEmail(aux)
-                    console.log("google", eMail);
-                    setFirstName(e.user.displayName)
-                    setPassword(md5(e.user.email))
-                }
-            })
-            .catch(error => {
-                console.log(error);
+        setPersistence(auth, browserLocalPersistence)
+            .then(() => {
+                signInWithPopup(auth, google)
+                    .then(e => {
+                        setDisplayName(e.user.displayName)
+                        const aux = e.user.email
+                        console.log("aux", aux);
+                        console.log("e.user", e.user);
+                        console.log(usuarios.some(e => e.eMail == aux))
+                        if (usuarios.some(e => e.eMail == aux))
+                            dispatch(getUsuario({ eMail: e.user.email }))
+                        else {
+                            setEmail(aux)
+                            console.log("google", eMail);
+                            setFirstName(e.user.displayName)
+                            setPassword(md5(e.user.email))
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
             })
     }
 
@@ -205,15 +209,15 @@ export const Signin = () => {
                                                         <button className="btn btn-primary btn-block" onClick={Login}>
                                                             Ingresar
                                                         </button>
-                                            
-                                                            <p>-- O ingresar con --</p>
-                                                    
+
+                                                        <p>-- O ingresar con --</p>
+
                                                         {/* <button className="btn btn-primary btn-block" onClick={loginGoogle}>
                                                             Google
                                                         </button> */}
                                                         <div className="row">
                                                             <div className="col-md-12" onClick={loginGoogle}> <a class="btn btn-block btn-outline-primary" href="#"><img src="https://img.icons8.com/color/16/000000/google-logo.png" />  Google</a> </div>
-                                                        </div> 
+                                                        </div>
                                                     </div>
 
                                                     <div className="card-footer">

@@ -1,4 +1,5 @@
-const { Casos, Usuario, Provincias, Materias, Abogado, Persona, Cliente } = require("../db")
+const { Casos, Usuario, Provincias, Materias, Abogado, Persona, Cliente, Consulta } = require("../db")
+const enviarEmail = require('../email/email');
 
 
 async function usuario(req, res) {
@@ -51,25 +52,35 @@ async function usuario(req, res) {
 }
 
 async function asignaConsulta(req, res, next) {
-    const { consultaId, abogadoId } = req.body;
+    const { consultaId, abogadoId, respuesta } = req.body;
+
     try {
+        const consulta = await Consulta.findByPk(consultaId);
+
+        if(consulta.abogadoId) return res.status(400).json({msg: 'La consulta ya fue asignada a un abogado'})
+
         const result = await Consulta.update(
             { abogadoId: abogadoId },
             { where: { id: consultaId } }
         );
+
+
+        enviarEmail.send({
+            email: consulta.email,
+            respuesta,
+            subject: 'Su consulta fue aceptada',
+            htmlFile: 'consulta-aceptada.html'
+        });
+
         res.send(result);
     } catch (error) {
+        console.log(error);
         next({ msg: "no se pudo asignar abogado" });
     }
 }
 
 // asigna materia y matricula al abogado
 
-module.exports = {
-    usuario,
-    asignaConsulta,
-    modificarAbogado
-};
 
 async function modificarAbogado(req, res) {
 
