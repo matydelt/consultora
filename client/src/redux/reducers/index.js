@@ -91,6 +91,10 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case "SET_BANN":
+      return {
+        ...state,
+      };
     case "POST_CONSULTA":
       return {
         ...state,

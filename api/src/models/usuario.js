@@ -14,6 +14,11 @@ module.exports = (sequelize) => {
             allowNull: false,
 
         },
+        banned: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        }
     });
 
 };

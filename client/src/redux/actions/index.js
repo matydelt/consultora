@@ -191,6 +191,18 @@ export function setAdmin(user) {
     }
   }
 }
+export function setBann(user) {
+  return async function (dispatch) {
+    try {
+      await axios.put("http://localhost:3001/bann", user);
+      return dispatch({
+        type: "SET_BANN"
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
 export function getConsultas() {
   return async function (dispatch) {
     try {

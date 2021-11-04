@@ -64,11 +64,6 @@ async function asignaConsulta(req, res, next) {
 
 // asigna materia y matricula al abogado
 
-module.exports = {
-    usuario,
-    asignaConsulta,
-    modificarAbogado
-};
 
 async function modificarAbogado(req, res) {
 
@@ -139,12 +134,30 @@ async function getAbogado(req, res) {
     }
 }
 
+async function setBann(req, res) {
+    try {
+        let { eMail, flag } = req.body
+        const user = await Usuario.findByPk(eMail)
+        if (flag) {
+            user.banned = true
+            await user.save()
+            res.sendStatus(200)
+        } else {
+            user.banned = false
+            await user.save()
+            res.sendStatus(200)
+        }
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
 
 module.exports = {
     usuario,
     asignaConsulta,
     modificarAbogado,
-
+    setBann,
     getAbogado
 }
 
