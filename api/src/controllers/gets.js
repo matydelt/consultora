@@ -112,9 +112,8 @@ async function getUsuario(req, res) {
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
       let abogado = await Abogado.findByPk(user.abogadoId);
-      const { firstName, lastName, dni, celular } = await Persona.findByPk(
-        user.personaDni
-      );
+      const { firstName, lastName, dni, celular, clienteId } =
+        await Persona.findByPk(user.personaDni);
       if (abogado)
         res.json({
           ...{
@@ -134,6 +133,7 @@ async function getUsuario(req, res) {
             lastName,
             dni,
             celular,
+            clienteId,
           },
         });
       }
@@ -234,8 +234,19 @@ async function getAbogado(req, res) {
 }
 
 async function getCasos(req, res) {
-  const { numeroExpediente, estado, juez } = req.body;
+  const { numeroExpediente, estado, juez, clienteId } = req.body;
   try {
+    if (clienteId) {
+      const casos = Casos.findAll({
+        where: { clienteId },
+      });
+      res.json({
+        result: casos,
+        count: casos.length,
+      });
+      return;
+    }
+
     let Cases = await Casos.findAll();
 
     if (numeroExpediente != "" && numeroExpediente != null) {
@@ -264,7 +275,7 @@ async function getCasos(req, res) {
 
     // console.log("Cases",Cases);
 
-    return res.send({
+    return res.json({
       result: Cases,
       count: Cases.length,
     });

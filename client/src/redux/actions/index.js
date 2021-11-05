@@ -56,10 +56,10 @@ export function getUsuarios() {
   };
 }
 
-export function getCasos() {
+export function getCasos(data) {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3001/casos");
+      const json = await axios.get("http://localhost:3001/casos", data);
       return dispatch({
         type: "GET_CASOS",
         payload: json.data,

@@ -4,6 +4,7 @@ import Header from "./Header/Header";
 import Navbar from "./Navbar/Navbar";
 import "./HomePage.css";
 import BannerDiagonal from "./BannerDiagonal/BannerDiagonal";
+import HomeUsuario from "../Home-Usuario/HomeUsuario";
 
 const HomePage = () => {
   return (
@@ -29,6 +30,7 @@ const HomePage = () => {
         cardFlex={"card_flex"}
       />
       <AbogadosCarrusel />
+      <HomeUsuario />
     </div>
   );
 };

@@ -23,7 +23,7 @@ const initialState = {
   },
   error: "",
   consultas: [],
-  casos: [],
+  casos: {},
   admin: {},
 };
 
