@@ -1,4 +1,5 @@
-const { Casos, Usuario, Provincias, Materias, Abogado, Persona, Cliente } = require("../db")
+const { Casos, Usuario, Provincias, Materias, Abogado, Persona, Cliente, Consulta } = require("../db")
+const enviarEmail = require('../email/email');
 
 
 async function usuario(req, res) {
@@ -19,6 +20,7 @@ async function usuario(req, res) {
                         password: user.password,
                         abogadoId: user.abogadoId,
                         adminId: user.adminId,
+                        slug: user.slug,
                         firstName,
                         lastName,
                         dni,
@@ -50,30 +52,39 @@ async function usuario(req, res) {
 }
 
 async function asignaConsulta(req, res, next) {
-    const { consultaId, abogadoId } = req.body;
+    const { consultaId, abogadoId, respuesta } = req.body;
+
     try {
+        const consulta = await Consulta.findByPk(consultaId);
+
+        if(consulta.abogadoId) return res.status(400).json({msg: 'La consulta ya fue asignada a un abogado'})
+
         const result = await Consulta.update(
             { abogadoId: abogadoId },
             { where: { id: consultaId } }
         );
+
+
+        enviarEmail.send({
+            email: consulta.email,
+            mensaje: respuesta,
+            subject: 'Su consulta fue aceptada',
+            htmlFile: 'consulta-aceptada.html'
+        });
+
         res.send(result);
     } catch (error) {
+        console.log(error);
         next({ msg: "no se pudo asignar abogado" });
     }
 }
 
 // asigna materia y matricula al abogado
 
-module.exports = {
-    usuario,
-    asignaConsulta,
-    modificarAbogado
-};
 
 async function modificarAbogado(req, res) {
 
     const { eMail } = req.params;
-
     const { nombre, apellido, detalle, estudios, experiencia } = req.body;
 
     try {
@@ -89,19 +100,28 @@ async function modificarAbogado(req, res) {
         abogado.detalle = detalle;
         abogado.estudios = estudios;
         abogado.experiencia = experiencia;
+        user.slug = `${nombre}-${apellido}`
 
-        await persona.save();
-        await abogado.save();
+        Promise.all([await persona.save(), await abogado.save(), await user.save()]);
 
-        abogado = { ...{ eMail: user.eMail, firstName: persona.firstName, lastName: persona.lastName }, dataValues: { abogado } }
-
-        return res.json(abogado);
+        return res.send({
+            ...{
+                eMail: user.eMail,
+                password: user.password,
+                abogadoId: user.abogadoId,
+                adminId: user.adminId,
+                slug: user.slug,
+                firstName: persona.firstName,
+                lastName: persona.lastName,
+                dni: persona.dni,
+                celular: persona.celular,
+            },
+            abogado,
+        });
 
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
-            msj: 'Ocurrió un error al modificar al abogado'
-        });
+        return res.sendStatus(500);
     }
 
 

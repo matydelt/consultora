@@ -18,8 +18,28 @@ import FormCasos from "./components/FormCasos/FormCasos";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import AdminPage from "./components/adminPage/adminPage";
+import { useEffect } from "react";
+import { getAuth } from "@firebase/auth";
+import { getUsuario } from "./redux/actions";
+import { useDispatch } from "react-redux";
 
 function App() {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+
+    const auth = getAuth();
+    auth.onAuthStateChanged( user => {
+      console.log(user);
+      if(user?.uid) {
+        dispatch(getUsuario({eMail: user.email}))
+
+      }
+    })
+  })
+  
+  
   return (
     <div className="App container-fluid p-0">
       <Switch>
@@ -29,7 +49,7 @@ function App() {
         <Route path="/consulta">
           <FormCita />
         </Route>
-        <Route path="/perfil/:eMail">
+        <Route path="/perfil/:slug">
           <PerfilAbogado />
         </Route>
         <Route exact path="/abogados">
@@ -55,7 +75,6 @@ function App() {
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>
         <Route exact path="/modificar-perfil" component={ModificarAbogado}></Route>
       </Switch>
       <ToastContainer></ToastContainer>

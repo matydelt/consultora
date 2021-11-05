@@ -14,7 +14,7 @@ const Abogado = ({ abogado, frase }) => {
                 </div>
             </div>
             <div className="button_ver_mas">
-                <Link to={`/perfil/${abogado.eMail.split('@')[0]}`}>
+                <Link to={`/perfil/${abogado.slug}`}>
                     Ver más
                 </Link>
             </div>

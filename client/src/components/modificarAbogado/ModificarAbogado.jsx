@@ -31,7 +31,7 @@ export default function ModificarAbogado() {
 
 
     useEffect(() => {
-        return axios.get(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`).then(({ data }) => {
+        return axios.get(`${ENDPOINT_URL}/abogado/${usuario.slug}`).then(({ data }) => {
             setForm({ nombre: data.firstName, apellido: data.lastName, detalle: data.detalle || '', experiencia: data.experiencia || '', estudios: data.estudios || '', imagen: data.imagen })
         });
     }, []);
@@ -46,14 +46,14 @@ export default function ModificarAbogado() {
         
         let formData = new FormData();
         formData.append('image', e.target.files[0])
-        formData.append('email', usuario.eMail || usuario.eMail)
+        formData.append('email', usuario.eMail)
 
         axios.post(`${ENDPOINT_URL}/subirimagen`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(() => {
-            axios.get(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`).then(({ data }) => {
+            axios.get(`${ENDPOINT_URL}/abogado/${usuario.slug}`).then(({ data }) => {
                 setForm({ ...form, imagen: data.imagen })
                 toast.success("La imagen fue cambiada con éxito");
                 setLoadingImage(false);

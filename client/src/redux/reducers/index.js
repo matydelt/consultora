@@ -9,7 +9,8 @@ const initialState = {
   abogado: {},
   error: "",
   consultas: [],
-  admin: {}
+  admin: {},
+  consulta: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -33,6 +34,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         usuario: action.payload,
+      };
+    case "SET_CONSULTA":
+      return {
+        ...state,
+        consulta: action.payload,
       };
     case "GET_USUARIO":
       let user = action.payload

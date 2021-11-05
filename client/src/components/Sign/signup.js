@@ -5,6 +5,9 @@ import { getPersonas, getUsuarios, postUsuario } from '../../redux/actions/index
 import { correoNoOK, createNOOK, createOK, dniNoOK, } from "./alert.js";
 import { Link } from "react-router-dom";
 import md5 from 'md5'
+import Navbar from "../home-page/Navbar/Navbar.jsx";
+
+import './sign.css';
 
 
 export const Signup = () => {
@@ -51,15 +54,18 @@ export const Signup = () => {
             setPassword('');
         }
     }
-    return (
+    return (<>
+
+        <Navbar></Navbar>
+        
         <div className="container p-4">
             <div className="row">
                 <div className="col-md-4 mx-auto">
                     <div className="card text-center">
                         <div className="card-header">
-                            <h3>Register</h3>
+                            <h3>Registro</h3>
                         </div>
-                        <div className="card-body">
+                        <div className="card-body form-sign">
                             <div className="form-group">
                                 <input type="type" value={firstName} name="firstName" autoComplete="off" placeholder=" First Name" className="form-control" autoFocus required onChange={(e) => { setFirstName(e.target.value) }} />
                             </div>
@@ -81,25 +87,23 @@ export const Signup = () => {
                             <div className="form-group">
                                 <button className="btn btn-success btn-block" onClick={GoTo} disabled={(firstName === '') || (lastName === '') || (dni === '') || (celular === '') || (eMail === '') || (password.length < 6)}>
 
-                                    Register
+                                    Registrarme
 
                                 </button>
                             </div>
-                            <div className="form-group">
-                                <h6>-- -- -- -- -- -- -- -- -- -- -- -- </h6>
-                            </div>
-                            <div className="form-group">
+                    
+                        </div>
+                            <div className="card-footer">
                                 <Link to="/ingreso">
-                                    <label>
-                                        Go to Login → → →
+                                    <label className="pointer">
+                                        Ya tengo una cuenta. INGRESAR
                                     </label>
                                 </Link>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    </>)
 }
 export default Signup;

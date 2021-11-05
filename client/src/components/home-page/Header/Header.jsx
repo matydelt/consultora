@@ -23,7 +23,7 @@ const Header = () => {
                         <img src={Image_Two} className="d-block w-100" alt="Image_Two" />
                         <div className="carousel-caption d-none d-md-block m_top_header caption_two">
                             <h5>¿Quieres una Consulta rápida?</h5>
-                            <Link className="btn" to="#">Presiona aquí</Link>
+                            <Link className="btn" to="/consulta">Presiona aquí</Link>
                         </div>
                     </div>
                     <div className="height_image carousel-item">

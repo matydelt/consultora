@@ -1,4 +1,5 @@
 import axios from "axios";
+import swal from "sweetalert";
 
 export function getMaterias() {
   return async function (dispatch) {
@@ -164,6 +165,34 @@ export function postConsulta(consulta) {
   };
 }
 
+export function setConsulta(consultaId, abogadoId, respuesta) {
+  return async function (dispatch) {
+    try {
+      await axios.put("http://localhost:3001/consultas", {consultaId, abogadoId, respuesta});
+      swal("La consulta fue aceptada", {
+        icon: "success",
+    });
+      // return dispatch({
+      //   type: "POST_CONSULTA",
+      // });
+    } catch (error) {
+      console.log(error);
+      swal('Ocurrió un error al asignar la consulta', {
+        icon: "error",
+    });
+    }
+  };
+}
+
+export const mostrarConsulta = (consulta) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "SET_CONSULTA",
+      payload: consulta
+    })
+  };
+};
+
 export function setAbogado(user) {
   return async function (dispatch) {
     try {
@@ -207,6 +236,7 @@ export function getPersonas() {
 export function deleteConsulta(id) {
   return async function (dispatch) {
     try {
+      // await axios.delete(`http://localhost:3001/consultas/${id}`);
       await axios.delete(`http://localhost:3001/consultas/${id}`);
       return dispatch({
         type: "DELETE_CONSULTA",
