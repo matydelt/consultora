@@ -5,21 +5,27 @@ function Casos({ id, casos, persona }) {
   const { firstName, lastName, dni, celular } = persona;
 
   return (
-    <>
-      <div className="card mt-3 me-3 ms-3 " key={id}>
+    <div className="wrapper">
+      <div className="card mt-3 me-3 ms-3 container" key={id}>
         <h4 className="mt-2 d-flex justify-content-center ">
           {firstName} {lastName}
         </h4>
-        <p className="d-flex justify-content-center">dni: {dni}</p>
-        <p className="d-flex justify-content-center">celular: {celular}</p>
-        <div>
-          <h5 className="d-flex justify-content-center">Casos</h5>
-          {casos?.map((e, i) => {
-            const { detalle, estado, juez, juzgado, numeroExpediente } = e;
+        <p className="d-flex justify-content-center">DNI: {dni}</p>
+        <p className="d-flex justify-content-center">Celular: {celular}</p>
+        <h5
+          className="d-flex justify-content-center"
+          style={{ marginBottom: 10 }}
+        >
+          Casos
+        </h5>
+        <div className="d-flex flex-column align-items-center">
+          {casos?.map((caso, index) => {
+            const { detalle, estado, juez, juzgado, numeroExpediente } = caso;
             return (
               <div
-                className="accordion accordion-flush ancho"
+                className="accordion accordion-flush ancho casos-border"
                 id="accordionFlushExample"
+                key={index}
               >
                 <div className="accordion-item">
                   <h2 className="accordion-header" id={"a" + numeroExpediente}>
@@ -60,7 +66,7 @@ function Casos({ id, casos, persona }) {
           })}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

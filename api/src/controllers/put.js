@@ -12,6 +12,7 @@ async function usuario(req, res) {
   try {
     console.log(req.body, req.params, req.query);
     const { eMail } = req.body;
+    if (!eMail) return res.sendStatus(404);
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
       // console.log(user);

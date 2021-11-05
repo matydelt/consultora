@@ -10,7 +10,7 @@ import { getUsuario } from "../../../redux/actions";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 const Navbar = ({ navId }) => {
-  let usuario = useSelector((state) => state.usuario);
+  const { usuario } = useSelector((state) => state);
   const dispatch = useDispatch();
   const auth = getAuth();
   const history = useHistory();

@@ -20,6 +20,7 @@ import FormCasos from "./components/FormCasos/FormCasos";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
+import HomeUsuario from "./components/Home-Usuario/HomeUsuario";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,9 @@ function App() {
         </Route>
         <Route exact path="/user/abogado">
           <HomeAbogado />
+        </Route>
+        <Route exact path="/user/cliente">
+          <HomeUsuario />
         </Route>
         <Route exact path="/user/abogado/clientes">
           <NavAbogado />
