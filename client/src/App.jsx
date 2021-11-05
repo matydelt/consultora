@@ -1,10 +1,9 @@
+import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import "./App.css";
 import { getAuth } from "@firebase/auth";
 import { getUsuario } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
-import { Route, Switch } from "react-router-dom";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
 import PerfilAbogado from "./components/perfilAbogado/PerfilAbogado";
@@ -17,11 +16,13 @@ import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
 import Signup from "./components/Sign/signup";
 import FormCasos from "./components/FormCasos/FormCasos";
+import MedioDePago from "../src/components/TestMP/test-MP";
 // import { modificarAbogado } from "../../api/src/controllers/put";
 // import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
+import "./App.css";
 function App() {
   const dispatch = useDispatch();
 
