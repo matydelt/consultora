@@ -1,6 +1,8 @@
 const { uuid } = require("uuidv4");
-const cloudinary = require('../config/cloudinary');
-const enviarEmail = require('../email/email');
+const cloudinary = require("../config/cloudinary");
+const enviarEmail = require("../email/email");
+const mercadopago = require("../config/MercadoPago");
+const bodyParser = require("body-parser");
 
 const {
   Casos,
@@ -9,48 +11,77 @@ const {
   Cliente,
   Abogado,
   Consulta,
-  Admin
+  Admin,
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
 
+//MP
+const postTickets = (req, res, next) => {
+  console.log("ejecuta?");
+  const { title, unit_price } = req.body;
+  let preference = {
+    items: [
+      {
+        title: title,
+        unit_price: parseInt(unit_price),
+        quantity: 1,
+      },
+    ],
+  };
+  console.log("llego?", preference);
+  mercadopago.preferences
+    .create(preference)
+    .then(function (response) {
+      console.log(response.body.init_point);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+};
 
 // CLOUDINARY
 async function subirImagen(req, res) {
-
   const { email } = req.body;
 
   console.log(req.files);
 
   try {
-    let result = await cloudinary.uploader.upload(req.files.image.tempFilePath, {
-      public_id: `${Date.now()}`,
-      resource_type: 'auto' // jpeg, png
-    });
+    let result = await cloudinary.uploader.upload(
+      req.files.image.tempFilePath,
+      {
+        public_id: `${Date.now()}`,
+        resource_type: "auto", // jpeg, png
+      }
+    );
 
-    const user = await Usuario.findByPk(email)
+    const user = await Usuario.findByPk(email);
     if (!user) return res.sendStatus(404);
-    const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
+    const abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
     if (!abogado) return res.sendStatus(404);
 
     if (abogado.imagen) {
-      await cloudinary.uploader.destroy(abogado.imagen.substring(abogado.imagen.lastIndexOf('/') + 1).slice(0, -4), (err, result) => {
-        console.log(err);
-      });
+      await cloudinary.uploader.destroy(
+        abogado.imagen
+          .substring(abogado.imagen.lastIndexOf("/") + 1)
+          .slice(0, -4),
+        (err, result) => {
+          console.log(err);
+        }
+      );
     }
 
     abogado.imagen = result.secure_url;
-    await abogado.save()
+    await abogado.save();
 
     return res.json({
       public_id: result.public_id,
-      url: result.secure_url
-    })
-
+      url: result.secure_url,
+    });
   } catch (error) {
     console.log(error);
   }
-};
+}
 
 async function eliminarImagen(req, res) {
   const { public_id, email } = req.body;
@@ -60,18 +91,16 @@ async function eliminarImagen(req, res) {
       if (err) return res.json({ err });
     });
 
-    const user = await Usuario.findByPk(email)
+    const user = await Usuario.findByPk(email);
     if (!user) return res.sendStatus(404);
-    const abogado = await Abogado.findOne({ where: { id: user.abogadoId } })
+    const abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
     if (!abogado) return res.sendStatus(404);
-    abogado.imagen = '';
-    await abogado.save()
+    abogado.imagen = "";
+    await abogado.save();
   } catch (error) {
     return res.sendStatus(500);
   }
-
-};
-
+}
 
 async function setUsuarios(req, res) {
   const { eMail, firstName, dni, lastName, celular, password } = req.body;
@@ -97,7 +126,7 @@ async function setUsuarios(req, res) {
       person.setUsuario(user);
       client.setUsuario(user);
       client.setPersona(person);
-      
+
       res.sendStatus(200);
     } else res.sendStatus(500);
   } catch (error) {
@@ -107,34 +136,33 @@ async function setUsuarios(req, res) {
 }
 async function setAbogado(req, res) {
   try {
-    const { eMail, flag } = req.body
-    let user = await Usuario.findByPk(eMail)
-    let persona = await Persona.findByPk(user.personaDni)
+    const { eMail, flag } = req.body;
+    let user = await Usuario.findByPk(eMail);
+    let persona = await Persona.findByPk(user.personaDni);
     if (flag) {
       if (!user.abogadoId) {
-        const abogado = await Abogado.create({})
+        const abogado = await Abogado.create({});
         console.log(persona.firstName, persona.lastName);
         if (user) {
           user.slug = `${persona.firstName}-${persona.lastName}`;
-          abogado.setUsuario(user)
-          abogado.setPersona(persona)
+          abogado.setUsuario(user);
+          abogado.setPersona(persona);
 
-          return res.json({abogado})
+          return res.json({ abogado });
           // return res.sendStatus(200)
         }
-        return res.sendStatus(404)
-      } else return res.sendStatus(404)
+        return res.sendStatus(404);
+      } else return res.sendStatus(404);
     } else {
-      let abogado = await Abogado.findByPk(user.abogadoId)
-      await abogado.destroy()
-      abogado = await Abogado.findByPk(user.abogadoId)
-      if (!abogado) return res.sendStatus(200)
-      else return res.sendStatus(500)
+      let abogado = await Abogado.findByPk(user.abogadoId);
+      await abogado.destroy();
+      abogado = await Abogado.findByPk(user.abogadoId);
+      if (!abogado) return res.sendStatus(200);
+      else return res.sendStatus(500);
     }
-
   } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
+    console.log(error);
+    res.sendStatus(500);
   }
   return res.sendStatus(404);
 }
@@ -153,9 +181,8 @@ async function setCasos(req, res) {
       trabaAfectiva,
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
-      jurisdiccion
+      jurisdiccion,
     } = req.body;
-
 
     const caso = await Casos.create({
       trabaAfectiva,
@@ -171,7 +198,7 @@ async function setCasos(req, res) {
       trabaAfectiva,
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
-      jurisdiccion
+      jurisdiccion,
     });
     const { clienteId } = await Usuario.findByPk(eMail);
     const cliente = await Cliente.findByPk(clienteId);
@@ -201,9 +228,9 @@ async function setConsulta(req, res, next) {
       enviarEmail.send({
         email,
         mensaje,
-        subject: 'Consulta recibida',
-        htmlFile: 'consulta.html'
-    });
+        subject: "Consulta recibida",
+        htmlFile: "consulta.html",
+      });
 
       res.sendStatus(200);
     } catch (error) {
@@ -212,40 +239,37 @@ async function setConsulta(req, res, next) {
   }
 }
 async function setAdmin(req, res) {
-  const { eMail, firstName, dni, lastName, celular, password } = req.body
+  const { eMail, firstName, dni, lastName, celular, password } = req.body;
   try {
-    let aux = await Usuario.findByPk(eMail)
-    let aux2 = await Persona.findByPk(dni)
+    let aux = await Usuario.findByPk(eMail);
+    let aux2 = await Persona.findByPk(dni);
     if (!aux && !aux2) {
       const user = await Usuario.create({
         eMail,
-        password
-      })
+        password,
+      });
 
       const person = await Persona.create({
         firstName,
         dni,
         lastName,
-        celular
-      })
-      const admin = await Admin.create({})
+        celular,
+      });
+      const admin = await Admin.create({});
 
-      person.setUsuario(user)
-      admin.setUsuario(user)
+      person.setUsuario(user);
+      admin.setUsuario(user);
       // client.setPersona(person)
-      res.sendStatus(200)
-    }
-    else if (!aux.adminId) {
-      const admin = await Admin.create({})
-      admin.setUsuario(aux)
-      res.sendStatus(200)
-    } else res.sendStatus(500)
-
+      res.sendStatus(200);
+    } else if (!aux.adminId) {
+      const admin = await Admin.create({});
+      admin.setUsuario(aux);
+      res.sendStatus(200);
+    } else res.sendStatus(500);
   } catch (error) {
-    console.log(error)
-    res.sendStatus(500)
+    console.log(error);
+    res.sendStatus(500);
   }
-
 }
 module.exports = {
   setUsuarios,
@@ -255,5 +279,6 @@ module.exports = {
   // setPersona,
   setAdmin,
   eliminarImagen,
-  subirImagen
+  subirImagen,
+  postTickets,
 };

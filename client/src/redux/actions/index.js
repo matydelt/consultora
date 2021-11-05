@@ -255,3 +255,32 @@ export function filtrarMaterias(payload) {
 export function filtrarProvincias(payload) {
   return { type: "FILTRAR_PROVINCIAS", payload }
 }
+
+export const postTickets = ( Ticket )=>{
+  return (dispatch) => {
+    console.log("vamo bien creo");
+    axios.post("http://localhost:3001/tickets/new", Ticket)
+    .then(response => {
+      console.log("aun pinta bien");
+      return dispatch({ type: "POST_TICKET" });
+    })
+    .catch((err)=>{
+      // console.log(err)
+      console.log("la ruta aun no la cree")
+    })
+  }
+}
+export function getTickets() {
+  return (dispatch)=>{
+    axios.get("http://localhost:3001/ticket")
+    .then(tickets =>{
+        return dispatch({
+            type: "GET_TICKET",
+            payload: tickets.data
+        })
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+  }
+}

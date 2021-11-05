@@ -31,18 +31,20 @@ export const Signup = () => {
     const auth = getAuth();
 
     const GoTo = async () => {
-        if (usuarios.some(e => e.eMail == eMail) || personas.some(e => e.dni == dni)) {
-            usuarios.some(e => e.eMail == eMail) ? correoNoOK() : dniNoOK()
+        if (usuarios.some(e => e.eMail.toString() === eMail.toString()) || personas.some(e => e.dni.toString() === dni.toString())) {
+            usuarios.some(e => e.eMail.toString() === eMail.toString()) ? correoNoOK() : dniNoOK()
         }
         else {
-            console.log(usuarios.some(e => e.eMail == eMail));
-            console.log(personas.some(e => e.dni == dni));
-            dispatch(postUsuario({ eMail: eMail, firstName: firstName, dni: dni, lastName: lastName, celular: celular, password: md5(password) }))
             await createUserWithEmailAndPassword(auth, eMail, md5(password))
                 .then(() => {
+                    console.log("no rompio");
+                    dispatch(postUsuario({ eMail: eMail, firstName: firstName, dni: dni, lastName: lastName, celular: celular, password: md5(password) }))
+            
                     createOK()
+
                 })
                 .catch((error) => {
+                    console.log("que paso?");
                     createNOOK()
                     console.log(error);
                 })

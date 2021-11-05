@@ -1,4 +1,8 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import "./App.css";
+import { getAuth } from "@firebase/auth";
+import { getUsuario } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import { Route, Switch } from "react-router-dom";
 import FormCita from "./components/FormCita/FormCita";
@@ -16,7 +20,7 @@ import FormCasos from "./components/FormCasos/FormCasos";
 // import { modificarAbogado } from "../../api/src/controllers/put";
 // import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
 import { useEffect } from "react";
 import { getAuth } from "@firebase/auth";
@@ -24,29 +28,25 @@ import { getUsuario } from "./redux/actions";
 import { useDispatch } from "react-redux";
 
 function App() {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-
     const auth = getAuth();
-    auth.onAuthStateChanged( user => {
+    auth.onAuthStateChanged((user) => {
       console.log(user);
-      if(user?.uid) {
-        dispatch(getUsuario({eMail: user.email}))
-
+      if (user?.uid) {
+        dispatch(getUsuario({ eMail: user.email }));
       }
-    })
-  })
-  
-  
+    });
+  });
+
   return (
     <div className="App container-fluid p-0">
       <Switch>
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route path="/consulta">
+        <Route exact path="/consulta">
           <FormCita />
         </Route>
         <Route path="/perfil/:slug">
@@ -72,10 +72,15 @@ function App() {
         <Route exact path="/user/abogado/nuevo-caso">
           <FormCasos />
         </Route>
+        <Route exact path="/test" component={MedioDePago} />
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/modificar-perfil" component={ModificarAbogado}></Route>
+        <Route
+          exact
+          path="/modificar-perfil"
+          component={ModificarAbogado}
+        ></Route>
       </Switch>
       <ToastContainer></ToastContainer>
     </div>
@@ -83,5 +88,3 @@ function App() {
 }
 
 export default App;
-
-
