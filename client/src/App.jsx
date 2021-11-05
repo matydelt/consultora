@@ -22,11 +22,6 @@ import FormCasos from "./components/FormCasos/FormCasos";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
-import { useEffect } from "react";
-import { getAuth } from "@firebase/auth";
-import { getUsuario } from "./redux/actions";
-import { useDispatch } from "react-redux";
-
 function App() {
   const dispatch = useDispatch();
 
@@ -72,7 +67,7 @@ function App() {
         <Route exact path="/user/abogado/nuevo-caso">
           <FormCasos />
         </Route>
-        <Route exact path="/test" component={MedioDePago} />
+        {/* <Route exact path="/test" component={MedioDePago} /> */}
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
