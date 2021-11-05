@@ -1,5 +1,7 @@
 const { uuid } = require("uuidv4");
 const cloudinary = require('../config/cloudinary');
+const mercadopago = require('../config/MercadoPago');
+const bodyParser = require('body-parser')
 
 const {
   Casos,
@@ -13,6 +15,29 @@ const {
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
 
+//MP
+const postTickets = (req, res, next)=>{
+  console.log("ejecuta?");
+  const { title, unit_price } = req.body;
+  let preference = {
+    items: [
+      {
+        title: title,
+        unit_price: parseInt(unit_price),
+        quantity: 1,
+      }
+    ]
+  };
+  console.log("llego?", preference);
+  mercadopago.preferences.create(preference)
+  .then(function(response){
+  
+    console.log(response.body.init_point);
+   
+  }).catch(function(error){
+    console.log(error);
+  });
+}
 
 // CLOUDINARY
 async function subirImagen(req, res) {
@@ -241,5 +266,6 @@ module.exports = {
   // setPersona,
   setAdmin,
   eliminarImagen,
-  subirImagen
+  subirImagen,
+  postTickets
 };

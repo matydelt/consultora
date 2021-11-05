@@ -22,6 +22,7 @@ import FormCasos from "./components/FormCasos/FormCasos";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import AdminPage from "./components/adminPage/adminPage";
+import MedioDePago from "./components/TestMP/test-MP";
 
 function App() {
 
@@ -40,7 +41,7 @@ function App() {
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route path="/consulta">
+        <Route exact path="/consulta">
           <FormCita />
         </Route>
         <Route path="/perfil/:eMail">
@@ -66,6 +67,7 @@ function App() {
         <Route exact path="/user/abogado/nuevo-caso">
           <FormCasos />
         </Route>
+        <Route exact path="/test" component={MedioDePago} />
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/perfil/:eMail" component={PerfilAbogado}></Route>

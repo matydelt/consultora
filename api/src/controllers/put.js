@@ -6,46 +6,49 @@ async function usuario(req, res) {
         // console.log(req.body, req.params, req.query)
         const { eMail } = req.body;
         if (eMail){ 
-        const user = await Usuario.findOne({ where: { eMail } });
-        if (user) {
-            console.log(user)
-            const abogado = await Abogado.findByPk(user.abogadoId);
-            const { firstName, lastName, dni, celular } = await Persona.findByPk(
-                user.personaDni
-            );
-            if (abogado) {
-                res.send({
-                    ...{
-                        eMail: user.eMail,
-                        password: user.password,
-                        abogadoId: user.abogadoId,
-                        adminId: user.adminId,
-                        firstName,
-                        lastName,
-                        dni,
-                        celular,
-                    },
-                    abogado,
-                });
-            } else
-                res.send({
-                    ...{
-                        eMail: user.eMail,
-                        password: user.password,
-                        abogadoId: user.abogadoId,
-                        adminId: user.adminId,
-                        firstName,
-                        lastName,
-                        dni,
-                        celular,
-
-                    },
-                });
-        } else {
+            const user = await Usuario.findOne({ where: { eMail } });
+            if (user) {
+                console.log(user)
+                const abogado = await Abogado.findByPk(user.abogadoId);
+                const { firstName, lastName, dni, celular } = await Persona.findByPk(
+                    user.personaDni
+                );
+                if (abogado) {
+                    res.send({
+                        ...{
+                            eMail: user.eMail,
+                            password: user.password,
+                            abogadoId: user.abogadoId,
+                            adminId: user.adminId,
+                            firstName,
+                            lastName,
+                            dni,
+                            celular,
+                        },
+                        abogado,
+                    });
+                }
+                else
+                    res.send({
+                        ...{
+                            eMail: user.eMail,
+                            password: user.password,
+                            abogadoId: user.abogadoId,
+                            adminId: user.adminId,
+                            firstName,
+                            lastName,
+                            dni,
+                            celular,
+                        },
+                    });
+            }
+            else {
+                res.send({});
+            }
+        }
+        else {
             res.sendStatus(404);
         }
-    }
-    else res.send({})
     } catch (error) {
         console.error(error);
         res.sendStatus(500);
@@ -65,14 +68,6 @@ async function asignaConsulta(req, res, next) {
         next({ msg: "no se pudo asignar abogado" });
     }
 }
-
-// asigna materia y matricula al abogado
-
-module.exports = {
-    usuario,
-    asignaConsulta,
-    modificarAbogado
-};
 
 async function modificarAbogado(req, res) {
 
@@ -107,9 +102,6 @@ async function modificarAbogado(req, res) {
             msj: 'Ocurrió un error al modificar al abogado'
         });
     }
-
-
-
 };
 
 async function getAbogado(req, res) {
@@ -147,7 +139,6 @@ module.exports = {
     usuario,
     asignaConsulta,
     modificarAbogado,
-
     getAbogado
 }
 

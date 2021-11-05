@@ -14,10 +14,8 @@ import { Redirect } from "react-router";
 export const Signin = () => {
 
     const { usuarios, personas, usuario } = useSelector(state => state)
-console.log("browserSessionPersistence",browserSessionPersistence.type);
-console.log("inMemoryPersistence", inMemoryPersistence.type);
+    
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         dispatch(getPersonas())
@@ -38,19 +36,15 @@ console.log("inMemoryPersistence", inMemoryPersistence.type);
     const loginGoogle = () => {
         setPersistence(auth, browserSessionPersistence)
         .then(async () => {
-            console.log("google",inMemoryPersistence.type);
-            
             await signInWithPopup(auth, google)
             .then(e => {
                 setDisplayName(e.user.displayName)
                 const aux = e.user.email
                 if (usuarios.some(e => e.eMail == aux)){
-                    console.log("auth",auth);
                     dispatch(getUsuario({ eMail: e.user.email }))
                 }
                 else {
                     setEmail(aux)
-                    console.log("google", eMail);
                     setFirstName(e.user.displayName)
                     setPassword(md5(e.user.email))
                 }
@@ -71,14 +65,11 @@ console.log("inMemoryPersistence", inMemoryPersistence.type);
             usuarios.some(e => e.eMail.toString() === eMail.toString()) ? correoNoOK() : dniNoOK()
         }
         else {
-            console.log("email", eMail);
             dispatch(postUsuario({ eMail: eMail, firstName: firstName, dni: dni, lastName: lastName, celular: celular, password: md5(password) }))
                 .then(() => {
-                    console.log("usuario", usuario);
                     dispatch(getUsuario({ eMail: eMail }))
                 })
                 .catch((error) => {
-                    console.log("falla postUsuario")
                 })
             createOK()
             setFirstName('');
@@ -104,7 +95,6 @@ console.log("inMemoryPersistence", inMemoryPersistence.type);
     const Login = async () => {
         await setPersistence(auth, browserSessionPersistence)
         .then( async () => {
-            console.log("que trae",browserSessionPersistence);
             await signInWithEmailAndPassword(auth, eMail, md5(password))
             .then((userCredential) => {
                 // Signed in
