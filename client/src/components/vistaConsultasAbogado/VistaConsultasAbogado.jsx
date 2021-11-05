@@ -40,7 +40,7 @@ export default function VistaConsultasAbogado() {
               />
               <button
                 type="button"
-                class="btn btn-outline-primary"
+                className="btn btn-outline-primary"
                 onClick={() =>
                   dispatch(asignarConsulta(consulta.id, abogado.abogado.id))
                 }

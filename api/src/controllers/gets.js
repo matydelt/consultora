@@ -13,17 +13,11 @@ const {
 async function getUsuarios(req, res) {
   try {
     const users = await Usuario.findAll();
-    res.json(users);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(404);
-  }
-}
-
-async function getPersonas(req, res) {
-  try {
-    const user = await Persona.findAll();
-    res.json(user);
+    const usersData = users.map((user) => {
+      const { createdAt, updatedAt, ...usersData } = user.dataValues;
+      return usersData;
+    });
+    res.json(usersData);
   } catch (error) {
     console.error(error);
     res.sendStatus(404);
@@ -111,9 +105,10 @@ async function getUsuario(req, res) {
     const { eMail } = req.body;
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
-      let abogado = await Abogado.findByPk(user.abogadoId);
-      const { firstName, lastName, dni, celular, clienteId } =
-        await Persona.findByPk(user.personaDni);
+      const abogado = await Abogado.findByPk(user.abogadoId);
+      const { firstName, lastName, dni, celular } = await Persona.findByPk(
+        user.personaDni
+      );
       if (abogado)
         res.json({
           ...{
@@ -133,7 +128,6 @@ async function getUsuario(req, res) {
             lastName,
             dni,
             celular,
-            clienteId,
           },
         });
       }
@@ -148,8 +142,12 @@ async function getUsuario(req, res) {
 
 async function getPersonas(req, res) {
   try {
-    const user = await Persona.findAll();
-    res.json(user);
+    const users = await Persona.findAll();
+    const usersData = users.map((user) => {
+      const { createdAt, updatedAt, ...usersData } = user.dataValues;
+      return usersData;
+    });
+    res.json(usersData);
   } catch (error) {
     console.log(error);
     res.sendStatus(404);

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCasos } from "../../redux/actions/index";
+import Casos from "../casos/casos";
 
 export default function HomeUsuario() {
   const dispatch = useDispatch();
@@ -16,10 +17,7 @@ export default function HomeUsuario() {
 
   return (
     <div>
-      <p>Home Usuario</p>
-      {casos.result?.map((caso) => (
-        <div>{caso}</div>
-      ))}
+      <Casos casos={casos.result} persona={usuario} />
     </div>
   );
 }

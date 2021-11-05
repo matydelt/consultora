@@ -50,9 +50,9 @@ const Navbar = ({ navId }) => {
         {usuario.firstName ? (
           <li>
             {!usuario.abogadoId && !usuario.dataValues && (
-              <div class="dropdown">
+              <div className="dropdown">
                 <a
-                  class="btn dropdown-toggle"
+                  className="btn dropdown-toggle"
                   type="button"
                   id="dropdownMenuButton1"
                   data-bs-toggle="dropdown"
@@ -62,10 +62,10 @@ const Navbar = ({ navId }) => {
                 </a>
 
                 <ul
-                  class="dropdown-menu bg-light shadow border-0"
+                  className="dropdown-menu bg-light shadow border-0"
                   aria-labelledby="dropdownMenuButton1"
                 >
-                  <span onClick={logout} class="dropdown-item pointer">
+                  <span onClick={logout} className="dropdown-item pointer">
                     Cerrar sesión
                   </span>
                 </ul>
@@ -73,9 +73,9 @@ const Navbar = ({ navId }) => {
             )}
 
             {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
-              <div class="dropdown">
+              <div className="dropdown">
                 <a
-                  class="btn dropdown-toggle"
+                  className="btn dropdown-toggle"
                   type="button"
                   id="dropdownMenuButton1"
                   data-bs-toggle="dropdown"
@@ -85,19 +85,19 @@ const Navbar = ({ navId }) => {
                 </a>
 
                 <ul
-                  class="dropdown-menu bg-light shadow border-0"
+                  className="dropdown-menu bg-light shadow border-0"
                   aria-labelledby="dropdownMenuButton1"
                 >
-                  {/* { <ul class="dropdown-menu bg-light shadow border-0" aria-labelledby="dropdownMenuButton1"> */}
-                  {/* <span class="dropdown-item pointer" href="#">Panel</span> */}
+                  {/* { <ul className="dropdown-menu bg-light shadow border-0" aria-labelledby="dropdownMenuButton1"> */}
+                  {/* <span className="dropdown-item pointer" href="#">Panel</span> */}
                   <Link to="/user/abogado">
-                    <span class="dropdown-item pointer">Panel</span>
+                    <span className="dropdown-item pointer">Panel</span>
                   </Link>
                   <Link to="/modificar-perfil">
-                    <span class="dropdown-item pointer">Perfil</span>
+                    <span className="dropdown-item pointer">Perfil</span>
                   </Link>
 
-                  <span onClick={logout} class="dropdown-item pointer">
+                  <span onClick={logout} className="dropdown-item pointer">
                     Cerrar sesión
                   </span>
                 </ul>

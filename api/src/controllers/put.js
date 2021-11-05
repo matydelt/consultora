@@ -14,6 +14,9 @@ async function usuario(req, res) {
     const { eMail } = req.body;
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
+      // console.log(user);
+      const { createdAt, updatedAt, ...userData } = user.dataValues;
+      // console.log(userData);
       const abogado = await Abogado.findByPk(user.abogadoId);
       const { firstName, lastName, dni, celular } = await Persona.findByPk(
         user.personaDni
@@ -21,10 +24,7 @@ async function usuario(req, res) {
       if (abogado)
         res.send({
           ...{
-            eMail: user.eMail,
-            password: user.password,
-            abogadoId: user.abogadoId,
-            adminId: user.adminId,
+            ...userData,
             firstName,
             lastName,
             dni,
@@ -32,19 +32,7 @@ async function usuario(req, res) {
           },
           abogado,
         });
-      else
-        res.send({
-          ...{
-            eMail: user.eMail,
-            password: user.password,
-            abogadoId: user.abogadoId,
-            adminId: user.adminId,
-            firstName,
-            lastName,
-            dni,
-            celular,
-          },
-        });
+      else res.send({ ...userData, firstName, lastName, dni, celular });
     } else res.sendStatus(404);
   } catch (error) {
     console.error(error);
