@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-redeclare */
 import React, { useEffect, useState } from "react";
@@ -12,14 +13,18 @@ export default function AdminPage() {
     const { usuario } = useSelector(state => state)
     const allUsers = useSelector(state => state.usuarios)
     var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
     useEffect(() => {
         dispatch(getUsuarios())
+    }, [])
+    if (alertPlaceholder && cont === 0) {
+        cont++
         let type = "danger"
         let mensaje = "Cuidado , una vez eliminado el estado de abogado el mismo pierde toda su informacion"
         var wrapper = document.createElement('div')
         wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
         alertPlaceholder.append(wrapper)
-    }, [cont, dispatch])
+    }
 
 
     const hadleChange = (e, type) => {

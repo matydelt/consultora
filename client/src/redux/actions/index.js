@@ -252,3 +252,15 @@ export function filtrarMaterias(payload) {
 export function filtrarProvincias(payload) {
   return { type: "FILTRAR_PROVINCIAS", payload }
 }
+export function putCaso(caso) {
+  return async function (dispatch) {
+    try {
+      await axios.put("http://localhost:3001/casos/put", caso);
+      return dispatch({
+        type: "PUT_CASO",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}

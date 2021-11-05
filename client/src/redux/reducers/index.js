@@ -145,6 +145,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         consultas: action.payload,
       }
+    case "PUT_CASO":
+      return {
+        ...state,
+
+      }
     default:
       return state;
   }

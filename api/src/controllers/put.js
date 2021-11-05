@@ -152,13 +152,37 @@ async function setBann(req, res) {
         res.sendStatus(404)
     }
 }
+async function putCaso(req, res) {
+    try {
+        let { detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion } = req.body
+        let caso = await Casos.findByPk(numeroLiquidacion)
+        if (caso) {
+            caso.detalle = detalle
+            caso.estado = estado
+            caso.juez = juez
+            caso.juzgado = juzgado
+            caso.numeroExpediente = numeroExpediente
+            caso.medidaCautelar = medidaCautelar
+            caso.vtoMedidaCautelar = vtoMedidaCautelar
+            caso.trabaAfectiva = trabaAfectiva
+            caso.vtoTrabaAfectiva = vtoTrabaAfectiva
+            caso.jurisdiccion = jurisdiccion
+            await caso.save()
+            res.sendStatus(200)
+        }
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
 
 module.exports = {
     usuario,
     asignaConsulta,
     modificarAbogado,
     setBann,
-    getAbogado
+    getAbogado,
+    putCaso
 }
 
 
