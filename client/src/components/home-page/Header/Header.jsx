@@ -15,7 +15,7 @@ const Header = () => {
         data-bs-ride="carousel"
       >
         <div className="carousel-inner ">
-          <div className="bg_one_caption height_image carousel-item active">
+          <div className="bg_one_caption  height_image carousel-item active">
             {/* <img src={Image_One} className="d-block w-100" alt="Image_One" /> */}
             <div className="carousel-caption d-none d-md-block text-white caption_one ">
               <img src={Logo} alt="Logo" />
@@ -34,23 +34,23 @@ const Header = () => {
             </div>
           </div>
 
-            <div className="bg_three_caption height_image carousel-item">
-              {/* <img
+          <div className="bg_three_caption height_image carousel-item">
+            {/* <img
               src={Image_Three}
               className="d-block w-100"
               alt="Image_Three"
             /> */}
-              <div className="carousel-caption d-none d-md-block  caption_three">
-                <h5>
-                  Nuestro Equipo esta lleno de expertos versatiles para que sean
-                  tu
-                </h5>
-                <h5>SOLUCIÓN</h5>
-                <Link className="btn" to="#">
-                  Ver el Equipo
-                </Link>
-              </div>
+            <div className="carousel-caption d-none d-md-block  caption_three">
+              <h5>
+                Nuestro Equipo esta lleno de expertos versatiles para que sean
+                tu
+              </h5>
+              <h5>SOLUCIÓN</h5>
+              <Link className="btn" to="#">
+                Ver el Equipo
+              </Link>
             </div>
+          </div>
         </div>
         <button
           className="carousel-control-prev"

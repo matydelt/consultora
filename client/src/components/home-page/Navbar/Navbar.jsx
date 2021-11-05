@@ -29,29 +29,25 @@ const Navbar = ({ navId }) => {
     }
 
     return (
-        <nav id={navId} className="col-12 col-xl-12">
-            <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
-                <li className="col-xl-1">
-                    <Link to="/">
-                        Home
-                    </Link>
+        <nav id={navId} className="col-md-12">
+            <ul className="widht_li border-bottom">
+                <li className="col-md-1">
+                <ButtonsNav link="/" text='Home' />
                 </li>
 
-                <li className="col-xl-1">
+                <li className="col-md-1">
                     <ButtonsNav link="#" text='Nosotros' />
                 </li>
 
                 <img
                     src={Logo}
                     alt="Logo"
-                    className="col-xl-1"
+                    className="col-md-1"
                 />
 
-                <li className="col-xl-1">
-                    {/* <a className="textDecoration" href="#contain_title_abogado">Nuestro Equipo</a> */}
-                    <Link to="/abogados">
-                        <span className="textDecoration">Nuestro Equipo</span>
-                    </Link>
+                <li className="col-md-1">
+                    {/* <a className="textDecoration" href="#contain_title_abogado">Nuestro Equipo</a> */}                    
+                    <ButtonsNav link="/abogados" text='Nuestro Equipo' />
                 </li>
 
                 {usuario.firstName ?
@@ -95,7 +91,7 @@ const Navbar = ({ navId }) => {
                         }
                     </li>
                     :
-                    <li className="col-xl-1">
+                    <li className="col-md-1">
                         {/* <Link to="/signup"> */}
                         <ButtonsNav link={'/signup'} text='Registrate Ahora' />
                         {/* Registrate Ahora */}

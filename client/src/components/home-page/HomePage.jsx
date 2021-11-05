@@ -14,23 +14,16 @@ const HomePage = () => {
       <Navbar navId={"menu"} />
       <About
         titleAbout="Sobre nosotros"
-        contendioAbout={[
-          "Somos una consultoria Jurídica enfocada a la Solución civíl y promovemos la autonomía jurídica y legislativa constitucional y orgánica. Por tanto, nos enfocamos en el cumplimiento objetivo dictado como supremacía por LA CONSTITUCIÓN y no por subjetividades.",
-          <br />,
-          <br />,
-          "Nos especializamos y diferenciamos por la capacidad de personificar cada caso en cada unos de nuestros clientes de persona natiral y jurídica. Somos unas de las consultorías mas solicitadas por la rápida respuesta ante cualquier consulta aún si no eres nuestro cliente.",
-        ]}
+        contendioAbout={
+          "Somos una consultoria Jurídica enfocada a la Solución civíl y promovemos la autonomía jurídica y legislativa constitucional y orgánica. Por tanto, nos enfocamos en el cumplimiento objetivo dictado como supremacía por LA CONSTITUCIÓN y no por subjetividades. <br/> Nos especializamos y diferenciamos por la capacidad de personificar cada caso en cada unos de nuestros clientes de persona natiral y jurídica. Somos unas de las consultorías mas solicitadas por la rápida respuesta ante cualquier consulta aún si no eres nuestro cliente."}
         titleFilosofia="Nuestra Filosofía"
-        contenidoFilosofia={[
-          "Las leyes estan por encima de todo, esto es lo que hace cumplir la verdadera justicia que cada juridicción. Esto es nuestro lema y nuestro éxito ante cada caso que solucionamos de manera objetiva día tras día.",
-          <br />,
-          <br />,
-          "Creeemos que la ley es el principio de la verdadera libertad a partir de los poderes estatales hasta cada ciudadano.",
-        ]}
+        contenidoFilosofia={
+          "Las leyes estan por encima de todo, esto es lo que hace cumplir la verdadera justicia en cada juridicción. Esto es nuestro lema y nuestro éxito ante cada caso que solucionamos de manera objetiva día tras día. <br/> Creeemos que la ley es el principio de la verdadera libertad a partir de los poderes estatales hasta cada ciudadano."
+        }
       />
       <div className="mb-5">
-        <h3 className="text-center mb-4">Competencias</h3>
-        <div className="row justify-content-evenly">
+        <h3 className="text-center mb-4 fs-1">Competencias</h3>
+        <div className="flex-materias">
           <Materia nombre="Derecho Penal" />
           <Materia nombre="Derecho Civíl" />
           <Materia nombre="Derecho Corporativo" />
@@ -43,11 +36,11 @@ const HomePage = () => {
         </div>
       </div>
       <Banner
-        containBanner={""}
-        bannerContent={""}
-        bannerTitle={""}
-        title={"Competencias."}
-        cardFlex={"card_flex"}
+        divContain="banner_contain"
+        title="¿Por qué confiar en nosotros?"
+        flexList="row justify-content-evenly personUl"
+        widthListOne="col-md-5"
+        widthListTwo="col-md-5"
       />
       <AbogadosCarrusel />
     </div>

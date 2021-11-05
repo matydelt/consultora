@@ -1,9 +1,11 @@
 * {
-  margin     : 0px;
-  padding    : 0px;
-  box-sizing : border-box;
-  list-style : none;
-  font-family: 'Playfair Display', serif;
+  margin                : 0px;
+  padding               : 0px;
+  box-sizing            : border-box;
+  list-style            : none;
+  font-family           : 'Playfair Display', serif;
+  backface-visibility   : hidden;
+  -webkit-font-smoothing: auto;
 }
 
 a:focus,

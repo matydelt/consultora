@@ -1,33 +1,38 @@
+.flex-materias {
+  display        : flex;
+  justify-content: space-evenly;
+  flex-wrap      : wrap;
+}
+
 .materias-container {
   margin               : auto;
   display              : grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-items        : center;
-  width                : fit-content;
+  width                : max-content;
 }
 
 .materia {
-  padding         : 30px;
-  border          : 1px solid;
-  text-align      : center;
-  margin          : 5px;
-  background-color: #033663;
-  opacity         : 1;
-  background      : linear-gradient(135deg, #042e5255 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(225deg, #042e52 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(315deg, #042e5255 25%, transparent 25%) 0px 0/ 20px 20px, linear-gradient(45deg, #042e52 25%, #033663 25%) 0px 0/ 20px 20px;
-  width           : -webkit-fill-available;
-  box-shadow      : 2px 3px 17px rgba(0, 0, 0, 0.2);
-  color           : #ccc;
-  transition: all .3s ease;
+  padding               : 30px;
+  text-align            : center;
+  margin                : 5px;
+  background-color      : #033663;
+  opacity               : 1;
+  background            : linear-gradient(135deg, #042e5255 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(225deg, #042e52 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(315deg, #042e5255 25%, transparent 25%) 0px 0/ 20px 20px, linear-gradient(45deg, #042e52 25%, #033663 25%) 0px 0/ 20px 20px;
+  width                 : -webkit-fill-available;
+  box-shadow            : 0px 1px 10px rgba(0, 0, 0, 0.2);
+  transition            : all 0.4s ease;
+  color                 : #ccc;
+  backface-visibility   : hidden;
+  -webkit-font-smoothing: auto;
 }
 
 .materia:hover {
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
   transform : translateY(-3%);
+  backface-visibility   : hidden;
+  -webkit-font-smoothing: auto;
 }
-
-
-.materia-nombre {}
-
 
 .button_learn-more button {
   position       : relative;
@@ -41,6 +46,7 @@
   padding        : 0;
   font-size      : inherit;
   font-family    : inherit;
+  cursor         : pointer;
 }
 
 .button_learn-more button.learn-more {
@@ -62,8 +68,8 @@
 .button_learn-more button.learn-more .circle .icon {
   transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
   position  : absolute;
-  top       : 0;
-  bottom    : 0;
+  top       : 0px;
+  bottom    : 0px;
   margin    : auto;
   background: #fff;
 }
@@ -79,7 +85,7 @@
 .button_learn-more button.learn-more .circle .icon.arrow::before {
   position    : absolute;
   content     : "";
-  top         : -0.29rem;
+  top         : -0.27rem;
   right       : 0.0625rem;
   width       : 0.625rem;
   height      : 0.625rem;
@@ -137,3 +143,41 @@
     justify-self: center;
   }
 } */
+
+
+@media (min-width: 1900px) {
+
+  .materia {
+    transform             : translateZ(0);
+    backface-visibility   : hidden;
+    -webkit-font-smoothing: auto;
+    -moz-font-mouth: auto;
+  }
+
+  .materia h5 {
+    font-size: 27px;
+    height   : 75px;
+  }
+
+  .button_learn-more button {
+    /* top: 0px; */
+    bottom   : 20px;
+    transform: scale(1.1);
+  }
+
+  .button_learn-more button.learn-more .button-text {
+    font-size: 19px;
+    display  : block;
+    position : absolute;
+    top      : -5%;
+  }
+
+  /* .materia:hover {
+    box-shadow: 3px 3px 14px rgba(0, 0, 0, 0.4);
+    transform : translateY(-9%)
+  } */
+
+  .button_learn-more button.learn-more .circle .icon.arrow::before {
+    top: -0.28rem;
+  }
+}
