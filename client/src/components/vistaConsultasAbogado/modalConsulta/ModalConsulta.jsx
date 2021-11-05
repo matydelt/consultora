@@ -1,34 +1,37 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import swal from "sweetalert"
 import { deleteConsulta, getConsultas, setConsulta } from '../../../redux/actions';
 
 
-export default function ModalConsulta({ consulta, usuario, modalId }) {
+export default function ModalConsulta({ usuario, modalId }) {
 
     let [respuesta, setRespuesta] = useState('');
-
-
     const dispatch = useDispatch();
+    let consulta = useSelector(state => state.consulta);
 
 
+    useEffect(() => {
+        setRespuesta('')
+    }, [consulta]);
+
+   
     function confimarConsulta() {
+
         swal({
             title: "Confirmar",
-            text: "¿Quiere tomar la consulta?",
+            text: "¿Quiere aceptar la consulta?",
             icon: "info",
             buttons: true,
-            // dangerMode: true,
         })
             .then((willDelete) => {
-                if (willDelete) {
-                    
-                    
+                if (willDelete) { 
                     dispatch(setConsulta(consulta.id, usuario.abogado.id, respuesta)).then(() => {
                         dispatch(getConsultas());
                     })
-                } else {
-                }
+                } 
+                setRespuesta('')
             });
     }
 
@@ -48,8 +51,8 @@ export default function ModalConsulta({ consulta, usuario, modalId }) {
                     swal("La consulta fue eliminada", {
                         icon: "success",
                     });
-                } else {
                 }
+                setRespuesta('')
             });
     }
 
@@ -59,7 +62,8 @@ export default function ModalConsulta({ consulta, usuario, modalId }) {
 
 
     return (<>
-        <div className="modal fade" id={`modal${modalId}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+        <div className="modal fade" id={`${modalId}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -68,16 +72,16 @@ export default function ModalConsulta({ consulta, usuario, modalId }) {
                     </div>
                     <div className="modal-body ">
                         <ul className="list-group">
-                            <li className="list-group-item active"><span className="align-middle">Nombre: {consulta.nombre} {consulta.apellido} </span></li>
+                            <li className="list-group-item active"><span className="align-middle">Nombre: {consulta?.nombre} {consulta?.apellido} </span></li>
                         </ul>
-                        <li className="list-group-item "><span>Teléfono: </span>{consulta.telefono}</li>
-                        <li className="list-group-item "><span>Email: </span>{consulta.email}</li>
-                        <li className="list-group-item "><span className="d-flex justify-content-center">
-                            {consulta.mensaje}</span></li>
+                        <li className="list-group-item "><span>Teléfono: </span>{consulta?.telefono}</li>
+                        <li className="list-group-item "><span>Email: </span>{consulta?.email}</li>
+                        <li className="list-group-item ">
+                            <span>{consulta?.mensaje}</span></li>
                     </div>
 
 
-                    {!consulta.abogadoId ? <div>
+                    {!consulta?.abogadoId ? <div>
                         <div className="bg-light border-top p-2 align-middle">
                             <div class="form-floating my-3 mx-1">
                                 <textarea type="text" name="respuesta" onChange={modificarCampos} value={respuesta} class="form-control" id="respuesta" placeholder="Precio"></textarea>
@@ -90,18 +94,16 @@ export default function ModalConsulta({ consulta, usuario, modalId }) {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={eliminarConsulta}>Eliminar</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={confimarConsulta}>Tomar consulta</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={confimarConsulta}>Aceptar consulta</button>
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                         :
                         <div>
-                            <div className="alert alert-warning">Esta consulta ya fue tomada</div>
+                            <div className="alert alert-warning text-center"><span className="fw-bold">Esta consulta ya fue aceptada</span></div>
                             <div className="modal-footer">
-                            {/* <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={confimarConsulta}>Tomar consulta</button> */}
                                 <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={eliminarConsulta}>Eliminar</button>
                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-
                             </div>
 
 

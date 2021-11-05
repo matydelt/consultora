@@ -291,7 +291,11 @@ async function getConsultas(req, res, next) {
     }
 
     try {
-        const todasConsultas = await Consulta.findAll();
+        const todasConsultas = await Consulta.findAll({
+            order: [
+                ['createdAt', 'DESC']
+            ]
+        });
         res.json(todasConsultas);
     } catch (error) {
         next({ msg: "error en traer consultas de la DB" });

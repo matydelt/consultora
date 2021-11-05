@@ -1,90 +1,55 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { getConsultas } from "../../redux/actions";
 import ModalConsulta from "./modalConsulta/ModalConsulta";
+import TablaVistasConsultas from "./tablaVistasConsultas/TablaVistasConsultas";
 import "./VistaConsultasAbogados.css";
 
 export default function VistaConsultasAbogado() {
 
   const dispatch = useDispatch();
-  const consultas = useSelector((state) => state.consultas);
-  const usuario = useSelector((state) => state.usuario);
+  const { consultas, usuario } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getConsultas());
   }, []);
-  
-  console.log(consultas);
+
+
+  function actualizarConsultas() {
+    dispatch(getConsultas());
+    toast.success('Las consultas fueron actualizadas')
+  };
 
   return (
     <>
-      <div className="my-5 mx-1">
+      <ModalConsulta usuario={usuario} modalId={`modalConsulta`} />
 
 
-        <table className="table table-hover table-striped">
-          <thead className="text-center">
-            <tr>
-              <th scope="col">Estado</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Apellido</th>
-              <th scope="col">Teléfono</th>
-              <th scope="col">Email</th>
-              <th scope="col">Mensaje</th>
-              <th scope="col">Opciones</th>
-            </tr>
-          </thead>
-          <tbody>
+      <nav className="text-center mt-5">
+        <div className="nav nav-tabs text-center" id="nav-tab" role="tablist">
+          <button className="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Todas</button>
+          <button className="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Aceptadas</button>
+          {/* <button className="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button> */}
+          <button onClick={actualizarConsultas} className="mx-5 btn btn-light border">@ Actualizar</button>
+        </div>
+      </nav>
+      <div className="tab-content" id="nav-tabContent">
+        <div className="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
-            {consultas.map((consulta, i) => {
-              return (
-                <tr key={i} className="text-center">
-                  {consulta.abogadoId ?
-                    <td className="align-middle"><span className="badge bg-warning">Tomada</span></td>
-                    :
-                    <td className="align-middle"><span className="badge bg-success">Libre</span></td>
-                  }
+          <TablaVistasConsultas consultas={consultas} usuario={usuario}></TablaVistasConsultas>
 
-                  <td className="align-middle">{consulta.nombre}</td>
-                  <td className="align-middle">{consulta.apellido}</td>
-                  <td className="align-middle">{consulta.telefono}</td>
-                  <td className="align-middle">{consulta.email}</td>
-                  <td className="align-middle" className="w-50">{consulta.mensaje}</td>
-                  <td className="align-middle">
+        </div>
+        <div className="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 
-                    <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#modal${i}`}>
-                      Ver detalle
-                    </button>
-                    <ModalConsulta consulta={consulta} usuario={usuario} modalId={i} />
-                  </td>
-                </tr>
+          <TablaVistasConsultas consultas={consultas} usuario={usuario} aceptadas={true}></TablaVistasConsultas>
 
-              );
-            })}
-            <tr>
-            </tr>
-          </tbody>
-        </table>
-
-        {/* <ModalConsulta></ModalConsulta> */}
-
-        {/* <div className="consultas">
-          {consultas.map((consulta) => {
-            return (
-              <Consulta
-                key={consulta.id}
-                nombre={consulta.nombre}
-                apellido={consulta.apellido}
-                telefono={consulta.telefono}
-                email={consulta.email}
-                mensaje={consulta.mensaje}
-              />
-            );
-          })}
-        </div> */}
-
-
-
+        </div>
+        {/* <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> */}
       </div>
+
+
+
     </>
   );
 }

@@ -184,6 +184,15 @@ export function setConsulta(consultaId, abogadoId, respuesta) {
   };
 }
 
+export const mostrarConsulta = (consulta) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "SET_CONSULTA",
+      payload: consulta
+    })
+  };
+};
+
 export function setAbogado(user) {
   return async function (dispatch) {
     try {

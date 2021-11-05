@@ -67,7 +67,7 @@ async function asignaConsulta(req, res, next) {
 
         enviarEmail.send({
             email: consulta.email,
-            respuesta,
+            mensaje: respuesta,
             subject: 'Su consulta fue aceptada',
             htmlFile: 'consulta-aceptada.html'
         });
