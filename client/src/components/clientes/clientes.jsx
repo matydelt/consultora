@@ -2,80 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom"
-// import { getAbogado } from "../../redux/actions";
+import { getAbogado } from "../../redux/actions";
 import Casos from "../casos/casos"
 import "./clientes.css"
 import { Redirect } from "react-router";
-
-let aux = {
-    "eMail": "prueba4@gmail.com",
-    "firstName": "asfagsdg",
-    "lastName": "asdasgsdg",
-    "dni": 214126234,
-    "celular": 21536267,
-    "detalle": null,
-    "imagen": null,
-    "experiencia": null,
-    "estudios": null,
-    "clientes": [
-        {
-            "id": 2,
-            "asunto": null,
-            "persona": {
-                "firstName": "cliente123",
-                "lastName": "cliente1234",
-                "dni": 214125,
-                "celular": 24125246
-            },
-            "casos": [
-                {
-                    "juez": "jafgs asfg",
-                    "numeroExpediente": 1244,
-                    "juzgado": 1234,
-                    "detalle": "se mamo y no se",
-                    "estado": "sentencia"
-                }, {
-                    "juez": "jafgs asfg",
-                    "numeroExpediente": 1235,
-                    "juzgado": 1234,
-                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
-                    "estado": "inicial"
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "asunto": null,
-            "persona": {
-                "firstName": "pedrito",
-                "lastName": "sol",
-                "dni": 1245623,
-                "celular": 2352626
-            },
-            "casos": [
-                {
-                    "juez": "jafgs asfg",
-                    "numeroExpediente": 244,
-                    "juzgado": 1234,
-                    "detalle": "se mamo y no se, paso algo",
-                    "estado": "cerrado"
-                }, {
-                    "juez": "jafgs asfg",
-                    "numeroExpediente": 12353,
-                    "juzgado": 1234,
-                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
-                    "estado": "inicial"
-                }, {
-                    "juez": "jafgs asfg",
-                    "numeroExpediente": 12356,
-                    "juzgado": 1234,
-                    "detalle": "se mamo y cruzo una avenida con el semaforo en verde",
-                    "estado": "proceso"
-                }
-            ]
-        }
-    ]
-}
 
 
 export default function Clientes() {   //muestra cards de cada cliente con sus casos
@@ -85,17 +15,24 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
 
     if (!usuario.abogadoId) return (<Redirect to="/" />)
 
+    // if (!abogado) {
+    //     dispatch(getAbogado({ "eMail": usuario.eMail }))
+    //     return (<p>Loading...</p>)
+    // }
     useEffect(() => {
-        if (clientes.length === 0) return (<p>Loading....</p>)
-        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
+        dispatch(getAbogado({ "eMail": usuario.eMail }))
+    }, [dispatch, usuario])
+    useEffect(() => {
+        if (abogado.clientes === 0) return (<h1>No hay clientes</h1>)
+        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
         AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
         AllClients = AllClients.filter(e => e.casos.length > 0)
         setClientes([...AllClients])
-    }, [])
+    }, [abogado.clientes])
 
     const handleClick = function (e, flag) {
         e.preventDefault()
-        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
+        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
         if (flag === 0) {
             AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
             AllClients = AllClients.filter(e => e.casos.length > 0)
@@ -105,7 +42,7 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
             AllClients = AllClients.filter(e => e.casos.length > 0)
             setClientes([...AllClients])
         } else {
-            let AllClients = JSON.parse(JSON.stringify(aux.clientes));
+            let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
             AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
             AllClients = AllClients.filter(e => e.casos.length > 0)
             setClientes([...AllClients])
@@ -113,14 +50,14 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     }
     const handleChange = (e) => {
         e.preventDefault();
-        let AllClients = JSON.parse(JSON.stringify(aux.clientes));
-        if (e.target.value === "inicial") {
-            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "inicial"))
+        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+        if (e.target.value === "inicio") {
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "inicio"))
             AllClients = AllClients.filter(e => e.casos.length > 0)
             setClientes([...AllClients])
             if (clientes.length === 0) return <h3>No hay casos con el estado inicial</h3>
-        } else if (e.target.value === "Proceso") {
-            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "proceso"))
+        } else if (e.target.value === "prueba") {
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "prueba"))
             AllClients = AllClients.filter(e => e.casos.length > 0)
             setClientes([...AllClients])
             if (clientes.length === 0) return <h3>No hay casos con el estado inicial</h3>
@@ -135,14 +72,14 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
 
     return (
         // clientes.length === 0 ? <p>no hay clientes con estas especificaciones</p> :
-        <div className="mt-3 me-3 ms-3 d-inline-flex flex-row">
+        <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
             <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
                 <button className=" btn  btn-danger  mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes Actuales</button>
                 <button className="btn  btn-danger mt-3 mb-3 " onClick={(e) => handleClick(e, 1)}>Historial</button>
                 <select className="form-select" aria-label="Default select example" onChange={e => handleChange(e)}>
                     <option selected>Seleccion por estado</option>
-                    <option value="inicial">inicial</option>
-                    <option value="Proceso">Proceso</option>
+                    <option value="inicio">inicio</option>
+                    <option value="prueba">prueba</option>
                     <option value="sentencia">sentencia</option>
                 </select>
             </div>

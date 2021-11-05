@@ -73,7 +73,7 @@ export function getCasos() {
   };
 }
 
-export function postCasos (payload) {
+export function postCasos(payload) {
   return async function () {
     try {
       const newCaso = await axios.post("http://localhost:3001/casos/new", payload);
@@ -142,15 +142,18 @@ export function postAbogado(abogado) {
 export function getAbogado(abogado) {
   return async function (dispatch) {
     try {
-      await axios.put("http://localhost:3001/abogado", abogado);
+      const aux = await axios.put("http://localhost:3001/abogado", abogado);
+      console.log(aux.data)
       return dispatch({
         type: "GET_ABOGADO",
+        payload: aux.data,
       });
     } catch (error) {
       console.log(error);
     }
   };
 }
+
 
 export function postConsulta(consulta) {
   return async function (dispatch) {
@@ -199,6 +202,30 @@ export function setAbogado(user) {
       await axios.post("http://localhost:3001/usuario/abogado", user);
       return dispatch({
         type: "SET_ABOGADO"
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+export function setAdmin(user) {
+  return async function (dispatch) {
+    try {
+      await axios.post("http://localhost:3001/adm", user);
+      return dispatch({
+        type: "SET_ADMIN"
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+export function setBann(user) {
+  return async function (dispatch) {
+    try {
+      await axios.put("http://localhost:3001/bann", user);
+      return dispatch({
+        type: "SET_BANN"
       });
     } catch (error) {
       console.log(error);

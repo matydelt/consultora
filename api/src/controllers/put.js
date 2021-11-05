@@ -137,7 +137,6 @@ async function modificarAbogado(req, res) {
 
 async function getAbogado(req, res) {
   try {
-    console.log(req.body);
     let { eMail } = req.body;
     if (!eMail) {
       eMail = req.params;
@@ -177,15 +176,41 @@ async function getAbogado(req, res) {
                 "juzgado",
                 "detalle",
                 "estado",
+                "numeroLiquidacion",
+                "medidaCautelar",
+                "trabaAfectiva",
+                "vtoMedidaCautelar",
+                "vtoTrabaAfectiva",
+                "jurisdiccion",
               ],
             },
           ],
         })
       );
     }
+
     if (user) {
       res.json(abogado);
     } else res.sendStatus(404);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
+}
+
+async function setBann(req, res) {
+  try {
+    let { eMail, flag } = req.body;
+    const user = await Usuario.findByPk(eMail);
+    if (flag) {
+      user.banned = true;
+      await user.save();
+      res.sendStatus(200);
+    } else {
+      user.banned = false;
+      await user.save();
+      res.sendStatus(200);
+    }
   } catch (error) {
     console.error(error);
     res.sendStatus(404);
@@ -196,5 +221,6 @@ module.exports = {
   usuario,
   asignaConsulta,
   modificarAbogado,
+  setBann,
   getAbogado,
 };

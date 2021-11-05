@@ -1,4 +1,3 @@
-
 const initialState = {
   materias: [],
   usuarios: [],
@@ -11,6 +10,7 @@ const initialState = {
   consultas: [],
   admin: {},
   consulta: {},
+  clients: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -41,24 +41,23 @@ const rootReducer = (state = initialState, action) => {
         consulta: action.payload,
       };
     case "GET_USUARIO":
-      let user = action.payload
+      let user = action.payload;
       if (!user.abogadoId && !user.adminId) {
         return {
           ...state,
           usuario: action.payload,
-        }
+        };
       } else if (user.adminId) {
         return {
           ...state,
           usuario: action.payload,
-          admin: action.payload
-        }
+          admin: action.payload,
+        };
       } else {
         return {
           ...state,
           usuario: action.payload,
-          abogado: action.payload
-        }
+        };
       }
     case "GET_USUARIOS":
       return {
@@ -75,25 +74,29 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         casos: action.payload,
       };
-    case "POST_USUARIO":   //for login
-      let aux = action.payload
+    case "POST_USUARIO": //for login
+      let aux = action.payload;
       if (!!aux.adminId) {
         return {
           ...state,
-          admin: action.payload
+          admin: action.payload,
         };
       } else if (!!aux.abogadoId) {
         return {
           ...state,
-          abogado: action.payload
+          abogado: action.payload,
         };
       } else {
         return {
           ...state,
-          usuario: action.payload
+          usuario: action.payload,
         };
       }
     case "POST_ABOGADO":
+      return {
+        ...state,
+      };
+    case "SET_BANN":
       return {
         ...state,
       };
@@ -109,7 +112,11 @@ const rootReducer = (state = initialState, action) => {
     case "SET_ABOGADO":
       return {
         ...state,
-      }
+      };
+    case "SET_ADMIN":
+      return {
+        ...state,
+      };
     case "GET_CONSULTAS":
       return {
         ...state,
@@ -137,6 +144,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         abogados: provinciasFiltradas,
+      };
+    case "GET_CLIENTES":
+      return {
+        ...state,
+        consultas: action.payload,
       };
     default:
       return state;

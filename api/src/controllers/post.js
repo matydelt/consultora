@@ -105,30 +105,55 @@ async function eliminarImagen(req, res) {
 async function setUsuarios(req, res) {
   const { eMail, firstName, dni, lastName, celular, password } = req.body;
 
-  // console.log(eMail, firstName, dni, lastName, celular, password )
   try {
-    let aux = await Usuario.findByPk(eMail);
-    let aux2 = await Persona.findByPk(dni);
-    if (!aux && !aux2) {
-      const user = await Usuario.create({
-        eMail,
-        password,
-      });
+    let allUsers = await Usuario.findAll({});
+    if (allUsers.length === 0) {
+      let aux = await Usuario.findByPk(eMail);
+      let aux2 = await Persona.findByPk(dni);
+      if (!aux && !aux2) {
+        const user = await Usuario.create({
+          eMail,
+          password,
+        });
 
-      const person = await Persona.create({
-        firstName,
-        dni,
-        lastName,
-        celular,
-      });
-      const client = await Cliente.create({});
+        const person = await Persona.create({
+          firstName,
+          dni,
+          lastName,
+          celular,
+        });
+        const client = await Cliente.create({});
 
-      person.setUsuario(user);
-      client.setUsuario(user);
-      client.setPersona(person);
+        const adm = await Admin.create({ tipo: "gm" });
+        person.setUsuario(user);
+        client.setUsuario(user);
+        adm.setUsuario(user);
+        client.setPersona(person);
+        res.sendStatus(200);
+      } else res.sendStatus(500);
+    } else {
+      let aux = await Usuario.findByPk(eMail);
+      let aux2 = await Persona.findByPk(dni);
+      if (!aux && !aux2) {
+        const user = await Usuario.create({
+          eMail,
+          password,
+        });
 
-      res.sendStatus(200);
-    } else res.sendStatus(500);
+        const person = await Persona.create({
+          firstName,
+          dni,
+          lastName,
+          celular,
+        });
+        const client = await Cliente.create({});
+
+        person.setUsuario(user);
+        client.setUsuario(user);
+        client.setPersona(person);
+        res.sendStatus(200);
+      } else res.sendStatus(500);
+    }
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
@@ -140,19 +165,13 @@ async function setAbogado(req, res) {
     let user = await Usuario.findByPk(eMail);
     let persona = await Persona.findByPk(user.personaDni);
     if (flag) {
-      if (!user.abogadoId) {
-        const abogado = await Abogado.create({});
-        console.log(persona.firstName, persona.lastName);
-        if (user) {
-          user.slug = `${persona.firstName}-${persona.lastName}`;
-          abogado.setUsuario(user);
-          abogado.setPersona(persona);
-
-          return res.json({ abogado });
-          // return res.sendStatus(200)
-        }
-        return res.sendStatus(404);
-      } else return res.sendStatus(404);
+      const abogado = await Abogado.create({});
+      if (user) {
+        abogado.setUsuario(user);
+        abogado.setPersona(persona);
+        return res.sendStatus(200);
+      }
+      return res.sendStatus(404);
     } else {
       let abogado = await Abogado.findByPk(user.abogadoId);
       await abogado.destroy();
@@ -202,7 +221,7 @@ async function setCasos(req, res) {
     });
     const { clienteId } = await Usuario.findByPk(eMail);
     const cliente = await Cliente.findByPk(clienteId);
-    cliente.setCasos(caso);
+    cliente.addCasos(caso);
     res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -238,37 +257,63 @@ async function setConsulta(req, res, next) {
     }
   }
 }
+// async function setAdmin(req, res) {
+//   const { eMail, firstName, dni, lastName, celular, password } = req.body
+//   try {
+//     let aux = await Usuario.findByPk(eMail)
+//     let aux2 = await Persona.findByPk(dni)
+//     if (!aux && !aux2) {
+//       const user = await Usuario.create({
+//         eMail,
+//         password
+//       })
+
+//       const person = await Persona.create({
+//         firstName,
+//         dni,
+//         lastName,
+//         celular
+//       })
+//       const admin = await Admin.create({})
+
+//       person.setUsuario(user)
+//       admin.setUsuario(user)
+//       // client.setPersona(person)
+//       res.sendStatus(200)
+//     }
+//     else if (!aux.adminId) {
+//       const admin = await Admin.create({})
+//       admin.setUsuario(aux)
+//       res.sendStatus(200)
+//     } else res.sendStatus(500)
+
+//   } catch (error) {
+//     console.log(error)
+//     res.sendStatus(500)
+//   }
+
+// }
 async function setAdmin(req, res) {
-  const { eMail, firstName, dni, lastName, celular, password } = req.body;
   try {
-    let aux = await Usuario.findByPk(eMail);
-    let aux2 = await Persona.findByPk(dni);
-    if (!aux && !aux2) {
-      const user = await Usuario.create({
-        eMail,
-        password,
-      });
-
-      const person = await Persona.create({
-        firstName,
-        dni,
-        lastName,
-        celular,
-      });
-      const admin = await Admin.create({});
-
-      person.setUsuario(user);
-      admin.setUsuario(user);
-      // client.setPersona(person)
-      res.sendStatus(200);
-    } else if (!aux.adminId) {
-      const admin = await Admin.create({});
-      admin.setUsuario(aux);
-      res.sendStatus(200);
-    } else res.sendStatus(500);
+    const { eMail, flag } = req.body;
+    let user = await Usuario.findByPk(eMail);
+    if (flag) {
+      const admin = await Admin.create({ tipo: "normal" });
+      if (user) {
+        admin.setUsuario(user);
+        return res.sendStatus(200);
+      }
+      return res.sendStatus(404);
+    } else {
+      let admin = await Admin.findByPk(user.adminId);
+      await admin.destroy();
+      admin = await Abogado.findByPk(user.adminId);
+      if (!admin) return res.sendStatus(200);
+      else return res.sendStatus(500);
+    }
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
 }
 module.exports = {

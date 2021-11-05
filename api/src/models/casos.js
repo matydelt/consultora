@@ -34,10 +34,10 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN
         },
         vtoMedidaCautelar: {
-            type: DataTypes.DATE
+            type: DataTypes.DATEONLY
         },
         vtoTrabaAfectiva: {
-            type: DataTypes.DATE
+            type: DataTypes.DATEONLY
         }
         ,
         jurisdiccion: {
