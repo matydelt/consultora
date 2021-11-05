@@ -21,6 +21,25 @@ async function usuario(req, res) {
       const { firstName, lastName, dni, celular } = await Persona.findByPk(
         user.personaDni
       );
+      const personas = await Persona.findAll();
+      if (personas.length<2){
+        console.log("admin");
+        res.send({
+          ...{
+            eMail: user.eMail,
+            password: user.password,
+            abogadoId: user.abogadoId,
+            adminId: user.adminId,
+            slug: user.slug,
+            firstName,
+            lastName,
+            dni,
+            celular,
+          },
+          abogado,
+        });
+      }
+      else{
       if (abogado) {
         res.send({
           ...{
@@ -49,7 +68,7 @@ async function usuario(req, res) {
             celular,
           },
         });
-    } else {
+    }} else {
       res.sendStatus(404);
     }
   } catch (error) {

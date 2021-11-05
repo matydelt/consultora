@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import swal from "sweetalert"
-import { deleteConsulta, getConsultas, setConsulta } from '../../../redux/actions';
+import { deleteConsulta, getConsultas, setConsulta, postTickets } from '../../../redux/actions';
 
 
 export default function ModalConsulta({ usuario, modalId }) {
@@ -10,6 +10,7 @@ export default function ModalConsulta({ usuario, modalId }) {
     let [respuesta, setRespuesta] = useState('');
     const dispatch = useDispatch();
     let consulta = useSelector(state => state.consulta);
+    const [price, setPrice] = useState(0);
 
 
     useEffect(() => {
@@ -28,7 +29,8 @@ export default function ModalConsulta({ usuario, modalId }) {
             .then((willDelete) => {
                 if (willDelete) { 
                     dispatch(setConsulta(consulta.id, usuario.abogado.id, respuesta)).then(() => {
-                        dispatch(getConsultas());
+                    dispatch(postTickets({ title: `${usuario.firstName + " " + usuario.lastName} - Consulta`, unit_price: price }))
+                    dispatch(getConsultas());
                     })
                 } 
                 setRespuesta('')
@@ -88,7 +90,7 @@ export default function ModalConsulta({ usuario, modalId }) {
                                 <label htmlFor="respuesta">Escribir un mensaje al cliente</label>
                             </div>
                             <div class="form-floating my-3 mx-1">
-                                <input type="number" class="form-control" id="precio" placeholder="Precio"></input>
+                                <input type="number" class="form-control" min="0" onChange={(e) => { setPrice(e.target.value) }} value={price} id="precio" placeholder="Precio"></input>
                                 <label htmlFor="precio">$ Ingresar precio de la consulta</label>
                             </div>
                         </div>

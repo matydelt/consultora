@@ -14,11 +14,11 @@ export default function AdminPage() {
     var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
     useEffect(() => {
         dispatch(getUsuarios())
-        let type = "danger"
-        let mensaje = "Cuidado , una vez eliminado el estado de abogado el mismo pierde toda su informacion"
-        var wrapper = document.createElement('div')
-        wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
-        alertPlaceholder.append(wrapper)
+        // let type = "danger"
+        // let mensaje = "Cuidado , una vez eliminado el estado de abogado el mismo pierde toda su informacion"
+        // var wrapper = document.createElement('div')
+        // wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+        // alertPlaceholder.append(wrapper)
     }, [cont, dispatch])
 
 

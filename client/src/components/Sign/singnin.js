@@ -163,7 +163,7 @@ export const Signin = () => {
     <div>
       <Navbar />
       {!!usuario.firstName ? (
-        <div className="container p-4">
+        <div className="container p-1">
           <div className="row">
             <div className="col-md-4 mx-auto">
               <div className="card text-center">
@@ -197,7 +197,7 @@ export const Signin = () => {
       ) : displayname ? (
         <div className="container p-4">
           <div className="row">
-            <div className="col-md-4 mx-auto">
+            <div className="col-lg-4 col-md-6 col-sm-8 mx-auto mx-auto">
               <div className="card text-center">
                 <div className="card-header">
                   <h3>Register</h3>
@@ -309,7 +309,7 @@ export const Signin = () => {
       ) : (
         <div className="container p-4">
           <div className="row">
-            <div className="col-md-4 mx-auto">
+            <div className="col-lg-4 col-md-6 col-sm-8 mx-auto mx-auto">
               <div className="card text-center">
                 <div className="card-header">
                   <h3>Iniciar Sesión</h3>
