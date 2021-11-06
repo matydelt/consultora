@@ -73,7 +73,8 @@ const {
   Matricula,
   Provincias,
   Consulta,
-  Admin
+  Admin,
+  Ticket
 } = sequelize.models;
 
 // Aca vendrian las relaciones
@@ -90,6 +91,10 @@ Cliente.hasOne(Persona);
 Abogado.hasOne(Usuario);
 
 Abogado.hasOne(Persona);
+
+Ticket.hasOne(Consulta);
+
+Ticket.hasOne(Casos);
 
 Abogado.hasMany(Consulta);
 
