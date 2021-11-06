@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import swal from "sweetalert"
 import { deleteConsulta, getConsultas, setConsulta } from '../../../redux/actions';
 
+let myModal = ''
 
 export default function ModalConsulta({ usuario, modalId }) {
 
@@ -11,26 +12,24 @@ export default function ModalConsulta({ usuario, modalId }) {
     const dispatch = useDispatch();
     let consulta = useSelector(state => state.consulta);
 
-
     useEffect(() => {
         setRespuesta('')
     }, [consulta]);
 
-   
     function confimarConsulta() {
 
         swal({
             title: "Confirmar",
             text: "¿Quiere aceptar la consulta?",
             icon: "info",
-            buttons: true,
+            buttons: true
         })
             .then((willDelete) => {
-                if (willDelete) { 
+                if (willDelete) {
                     dispatch(setConsulta(consulta.id, usuario.abogado.id, respuesta)).then(() => {
                         dispatch(getConsultas());
                     })
-                } 
+                }
                 setRespuesta('')
             });
     }
@@ -59,6 +58,7 @@ export default function ModalConsulta({ usuario, modalId }) {
     function modificarCampos(e) {
         setRespuesta(e.target.value)
     };
+
 
 
     return (<>

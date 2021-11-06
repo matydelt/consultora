@@ -167,6 +167,7 @@ async function setAbogado(req, res) {
     if (flag) {
       const abogado = await Abogado.create({});
       if (user) {
+        user.slug = `${persona.firstName}-${persona.lastName}`;
         abogado.setUsuario(user);
         abogado.setPersona(persona);
         return res.sendStatus(200);
