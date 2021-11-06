@@ -46,20 +46,22 @@ const postTickets = (req, res, next) => {
     }
     // Tickets.create(ticket)
     if(!!casoid){
+      const cass = Casos.findByPk(casoid)
       Tickets.create(ticket)
       .then( Ticket => {
-        Ticket.update(
-          { casoId: casoid }
-        );
+        Ticket.setCasos( cass )
+        console.log("resultado",Ticket);
+        res.sendStatus(200);
       })
       .catch((error)=>console.log(error))
     }
     else{
+      const consul = Consulta.findByPk(consultaid)
       Tickets.create(ticket)
       .then( Ticket => {
-        Ticket.update(
-          { consultaId: consultaid }
-        );
+        Ticket.setConsulta( consul )
+        console.log("resultado",Ticket);
+        res.sendStatus(200);
       })
       .catch((error)=>console.log(error))
     }
