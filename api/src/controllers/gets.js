@@ -7,6 +7,7 @@ const {
     Persona,
     Consulta,
     Cliente,
+    Tickets,
     Op,
 } = require("../db");
 
@@ -302,6 +303,17 @@ async function getConsultas(req, res, next) {
     }
 }
 
+//MP
+async function getTickets(req, res, next) {
+    try {
+        const ticket = await Tickets.findAll();
+        res.json(ticket);
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(404);
+    }
+}
+
 module.exports = {
     getUsuarios,
     // getUsuario,
@@ -313,5 +325,6 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
-    getUsuario
+    getUsuario,
+    getTickets
 };

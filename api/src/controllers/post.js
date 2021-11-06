@@ -12,14 +12,16 @@ const {
   Abogado,
   Consulta,
   Admin,
+  Tickets
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
 
 //MP
 const postTickets = (req, res, next) => {
-  console.log("ejecuta?");
-  const { title, unit_price } = req.body;
+  const enviarEmail = require("../email/email");
+  const { title, unit_price, casoid, consultaid } = req.body;
+
   let preference = {
     items: [
       {
@@ -29,12 +31,39 @@ const postTickets = (req, res, next) => {
       },
     ],
   };
-  console.log("llego?", preference);
+
   mercadopago.preferences
     .create(preference)
     .then(function (response) {
-      console.log(response.body.init_point);
-    })
+      // console.log(response.body.init_point);
+      let ticket = {
+        titulo: title,
+        precio: unit_price,
+        enlace: response.body.init_point,
+        estatus: "pending",
+        detalle_estatus: "not accredited",
+        medioDePago: "No information"
+    }
+    // Tickets.create(ticket)
+    if(!!casoid){
+      Tickets.create(ticket)
+      .then( Ticket => {
+        Ticket.update(
+          { casoId: casoid }
+        );
+      })
+      .catch((error)=>console.log(error))
+    }
+    else{
+      Tickets.create(ticket)
+      .then( Ticket => {
+        Ticket.update(
+          { consultaId: consultaid }
+        );
+      })
+      .catch((error)=>console.log(error))
+    }
+  })
     .catch(function (error) {
       console.log(error);
     });

@@ -16,7 +16,6 @@ import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
 import Signup from "./components/Sign/signup";
 import FormCasos from "./components/FormCasos/FormCasos";
-import MedioDePago from "../src/components/TestMP/test-MP";
 // import { modificarAbogado } from "../../api/src/controllers/put";
 // import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
 import { ToastContainer } from "react-toastify";

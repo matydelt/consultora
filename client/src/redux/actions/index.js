@@ -285,21 +285,19 @@ export function filtrarProvincias(payload) {
 
 export const postTickets = ( Ticket )=>{
   return (dispatch) => {
-    console.log("vamo bien creo");
     axios.post("http://localhost:3001/tickets/new", Ticket)
     .then(response => {
-      console.log("aun pinta bien");
       return dispatch({ type: "POST_TICKET" });
     })
     .catch((err)=>{
       // console.log(err)
-      console.log("la ruta aun no la cree")
+      console.log("ruta no existe")
     })
   }
 }
 export function getTickets() {
   return (dispatch)=>{
-    axios.get("http://localhost:3001/ticket")
+    axios.get("http://localhost:3001/tickets")
     .then(tickets =>{
         return dispatch({
             type: "GET_TICKET",
@@ -308,6 +306,17 @@ export function getTickets() {
     })
     .catch((err)=>{
         console.log(err);
+    })
+  }
+}
+export function modificarTicket( Ticket ) {
+  return (dispatch)=>{
+    axios.put("http://localhost:3001//tickets/edit", Ticket)
+    .then(response => {
+      return dispatch({ type: "PUT_TICKET" });
+    })
+    .catch((err)=>{
+      console.log("ruta no existe")
     })
   }
 }
