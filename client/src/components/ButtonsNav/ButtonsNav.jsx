@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const ButtonsNav = ({ link, text }) => {
+const ButtonsNav = ({ link, text, nameClass }) => {
     return (
         <>
             <Link
-                className="textDecoration"
+                className={nameClass}
                 to={link}
             >
                 {text}

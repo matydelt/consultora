@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getMaterias } from "../../redux/actions";
 import AbogadosCarrusel from "./AbogadosCarrusel/AbogadosCarrusel";
 import Header from "./Header/Header";
 import Navbar from "./Navbar/Navbar";
@@ -6,8 +8,19 @@ import "./HomePage.css";
 import Banner from "./Banner/Banner.jsx";
 import Materia from "../Materia/Materia.jsx";
 import About from "./About/About";
+import Footer from "./Footer/Footer";
 
 const HomePage = () => {
+
+  const materias = useSelector(state => state.materias)
+  const dispatch = useDispatch()
+    
+
+  useEffect(() => {
+    dispatch(getMaterias())
+  }, [dispatch])
+
+
   return (
     <div className="height">
       <Header />
@@ -24,15 +37,11 @@ const HomePage = () => {
       <div className="mb-5">
         <h3 className="text-center mb-4 fs-1">Competencias</h3>
         <div className="flex-materias">
-          <Materia nombre="Derecho Penal" />
-          <Materia nombre="Derecho Civíl" />
-          <Materia nombre="Derecho Corporativo" />
-          <Materia nombre="Derecho Comercial" />
-          <Materia nombre="Derecho Familiar" />
-          <Materia nombre="Derecho Contencioso" />
-          <Materia nombre="Derecho Administrativo" />
-          <Materia nombre="Derecho Laboral" />
-          <Materia nombre="Derecho Notarial" />
+          {
+            materias.map(m => (
+              <Materia key={m.id} nombre={m.nombre} />
+            ))
+          }
         </div>
       </div>
       <Banner
@@ -43,6 +52,7 @@ const HomePage = () => {
         widthListTwo="col-md-5"
       />
       <AbogadosCarrusel />
+      <Footer />
     </div>
   );
 };

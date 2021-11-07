@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import ButtonsNav from "../../ButtonsNav/ButtonsNav";
 // import Image_One from "../assets/img/pexels-cytonn-photography-955395.jpg";
 // import Image_Two from "../assets/img/pexels-pixabay-261679.jpg";
 // import Image_Three from "../assets/img/equipo-abogados.jpg";
@@ -28,9 +28,7 @@ const Header = () => {
             {/* <img src={Image_Two} className="d-block w-100" alt="Image_Two" /> */}
             <div className="carousel-caption d-none d-md-block m_top_header caption_two">
               <h5>¿Quieres una Consulta rápida?</h5>
-              <Link className="btn" to="#">
-                Presiona aquí
-              </Link>
+              <ButtonsNav nameClass="btn textDecoration" link="#" text="Presiona aquí  "/>
             </div>
           </div>
 
@@ -46,9 +44,10 @@ const Header = () => {
                 tu
               </h5>
               <h5>SOLUCIÓN</h5>
-              <Link className="btn" to="#">
+              {/* <Link className="btn" to="#">
                 Ver el Equipo
-              </Link>
+              </Link> */}
+              <ButtonsNav nameClass="btn textDecoration" link="#" text="Ver el Equipo" />
             </div>
           </div>
         </div>

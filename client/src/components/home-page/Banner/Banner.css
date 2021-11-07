@@ -80,4 +80,9 @@
         margin-top: 70px;
         object-fit: cover;
     }
+
+    .banner_contain .personUl img {
+        width: 8%;
+        bottom: -55%;
+    }
 }

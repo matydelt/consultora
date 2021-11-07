@@ -24,14 +24,13 @@
   transition            : all 0.4s ease;
   color                 : #ccc;
   backface-visibility   : hidden;
-  -webkit-font-smoothing: auto;
+  -webkit-font-smoothing: subpixel-antialiased;
+  transform: translateZ(0);
 }
 
 .materia:hover {
   box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
   transform : translateY(-3%);
-  backface-visibility   : hidden;
-  -webkit-font-smoothing: auto;
 }
 
 .button_learn-more button {
