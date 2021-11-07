@@ -1,4 +1,5 @@
 import axios from "axios";
+import swal from "sweetalert";
 
 export function getMaterias() {
   return async function (dispatch) {
@@ -110,6 +111,8 @@ export const getUsuario = (usuario) => {
   return (dispatch) => {
     axios.put("http://localhost:3001/usuario", usuario)
       .then(user => {
+        console.log(user);
+        localStorage.setItem('username', user.data.firstName)
         return dispatch({
           type: "GET_USUARIO",
           payload: user.data
@@ -165,6 +168,34 @@ export function postConsulta(consulta) {
     }
   };
 }
+
+export function setConsulta(consultaId, abogadoId, respuesta) {
+  return async function (dispatch) {
+    try {
+      await axios.put("http://localhost:3001/consultas", { consultaId, abogadoId, respuesta });
+      swal("La consulta fue aceptada", {
+        icon: "success",
+      });
+      // return dispatch({
+      //   type: "POST_CONSULTA",
+      // });
+    } catch (error) {
+      console.log(error);
+      swal('Ocurrió un error al asignar la consulta', {
+        icon: "error",
+      });
+    }
+  };
+}
+
+export const mostrarConsulta = (consulta) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "SET_CONSULTA",
+      payload: consulta
+    })
+  };
+};
 
 export function setAbogado(user) {
   return async function (dispatch) {
@@ -233,6 +264,7 @@ export function getPersonas() {
 export function deleteConsulta(id) {
   return async function (dispatch) {
     try {
+      // await axios.delete(`http://localhost:3001/consultas/${id}`);
       await axios.delete(`http://localhost:3001/consultas/${id}`);
       return dispatch({
         type: "DELETE_CONSULTA",
@@ -262,4 +294,41 @@ export function putCaso(caso) {
       console.log(error);
     }
   };
+}
+export const postTickets = (Ticket) => {
+  return (dispatch) => {
+    axios.post("http://localhost:3001/tickets/new", Ticket)
+      .then(response => {
+        return dispatch({ type: "POST_TICKET" });
+      })
+      .catch((err) => {
+        // console.log(err)
+        console.log("ruta no existe")
+      })
+  }
+}
+export function getTickets(id) {
+  return (dispatch) => {
+    axios.get("http://localhost:3001/tickets", id)
+      .then(tickets => {
+        return dispatch({
+          type: "GET_TICKET",
+          payload: tickets.data
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+}
+export function modificarTicket(Ticket) {
+  return (dispatch) => {
+    axios.put("http://localhost:3001//tickets/edit", Ticket)
+      .then(response => {
+        return dispatch({ type: "PUT_TICKET" });
+      })
+      .catch((err) => {
+        console.log("ruta no existe")
+      })
+  }
 }

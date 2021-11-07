@@ -8,8 +8,11 @@ import {
 } from "../../redux/actions/index.js";
 import { correoNoOK, createNOOK, createOK, dniNoOK } from "./alert.js";
 import { Link } from "react-router-dom";
-import md5 from "md5";
+import md5 from 'md5'
 import Navbar from "../home-page/Navbar/Navbar.jsx";
+
+import './sign.css';
+
 
 export const Signup = () => {
   const { usuarios, personas } = useSelector((state) => state);
@@ -31,164 +34,81 @@ export const Signup = () => {
   const auth = getAuth();
 
   const GoTo = async () => {
-    if (
-      usuarios.some((e) => e.eMail == eMail) ||
-      personas.some((e) => e.dni == dni)
-    ) {
-      usuarios.some((e) => e.eMail == eMail) ? correoNoOK() : dniNoOK();
-    } else {
-      dispatch(
-        postUsuario({
-          eMail: eMail,
-          firstName: firstName,
-          dni: dni,
-          lastName: lastName,
-          celular: celular,
-          password: md5(password),
-        })
-      );
+    if (usuarios.some(e => e.eMail.toString() === eMail.toString()) || personas.some(e => e.dni.toString() === dni.toString())) {
+      usuarios.some(e => e.eMail.toString() === eMail.toString()) ? correoNoOK() : dniNoOK()
+    }
+    else {
       await createUserWithEmailAndPassword(auth, eMail, md5(password))
         .then(() => {
-          createOK();
+          console.log("no rompio");
+          dispatch(postUsuario({ eMail: eMail, firstName: firstName, dni: dni, lastName: lastName, celular: celular, password: md5(password) }))
+
+          createOK()
+
         })
         .catch((error) => {
-          createNOOK();
+          console.log("que paso?");
+          createNOOK()
           console.log(error);
-        });
-      setFirstName("");
-      setLastName("");
-      setPhone("");
-      setDni("");
-      setEmail("");
-      setPassword("");
+        })
+      setFirstName('');
+      setLastName('');
+      setPhone('');
+      setDni('');
+      setEmail('');
+      setPassword('');
     }
-  };
+  }
   return (
-    <div>
-      <Navbar navId={"menu"} />
+    <>
       <div className="container p-4">
+        <Navbar></Navbar>
         <div className="row">
-          <div className="col-md-4 mx-auto">
+          <div className="col-lg-4 col-md-6 col-sm-8 mx-auto">
             <div className="card text-center">
               <div className="card-header">
-                <h3>Register</h3>
+                <h3>Registro</h3>
               </div>
-              <div className="card-body">
+              <div className="card-body form-sign">
                 <div className="form-group">
-                  <input
-                    type="type"
-                    value={firstName}
-                    name="firstName"
-                    autoComplete="off"
-                    placeholder=" First Name"
-                    className="form-control"
-                    autoFocus
-                    required
-                    onChange={(e) => {
-                      setFirstName(e.target.value);
-                    }}
-                  />
+                  <input type="type" value={firstName} name="firstName" autoComplete="off" placeholder=" First Name" className="form-control" autoFocus required onChange={(e) => { setFirstName(e.target.value) }} />
                 </div>
                 <div className="form-group">
-                  <input
-                    type="type"
-                    value={lastName}
-                    name="lastName"
-                    autoComplete="off"
-                    placeholder=" Last Name"
-                    className="form-control"
-                    required
-                    onChange={(e) => {
-                      setLastName(e.target.value);
-                    }}
-                  />
+                  <input type="type" value={lastName} name="lastName" autoComplete="off" placeholder=" Last Name" className="form-control" required onChange={(e) => { setLastName(e.target.value) }} />
                 </div>
                 <div className="form-group">
-                  <input
-                    type="text"
-                    value={dni}
-                    name="DNI"
-                    autoComplete="off"
-                    placeholder="DNI : 1234567"
-                    className="form-control"
-                    required
-                    onChange={(e) => {
-                      setDni(e.target.value);
-                    }}
-                  />
+                  <input type="text" value={dni} name="DNI" autoComplete="off" placeholder="DNI : 1234567" className="form-control" required onChange={(e) => { setDni(e.target.value) }} />
                 </div>
                 <div className="form-group">
-                  <input
-                    type="text"
-                    value={celular}
-                    name="Number"
-                    autoComplete="off"
-                    placeholder="Number : 11 1111-1111"
-                    className="form-control"
-                    required
-                    onChange={(e) => {
-                      setPhone(e.target.value);
-                    }}
-                  />
+                  <input type="text" value={celular} name="Number" autoComplete="off" placeholder="Number : 11 1111-1111" className="form-control" required onChange={(e) => { setPhone(e.target.value) }} />
                 </div>
                 <div className="form-group">
-                  <input
-                    type="text"
-                    value={eMail}
-                    name="Mail"
-                    autoComplete="off"
-                    placeholder="Mail : Ejemplo@ejemplo.com"
-                    className="form-control"
-                    required
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
-                  />
+                  <input type="text" value={eMail} name="Mail" autoComplete="off" placeholder="Mail : Ejemplo@ejemplo.com" className="form-control" required onChange={(e) => { setEmail(e.target.value) }} />
                 </div>
                 <div className="form-group">
-                  <input
-                    type="password"
-                    value={password}
-                    name="password"
-                    autoComplete="off"
-                    placeholder="Password min 6 digits"
-                    className="form-control"
-                    required
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                  />
+                  <input type="password" value={password} name="password" autoComplete="off" placeholder="Password min 6 digits" className="form-control" required onChange={(e) => { setPassword(e.target.value) }} />
                 </div>
                 <div className="form-group">
-                  <button
-                    className="btn btn-success btn-block"
-                    onClick={GoTo}
-                    disabled={
-                      firstName === "" ||
-                      lastName === "" ||
-                      dni === "" ||
-                      celular === "" ||
-                      eMail === "" ||
-                      password.length < 6
-                    }
-                  >
-                    Register
+                  <button className="btn btn-success btn-block" onClick={GoTo} disabled={(firstName === '') || (lastName === '') || (dni === '') || (celular === '') || (eMail === '') || (password.length < 6)}>
+
+                    Registrarme
+
                   </button>
                 </div>
-                <div className="form-group">
-                  <h6>-- -- -- -- -- -- -- -- -- -- -- -- </h6>
-                </div>
-                <div className="form-group">
-                  <Link to="/ingreso">
-                    <label>Go to Login → → →</label>
-                  </Link>
-                </div>
+
+              </div>
+              <div className="card-footer">
+                <Link to="/ingreso">
+                  <label className="pointer">
+                    Ya tengo una cuenta. INGRESAR
+                  </label>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+
+    </>)
+}
 export default Signup;

@@ -28,7 +28,7 @@ const Header = () => {
             {/* <img src={Image_Two} className="d-block w-100" alt="Image_Two" /> */}
             <div className="carousel-caption d-none d-md-block m_top_header caption_two">
               <h5>¿Quieres una Consulta rápida?</h5>
-              <ButtonsNav nameClass="btn textDecoration" link="#" text="Presiona aquí  "/>
+              <ButtonsNav nameClass="btn textDecoration" link="#" text="Presiona aquí  " />
             </div>
           </div>
 

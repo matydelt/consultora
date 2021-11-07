@@ -13,5 +13,6 @@ module.exports = {
   usuario: require("./usuario"),
   consultas: require("./consultas"),
   cloudinary: require("./cloudinary"),
+  tickets: require("./tickets"),
   index: router,
 };
