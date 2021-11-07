@@ -18,8 +18,10 @@ const {
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
 
 //MP
-const postTickets = (req, res, next) => {
+const postTickets = async (req, res, next) => {
   const { title, unit_price, casoid, consultaid } = req.body;
+
+  console.log(title, unit_price, casoid, consultaid );
 
   let preference = {
     items: [
@@ -30,10 +32,10 @@ const postTickets = (req, res, next) => {
       },
     ],
   };
+  try {
 
-  mercadopago.preferences
-  .create(preference)
-    try{ async (response) => {
+  const response = await mercadopago.preferences.create(preference)
+
       // console.log(response.body.init_point);
       let ticket = {
         titulo: title,
@@ -45,7 +47,7 @@ const postTickets = (req, res, next) => {
         medioDePago: "No information"
       }
     // Tickets.create(ticket)
-      if(!!casoid){
+      // if(!!casoid){
       // const cass = Casos.findByPk(casoid)
       // Ticket.create(ticket)
       // .then( tickets => {
@@ -54,23 +56,27 @@ const postTickets = (req, res, next) => {
       //   res.sendStatus(200);
       // })
       // .catch((error)=>console.log(error))
-      }
-      else{
+      // }
+      // else{
         const consul = await Consulta.findByPk(consultaid)
-        console.log("consulta",consul);
+
         const tickets = await Ticket.create(ticket)
-        await tickets.setConsulta( consul )
-        console.log("resultado",tickets);
-        console.log("resultado",consul);
-        res.sendStatus(200);
-      }
-    }}
+
+
+        tickets.setConsultum( consul )
+
+
+        res.json({
+          consul,tickets
+        });
+        // res.sendStatus(200);
+      // }
+    }
     catch {(function (error) {
       console.log(error);
       })
     }
 };
-
 // CLOUDINARY
 async function subirImagen(req, res) {
   const { email } = req.body;
