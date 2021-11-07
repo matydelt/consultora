@@ -24,7 +24,7 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     }, [dispatch, usuario])
     useEffect(() => {
         if (abogado.clientes === 0) return (<h1>No hay clientes</h1>)
-        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+        let AllClients = JSON.parse(JSON.stringify(abogado.clientes || []));
         AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
         AllClients = AllClients.filter(e => e.casos.length > 0)
         setClientes([...AllClients])

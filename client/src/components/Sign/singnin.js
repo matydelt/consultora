@@ -64,7 +64,8 @@ export const Signin = () => {
               dispatch(getUsuario({ eMail: e.user.email }));
             } else {
               setEmail(aux);
-              setFirstName(e.user.displayName);
+              setFirstName(e.user.displayName.split(" ")[0]);
+              setLastName(e.user.displayName.split(" ")[1]);
               setPassword(md5(e.user.email));
             }
           })

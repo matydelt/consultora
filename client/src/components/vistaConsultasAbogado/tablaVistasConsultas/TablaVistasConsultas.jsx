@@ -51,10 +51,12 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
     
                     {
                         ((terminoBusquedaTodas && terminoBusquedaTodas.length > 2) || (aceptadas) || (terminoBusquedaAceptadas && terminoBusquedaAceptadas.length > 2) ? consultas : consultasMostrar).filter((c) => {
+                            console.log(c);
+                            console.log(terminoBusquedaTodas);
                             if (terminoBusquedaAceptadas && aceptadas) {
-                                return c.dni.includes(terminoBusquedaAceptadas) && c.abogadoId === usuario?.abogado?.id
+                                return (c.dni.includes(terminoBusquedaAceptadas) || c.nombre.toLowerCase().includes(terminoBusquedaAceptadas.toLowerCase()) || c.apellido.toLowerCase().includes(terminoBusquedaAceptadas.toLowerCase())) && c.abogadoId === usuario?.abogado?.id
                             } else if (terminoBusquedaTodas && !aceptadas) {
-                                return c.dni.includes(terminoBusquedaTodas)
+                                return (c.dni.includes(terminoBusquedaTodas) || c.nombre.toLowerCase().includes(terminoBusquedaTodas.toLowerCase())) || c.apellido.toLowerCase().includes(terminoBusquedaTodas.toLowerCase())
                             } else if (aceptadas) {
                                 return c.abogadoId === usuario?.abogado?.id
                             } else {

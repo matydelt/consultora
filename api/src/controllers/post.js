@@ -317,6 +317,11 @@ async function setAdmin(req, res) {
     return res.sendStatus(500);
   }
 }
+
+async function reiniciarPassword(req, res) {
+ 
+}
+
 module.exports = {
   setUsuarios,
   setCasos,
@@ -327,4 +332,5 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
+  reiniciarPassword
 };

@@ -36,6 +36,8 @@ router.put("/bann", put.setBann)//bannea usuario
 
 router.post("/usuario", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
+router.post("/forzar-reinicio-password", (req, res) => post.reiniciarPassword(req, res))  
+
 router.put("/usuario", (req, res) => put.usuario(req, res)); // get  user(for login)
 
 router.post("/persona", (req, res) => post.setPersona(req, res)); //crea persona
