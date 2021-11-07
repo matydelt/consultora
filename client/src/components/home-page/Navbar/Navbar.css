@@ -121,7 +121,7 @@
 
 /* -------------------Medias Query------------------- */
 
-@media (min-width: 1592px) and (max-width: 2000px) {
+@media (min-width: 1592px) and (max-width: 1920px) {
     #menu {
         position: relative;
         top     : -30px;
