@@ -16,6 +16,7 @@ import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
 import Signup from "./components/Sign/signup";
 import FormCasos from "./components/FormCasos/FormCasos";
+import HomeUsuario from "./components/homeUsuario/HomeUsuario";
 import MedioDePago from "../src/components/TestMP/test-MP";
 // import { modificarAbogado } from "../../api/src/controllers/put";
 // import ModificarAbogado from "./components/modificarAbogado/ModificarAbogado";
@@ -23,6 +24,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
 import "./App.css";
+import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/ConsultasUsuario";
 function App() {
   const dispatch = useDispatch();
 
@@ -59,6 +61,14 @@ function App() {
           <Clientes />
           <Footer />
         </Route>
+
+        <Route exact path="/user/panel">
+            <HomeUsuario />
+        </Route>
+        <Route exact path="/user/panel/consultas">
+            <ConsultasUsuario />
+        </Route>
+
         <Route exact path="/user/abogado/consultas">
           <NavAbogado />
           <VistaConsultasAbogado />
