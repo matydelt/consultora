@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 import { postConsulta } from "../../redux/actions/index";
 import Navbar from "../home-page/Navbar/Navbar";
@@ -62,61 +63,89 @@ export default function FormCita() {
     e.preventDefault();
     if (Object.keys(error).length === 0) {
       dispatch(postConsulta(input));
-      alert("consulta enviada con exito");
+      toast.success("Consulta enviada");
       setInput(" ");
     } else {
-      alert("Hay campos que no se ingresaron correctamente por favor revise");
+      toast.warn("Se ingresaron datos incorrectos por favor revise");
     }
   };
 
-  return (<>
+  return (
+    <>
+      <Navbar />
 
-    <Navbar />
+      <div classnombre="">
+        <form onSubmit={handleSubmit} className="form-cita mt-5">
+          <div className="form-group mt-3">
+            <label className="form-label">Nombre</label>
+            <input
+              className="form-control"
+              name="nombre"
+              type="text"
+              required
+              onChange={handleChange}
+            />
+          </div>
 
-    <div classnombre="">
-      <form onSubmit={handleSubmit} className="form-cita mt-5">
+          <div className="form-group mt-3">
+            <label className="form-label">Apellido</label>
+            <input
+              className="form-control"
+              name="apellido"
+              type="text"
+              required
+              onChange={handleChange}
+            />
+          </div>
 
+          <div className="form-group mt-3">
+            <label className="form-label">DNI</label>
+            <input
+              className="form-control"
+              name="dni"
+              type="number"
+              required
+              onChange={handleChange}
+            />
+          </div>
 
-        <div className="form-group mt-3">
-          <label className="form-label">Nombre</label>
-          <input className="form-control" name="nombre" type="text" required onChange={handleChange} />
-        </div>
+          <div className="form-group mt-3">
+            <label className="form-label">Teléfono</label>
+            <input
+              className="form-control"
+              name="telefono"
+              type="tel"
+              required
+              onChange={handleChange}
+            />
+          </div>
 
-        <div className="form-group mt-3">
-          <label className="form-label">Apellido</label>
-          <input className="form-control" name="apellido" type="text" required onChange={handleChange} />
-        </div>
+          <div className="form-group mt-3">
+            <label className="form-label">Email</label>
+            <input
+              className="form-control"
+              type="email"
+              name="email"
+              required
+              onChange={handleChange}
+            />
+          </div>
 
-        <div className="form-group mt-3">
-          <label className="form-label">DNI</label>
-          <input className="form-control" name="dni" type="number" required onChange={handleChange} />
-        </div>
+          <div className="form-group mt-3">
+            <label className="form-label">Mensaje</label>
+            <textarea
+              className="form-control"
+              name="mensaje"
+              cols="30"
+              rows="10"
+              required
+              onChange={handleChange}
+            ></textarea>
+          </div>
 
-        <div className="form-group mt-3">
-          <label className="form-label">Teléfono</label>
-          <input className="form-control" name="telefono" type="tel" required onChange={handleChange} />
-        </div>
-
-        <div className="form-group mt-3">
-          <label className="form-label">Email</label>
-          <input className="form-control" type="email" name="email" required onChange={handleChange} />
-        </div>
-
-        <div className="form-group mt-3">
-
-          <label className="form-label">Mensaje</label>
-          <textarea
-            className="form-control"
-            name="mensaje"
-            cols="30"
-            rows="10"
-            required
-            onChange={handleChange}
-          ></textarea>
-        </div>
-
-        <button className="btn btn-secondary mt-3">Enviar</button>
-      </form>
-    </div>
-  </>);
+          <button className="btn btn-secondary mt-3">Enviar</button>
+        </form>
+      </div>
+    </>
+  );
 }

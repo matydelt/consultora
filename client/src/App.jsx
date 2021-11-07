@@ -51,32 +51,32 @@ function App() {
         <Route exact path="/abogados">
           <Perfiles />
         </Route>
-        <Route exact path="/user/abogado">
-          <HomeAbogado />
-        </Route>
-        <Route exact path="/user/abogado/clientes">
-          <NavAbogado />
-          <Clientes />
-          <Footer />
-        </Route>
-        <Route exact path="/user/abogado/consultas">
-          <NavAbogado />
-          <VistaConsultasAbogado />
-          <Footer />
-        </Route>
         <Route exact path={"/admin"} component={AdminPage}></Route>
-        <Route exact path="/user/abogado/nuevo-caso">
-          <FormCasos />
-        </Route>
-        {/* <Route exact path="/test" component={MedioDePago} /> */}
+
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
-        <Route
-          exact
-          path="/modificar-perfil"
-          component={ModificarAbogado}
-        ></Route>
+        <div>
+          <NavAbogado />
+          <Route exact path="/user/abogado">
+            <HomeAbogado />
+          </Route>
+          <Route exact path="/user/abogado/clientes">
+            <Clientes />
+          </Route>
+          <Route exact path="/user/abogado/consultas">
+            <VistaConsultasAbogado />
+          </Route>
+          <Route
+            exact
+            path="/user/abogado/modificar-perfil"
+            component={ModificarAbogado}
+          ></Route>
+          <Route exact path="/user/abogado/nuevo-caso">
+            <FormCasos />
+          </Route>
+          <Footer />
+        </div>
       </Switch>
       <ToastContainer></ToastContainer>
     </div>

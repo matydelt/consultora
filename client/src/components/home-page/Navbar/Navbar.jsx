@@ -95,9 +95,6 @@ const Navbar = ({ navId }) => {
                   <Link to="/user/abogado">
                     <span class="dropdown-item pointer">Panel</span>
                   </Link>
-                  <Link to="/modificar-perfil">
-                    <span class="dropdown-item pointer">Perfil</span>
-                  </Link>
 
                   <span onClick={logout} class="dropdown-item pointer">
                     Cerrar sesión
