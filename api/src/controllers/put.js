@@ -64,11 +64,6 @@ async function asignaConsulta(req, res, next) {
 
 // asigna materia y matricula al abogado
 
-// module.exports = {
-//     usuario,
-//     asignaConsulta,
-//     modificarAbogado
-// };
 
 async function modificarAbogado(req, res) {
 
@@ -110,7 +105,6 @@ async function modificarAbogado(req, res) {
 
 async function getAbogado(req, res) {
     try {
-        console.log(req.body)
         let { eMail } = req.body
         if (!eMail) {
             eMail = req.params
@@ -125,10 +119,12 @@ async function getAbogado(req, res) {
                 where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
                 {
                     model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
-                    ]
+                        "numeroLiquidacion", "medidaCautelar", "trabaAfectiva", "vtoMedidaCautelar", "vtoTrabaAfectiva", "jurisdiccion"
+                    ], include: Materias
                 }]
             }))
         }
+
         if (user) {
             res.json(abogado)
         } else res.sendStatus(404)
@@ -138,13 +134,59 @@ async function getAbogado(req, res) {
     }
 }
 
+async function setBann(req, res) {
+    try {
+        let { eMail, flag } = req.body
+        const user = await Usuario.findByPk(eMail)
+        if (flag) {
+            user.banned = true
+            await user.save()
+            res.sendStatus(200)
+        } else {
+            user.banned = false
+            await user.save()
+            res.sendStatus(200)
+        }
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
+async function putCaso(req, res) {
+    try {
+        let { detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion, materia } = req.body
+        let caso = await Casos.findByPk(numeroLiquidacion)
+        if (vtoMedidaCautelar === "") vtoMedidaCautelar = null
+        if (vtoTrabaAfectiva === "") vtoTrabaAfectiva = null
+        if (caso) {
+            caso.detalle = detalle
+            caso.estado = estado
+            caso.juez = juez
+            caso.juzgado = juzgado
+            caso.numeroExpediente = numeroExpediente
+            caso.medidaCautelar = medidaCautelar
+            caso.vtoMedidaCautelar = vtoMedidaCautelar
+            caso.trabaAfectiva = trabaAfectiva
+            caso.vtoTrabaAfectiva = vtoTrabaAfectiva
+            caso.jurisdiccion = jurisdiccion
+            const auxMateria = await Materias.findByPk(materia)
+            caso.setMaterias(auxMateria)
+            await caso.save()
+            return res.sendStatus(200)
+        }
+    } catch (error) {
+        console.error(error)
+        res.sendStatus(404)
+    }
+}
 
 module.exports = {
     usuario,
     asignaConsulta,
     modificarAbogado,
-
-    getAbogado
+    setBann,
+    getAbogado,
+    putCaso
 }
 
 

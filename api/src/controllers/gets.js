@@ -58,7 +58,7 @@ async function getProvincias(req, res) {
             "Tierra del Fuego",
             "Tucumán",
         ];
-        let provs = await Provincias.findAll({});
+        let provs = await Provincias.findAll({ where: {}, include: Abogado });
         if (provs.length === 0) {
             for (let i = 0; i < vec.length; i++) {
                 provs.push(
@@ -68,9 +68,6 @@ async function getProvincias(req, res) {
                 );
             }
         }
-        let abogados = await Abogado.findAll({
-            include: Provincias,
-        });
         res.json(provs);
     } catch (error) {
         console.error(error);
@@ -94,7 +91,7 @@ async function getMaterias(req, res) {
         if (materias.length === 0) {
             for (let i = 0; i < vec.length; i++) {
                 materias = await Materias.findOrCreate({
-                    where: { nombre: vec[i] },
+                    where: { nombre: vec[i] }, include: Abogado
                 });
             }
         }
@@ -105,56 +102,6 @@ async function getMaterias(req, res) {
     }
 }
 
-// async function getMateria(req, res) {
-//     const { materia } = req.query
-
-//     try {
-        
-//     } catch (error) {
-//         console.log(error)
-//         return []
-//     }
-// }
-
-async function getUsuario(req, res) {
-    try {
-        console.log(req.body, req.params, req.query)
-        const { eMail } = req.body;
-        const user = await Usuario.findOne({ where: { eMail } });
-        if (user) {
-            let abogado = await Abogado.findByPk(user.abogadoId);
-            const { firstName, lastName, dni, celular } = await Persona.findByPk(
-                user.personaDni
-            );
-            if (abogado)
-                res.json({
-                    ...{
-                        ...user,
-                        firstName,
-                        lastName,
-                        dni,
-                        celular,
-                    },
-                    abogado,
-                });
-            else{
-                res.json({
-                    ...{
-                        ...user,
-                        firstName,
-                        lastName,
-                        dni,
-                        celular,
-                    },
-                });
-            }
-        } else {
-            res.sendStatus(404);}
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(500);
-    }
-}
 
 async function getPersonas(req, res) {
     try {

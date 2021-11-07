@@ -15,7 +15,6 @@ export default function HomeAbogado() {
   // } else if (usuario) {
   //   history.push("/usuario/usuario");
   // }
-  console.log(usuario.abogadoId)
   return (
     !usuario.abogadoId ? <Redirect to="/" /> :
       <div>
