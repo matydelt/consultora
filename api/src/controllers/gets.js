@@ -7,7 +7,7 @@ const {
     Persona,
     Consulta,
     Cliente,
-    Tickets,
+    Ticket,
     Op,
 } = require("../db");
 
@@ -306,7 +306,7 @@ async function getConsultas(req, res, next) {
 //MP
 async function getTickets(req, res, next) {
     try {
-        const ticket = await Tickets.findAll();
+        const ticket = await Ticket.findAll();
         res.json(ticket);
     } catch (error) {
         console.log(error);

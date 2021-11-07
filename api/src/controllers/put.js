@@ -7,7 +7,7 @@ const {
   Persona,
   Cliente,
   Consulta,
-  Tickets
+  Ticket
 } = require("../db");
 const enviarEmail = require("../email/email");
 const axios = require("axios");
@@ -246,14 +246,14 @@ async function modificarTicket(req, res) {
   const { enlace } = req.body;
 
   try {
-    const ticket = await Tickets.findOne({ where: { enlace: enlace } });
+    const ticket = await Ticket.findOne({ where: { enlace: enlace } });
 
     let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
-
+    console.log(mpApi);
     mpApi = mpApi.results.filter(e => {
       if (e.description==ticket.titulo) return e
     })
-
+    ticket.n_operacion=mpApi[0].id
     ticket.estatus=mpApi[0].status
     ticket.detalle_estatus= mpApi[0].status_detail
     ticket.medioDePago= mpApi[0].payment_type_id

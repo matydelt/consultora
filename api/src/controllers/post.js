@@ -12,14 +12,13 @@ const {
   Abogado,
   Consulta,
   Admin,
-  Tickets
+  Ticket
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
 
 //MP
 const postTickets = (req, res, next) => {
-  const enviarEmail = require("../email/email");
   const { title, unit_price, casoid, consultaid } = req.body;
 
   let preference = {
@@ -33,42 +32,43 @@ const postTickets = (req, res, next) => {
   };
 
   mercadopago.preferences
-    .create(preference)
-    .then(function (response) {
+  .create(preference)
+    try{ async (response) => {
       // console.log(response.body.init_point);
       let ticket = {
         titulo: title,
         precio: unit_price,
         enlace: response.body.init_point,
+        n_operacion: "",
         estatus: "pending",
         detalle_estatus: "not accredited",
         medioDePago: "No information"
-    }
+      }
     // Tickets.create(ticket)
-    if(!!casoid){
-      const cass = Casos.findByPk(casoid)
-      Tickets.create(ticket)
-      .then( Ticket => {
-        Ticket.setCasos( cass )
-        console.log("resultado",Ticket);
+      if(!!casoid){
+      // const cass = Casos.findByPk(casoid)
+      // Ticket.create(ticket)
+      // .then( tickets => {
+      //   Ticket.setCasos( cass )
+      //   console.log("resultado",Ticket);
+      //   res.sendStatus(200);
+      // })
+      // .catch((error)=>console.log(error))
+      }
+      else{
+        const consul = await Consulta.findByPk(consultaid)
+        console.log("consulta",consul);
+        const tickets = await Ticket.create(ticket)
+        await tickets.setConsulta( consul )
+        console.log("resultado",tickets);
+        console.log("resultado",consul);
         res.sendStatus(200);
-      })
-      .catch((error)=>console.log(error))
-    }
-    else{
-      const consul = Consulta.findByPk(consultaid)
-      Tickets.create(ticket)
-      .then( Ticket => {
-        Ticket.setConsulta( consul )
-        console.log("resultado",Ticket);
-        res.sendStatus(200);
-      })
-      .catch((error)=>console.log(error))
-    }
-  })
-    .catch(function (error) {
+      }
+    }}
+    catch {(function (error) {
       console.log(error);
-    });
+      })
+    }
 };
 
 // CLOUDINARY

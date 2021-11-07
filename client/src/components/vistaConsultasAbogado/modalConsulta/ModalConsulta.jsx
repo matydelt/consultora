@@ -28,10 +28,12 @@ export default function ModalConsulta({ usuario, modalId }) {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    const titulo = `${usuario.firstName + " " + usuario.lastName} - Consulta`
+                    const titulo = `${usuario.firstName + " " + usuario.lastName} - Consulta ${consulta.id}`
                     console.log("id",consulta.id);
                     dispatch(setConsulta(consulta.id, usuario.abogado.id, respuesta)).then(() => {
+                        if (price>0){
                     dispatch(postTickets({ title: `${titulo}`, unit_price: price, consultaid: consulta.id }))
+                }
                     dispatch(getConsultas());
                     })
                 } 
