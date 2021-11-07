@@ -105,6 +105,17 @@ async function getMaterias(req, res) {
     }
 }
 
+// async function getMateria(req, res) {
+//     const { materia } = req.query
+
+//     try {
+        
+//     } catch (error) {
+//         console.log(error)
+//         return []
+//     }
+// }
+
 async function getUsuario(req, res) {
     try {
         console.log(req.body, req.params, req.query)
