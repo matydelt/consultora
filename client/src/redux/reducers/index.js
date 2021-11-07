@@ -11,6 +11,7 @@ const initialState = {
   admin: {},
   consulta: {},
   clients: [],
+  ticket: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -38,7 +39,7 @@ const rootReducer = (state = initialState, action) => {
     case "SET_CONSULTA":
       return {
         ...state,
-        consulta: action.payload,
+        consulta: action.payload
       };
     case "GET_USUARIO":
       let user = action.payload;
@@ -149,6 +150,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         consultas: action.payload,
+      };
+    case "GET_TICKET":
+      return {
+        ...state,
+        ticket: action.payload,
       };
     default:
       return state;

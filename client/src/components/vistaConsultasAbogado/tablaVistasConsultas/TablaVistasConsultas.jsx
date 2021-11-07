@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { mostrarConsulta } from '../../../redux/actions';
+import { getTickets, mostrarConsulta } from '../../../redux/actions';
 
 
 import './tablaVistasConsultas.css';
@@ -25,6 +25,8 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
 
     function setConsulta(consulta) {
         dispatch(mostrarConsulta(consulta))
+        console.log(consulta);
+        dispatch(getTickets(consulta.ticketId))
     }
 
 

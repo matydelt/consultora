@@ -62,7 +62,7 @@ export const Signup = () => {
         
         <div className="container p-4">
             <div className="row">
-                <div className="col-md-4 mx-auto">
+                <div className="col-lg-4 col-md-6 col-sm-8 mx-auto">
                     <div className="card text-center">
                         <div className="card-header">
                             <h3>Registro</h3>

@@ -7,6 +7,7 @@ const {
     Persona,
     Consulta,
     Cliente,
+    Ticket,
     Op,
 } = require("../db");
 
@@ -303,6 +304,42 @@ async function getConsultas(req, res, next) {
     }
 }
 
+//MP
+async function getTickets(req, res, next) {
+    const { id, enlace } = req.body;
+    console.log("id", req.body);
+    if (!!id && id!==null) {
+        try{
+            const ticket = await Ticket.findByPk(id)
+            console.log("ticket",ticket);
+            res.json(ticket);
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(404);
+        }
+    }
+    
+    else if (!!enlace && enlace!==null) {
+        try{
+            const ticket = await Ticket.findOne({where: {enlace:enlace}})
+            console.log("ticket",ticket);
+            res.json(ticket);
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(404);
+        }
+    }
+    else{
+        try {
+            const ticket = await Ticket.findAll();
+            res.json(ticket);
+        } catch (error) {
+            console.log(error);
+            res.sendStatus(404);
+        }
+    }
+}
+
 module.exports = {
     getUsuarios,
     // getUsuario,
@@ -314,5 +351,6 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
-    getUsuario
+    getUsuario,
+    getTickets
 };

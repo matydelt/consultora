@@ -7,8 +7,12 @@ const {
   Persona,
   Cliente,
   Consulta,
+  Ticket
 } = require("../db");
 const enviarEmail = require("../email/email");
+const axios = require("axios");
+const mercadopago = require("../config/MercadoPago");
+
 
 async function usuario(req, res) {
   try {
@@ -22,6 +26,25 @@ async function usuario(req, res) {
       const { firstName, lastName, dni, celular } = await Persona.findByPk(
         user.personaDni
       );
+      const personas = await Persona.findAll();
+      if (personas.length<2){
+        console.log("admin");
+        res.send({
+          ...{
+            eMail: user.eMail,
+            password: user.password,
+            abogadoId: user.abogadoId,
+            adminId: user.adminId,
+            slug: user.slug,
+            firstName,
+            lastName,
+            dni,
+            celular,
+          },
+          abogado,
+        });
+      }
+      else{
       if (abogado) {
         res.send({
           ...{
@@ -50,7 +73,7 @@ async function usuario(req, res) {
             celular,
           },
         });
-    } else {
+    }} else {
       res.sendStatus(404);
     }
   } catch (error) {
@@ -218,10 +241,49 @@ async function setBann(req, res) {
   }
 }
 
+// MP
+async function modificarTicket(req, res) {
+  
+  const { enlace } = req.body;
+
+  try {
+    const ticket = await Ticket.findOne({ where: { enlace: enlace } });
+
+    let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
+    console.log(mpApi);
+    mpApi = mpApi.results.filter(e => {
+      if (e.description==ticket.titulo) return e
+    })
+    ticket.n_operacion=mpApi[0].id
+    ticket.estatus=mpApi[0].status
+    ticket.detalle_estatus= mpApi[0].status_detail
+    ticket.medioDePago= mpApi[0].payment_type_id
+    // // 
+    console.log("modifico?",ticket);
+    Promise.all([
+      await ticket.save(),
+    ]);
+
+    return res.send({
+      ...{
+        estatus: mpApi.status,
+        detalle_estatus: mpApi.status_detail,
+        medioDePago: mpApi.payment_type_id
+      },
+      ticket,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+
 module.exports = {
   usuario,
   asignaConsulta,
   modificarAbogado,
   setBann,
   getAbogado,
+  modificarTicket
 };
