@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Redirect } from "react-router";
 
 import { postConsulta } from "../../redux/actions/index";
 import UsuarioNavBar from "../homeUsuario/usuarioNavBar/UsuarioNavBar";
@@ -92,7 +93,9 @@ export default function FormCita({ history }) {
     }
   };
 
-  return (
+  return usuario.abogadoId ? (
+    <Redirect to="/" />
+  ) : (
     <>
       <UsuarioNavBar />
 
