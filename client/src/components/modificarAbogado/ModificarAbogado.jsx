@@ -108,7 +108,6 @@ export default function ModificarAbogado() {
 
     return (<>
 
-{console.log(usuario)}
         <Navbar></Navbar>
 
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">

@@ -56,7 +56,13 @@ export default function ConsultasUsuario() {
                                     </td>
                                     <td className="w-50">{consulta.mensaje}</td>
 
-                                    <td>{consulta.abogadoId ? 'Aceptado' : 'En revisión'}</td>
+                                    <td>
+                                        {consulta.abogadoId ?
+                                            <span className="badge bg-success">Aceptado</span>
+                                            :
+                                            <span className="badge bg-warning">En revisión</span>
+                                        }
+                                    </td>
                                     <td>Link de pago</td>
                                 </tr>
 
