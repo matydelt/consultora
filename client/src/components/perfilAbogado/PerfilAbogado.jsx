@@ -12,18 +12,17 @@ export default function PerfilAbogado() {
 
   const history = useHistory();
 
-  const { eMail } = useParams();
+  const { slug } = useParams();
 
   useEffect(() => {
-
     getAbogado();
-
   }, []);
 
 
   const getAbogado = () => {
 
-    return axios.get(`http://localhost:3001/abogado/${eMail}@gmail.com`).then(({ data }) => {
+    // return axios.get(`http://localhost:3001/abogado/${eMail}@gmail.com`).then(({ data }) => {
+    return axios.get(`http://localhost:3001/abogado/${slug}`).then(({ data }) => {
       setAbogado(data);
     });
 
@@ -32,7 +31,7 @@ export default function PerfilAbogado() {
 
   return (<>
 
-    <Navbar></Navbar>
+    <Navbar navId={"menu"}/>
 
     <div className="animate__animated animate__fadeIn animate__faster">
 

@@ -7,31 +7,31 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 let sequelize =
   process.env.NODE_ENV === "production"
     ? new Sequelize({
-        database: DB_NAME,
-        dialect: "postgres",
-        host: DB_HOST,
-        port: 5432,
-        username: DB_USER,
-        password: DB_PASSWORD,
-        pool: {
-          max: 3,
-          min: 1,
-          idle: 10000,
+      database: DB_NAME,
+      dialect: "postgres",
+      host: DB_HOST,
+      port: 5432,
+      username: DB_USER,
+      password: DB_PASSWORD,
+      pool: {
+        max: 3,
+        min: 1,
+        idle: 10000,
+      },
+      dialectOptions: {
+        ssl: {
+          require: true,
+          // Ref.: https://github.com/brianc/node-postgres/issues/2009
+          rejectUnauthorized: false,
         },
-        dialectOptions: {
-          ssl: {
-            require: true,
-            // Ref.: https://github.com/brianc/node-postgres/issues/2009
-            rejectUnauthorized: false,
-          },
-          keepAlive: true,
-        },
-        ssl: true,
-      })
+        keepAlive: true,
+      },
+      ssl: true,
+    })
     : new Sequelize(
-        `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
-        { logging: false, native: false }
-      );
+      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
+      { logging: false, native: false }
+    );
 
 // const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/countries`, {
 //   logging: false, // set to console.log to see the raw SQL queries
@@ -73,7 +73,8 @@ const {
   Matricula,
   Provincias,
   Consulta,
-  Admin
+  Admin,
+  Ticket
 } = sequelize.models;
 
 // Aca vendrian las relaciones
@@ -93,9 +94,15 @@ Abogado.hasOne(Persona);
 
 Abogado.hasMany(Consulta);
 
+Ticket.hasOne(Consulta);
+
+Ticket.hasOne(Casos);
+
 Abogado.hasMany(Provincias);
 
-// Abogado.hasMany(Provincias)
+Abogado.hasMany(Provincias);
+
+Abogado.belongsToMany(Provincias, { through: "abogadomatricula" });
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" });
 
@@ -105,10 +112,15 @@ Abogado.belongsToMany(Materias, { through: "abogadomateria" });
 
 Materias.belongsToMany(Abogado, { through: "abogadomateria" });
 
+Materias.belongsToMany(Casos, { through: "casosmateria" })
+Casos.belongsToMany(Materias, { through: "casosmateria" })
+
+
 Cliente.hasMany(Casos);
 
-Abogado.hasMany(Cliente);
 
+Abogado.belongsToMany(Cliente, { through: "abogadocliente" });
+Cliente.belongsToMany(Abogado, { through: "abogadocliente" });
 // Abogado.hasMany(Consulta);
 
 module.exports = {
