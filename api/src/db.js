@@ -95,7 +95,9 @@ Abogado.hasMany(Consulta);
 
 Abogado.hasMany(Provincias);
 
-// Abogado.hasMany(Provincias)
+Abogado.hasMany(Provincias);
+
+Abogado.belongsToMany(Provincias, { through: "abogadomatricula" });
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" });
 
@@ -105,7 +107,12 @@ Abogado.belongsToMany(Materias, { through: "abogadomateria" });
 
 Materias.belongsToMany(Abogado, { through: "abogadomateria" });
 
+Materias.belongsToMany(Casos, { through: "casosmateria" })
+Casos.belongsToMany(Materias, { through: "casosmateria" })
+
+
 Cliente.hasMany(Casos);
+
 
 Abogado.belongsToMany(Cliente, { through: "abogadocliente" });
 Cliente.belongsToMany(Abogado, { through: "abogadocliente" });

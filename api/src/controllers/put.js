@@ -120,7 +120,7 @@ async function getAbogado(req, res) {
                 {
                     model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
                         "numeroLiquidacion", "medidaCautelar", "trabaAfectiva", "vtoMedidaCautelar", "vtoTrabaAfectiva", "jurisdiccion"
-                    ]
+                    ], include: Materias
                 }]
             }))
         }
@@ -154,8 +154,10 @@ async function setBann(req, res) {
 }
 async function putCaso(req, res) {
     try {
-        let { detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion } = req.body
+        let { detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion, materia } = req.body
         let caso = await Casos.findByPk(numeroLiquidacion)
+        if (vtoMedidaCautelar === "") vtoMedidaCautelar = null
+        if (vtoTrabaAfectiva === "") vtoTrabaAfectiva = null
         if (caso) {
             caso.detalle = detalle
             caso.estado = estado
@@ -167,8 +169,10 @@ async function putCaso(req, res) {
             caso.trabaAfectiva = trabaAfectiva
             caso.vtoTrabaAfectiva = vtoTrabaAfectiva
             caso.jurisdiccion = jurisdiccion
+            const auxMateria = await Materias.findByPk(materia)
+            caso.setMaterias(auxMateria)
             await caso.save()
-            res.sendStatus(200)
+            return res.sendStatus(200)
         }
     } catch (error) {
         console.error(error)

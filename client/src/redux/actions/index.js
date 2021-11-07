@@ -142,7 +142,6 @@ export function getAbogado(abogado) {
   return async function (dispatch) {
     try {
       const aux = await axios.put("http://localhost:3001/abogado", abogado);
-      console.log(aux.data)
       return dispatch({
         type: "GET_ABOGADO",
         payload: aux.data,

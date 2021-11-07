@@ -13,10 +13,12 @@ function Casos({ id, casos, persona, flag }) {
             <div>
                 <h5 className="d-flex justify-content-center">Casos</h5>
                 {casos?.map((e, i) => {
-                    const { detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion } = e
+                    const { detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion, materias } = e
+
                     return (
-                        <CardCasos detalle={detalle} estado={estado} juez={juez} juzgado={juzgado} numeroExpediente={numeroExpediente} numeroLiquidacion={numeroLiquidacion} medidaCautelar={medidaCautelar} trabaAfectiva={trabaAfectiva} vtoMedidaCautelar={vtoMedidaCautelar} vtoTrabaAfectiva={vtoTrabaAfectiva} jurisdiccion={jurisdiccion} flag={flag} />
+                        <CardCasos detalle={detalle} materia={materias[0].nombre} estado={estado} juez={juez} juzgado={juzgado} numeroExpediente={numeroExpediente} numeroLiquidacion={numeroLiquidacion} medidaCautelar={medidaCautelar} trabaAfectiva={trabaAfectiva} vtoMedidaCautelar={vtoMedidaCautelar} vtoTrabaAfectiva={vtoTrabaAfectiva} jurisdiccion={jurisdiccion} flag={flag} />
                     )
+
                 })}
             </div>
 

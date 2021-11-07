@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AbogadosCarrusel from "./AbogadosCarrusel/AbogadosCarrusel";
 import Header from "./Header/Header";
 import Navbar from "./Navbar/Navbar";
 import "./HomePage.css";
 import BannerDiagonal from "./BannerDiagonal/BannerDiagonal";
+import { useDispatch } from "react-redux";
+import { getMaterias } from "../../redux/actions";
 
 const HomePage = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getMaterias())
+  })
   return (
     <div className="height">
       <Header />
-      <Navbar navId={"menu"}/>
+      <Navbar navId={"menu"} />
       {/* <BannerDiagonal
         contenedorBannerDiagonal={"contenedor_banner_diagonal"} 
         bannerDirection={"banner_diagonal_left"}

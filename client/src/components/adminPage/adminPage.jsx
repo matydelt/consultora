@@ -16,15 +16,9 @@ export default function AdminPage() {
 
     useEffect(() => {
         dispatch(getUsuarios())
+
     }, [])
-    if (alertPlaceholder && cont === 0) {
-        cont++
-        let type = "danger"
-        let mensaje = "Cuidado , una vez eliminado el estado de abogado el mismo pierde toda su informacion"
-        var wrapper = document.createElement('div')
-        wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
-        alertPlaceholder.append(wrapper)
-    }
+
 
 
     const hadleChange = (e, type) => {
@@ -182,7 +176,10 @@ export default function AdminPage() {
                         </tbody>
                     </table>
 
-                    <div id="liveAlertPlaceholder"></div>
+                    <div id="liveAlertPlaceholder">
+                        <div className="alert alert-danger alert-dismissible" role="alert">Cuidado una vez eliminado el estado de abogado el mismo pierde todo!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+                    </div>
+
                 </div>
             </div>
     )

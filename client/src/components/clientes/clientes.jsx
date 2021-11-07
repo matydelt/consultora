@@ -10,19 +10,20 @@ import "./clientes.css"
 export default function Clientes() {   //muestra cards de cada cliente con sus casos
     const [clientes, setClientes] = useState([]);
     const [flag, setFlag] = useState(false);
-
     const { usuario, abogado } = useSelector(state => state)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getAbogado({ "eMail": usuario.eMail }))
     }, [dispatch, usuario])
+
     useEffect(() => {
-        if (abogado.clientes === 0) return (<h1>No hay clientes</h1>)
-        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
-        AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
-        AllClients = AllClients.filter(e => e.casos.length > 0)
-        setClientes([...AllClients])
+        if (abogado.clientes) {
+            let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
+        }
     }, [abogado.clientes])
 
     const handleClick = function (e, flag) {
@@ -34,11 +35,6 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
             setClientes([...AllClients])
         } else if (flag === 1) {
             AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "cerrado"))
-            AllClients = AllClients.filter(e => e.casos.length > 0)
-            setClientes([...AllClients])
-        } else {
-            let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
-            AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
             AllClients = AllClients.filter(e => e.casos.length > 0)
             setClientes([...AllClients])
         }
@@ -66,7 +62,6 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     }
 
     return (
-        // clientes.length === 0 ? <p>no hay clientes con estas especificaciones</p> :
         <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
             <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
                 <button className=" btn  btn-danger  mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes Actuales</button>
@@ -80,7 +75,7 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
             </div>
 
             <div className="conteiner card mt-3 me-3 ms-3  flex-column">
-                {clientes?.map(e => {
+                {clientes.map(e => {
                     const { id, casos, persona } = e
                     return (
                         <div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">

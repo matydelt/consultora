@@ -8,7 +8,8 @@ const {
   Cliente,
   Abogado,
   Consulta,
-  Admin
+  Admin,
+  Materias
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
@@ -171,7 +172,8 @@ async function setCasos(req, res) {
       trabaAfectiva,
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
-      jurisdiccion
+      jurisdiccion,
+      materia
     } = req.body;
 
 
@@ -191,6 +193,8 @@ async function setCasos(req, res) {
       vtoTrabaAfectiva,
       jurisdiccion
     });
+    const auxMateria = await Materias.findByPk(materia)
+    auxMateria.addCasos(caso)
     const { clienteId } = await Usuario.findByPk(eMail);
     const cliente = await Cliente.findByPk(clienteId);
     cliente.addCasos(caso);
