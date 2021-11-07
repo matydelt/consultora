@@ -55,14 +55,14 @@
     list-style: square;
 }
 
-@media (min-width: 1592px) and (max-width: 2000px) {
+@media (min-width: 1592px) and (max-width: 1920px) {
     .banner_contain div {
         position: relative;
         bottom  : 27px;
     }
 
-    .banner_contain h4 {
-        font-size    : 50px;
+    .banner_contain  h4 {
+        font-size    : 47px;
         margin-bottom: 40px;
     }
 
@@ -72,7 +72,7 @@
 
     .banner_contain .personUl ul * {
         line-height: 55px;
-        font-size  : 28px;
+        font-size  : 23px;
         font-weight: 400;
     }
 
@@ -83,6 +83,6 @@
 
     .banner_contain .personUl img {
         width: 8%;
-        bottom: -55%;
+        bottom: -35%;
     }
 }
