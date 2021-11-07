@@ -32,28 +32,38 @@ export default function Clientes() {
     setClientes([...AllClients]);
   }, [abogado.clientes]);
 
-  const handleClick = function (e, flag) {
-    e.preventDefault();
-    let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
-    if (flag === 0) {
-      AllClients.map(
-        (e) => (e.casos = e.casos.filter((e) => e.estado !== "cerrado"))
-      );
-      AllClients = AllClients.filter((e) => e.casos.length > 0);
-      setClientes([...AllClients]);
-    } else if (flag === 1) {
-      AllClients.map(
-        (e) => (e.casos = e.casos.filter((e) => e.estado === "cerrado"))
-      );
-      AllClients = AllClients.filter((e) => e.casos.length > 0);
-      setClientes([...AllClients]);
-    } else {
-      let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
-      AllClients.map(
-        (e) => (e.casos = e.casos.filter((e) => e.estado !== "cerrado"))
-      );
-      AllClients = AllClients.filter((e) => e.casos.length > 0);
-      setClientes([...AllClients]);
+    // if (!abogado) {
+    //     dispatch(getAbogado({ "eMail": usuario.eMail }))
+    //     return (<p>Loading...</p>)
+    // }
+    useEffect(() => {
+        dispatch(getAbogado({ "eMail": usuario.eMail }))
+    }, [dispatch, usuario])
+    useEffect(() => {
+        if (abogado.clientes === 0) return (<h1>No hay clientes</h1>)
+        let AllClients = JSON.parse(JSON.stringify(abogado.clientes || []));
+        AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
+        AllClients = AllClients.filter(e => e.casos.length > 0)
+        setClientes([...AllClients])
+    }, [abogado.clientes])
+
+    const handleClick = function (e, flag) {
+        e.preventDefault()
+        let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+        if (flag === 0) {
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
+        } else if (flag === 1) {
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado === "cerrado"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
+        } else {
+            let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+            AllClients.map(e => e.casos = e.casos.filter(e => e.estado !== "cerrado"))
+            AllClients = AllClients.filter(e => e.casos.length > 0)
+            setClientes([...AllClients])
+        }
     }
   };
   const handleChange = (e) => {

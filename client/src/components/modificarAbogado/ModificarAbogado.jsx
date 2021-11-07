@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUsuario } from "../../redux/actions";
-import { Redirect } from "react-router";
+import Navbar from "../home-page/Navbar/Navbar";
 
 import "./ModificarAbogado.css";
 
@@ -117,10 +117,10 @@ export default function ModificarAbogado() {
       .catch((err) => console.log(err));
   }
 
-  return !usuario.abogadoId ? (
-    <Redirect to="/" />
-  ) : (
+  return (
     <>
+      <Navbar></Navbar>
+
       <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
         <h2 className="">Modificar perfil</h2>
 

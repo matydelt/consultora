@@ -111,6 +111,8 @@ export const getUsuario = (usuario) => {
   return (dispatch) => {
     axios.put("http://localhost:3001/usuario", usuario)
       .then(user => {
+        console.log(user);
+        localStorage.setItem('username', user.data.firstName)
         return dispatch({
           type: "GET_USUARIO",
           payload: user.data

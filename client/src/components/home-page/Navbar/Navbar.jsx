@@ -16,12 +16,14 @@ const Navbar = ({ navId }) => {
   const auth = getAuth();
   const history = useHistory();
 
+
   const logout = () => {
     signOut(auth)
       .then(() => {
         dispatch(getUsuario({}));
         history.push("/");
         toast.info("La sesión fue finalizada");
+        localStorage.removeItem('username')
       })
       .catch((error) => {
         // An error happened.
@@ -48,7 +50,7 @@ const Navbar = ({ navId }) => {
           </Link>
         </li>
 
-        {usuario.firstName ? (
+        { localStorage.getItem('username') || usuario.firstName ? (
           <li>
             {!usuario.abogadoId && !usuario.dataValues && (
               <div class="dropdown">
@@ -59,14 +61,14 @@ const Navbar = ({ navId }) => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  {usuario.firstName}
+                  {localStorage.getItem('username') || usuario.firstName}
                 </a>
 
                 <ul
                   class="dropdown-menu bg-light shadow border-0"
                   aria-labelledby="dropdownMenuButton1"
                 >
-                  <ButtonsNav link={"/cita"} text="Consulta" />
+                  <ButtonsNav link={"/user/panel"} text="Gestiones" />
                   <span onClick={logout} class="dropdown-item pointer">
                     Cerrar sesión
                   </span>

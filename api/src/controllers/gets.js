@@ -182,6 +182,7 @@ async function getAbogado(req, res) {
         let user = {};
         if (!eMail) {
             const { slug } = req.params
+            console.log(slug);
             user = await Usuario.findOne({where: {slug}})
         } else {
             user = await Usuario.findByPk(eMail)

@@ -167,6 +167,7 @@ async function setAbogado(req, res) {
     if (flag) {
       const abogado = await Abogado.create({});
       if (user) {
+        user.slug = `${persona.firstName}-${persona.lastName}`;
         abogado.setUsuario(user);
         abogado.setPersona(persona);
         return res.sendStatus(200);
@@ -316,6 +317,11 @@ async function setAdmin(req, res) {
     return res.sendStatus(500);
   }
 }
+
+async function reiniciarPassword(req, res) {
+ 
+}
+
 module.exports = {
   setUsuarios,
   setCasos,
@@ -326,4 +332,5 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
+  reiniciarPassword
 };

@@ -10,6 +10,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import Navbar from "../home-page/Navbar/Navbar";
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  updatePassword,
+} from "@firebase/auth";
 
 export default function AdminPage() {
   let [cont] = useState(0);
