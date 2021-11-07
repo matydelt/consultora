@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { mostrarConsulta } from '../../../redux/actions';
+import { getTickets, mostrarConsulta } from '../../../redux/actions';
 
 
 export default function TablaVistasConsultas({ consultas, usuario, aceptadas }) {
@@ -9,6 +9,8 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas }) 
 
     function setConsulta(consulta) {
         dispatch(mostrarConsulta(consulta))
+        console.log(consulta);
+        dispatch(getTickets(consulta.ticketId))
     }
 
     return (<>

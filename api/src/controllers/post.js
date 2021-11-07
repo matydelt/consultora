@@ -47,17 +47,20 @@ const postTickets = async (req, res, next) => {
         medioDePago: "No information"
       }
     // Tickets.create(ticket)
-      // if(!!casoid){
-      // const cass = Casos.findByPk(casoid)
-      // Ticket.create(ticket)
-      // .then( tickets => {
-      //   Ticket.setCasos( cass )
-      //   console.log("resultado",Ticket);
-      //   res.sendStatus(200);
-      // })
-      // .catch((error)=>console.log(error))
-      // }
-      // else{
+      if(!!casoid){
+        const cass = await Consulta.findByPk(casoid)
+
+        const tickets = await Ticket.create(ticket)
+
+
+        tickets.setCasos( cass )
+
+
+        res.json({
+          cass,tickets
+        });
+      }
+      else{
         const consul = await Consulta.findByPk(consultaid)
 
         const tickets = await Ticket.create(ticket)
@@ -70,7 +73,7 @@ const postTickets = async (req, res, next) => {
           consul,tickets
         });
         // res.sendStatus(200);
-      // }
+      }
     }
     catch {(function (error) {
       console.log(error);

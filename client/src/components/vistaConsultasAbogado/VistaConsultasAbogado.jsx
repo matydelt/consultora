@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getConsultas } from "../../redux/actions";
+import { getConsultas, getTickets } from "../../redux/actions";
 import ModalConsulta from "./modalConsulta/ModalConsulta";
 import TablaVistasConsultas from "./tablaVistasConsultas/TablaVistasConsultas";
 import "./VistaConsultasAbogados.css";
@@ -12,7 +12,7 @@ export default function VistaConsultasAbogado() {
   const { consultas, usuario } = useSelector((state) => state);
 
   useEffect(() => {
-    dispatch(getConsultas());
+    dispatch(getConsultas())
   }, []);
 
 

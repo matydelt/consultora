@@ -295,9 +295,9 @@ export const postTickets = ( Ticket )=>{
     })
   }
 }
-export function getTickets() {
+export function getTickets(id) {
   return (dispatch)=>{
-    axios.get("http://localhost:3001/tickets")
+    axios.get("http://localhost:3001/tickets", id)
     .then(tickets =>{
         return dispatch({
             type: "GET_TICKET",

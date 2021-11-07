@@ -32,8 +32,8 @@ export default function ModalConsulta({ usuario, modalId }) {
                     console.log("id",consulta.id);
                     dispatch(setConsulta(consulta.id, usuario.abogado.id, respuesta)).then(() => {
                         if (price>0){
-                    dispatch(postTickets({ title: `${titulo}`, unit_price: price, consultaid: consulta.id }))
-                }
+                            dispatch(postTickets({ title: `${titulo}`, unit_price: price, consultaid: consulta.id }))
+                        }
                     dispatch(getConsultas());
                     })
                 } 

@@ -73,50 +73,58 @@ export default function FormCita() {
 
     <Navbar />
 
-    <div classnombre="">
-      <form onSubmit={handleSubmit} className="form-cita mt-5">
+    <div className="container p-4 col-lg-6 col-md-6 col-sm-6 mx-auto">
+      <div className="row">
+        <form onSubmit={handleSubmit} className="card text-center form-group ">
+          <div className="col align-self-center">
+            <div className="card-body form-sign mt-2 row ">
+              <div className="form-group mb-4 col-sm-5 ">
+                <label className="form-label">Nombre</label>
+                <input className="form-control form-control-sm." name="nombre" type="text" required onChange={handleChange} />
+              </div>
+            
+              <div className="form-group col-sm-5">
+                <label className="form-label">Apellido</label>
+                <input className="form-control col-8" name="apellido" type="text" required onChange={handleChange} />
+              </div>
+            </div>
+        
+            <div className="card-body form-sign row">
+              <div className="form-group mb-4 col-sm-5">
+                <label className="form-label">DNI</label>
+                <input min="0" className="form-control" name="dni" type="number" required onChange={handleChange} />
+              </div>
 
+              <div className="form-group col-sm-5">
+                <label className="form-label">Teléfono</label>
+                <input className="form-control" name="telefono" type="tel" required onChange={handleChange} />
+              </div>
+            </div>
+        
+            <div className="card-body form-sign col-sm-8">
+              <div className="form-group">
+                <label className="form-label">Email</label>
+                <input className="form-control" type="email" name="email" required onChange={handleChange} />
+              </div>
+            </div>
 
-        <div className="form-group mt-3">
-          <label className="form-label">Nombre</label>
-          <input className="form-control" name="nombre" type="text" required onChange={handleChange} />
-        </div>
-
-        <div className="form-group mt-3">
-          <label className="form-label">Apellido</label>
-          <input className="form-control" name="apellido" type="text" required onChange={handleChange} />
-        </div>
-
-        <div className="form-group mt-3">
-          <label className="form-label">DNI</label>
-          <input className="form-control" name="dni" type="number" required onChange={handleChange} />
-        </div>
-
-        <div className="form-group mt-3">
-          <label className="form-label">Teléfono</label>
-          <input className="form-control" name="telefono" type="tel" required onChange={handleChange} />
-        </div>
-
-        <div className="form-group mt-3">
-          <label className="form-label">Email</label>
-          <input className="form-control" type="email" name="email" required onChange={handleChange} />
-        </div>
-
-        <div className="form-group mt-3">
-
-          <label className="form-label">Mensaje</label>
-          <textarea
-            className="form-control"
-            name="mensaje"
-            cols="30"
-            rows="10"
-            required
-            onChange={handleChange}
-          ></textarea>
-        </div>
-
-        <button className="btn btn-secondary mt-3">Enviar</button>
-      </form>
+            <div className="card-body form-sign">
+              <div className="form-group">
+                <label className="form-label">Mensaje</label>
+                <textarea
+                  className="form-control"
+                  name="mensaje"
+                  required
+                  onChange={handleChange}>
+                </textarea>
+              </div>
+            </div>
+            <div className="form-group">
+              <button className="btn btn-secondary mt-3">Enviar</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </>);
 }
