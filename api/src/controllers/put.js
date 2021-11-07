@@ -64,11 +64,11 @@ async function asignaConsulta(req, res, next) {
 
 // asigna materia y matricula al abogado
 
-module.exports = {
-    usuario,
-    asignaConsulta,
-    modificarAbogado
-};
+// module.exports = {
+//     usuario,
+//     asignaConsulta,
+//     modificarAbogado
+// };
 
 async function modificarAbogado(req, res) {
 
