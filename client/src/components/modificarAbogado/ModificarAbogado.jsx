@@ -108,7 +108,7 @@ export default function ModificarAbogado() {
 
     return (<>
 
-        <Navbar></Navbar>
+        <Navbar navId={"menu"}/>
 
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
 

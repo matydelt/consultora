@@ -7,6 +7,7 @@ import InputGlobal from "../InputGlobal/InputGlobal.jsx";
 import TextTarea from "../TextTarea/TextTarea";
 import EstadoSelect from "../EstadoSelect/EstadoSelect.jsx";
 import "./FormCasos.css";
+import Navbar from "../home-page/Navbar/Navbar";
 
 const FormCasos = ({ label }) => {
   /*Estados Locales____________________________ */
@@ -106,6 +107,7 @@ const FormCasos = ({ label }) => {
 
   return (
     <div className="">
+      <Navbar navId={"menu"}/>
       <div className="">
         <div>
           <form onSubmit={handleSubmit}>

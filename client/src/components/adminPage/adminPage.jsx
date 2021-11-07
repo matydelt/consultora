@@ -107,7 +107,7 @@ export default function AdminPage() {
     return (
         !usuario.adminId ? <Redirect to="/" /> :
             <div>
-                <Navbar />
+                <Navbar navId={"menu"}/>
                 <div className="ms-5 me-5 mt-3 mb-3">
 
                     <table className="table table-striped  ">

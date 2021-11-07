@@ -115,7 +115,7 @@ export const Signin = () => {
     return (
         usuario?.adminId ? <Redirect to="/admin" /> : usuario?.abogadoId ? <Redirect to="/user/abogado" /> :
             <div>
-                <Navbar />
+                <Navbar navId={"menu"}/>
                 {
                     !!usuario.firstName ?
                         (

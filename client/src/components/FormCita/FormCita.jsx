@@ -71,7 +71,7 @@ export default function FormCita() {
 
   return (<>
     
-    <Navbar />
+    <Navbar navId={"menu"}/>
     
     <div classnombre="formulario-cita">
       <form onSubmit={handleSubmit} className="form-cita mt-5">
