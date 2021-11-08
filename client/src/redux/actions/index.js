@@ -323,7 +323,7 @@ export function getTickets(id) {
 }
 export function modificarTicket(Ticket) {
   return (dispatch) => {
-    axios.put("http://localhost:3001//tickets/edit", Ticket)
+    axios.put("http://localhost:3001/tickets/edit", Ticket)
       .then(response => {
         return dispatch({ type: "PUT_TICKET" });
       })

@@ -254,7 +254,8 @@ async function getConsultas(req, res, next) {
         const todasConsultas = await Consulta.findAll({
             order: [
                 ['createdAt', 'DESC']
-            ]
+            ],
+            include: Ticket
         });
         res.json(todasConsultas);
     } catch (error) {
@@ -299,6 +300,7 @@ async function getTickets(req, res, next) {
 }
 
 module.exports = {
+    // getUsuario,
     getUsuarios,
     // getUsuario,
     getPersonas,
@@ -309,6 +311,5 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
-    // getUsuario,
     getTickets
 };

@@ -76,7 +76,7 @@ export default function VistaConsultasAbogado() {
             onClick={actualizarConsultas}
             className="mx-5 btn btn-light border"
           >
-            @ Actualizar
+            🔁 Actualizar
           </button>
         </div>
       </nav>

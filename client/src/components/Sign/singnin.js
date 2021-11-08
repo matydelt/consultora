@@ -210,7 +210,7 @@ export const Signin = () => {
                       value={firstName}
                       name="firstName"
                       autoComplete="off"
-                      placeholder=" First Name"
+                      placeholder=" Nombre"
                       className="form-control"
                       autoFocus
                       required
@@ -225,7 +225,7 @@ export const Signin = () => {
                       value={lastName}
                       name="lastName"
                       autoComplete="off"
-                      placeholder=" Last Name"
+                      placeholder=" Apellido"
                       className="form-control"
                       autoFocus
                       required
@@ -254,7 +254,7 @@ export const Signin = () => {
                       value={celular}
                       name="Number"
                       autoComplete="off"
-                      placeholder="Number : 11 1111-1111"
+                      placeholder="Teléfono : 11 1111-1111"
                       className="form-control"
                       required
                       onChange={(e) => {
@@ -269,7 +269,7 @@ export const Signin = () => {
                       name="Mail"
                       disabled="on"
                       autoComplete="off"
-                      placeholder="Mail : Ejemplo@ejemplo.com"
+                      placeholder="Email: ejemplo@ejemplo.com"
                       className="form-control"
                       required
                     />
@@ -281,7 +281,7 @@ export const Signin = () => {
                       disabled="on"
                       name="password"
                       autoComplete="off"
-                      placeholder="Password min 6 digits"
+                      placeholder="Contraseña"
                       className="form-control"
                       required
                     />
@@ -343,7 +343,7 @@ export const Signin = () => {
                       name="password"
                       autoComplete="off"
                       required
-                      placeholder="Password"
+                      placeholder="Contraseña"
                       className="form-control"
                       onChange={(e) => {
                         setPassword(e.target.value);

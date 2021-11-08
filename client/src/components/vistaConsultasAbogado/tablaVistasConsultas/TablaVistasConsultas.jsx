@@ -7,14 +7,14 @@ import './tablaVistasConsultas.css';
 
 export default function TablaVistasConsultas({ consultas, usuario, aceptadas, terminoBusquedaTodas, terminoBusquedaAceptadas }) {
 
-    
+
     let [pagina, setPagina] = useState(0);
     let [consultasMostrar, setConsultasMostrar] = useState([]);
 
     const cantidad = useRef(8);
 
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
         setConsultasMostrar(consultas?.slice(pagina, pagina + cantidad.current))
     }, [consultas]);
@@ -42,15 +42,16 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
                         <th scope="col">Estado</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Apellido</th>
-                        <th scope="col">Teléfono</th>
+                        {/* <th scope="col">Teléfono</th> */}
                         <th scope="col">Dni</th>
-                        <th scope="col">Email</th>
+                        {/* <th scope="col">Email</th> */}
                         <th scope="col">Mensaje</th>
+                        <th scope="col">Pago</th>
                         <th scope="col">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
-    
+
                     {
                         ((terminoBusquedaTodas && terminoBusquedaTodas.length > 2) || (aceptadas) || (terminoBusquedaAceptadas && terminoBusquedaAceptadas.length > 2) ? consultas : consultasMostrar).filter((c) => {
                             console.log(c);
@@ -83,10 +84,20 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
 
                                     <td className="align-middle">{consulta.nombre}</td>
                                     <td className="align-middle">{consulta.apellido}</td>
-                                    <td className="align-middle">{consulta.telefono}</td>
+                                    {/* <td className="align-middle">{consulta.telefono}</td> */}
                                     <td className="align-middle">{consulta.dni}</td>
-                                    <td className="align-middle">{consulta.email}</td>
+                                    {/* <td className="align-middle">{consulta.email}</td> */}
                                     <td className="align-middle" className="w-50">{consulta.mensaje}</td>
+
+                                    { !consulta.ticket ?
+                                        <td className="align-middle text-muted">Pago no emitido</td>
+                                        :
+                                        consulta.ticket?.estatus === 'pending' ?
+                                            <td className="align-middle text-warning"><span className="badge bg-warning">Pago pendiente</span></td>
+                                            :
+                                            <td className="align-middle text-success"><span className="badge bg-success">Abonado</span></td>
+                                    }
+
                                     <td className="align-middle">
 
                                         <button onClick={() => { setConsulta(consulta) }} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#modalConsulta`}>
@@ -112,7 +123,7 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
 
 
             {/* { !aceptadas || !terminoBusquedaAceptadas || !terminoBusquedaTodas || consultas.length <= cantidad.current && */}
-            { ( !terminoBusquedaTodas && !terminoBusquedaAceptadas && !aceptadas || consultas.length <= cantidad.current) &&
+            {(!terminoBusquedaTodas && !terminoBusquedaAceptadas && !aceptadas || consultas.length <= cantidad.current) && (consultas.length > cantidad.current) &&
                 <nav aria-label="Page navigation example" className="">
                     <ul className="pagination pagination-lg">
                         <div className="row mx-auto botones-paginador">

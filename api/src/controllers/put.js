@@ -95,7 +95,10 @@ async function asignaConsulta(req, res, next) {
         .json({ msg: "La consulta ya fue asignada a un abogado" });
 
     const result = await Consulta.update(
-      { abogadoId: abogadoId },
+      {
+        abogadoId: abogadoId,
+        respuestaAbogado: respuesta
+      },
       { where: { id: consultaId } }
     );
 
@@ -243,20 +246,23 @@ async function modificarTicket(req, res) {
 
   const { enlace } = req.body;
 
+  console.log(enlace);
+
   try {
     const ticket = await Ticket.findOne({ where: { enlace: enlace } });
 
     let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
-    console.log(mpApi);
+    // console.log(mpApi);
     mpApi = mpApi.results.filter(e => {
       if (e.description == ticket.titulo) return e
     })
+    console.log(mpApi, 'RESPUESTAAAAA-----------------------------------');
     ticket.n_operacion = mpApi[0].id
     ticket.estatus = mpApi[0].status
     ticket.detalle_estatus = mpApi[0].status_detail
     ticket.medioDePago = mpApi[0].payment_type_id
     // //
-    console.log("modifico?", ticket);
+    // console.log("modifico?", ticket);
     Promise.all([
       await ticket.save(),
     ]);
