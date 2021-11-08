@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import Logo from "../assets/img/buffet-buffet-law.png";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav";
@@ -16,14 +15,13 @@ const Navbar = ({ navId }) => {
   const auth = getAuth();
   const history = useHistory();
 
-
   const logout = () => {
     signOut(auth)
       .then(() => {
         dispatch(getUsuario({}));
         history.push("/");
         toast.info("La sesión fue finalizada");
-        localStorage.removeItem('username')
+        localStorage.removeItem("username");
       })
       .catch((error) => {
         // An error happened.
@@ -44,21 +42,20 @@ const Navbar = ({ navId }) => {
         <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
 
         <li className="col-xl-1">
-          {/* <a className="textDecoration" href="#contain_title_abogado">Nuestro Equipo</a> */}
-          <Link to="/abogados">
-            <span className="textDecoration">Nuestro Equipo</span>
-          </Link>
+          <ButtonsNav
+            link="/abogados"
+            text="Nuestro Equipo"
+          />
         </li>
 
-        {localStorage.getItem('username') || usuario.firstName ? (
+        {localStorage.getItem("username") || usuario.firstName ? (
           <li>
             {!usuario.abogadoId && !usuario.dataValues && (
               <ButtonsNav
                 link="/user/panel"
-                text={localStorage.getItem('username') || usuario.firstName}
-              >
+                text={localStorage.getItem("username") || usuario.firstName}
+              />
 
-              </ButtonsNav>
               // <div class="dropdown">
               //   <a
               //     class="btn dropdown-toggle"
@@ -84,10 +81,7 @@ const Navbar = ({ navId }) => {
 
 
             {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
-              <ButtonsNav link="/user/abogado"
-                text={usuario.firstName}
-              >
-              </ButtonsNav>
+              <ButtonsNav link="/user/abogado" text={usuario.firstName} />
               // <div class="dropdown">
               //   <a
               //     class="btn dropdown-toggle"
@@ -120,10 +114,7 @@ const Navbar = ({ navId }) => {
           </li>
         ) : (
           <li className="col-xl-1">
-            {/* <Link to="/signup"> */}
             <ButtonsNav link={"/ingreso"} text="Registrate Ahora" />
-            {/* Registrate Ahora */}
-            {/* </Link> */}
           </li>
         )}
       </ul>

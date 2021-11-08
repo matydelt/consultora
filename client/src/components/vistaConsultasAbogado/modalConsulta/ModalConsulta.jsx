@@ -16,12 +16,14 @@ export default function ModalConsulta({ usuario, modalId }) {
   let consulta = useSelector((state) => state.consulta);
   const [price, setPrice] = useState(0);
 
-  const [prueba, setPrueba] = useState(0);
-
   useEffect(() => {
     setRespuesta("");
     setPrice(0);
   }, [consulta]);
+
+  useEffect(() => {
+    dispatch(getConsultas());
+  }, [dispatch]);
 
   function confimarConsulta() {
     swal({
@@ -49,7 +51,7 @@ export default function ModalConsulta({ usuario, modalId }) {
         ).then(() => {
           setTimeout(() => {
             dispatch(getConsultas());
-          }, [1000])
+          }, 1500)
 
         })
       }

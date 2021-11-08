@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import swal from 'sweetalert';
 import { getConsultas, modificarTicket } from '../../../redux/actions';
 import UsuarioNavBar from '../usuarioNavBar/UsuarioNavBar';
 
@@ -16,10 +17,34 @@ export default function ConsultasUsuario() {
     }, []);
 
 
+
+
+    // function efectuarPago(enlace) {
+
+    //           dispatch(modificarTicket({ enlace }));  
+
+    //   }
     function efectuarPago(enlace) {
-        console.log(enlace);
-        dispatch(modificarTicket({ enlace }));
-    };
+        swal({
+            title: "Notificar pago de la consulta",
+            text: "Si ya abonó la consulta puede proceder a notificarlo, ¿notificar el pago de la consulta?",
+            icon: "warning",
+            buttons: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                dispatch(modificarTicket({ enlace }))
+                    
+                setTimeout(() => {
+                    dispatch(getConsultas());
+
+                }, 1000)
+                    
+
+            }
+
+        });
+    }
+
 
     return (<>
 

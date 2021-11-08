@@ -18,7 +18,7 @@ async function usuario(req, res) {
   try {
     // console.log(req.body, req.params, req.query)
     const { eMail } = req.body;
-    console.log(eMail, '-----------------------------');
+
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
       console.log(user);
@@ -247,21 +247,24 @@ async function modificarTicket(req, res) {
   const { enlace } = req.body;
 
   console.log(enlace);
-
   try {
     const ticket = await Ticket.findOne({ where: { enlace: enlace } });
 
-    let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
+    // let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
 
-    mpApi = mpApi.results.filter(e => {
-      if (e.description == ticket.titulo){
-         return e}
-    })
+    // mpApi = mpApi.results.filter(e => {
+    //   if (e.description == ticket.titulo){
+    //      return e}
+    // })
     
-    ticket.n_operacion = mpApi[0].id
-    ticket.estatus = mpApi[0].status
-    ticket.detalle_estatus = mpApi[0].status_detail
-    ticket.medioDePago = mpApi[0].payment_type_id
+    // ticket.n_operacion = mpApi[0].id
+    // ticket.estatus = mpApi[0].status
+    // ticket.detalle_estatus = mpApi[0].status_detail
+    // ticket.medioDePago = mpApi[0].payment_type_id
+    ticket.n_operacion = Date.now()
+    ticket.estatus = 'Approved'
+    ticket.detalle_estatus = 'Ni idea'
+    ticket.medioDePago = 'Tarjeta'
     // //
     // console.log("modifico?", ticket);
     Promise.all([
@@ -269,13 +272,17 @@ async function modificarTicket(req, res) {
     ]);
 
     return res.send({
-      ...{
-        estatus: mpApi.status,
-        detalle_estatus: mpApi.status_detail,
-        medioDePago: mpApi.payment_type_id
-      },
-      ticket,
-    });
+      ticket
+    })
+
+    // return res.send({
+    //   ...{
+    //     estatus: mpApi.status,
+    //     detalle_estatus: mpApi.status_detail,
+    //     medioDePago: mpApi.payment_type_id
+    //   },
+    //   ticket,
+    // });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
