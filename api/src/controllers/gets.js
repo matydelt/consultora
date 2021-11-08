@@ -309,6 +309,6 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
-    getUsuario,
+    // getUsuario,
     getTickets
 };
