@@ -31,7 +31,7 @@ export default function PerfilAbogado() {
 
   return (<>
 
-    <Navbar></Navbar>
+    <Navbar navId={"menu"}/>
 
     <div className="animate__animated animate__fadeIn animate__faster">
 

@@ -50,7 +50,7 @@ const Navbar = ({ navId }) => {
           </Link>
         </li>
 
-        { localStorage.getItem('username') || usuario.firstName ? (
+        {localStorage.getItem('username') || usuario.firstName ? (
           <li>
             {!usuario.abogadoId && !usuario.dataValues && (
               <div class="dropdown">
@@ -96,9 +96,6 @@ const Navbar = ({ navId }) => {
                   {/* <span class="dropdown-item pointer" href="#">Panel</span> */}
                   <Link to="/user/abogado">
                     <span class="dropdown-item pointer">Panel</span>
-                  </Link>
-                  <Link to="/modificar-perfil">
-                    <span class="dropdown-item pointer">Perfil</span>
                   </Link>
 
                   <span onClick={logout} class="dropdown-item pointer">

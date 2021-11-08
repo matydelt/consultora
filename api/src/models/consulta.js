@@ -32,5 +32,8 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    respuestaAbogado: {
+      type: DataTypes.STRING,
+    },
   });
 };

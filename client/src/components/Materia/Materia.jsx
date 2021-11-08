@@ -3,14 +3,16 @@ import "./Materia.css";
 
 const Materia = ({ nombre }) => {
   return (
-    <div className="materia">
+    <div className="materia mb-3 col-md-3">
       <h5 className="materia-nombre">{nombre}</h5>
-      <button className="learn-more">
-        <span aria-hidden="true" className="circle">
-          <span className="icon arrow"></span>
-        </span>
-        <span className="button-text">Learn More</span>
-      </button>
+      <div className="button_learn-more">
+        <button className="learn-more">
+          <span aria-hidden="true" className="circle">
+            <span className="icon arrow"></span>
+          </span>
+          <span className="button-text">Leer mas</span>
+        </button>
+      </div>
     </div>
   );
 };

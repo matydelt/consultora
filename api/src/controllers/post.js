@@ -12,14 +12,18 @@ const {
   Abogado,
   Consulta,
   Admin,
+  Materias,
+  Ticket
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
 
 //MP
-const postTickets = (req, res, next) => {
-  console.log("ejecuta?");
-  const { title, unit_price } = req.body;
+const postTickets = async (req, res, next) => {
+  const { title, unit_price, casoid, consultaid } = req.body;
+
+  console.log(title, unit_price, casoid, consultaid);
+
   let preference = {
     items: [
       {
@@ -29,17 +33,55 @@ const postTickets = (req, res, next) => {
       },
     ],
   };
-  console.log("llego?", preference);
-  mercadopago.preferences
-    .create(preference)
-    .then(function (response) {
-      console.log(response.body.init_point);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-};
+  try {
 
+    const response = await mercadopago.preferences.create(preference)
+
+    // console.log(response.body.init_point);
+    let ticket = {
+      titulo: title,
+      precio: unit_price,
+      enlace: response.body.init_point,
+      n_operacion: "",
+      estatus: "pending",
+      detalle_estatus: "not accredited",
+      medioDePago: "No information"
+    }
+    // Tickets.create(ticket)
+    if (!!casoid) {
+      const cass = await Consulta.findByPk(casoid)
+
+      const tickets = await Ticket.create(ticket)
+
+
+      tickets.setCasos(cass)
+
+
+      res.json({
+        cass, tickets
+      });
+    }
+    else {
+      const consul = await Consulta.findByPk(consultaid)
+
+      const tickets = await Ticket.create(ticket)
+
+
+      consul.setTicket(tickets)
+
+
+      res.json({
+        consul, tickets
+      });
+      // res.sendStatus(200);
+    }
+  }
+  catch {
+    (function (error) {
+      console.log(error);
+    })
+  }
+};
 // CLOUDINARY
 async function subirImagen(req, res) {
   const { email } = req.body;
@@ -202,6 +244,7 @@ async function setCasos(req, res) {
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion,
+      materia
     } = req.body;
 
     const caso = await Casos.create({
@@ -220,6 +263,8 @@ async function setCasos(req, res) {
       vtoTrabaAfectiva,
       jurisdiccion,
     });
+    const auxMateria = await Materias.findByPk(materia)
+    auxMateria.addCasos(caso)
     const { clienteId } = await Usuario.findByPk(eMail);
     const cliente = await Cliente.findByPk(clienteId);
     cliente.addCasos(caso);
@@ -319,7 +364,7 @@ async function setAdmin(req, res) {
 }
 
 async function reiniciarPassword(req, res) {
- 
+
 }
 
 module.exports = {
