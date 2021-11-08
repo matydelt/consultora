@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { putCaso } from "../../../redux/actions";
+import { toast } from "react-toastify";
+
 
 
 export default function CardCasos({ detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion, flag, materia }) {
@@ -35,7 +37,7 @@ export default function CardCasos({ detalle, estado, juez, juzgado, numeroExpedi
     const handleSubmit = function (e) {
         e.preventDefault()
         dispatch(putCaso(input))
-
+        toast.success('cambios realizados!');
     }
     const validate = function (name, value) {
         if (name === "trabaAfectiva") {
@@ -193,7 +195,7 @@ export default function CardCasos({ detalle, estado, juez, juzgado, numeroExpedi
                                 <li>jurisdiccion:<input className="list-group-item w-25" value={input.jurisdiccion} onChange={e => setInput({ ...input, jurisdiccion: e.target.value })} /></li>
                                 {
                                     <li>Materia:<br />
-                                        <select defaultValue={input.estado} className="custom-select custom-select-lg mb-3 w-25" onChange={e => setInput({ ...input, materia: e.target.value })}>
+                                        <select className="custom-select custom-select-lg mb-3 w-25" onChange={e => setInput({ ...input, materia: e.target.value })}>
                                             {
                                                 materias.map(e => {
                                                     if (input.materia === e.nombre) {

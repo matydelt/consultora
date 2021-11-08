@@ -6,11 +6,11 @@
     padding            : 0;
     margin             : 0;
     /* background-color: #ccc; */
-    margin: auto !important;
+    margin             : auto !important;
     margin-top         : 70px !important;
     width              : 89%;
-    border-top     : 1px solid #033663;
-    border-bottom  : 1px solid #033663;
+    border-top         : 1px solid #033663;
+    border-bottom      : 1px solid #033663;
 }
 
 
@@ -77,6 +77,8 @@
 
 
 .button_ver_mas a {
+    width           : 30%;
+    margin          : auto;
     position        : relative;
     display         : block;
     text-align      : center;
