@@ -1,6 +1,6 @@
 #menu {
     position        : relative;
-    bottom          : 15px;
+    bottom          : 9px;
     background-color: #ccc;
     font-size       : 16px;
 }
@@ -27,6 +27,10 @@ nav ul .imgLogo{
 
 .widht_li li {
     width: calc(770px / 4);
+}
+
+.widht_li li:nth-child(4) {
+    width: 14%;
 }
 
 #menu ul li a {
@@ -66,7 +70,7 @@ nav ul .imgLogo{
 #menu ul li:last-of-type a {
     display                   : block;
     position                  : relative;
-    width                     : 100%;
+    width                     : 122%;
     font-size                 : 20px;
     border                    : solid 1px #033663;
     border-top-left-radius    : 7px;
@@ -77,7 +81,6 @@ nav ul .imgLogo{
     text-transform            : uppercase;
     transition                : all 0.5s;
     text-align                : center;
-    width                     : 110%;
     z-index                   : 1;
 }
 
@@ -123,10 +126,14 @@ nav ul .imgLogo{
 
 /* -------------------Medias Query------------------- */
 
-@media (min-width: 1592px) and (max-width: 2000px) {
+@media (min-width: 1592px) and (max-width: 1920px) {
     #menu {
         position: relative;
         top     : -30px;
+    }
+
+    .widht_li li:nth-child(4) {
+        width: 11%;
     }
 
     #menu ul li a {
@@ -139,6 +146,6 @@ nav ul .imgLogo{
 
     #menu ul li:last-of-type a {
         font-size: 27px;
-        width: 150%;
+        width: 162%;
     }
 }
