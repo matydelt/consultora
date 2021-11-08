@@ -1,8 +1,9 @@
 .form-cita {
-  display: grid;
+  /* display: grid;
   align-content: center;
   justify-content: center;
   margin-bottom: 20px;
+  margin-top: 20px; */
 }
 .formulario-cita {
   display: grid;

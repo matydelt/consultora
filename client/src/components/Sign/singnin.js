@@ -31,10 +31,11 @@ import md5 from "md5";
 import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
 
+import "./sign.css";
+
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
-  console.log("browserSessionPersistence", browserSessionPersistence.type);
-  console.log("inMemoryPersistence", inMemoryPersistence.type);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -55,19 +56,16 @@ export const Signin = () => {
   const loginGoogle = () => {
     setPersistence(auth, browserSessionPersistence)
       .then(async () => {
-        console.log("google", inMemoryPersistence.type);
-
         await signInWithPopup(auth, google)
           .then((e) => {
             setDisplayName(e.user.displayName);
             const aux = e.user.email;
-            if (usuarios.some((e) => e.eMail === aux)) {
-              console.log("auth", auth);
+            if (usuarios.some((e) => e.eMail == aux)) {
               dispatch(getUsuario({ eMail: e.user.email }));
             } else {
               setEmail(aux);
-              console.log("google", eMail);
-              setFirstName(e.user.displayName);
+              setFirstName(e.user.displayName.split(" ")[0]);
+              setLastName(e.user.displayName.split(" ")[1]);
               setPassword(md5(e.user.email));
             }
           })
@@ -91,7 +89,6 @@ export const Signin = () => {
         ? correoNoOK()
         : dniNoOK();
     } else {
-      console.log("email", eMail);
       dispatch(
         postUsuario({
           eMail: eMail,
@@ -103,12 +100,9 @@ export const Signin = () => {
         })
       )
         .then(() => {
-          console.log("usuario", usuario);
           dispatch(getUsuario({ eMail: eMail }));
         })
-        .catch((error) => {
-          console.log("falla postUsuario");
-        });
+        .catch((error) => {});
       createOK();
       setFirstName("");
       setLastName("");
@@ -135,7 +129,6 @@ export const Signin = () => {
   const Login = async () => {
     await setPersistence(auth, browserSessionPersistence)
       .then(async () => {
-        console.log("que trae", browserSessionPersistence);
         await signInWithEmailAndPassword(auth, eMail, md5(password))
           .then((userCredential) => {
             // Signed in
@@ -169,14 +162,14 @@ export const Signin = () => {
     <Redirect to="/user/abogado" />
   ) : (
     <div>
-      <Navbar />
+      <Navbar navId={"menu"} />
       {!!usuario.firstName ? (
         <div className="container p-4">
           <div className="row">
             <div className="col-md-4 mx-auto">
               <div className="card text-center">
                 <div className="card-header">
-                  <h2>WELCOME</h2>
+                  <h2>Bienvenido</h2>
                 </div>
                 <div className="card-header">
                   <h3>
@@ -195,7 +188,7 @@ export const Signin = () => {
                     className="btn btn-primary btn-block"
                     onClick={logout}
                   >
-                    Signout
+                    Cerrar sesión
                   </button>
                 </div>
               </div>
@@ -210,14 +203,14 @@ export const Signin = () => {
                 <div className="card-header">
                   <h3>Register</h3>
                 </div>
-                <div className="card-body">
+                <div className="card-body form-sign">
                   <div className="form-group">
                     <input
                       type="type"
                       value={firstName}
                       name="firstName"
                       autoComplete="off"
-                      placeholder=" First Name"
+                      placeholder=" Nombre"
                       className="form-control"
                       autoFocus
                       required
@@ -232,7 +225,7 @@ export const Signin = () => {
                       value={lastName}
                       name="lastName"
                       autoComplete="off"
-                      placeholder=" Last Name"
+                      placeholder=" Apellido"
                       className="form-control"
                       autoFocus
                       required
@@ -261,7 +254,7 @@ export const Signin = () => {
                       value={celular}
                       name="Number"
                       autoComplete="off"
-                      placeholder="Number : 11 1111-1111"
+                      placeholder="Teléfono : 11 1111-1111"
                       className="form-control"
                       required
                       onChange={(e) => {
@@ -276,7 +269,7 @@ export const Signin = () => {
                       name="Mail"
                       disabled="on"
                       autoComplete="off"
-                      placeholder="Mail : Ejemplo@ejemplo.com"
+                      placeholder="Email: ejemplo@ejemplo.com"
                       className="form-control"
                       required
                     />
@@ -288,7 +281,7 @@ export const Signin = () => {
                       disabled="on"
                       name="password"
                       autoComplete="off"
-                      placeholder="Password min 6 digits"
+                      placeholder="Contraseña"
                       className="form-control"
                       required
                     />
@@ -320,14 +313,14 @@ export const Signin = () => {
             <div className="col-md-4 mx-auto">
               <div className="card text-center">
                 <div className="card-header">
-                  <h3>Iniciar Sesi�n</h3>
+                  <h3>Iniciar Sesión</h3>
                 </div>
                 <img
                   src={Logo}
                   alt="Logo Consultora"
                   className="card-img-top mx-auto m-2 rounded-circle w-50"
                 />
-                <div className="card-body">
+                <div className="card-body form-sign">
                   <div className="form-group">
                     <input
                       type="text"
@@ -350,7 +343,7 @@ export const Signin = () => {
                       name="password"
                       autoComplete="off"
                       required
-                      placeholder="Password"
+                      placeholder="Contraseña"
                       className="form-control"
                       onChange={(e) => {
                         setPassword(e.target.value);
@@ -358,24 +351,27 @@ export const Signin = () => {
                     />
                   </div>
                   <button className="btn btn-primary btn-block" onClick={Login}>
-                    Signin
+                    Ingresar
                   </button>
-                  <div className="form-group">
-                    <h6>-- O ingresar con --</h6>
+
+                  <p>-- O ingresar con --</p>
+
+                  <div className="row">
+                    <div className="col-md-12" onClick={loginGoogle}>
+                      {" "}
+                      <a class="btn btn-block btn-outline-primary" href="#">
+                        <img src="https://img.icons8.com/color/16/000000/google-logo.png" />{" "}
+                        Google
+                      </a>{" "}
+                    </div>
                   </div>
-                  <button
-                    className="btn btn-primary btn-block"
-                    onClick={loginGoogle}
-                  >
-                    Google
-                  </button>
                 </div>
-                <div className="form-group">
-                  <h6>-- -- -- -- -- -- -- -- -- -- -- -- </h6>
-                </div>
-                <div className="form-group">
+
+                <div className="card-footer">
                   <Link to="/signup">
-                    <label>? ? ?Go to Register</label>
+                    <label className="pointer p-1">
+                      Crear una cuenta nueva
+                    </label>
                   </Link>
                 </div>
               </div>

@@ -23,8 +23,10 @@ const initialState = {
   },
   error: "",
   consultas: [],
-  casos: {},
   admin: {},
+  consulta: {},
+  clients: [],
+  ticket: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -49,6 +51,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         usuario: action.payload,
       };
+    case "SET_CONSULTA":
+      return {
+        ...state,
+        consulta: action.payload,
+      };
     case "GET_USUARIO":
       let user = action.payload;
       if (!user.abogadoId && !user.adminId) {
@@ -66,7 +73,6 @@ const rootReducer = (state = initialState, action) => {
         return {
           ...state,
           usuario: action.payload,
-          abogado: action.payload,
         };
       }
     case "GET_USUARIOS":
@@ -80,6 +86,7 @@ const rootReducer = (state = initialState, action) => {
         personas: action.payload,
       };
     case "GET_CASOS":
+      console.log(action.payload);
       return {
         ...state,
         casos: action.payload,
@@ -106,6 +113,10 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
       };
+    case "SET_BANN":
+      return {
+        ...state,
+      };
     case "POST_CONSULTA":
       return {
         ...state,
@@ -116,6 +127,10 @@ const rootReducer = (state = initialState, action) => {
         abogado: action.payload,
       };
     case "SET_ABOGADO":
+      return {
+        ...state,
+      };
+    case "SET_ADMIN":
       return {
         ...state,
       };
@@ -150,6 +165,20 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         abogados: provinciasFiltradas,
+      };
+    case "GET_CLIENTES":
+      return {
+        ...state,
+        consultas: action.payload,
+      };
+    case "PUT_CASO":
+      return {
+        ...state,
+      };
+    case "GET_TICKET":
+      return {
+        ...state,
+        ticket: action.payload,
       };
     default:
       return state;

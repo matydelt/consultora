@@ -5,27 +5,36 @@ const {
   Materias,
   Abogado,
   Persona,
+  Cliente,
   Consulta,
+  Ticket,
 } = require("../db");
+const enviarEmail = require("../email/email");
+const axios = require("axios");
+const mercadopago = require("../config/MercadoPago");
 
 async function usuario(req, res) {
   try {
-    console.log(req.body, req.params, req.query);
+    // console.log(req.body, req.params, req.query)
     const { eMail } = req.body;
-    if (!eMail) return res.sendStatus(404);
+
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
-      // console.log(user);
-      const { createdAt, updatedAt, ...userData } = user.dataValues;
-      // console.log(userData);
+      console.log(user);
       const abogado = await Abogado.findByPk(user.abogadoId);
       const { firstName, lastName, dni, celular } = await Persona.findByPk(
         user.personaDni
       );
-      if (abogado)
+      const personas = await Persona.findAll();
+      if (personas.length < 2) {
+        console.log("admin");
         res.send({
           ...{
-            ...userData,
+            eMail: user.eMail,
+            password: user.password,
+            abogadoId: user.abogadoId,
+            adminId: user.adminId,
+            slug: user.slug,
             firstName,
             lastName,
             dni,
@@ -33,23 +42,74 @@ async function usuario(req, res) {
           },
           abogado,
         });
-      else res.send({ ...userData, firstName, lastName, dni, celular });
-    } else res.sendStatus(404);
+      } else {
+        if (abogado) {
+          res.send({
+            ...{
+              eMail: user.eMail,
+              password: user.password,
+              abogadoId: user.abogadoId,
+              adminId: user.adminId,
+              slug: user.slug,
+              firstName,
+              lastName,
+              dni,
+              celular,
+            },
+            abogado,
+          });
+        } else
+          res.send({
+            ...{
+              eMail: user.eMail,
+              password: user.password,
+              abogadoId: user.abogadoId,
+              adminId: user.adminId,
+              firstName,
+              lastName,
+              dni,
+              celular,
+            },
+          });
+      }
+    } else {
+      res.sendStatus(404);
+    }
   } catch (error) {
     console.error(error);
-    res.sendStatus(404);
+    res.sendStatus(500);
   }
 }
 
 async function asignaConsulta(req, res, next) {
-  const { consultaId, abogadoId } = req.body;
+  const { consultaId, abogadoId, respuesta } = req.body;
+
   try {
+    const consulta = await Consulta.findByPk(consultaId);
+
+    if (consulta.abogadoId)
+      return res
+        .status(400)
+        .json({ msg: "La consulta ya fue asignada a un abogado" });
+
     const result = await Consulta.update(
-      { abogadoId: abogadoId },
+      {
+        abogadoId: abogadoId,
+        respuestaAbogado: respuesta,
+      },
       { where: { id: consultaId } }
     );
+
+    enviarEmail.send({
+      email: consulta.email,
+      mensaje: respuesta,
+      subject: "Su consulta fue aceptada",
+      htmlFile: "consulta-aceptada.html",
+    });
+
     res.send(result);
   } catch (error) {
+    console.log(error);
     next({ msg: "no se pudo asignar abogado" });
   }
 }
@@ -58,7 +118,6 @@ async function asignaConsulta(req, res, next) {
 
 async function modificarAbogado(req, res) {
   const { eMail } = req.params;
-
   const { nombre, apellido, detalle, estudios, experiencia } = req.body;
 
   try {
@@ -74,31 +133,36 @@ async function modificarAbogado(req, res) {
     abogado.detalle = detalle;
     abogado.estudios = estudios;
     abogado.experiencia = experiencia;
+    user.slug = `${nombre}-${apellido}`;
 
-    await persona.save();
-    await abogado.save();
+    Promise.all([
+      await persona.save(),
+      await abogado.save(),
+      await user.save(),
+    ]);
 
-    abogado = {
+    return res.send({
       ...{
         eMail: user.eMail,
+        password: user.password,
+        abogadoId: user.abogadoId,
+        adminId: user.adminId,
+        slug: user.slug,
         firstName: persona.firstName,
         lastName: persona.lastName,
+        dni: persona.dni,
+        celular: persona.celular,
       },
-      dataValues: { abogado },
-    };
-
-    return res.json(abogado);
+      abogado,
+    });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      msj: "Ocurrió un error al modificar al abogado",
-    });
+    return res.sendStatus(500);
   }
 }
 
 async function getAbogado(req, res) {
   try {
-    console.log(req.body);
     let { eMail } = req.body;
     if (!eMail) {
       eMail = req.params;
@@ -138,12 +202,20 @@ async function getAbogado(req, res) {
                 "juzgado",
                 "detalle",
                 "estado",
+                "numeroLiquidacion",
+                "medidaCautelar",
+                "trabaAfectiva",
+                "vtoMedidaCautelar",
+                "vtoTrabaAfectiva",
+                "jurisdiccion",
               ],
+              include: Materias,
             },
           ],
         })
       );
     }
+
     if (user) {
       res.json(abogado);
     } else res.sendStatus(404);
@@ -153,9 +225,107 @@ async function getAbogado(req, res) {
   }
 }
 
+async function setBann(req, res) {
+  try {
+    let { eMail, flag } = req.body;
+    const user = await Usuario.findByPk(eMail);
+    if (flag) {
+      user.banned = true;
+      await user.save();
+      res.sendStatus(200);
+    } else {
+      user.banned = false;
+      await user.save();
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
+}
+async function putCaso(req, res) {
+  try {
+    let {
+      detalle,
+      estado,
+      juez,
+      juzgado,
+      numeroExpediente,
+      numeroLiquidacion,
+      medidaCautelar,
+      trabaAfectiva,
+      vtoMedidaCautelar,
+      vtoTrabaAfectiva,
+      jurisdiccion,
+      materia,
+    } = req.body;
+    let caso = await Casos.findByPk(numeroLiquidacion);
+    if (vtoMedidaCautelar === "") vtoMedidaCautelar = null;
+    if (vtoTrabaAfectiva === "") vtoTrabaAfectiva = null;
+    if (caso) {
+      caso.detalle = detalle;
+      caso.estado = estado;
+      caso.juez = juez;
+      caso.juzgado = juzgado;
+      caso.numeroExpediente = numeroExpediente;
+      caso.medidaCautelar = medidaCautelar;
+      caso.vtoMedidaCautelar = vtoMedidaCautelar;
+      caso.trabaAfectiva = trabaAfectiva;
+      caso.vtoTrabaAfectiva = vtoTrabaAfectiva;
+      caso.jurisdiccion = jurisdiccion;
+      const auxMateria = await Materias.findByPk(materia);
+      caso.setMaterias(auxMateria);
+      await caso.save();
+      return res.sendStatus(200);
+    }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
+}
+
+// MP
+async function modificarTicket(req, res) {
+  const { enlace, n_operacion } = req.body;
+
+  try {
+    const ticket = await Ticket.findOne({ where: { enlace: enlace } });
+
+    let mpApi = (
+      await axios.get(
+        `https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
+      )
+    ).data;
+
+    if (ticket.titulo === mpApi.description) {
+      ticket.n_operacion = mpApi.id;
+      ticket.estatus = mpApi.status;
+      ticket.detalle_estatus = mpApi.status_detail;
+      ticket.medioDePago = mpApi.payment_type_id;
+
+      Promise.all([await ticket.save()]);
+
+      return res.send({
+        ...{
+          estatus: mpApi.status,
+          detalle_estatus: mpApi.status_detail,
+          medioDePago: mpApi.payment_type_id,
+        },
+        ticket,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
 module.exports = {
   usuario,
   asignaConsulta,
   modificarAbogado,
+  setBann,
   getAbogado,
+  modificarTicket,
+  putCaso,
 };

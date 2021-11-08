@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/consultas", (req, res, next) => get.getConsultas(req, res, next));
 router.post("/consultas", (req, res, next) => post.setConsulta(req, res, next));
-router.delete("/consultas", (req, res, next) =>
+router.delete("/consultas/:id", (req, res, next) =>
   del.deleteConsulta(req, res, next)
 );
 router.put("/consultas", (req, res, next) =>

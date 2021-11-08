@@ -12,13 +12,7 @@ router.get("/usuarios", (req, res) => get.getUsuarios(req, res)) // get all user
 /* router.put("/usuario", (req, res) => get.getUsuario(req, res)) */ // get user(for login)
 // router.put("/usuario", (req, res) => get.getUsuario(req, res)) // get user(for login)
 
-router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)) // get abogado
-
-// router.get("/abogados", (req, res) => get.getAbogados(req, res)) // get  abogados
-
-/* router.get("/abogados", (req, res) => get.getAbogados(req, res)) */ // get  abogados
-
-// router.get("/abogado", (req, res) => get.getAbogado(req, res)) // get  abogado
+router.get("/abogado/:slug", (req, res) => get.getAbogado(req, res)) // get abogado
 
 router.post("/cliente", async function (req, res) {    // set client to abogado
     const { cliente, abogado } = req.body
@@ -28,9 +22,8 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
         let clienteAux = await Cliente.findByPk(clienteId)
         let abogadoAux = await Abogado.findByPk(abogadoId)
-        console.log(abogadoAux)
         if (clienteAux, abogadoAux) {
-            abogadoAux.setClientes(clienteAux)
+            abogadoAux.addClientes(clienteAux)
             res.sendStatus(200)
         } else res.sendStatus(404)
     } catch (error) {
@@ -39,7 +32,11 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
     }
 })
 
+router.put("/bann", put.setBann)//bannea usuario
+
 router.post("/usuario", (req, res) => post.setUsuarios(req, res))  //crea usuario
+
+router.post("/forzar-reinicio-password", (req, res) => post.reiniciarPassword(req, res))  
 
 router.put("/usuario", (req, res) => put.usuario(req, res)); // get  user(for login)
 
@@ -51,9 +48,9 @@ router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set 
 
 router.get("/abogados", (req, res) => get.getAbogados(req, res)); // get  abogados
 
-router.get("/personas", (req, res) => get.getPersonas(req, res)); // get  abogados
+router.get("/personas", (req, res) => get.getPersonas(req, res)); // get  personas
 
-router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)); // get  abogado
+// router.get("/abogado/:eMail", (req, res) => get.getAbogado(req, res)); // get  abogado
 
 router.put("/abogado", (req, res) => put.getAbogado(req, res)); // get  abogado
 
