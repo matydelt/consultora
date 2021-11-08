@@ -25,7 +25,6 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
 
     function setConsulta(consulta) {
         dispatch(mostrarConsulta(consulta))
-        console.log(consulta);
         dispatch(getTickets(consulta.ticketId))
     }
 
@@ -54,8 +53,7 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
 
                     {
                         ((terminoBusquedaTodas && terminoBusquedaTodas.length > 2) || (aceptadas) || (terminoBusquedaAceptadas && terminoBusquedaAceptadas.length > 2) ? consultas : consultasMostrar).filter((c) => {
-                            console.log(c);
-                            console.log(terminoBusquedaTodas);
+
                             if (terminoBusquedaAceptadas && aceptadas) {
                                 return (c.dni.includes(terminoBusquedaAceptadas) || c.nombre.toLowerCase().includes(terminoBusquedaAceptadas.toLowerCase()) || c.apellido.toLowerCase().includes(terminoBusquedaAceptadas.toLowerCase())) && c.abogadoId === usuario?.abogado?.id
                             } else if (terminoBusquedaTodas && !aceptadas) {

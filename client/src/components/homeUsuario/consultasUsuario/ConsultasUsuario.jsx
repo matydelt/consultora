@@ -18,7 +18,7 @@ export default function ConsultasUsuario() {
 
     function efectuarPago(enlace) {
         console.log(enlace);
-        dispatch(modificarTicket({enlace}));
+        dispatch(modificarTicket({ enlace }));
     };
 
     return (<>
@@ -32,9 +32,6 @@ export default function ConsultasUsuario() {
             <hr></hr>
         </div>
 
-        {console.log(usuario)}
-        {console.log(consultas)}
-        {/* {console.log(consultas && consultas[3].dni.toString() === usuario.dni.toString())} */}
 
         <table className="table table-hover mt-5">
             <thead>
@@ -89,10 +86,10 @@ export default function ConsultasUsuario() {
                                             :
                                             <td className="text-success">La consulta fue abonada</td>
                                 }
-                                
+
                                 {
                                     <td>
-                                        <button disabled={consulta.ticket?.estatus!=='pending'}  onClick={() => efectuarPago(consulta.ticket.enlace)} className={`btn btn-${consulta.ticket?.estatus==='pending'? 'success':'light text-muted'}`}>Notificar</button>
+                                        <button disabled={consulta.ticket?.estatus !== 'pending'} onClick={() => efectuarPago(consulta?.ticket?.enlace)} className={`btn btn-${consulta.ticket?.estatus === 'pending' ? 'success' : 'light text-muted'}`}>Notificar</button>
                                     </td>
                                 }
                             </tr>
