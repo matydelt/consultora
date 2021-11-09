@@ -21,8 +21,8 @@ export default function PerfilAbogado() {
 
   const getAbogado = () => {
 
-    // return axios.get(`http://localhost:3001/abogado/${eMail}@gmail.com`).then(({ data }) => {
-    return axios.get(`http://localhost:3001/abogado/${slug}`).then(({ data }) => {
+    // return axios.get(`/${eMail}@gmail.com`).then(({ data }) => {
+    return axios.get(`abogado/${slug}`).then(({ data }) => {
       setAbogado(data);
     });
 

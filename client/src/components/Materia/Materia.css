@@ -19,7 +19,6 @@
   background-color      : #033663;
   opacity               : 1;
   background            : linear-gradient(135deg, #042e5255 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(225deg, #042e52 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(315deg, #042e5255 25%, transparent 25%) 0px 0/ 20px 20px, linear-gradient(45deg, #042e52 25%, #033663 25%) 0px 0/ 20px 20px;
-  width                 : -webkit-fill-available;
   box-shadow            : 0px 1px 10px rgba(0, 0, 0, 0.2);
   transition            : all 0.4s ease;
   color                 : #ccc;

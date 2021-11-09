@@ -30,7 +30,7 @@ export default function ModificarAbogado() {
 
   useEffect(() => {
     return axios
-      .get(`${ENDPOINT_URL}/abogado/${usuario.slug}`)
+      .get(`/abogado/${usuario.slug}`)
       .then(({ data }) => {
         setForm({
           nombre: data.firstName,
@@ -53,14 +53,14 @@ export default function ModificarAbogado() {
     formData.append("email", usuario.eMail);
 
     axios
-      .post(`${ENDPOINT_URL}/subirimagen`, formData, {
+      .post(`/subirimagen`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then(() => {
         axios
-          .get(`${ENDPOINT_URL}/abogado/${usuario.slug}`)
+          .get(`/abogado/${usuario.slug}`)
           .then(({ data }) => {
             setForm({ ...form, imagen: data.imagen });
             toast.success("La imagen fue cambiada con éxito");
@@ -72,7 +72,7 @@ export default function ModificarAbogado() {
 
   function eliminarImagen() {
     axios
-      .post(`${ENDPOINT_URL}/eliminarimagen`, {
+      .post(`/eliminarimagen`, {
         public_id: imagen.substring(imagen.lastIndexOf("/") + 1).slice(0, -4),
         email: usuario.eMail,
       })
@@ -109,7 +109,7 @@ export default function ModificarAbogado() {
 
     setLoading(true);
     axios
-      .put(`${ENDPOINT_URL}/abogado/${usuario.eMail || usuario.eMail}`, form)
+      .put(`/abogado/${usuario.eMail || usuario.eMail}`, form)
       .then(({ data }) => {
         setLoading(false);
         toast.success("Los cambios fueron guardados");

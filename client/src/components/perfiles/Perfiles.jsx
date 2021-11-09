@@ -15,7 +15,7 @@ export default function Perfiles() {
   }, []);
 
   const getAbogados = async (id) => {
-    return await axios.get(`http://localhost:3001/abogados`)
+    return await axios.get(`/abogados`)
   };
 
   return (<>

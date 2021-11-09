@@ -79,6 +79,7 @@ const Navbar = ({ navId }) => {
               // </div>
             )}
 
+
             {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
               <ButtonsNav link="/user/abogado" text={usuario.firstName} />
               // <div class="dropdown">
