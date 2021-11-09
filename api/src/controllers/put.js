@@ -248,27 +248,29 @@ async function modificarTicket(req, res) {
 
   try {
     const ticket = await Ticket.findOne({ where: { enlace: enlace } });
-    
+
     let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
+
+
     if (ticket.titulo===mpApi.description){
-    ticket.n_operacion = mpApi.id
-    ticket.estatus = mpApi.status
-    ticket.detalle_estatus = mpApi.status_detail
-    ticket.medioDePago = mpApi.payment_type_id
+      ticket.n_operacion = mpApi.id
+      ticket.estatus = mpApi.status
+      ticket.detalle_estatus = mpApi.status_detail
+      ticket.medioDePago = mpApi.payment_type_id
+  
+      Promise.all([
+        await ticket.save(),
+      ]);
+  
+      return res.send({
+        ...{
+          estatus: mpApi.status,
+          detalle_estatus: mpApi.status_detail,
+          medioDePago: mpApi.payment_type_id
+        },
+        ticket,
+      })}
 
-    Promise.all([
-      await ticket.save(),
-    ]);
-
-    return res.send({
-      ...{
-        estatus: mpApi.status,
-        detalle_estatus: mpApi.status_detail,
-        medioDePago: mpApi.payment_type_id
-      },
-      ticket,
-    })}
-    
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

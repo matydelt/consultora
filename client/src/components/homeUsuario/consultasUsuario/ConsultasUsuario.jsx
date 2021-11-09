@@ -10,9 +10,7 @@ export default function ConsultasUsuario() {
     const dispatch = useDispatch();
 
     const { consultas, usuario } = useSelector((state) => state);
-    const [ n_operacion, setN_Operacion ] = useState('');
-    
-    // setConfirma
+    const [n_operacion, setN_Operacion] = useState('');
 
     useEffect(() => {
         dispatch(getConsultas());
@@ -105,8 +103,8 @@ export default function ConsultasUsuario() {
 
                                 {
                                     <td>
-                                        <input type="number" min="0"  name="n_operacion" autoComplete="off" placeholder="1111111111" className="form-control" required onChange={(e) => { setN_Operacion(e.target.value) }} />
-                                        <button disabled={consulta?.ticket?.estatus!=='pending'}  onClick={()=>{efectuarPago(consulta.ticket?.enlace, n_operacion)}} className={`btn btn-${consulta.ticket?.estatus==='pending'? 'success':'light text-muted'}`}>Notificar</button>
+                                        <input type="number" min="0" name="n_operacion" autoComplete="off" placeholder="1111111111" className="form-control" required onChange={(e) => { setN_Operacion(e.target.value) }} />
+                                        <button disabled={consulta?.ticket?.estatus !== 'pending'} onClick={() => { efectuarPago(consulta.ticket?.enlace, n_operacion) }} className={`btn btn-${consulta.ticket?.estatus === 'pending' ? 'success' : 'light text-muted'}`}>Notificar</button>
                                     </td>
                                 }
                             </tr>

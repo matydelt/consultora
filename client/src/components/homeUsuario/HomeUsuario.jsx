@@ -17,6 +17,7 @@ export default function HomeAbogado() {
         <div className="container mt-5">
 
             <h1>Bienvenido al panel de gestiones</h1>
+            
             <hr></hr>
 
             <h4 className="my-4">En este panel podrá realizar las siguientes gestiones:</h4>
