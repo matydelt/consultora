@@ -22,6 +22,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
 import "./App.css";
+import Dashboard from "./components/Dashboard/Dashboard";
 function App() {
   const dispatch = useDispatch();
 
@@ -51,7 +52,6 @@ function App() {
           <Perfiles />
         </Route>
         <Route exact path={"/admin"} component={AdminPage}></Route>
-
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />

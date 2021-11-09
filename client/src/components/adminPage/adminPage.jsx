@@ -16,6 +16,7 @@ import {
   sendPasswordResetEmail,
   updatePassword,
 } from "@firebase/auth";
+import Dashboard from "../Dashboard/Dashboard";
 
 export default function AdminPage() {
   let [cont] = useState(0);
@@ -28,7 +29,7 @@ export default function AdminPage() {
     dispatch(getUsuarios());
   }, []);
 
-  const hadleChange = (e, type) => {
+  const handleChange = (e, type) => {
     e.preventDefault();
     cont++;
     let eMail = e.target.value;
@@ -168,7 +169,7 @@ export default function AdminPage() {
                           id="flexSwitchCheckDefault"
                           value={e.eMail}
                           onInput={(e) => {
-                            hadleChange(e, (type = "admin"));
+                            handleChange(e, (type = "admin"));
                           }}
                           defaultChecked
                           disabled
@@ -182,7 +183,7 @@ export default function AdminPage() {
                           id="flexSwitchCheckDefault"
                           value={e.eMail}
                           onInput={(e) => {
-                            hadleChange(e, (type = "admin"));
+                            handleChange(e, (type = "admin"));
                           }}
                           defaultChecked
                         />
@@ -196,7 +197,7 @@ export default function AdminPage() {
                         id="flexSwitchCheckDefault"
                         value={e.eMail}
                         onInput={(e) => {
-                          hadleChange(e, (type = "admin"));
+                          handleChange(e, (type = "admin"));
                         }}
                         disabled
                       />
@@ -209,7 +210,7 @@ export default function AdminPage() {
                         id="flexSwitchCheckDefault"
                         value={e.eMail}
                         onInput={(e) => {
-                          hadleChange(e, (type = "admin"));
+                          handleChange(e, (type = "admin"));
                         }}
                       />
                     </td>
@@ -225,7 +226,7 @@ export default function AdminPage() {
                           id="flexSwitchCheckDefault"
                           value={e.eMail}
                           onInput={(e) => {
-                            hadleChange(e, (type = "abogado"));
+                            handleChange(e, (type = "abogado"));
                           }}
                           defaultChecked
                         />
@@ -238,7 +239,7 @@ export default function AdminPage() {
                           id="flexSwitchCheckDefault"
                           value={e.eMail}
                           onInput={(e) => {
-                            hadleChange(e, (type = "abogado"));
+                            handleChange(e, (type = "abogado"));
                           }}
                           defaultChecked
                           disabled
@@ -255,7 +256,7 @@ export default function AdminPage() {
                         id="flexSwitchCheckDefault"
                         value={e.eMail}
                         onInput={(e) => {
-                          hadleChange(e, (type = "abogado"));
+                          handleChange(e, (type = "abogado"));
                         }}
                       />
                     </td>
@@ -267,7 +268,7 @@ export default function AdminPage() {
                         id="flexSwitchCheckDefault"
                         value={e.eMail}
                         onInput={(e) => {
-                          hadleChange(e, (type = "abogado"));
+                          handleChange(e, (type = "abogado"));
                         }}
                         disabled
                       />
@@ -282,7 +283,7 @@ export default function AdminPage() {
                           id="flexSwitchCheckDefault"
                           value={e.eMail}
                           onInput={(e) => {
-                            hadleChange(e, (type = "bann"));
+                            handleChange(e, (type = "bann"));
                           }}
                           defaultChecked
                         />
@@ -295,7 +296,7 @@ export default function AdminPage() {
                           id="flexSwitchCheckDefault"
                           value={e.eMail}
                           onInput={(e) => {
-                            hadleChange(e, (type = "bann"));
+                            handleChange(e, (type = "bann"));
                           }}
                           defaultChecked
                           disabled
@@ -310,7 +311,7 @@ export default function AdminPage() {
                         id="flexSwitchCheckDefault"
                         value={e.eMail}
                         onInput={(e) => {
-                          hadleChange(e, (type = "bann"));
+                          handleChange(e, (type = "bann"));
                         }}
                       />
                     </td>
@@ -322,7 +323,7 @@ export default function AdminPage() {
                         id="flexSwitchCheckDefault"
                         value={e.eMail}
                         onInput={(e) => {
-                          hadleChange(e, (type = "bann"));
+                          handleChange(e, (type = "bann"));
                         }}
                         disabled
                       />
@@ -335,7 +336,7 @@ export default function AdminPage() {
             })}
           </tbody>
         </table>
-
+        <Dashboard />
         <div id="liveAlertPlaceholder">
           <div className="alert alert-danger alert-dismissible" role="alert">
             Cuidado una vez eliminado el estado de abogado el mismo pierde todo!

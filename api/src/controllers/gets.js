@@ -15,7 +15,10 @@ async function getUsuarios(req, res) {
   try {
     const users = await Usuario.findAll();
     const usersData = users.map((user) => {
-      const { createdAt, updatedAt, ...usersData } = user.dataValues;
+      const { updatedAt, ...usersData } = user.dataValues;
+      usersData.createdAt = `${usersData.createdAt.getFullYear()}-${
+        usersData.createdAt.getMonth() + 1
+      }`;
       return usersData;
     });
     res.json(usersData);

@@ -1,0 +1,24 @@
+.users-card-container {
+  border: 1px solid;
+  width: 15%;
+}
+
+.users-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80%;
+}
+
+.users-card-bottom {
+  width: 100%;
+  text-align: center;
+}
+
+.users-card-image {
+  width: 25%;
+}
+
+.users-card-text {
+  margin-left: 5px;
+}
