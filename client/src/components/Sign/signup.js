@@ -61,8 +61,8 @@ export const Signup = () => {
   }
   return (
     <>
+      <Navbar navId={"menu"} ></Navbar>
       <div className="container p-4">
-        <Navbar></Navbar>
         <div className="row">
           <div className="col-lg-4 col-md-6 col-sm-8 mx-auto">
             <div className="card text-center">

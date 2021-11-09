@@ -59,7 +59,8 @@ async function getProvincias(req, res) {
             "Tierra del Fuego",
             "Tucumán",
         ];
-        let provs = await Provincias.findAll({ where: {}, include: Abogado });
+        let provs = await Provincias.findAll({ where: {} });
+        // let provs = await Provincias.findAll({ where: {}, include: Abogado });
         if (provs.length === 0) {
             for (let i = 0; i < vec.length; i++) {
                 provs.push(
@@ -147,8 +148,10 @@ async function getAbogado(req, res) {
             user = await Usuario.findByPk(eMail)
         }
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
+        const abogadoPerfil = await Abogado.findOne({ where: { id: user.abogadoId } }) ///////////////////////  AGREGADO
         const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
         let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular, slug: user.slug }, detalle, imagen, experiencia, estudios }
+        abogado.materias = await abogadoPerfil.getMaterias(); /////////////////// AGREGADO
         abogado.clientes = []
         for (let i = 0; i < clientes.length; i++) {
             abogado.clientes.push(await Cliente.findOne({
