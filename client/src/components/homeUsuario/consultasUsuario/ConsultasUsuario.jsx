@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getConsultas, getTickets, modificarTicket } from '../../../redux/actions';
+import swal from 'sweetalert';
+import { getConsultas, modificarTicket } from '../../../redux/actions';
 import UsuarioNavBar from '../usuarioNavBar/UsuarioNavBar';
 
 export default function ConsultasUsuario() {
@@ -18,11 +19,23 @@ export default function ConsultasUsuario() {
         dispatch(getTickets());
     }, []);
 
-
     function efectuarPago(enlace, n_operacion) {
-        console.log(enlace);
-        setTimeout(dispatch(modificarTicket({enlace, n_operacion})),60000);
-    };
+        swal({
+            title: "Notificar pago de la consulta",
+            text: "Si ya abonó la consulta puede proceder a notificarlo, ¿notificar el pago de la consulta?",
+            icon: "warning",
+            buttons: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                dispatch(modificarTicket({enlace, n_operacion}))
+                    
+                setTimeout(() => {
+                    dispatch(getConsultas());
+                }, 1000)
+            }
+        });
+    }
+
 
     return (<>
 
@@ -35,9 +48,6 @@ export default function ConsultasUsuario() {
             <hr></hr>
         </div>
 
-        {console.log(usuario)}
-        {console.log(consultas)}
-        {/* {console.log(consultas && consultas[3].dni.toString() === usuario.dni.toString())} */}
 
         <table className="table table-hover mt-5">
             <thead>
@@ -92,7 +102,7 @@ export default function ConsultasUsuario() {
                                             :
                                             <td className="text-success">La consulta fue abonada</td>
                                 }
-                                
+
                                 {
                                     <td>
                                         <input type="number" min="0"  name="n_operacion" autoComplete="off" placeholder="1111111111" className="form-control" required onChange={(e) => { setN_Operacion(e.target.value) }} />

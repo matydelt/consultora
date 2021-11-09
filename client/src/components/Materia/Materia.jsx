@@ -1,9 +1,9 @@
 import React from "react";
 import "./Materia.css";
 
-const Materia = ({ nombre }) => {
+const Materia = ({ nombre, id }) => {
   return (
-    <div className="materia mb-3 col-md-3">
+    <div key={id} className="materia mb-3 col-md-3">
       <h5 className="materia-nombre">{nombre}</h5>
       <div className="button_learn-more">
         <button className="learn-more">

@@ -9,7 +9,6 @@ import {
   postTickets,
 } from "../../../redux/actions";
 
-let myModal = "";
 
 export default function ModalConsulta({ usuario, modalId }) {
   let [respuesta, setRespuesta] = useState("");
@@ -19,7 +18,12 @@ export default function ModalConsulta({ usuario, modalId }) {
 
   useEffect(() => {
     setRespuesta("");
+    setPrice(0);
   }, [consulta]);
+
+  useEffect(() => {
+    dispatch(getConsultas());
+  }, [dispatch]);
 
   function confimarConsulta() {
     swal({
@@ -31,7 +35,7 @@ export default function ModalConsulta({ usuario, modalId }) {
       if (willDelete) {
         const titulo = `${usuario.firstName + " " + usuario.lastName
           } - Consulta ${consulta.id}`;
-        console.log("id", consulta.id);
+        
         dispatch(setConsulta(consulta.id, usuario.abogado.id, respuesta)).then(
           () => {
             if (price > 0) {
@@ -43,9 +47,13 @@ export default function ModalConsulta({ usuario, modalId }) {
                 })
               );
             }
-            dispatch(getConsultas());
           }
-        );
+        ).then(() => {
+          setTimeout(() => {
+            dispatch(getConsultas());
+          }, 1500)
+
+        })
       }
       setRespuesta("");
     });

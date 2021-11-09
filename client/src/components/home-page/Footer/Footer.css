@@ -1,6 +1,6 @@
 .footer_container {
     margin-top: 40px;
-    width     : 100%;
+    width     : 100%;    
     position  : relative;
 }
 
@@ -23,7 +23,7 @@
     display        : flex;
     justify-content: center;
     align-items    : center;
-    width          : 100%;
+     width          : 100%;
 }
 
 
@@ -53,9 +53,9 @@
 }
 
 .footer .footer_contain .footer_contain_text p {
-    max-width: 75%;
+    max-width: 61%;
     position : relative;
-    left     : 85px;
+    left     : 135px;
 }
 
 
@@ -205,18 +205,20 @@
 }
 
 
-@media (min-width: 1500px) and (max-width: 2000px) {
+@media (min-width: 1592px) and (max-width: 1920px) {
     .footer {
-        width: 100%;
+        width : 100%;
+        margin: auto;
     }
-
     .footer .footer_contain .footer_contain_text p {
-        left     : 110px;
+        left     : 221px;
         font-size: 20px;
+        max-width: 54%;
     }
 
     .footer .footer_contain .button_footer a {
         right: -286px;
+        width: 40%;
     }
 
     .footer .footer_contain .iconos {
@@ -236,7 +238,7 @@
         margin-top: 23px;
     }
 
-    .flex_derecho_autor div {   
+    .flex_derecho_autor div {
         font-size: 13px;
     }
 }

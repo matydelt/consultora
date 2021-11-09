@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import Logo from "../assets/img/buffet-buffet-law.png";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav";
@@ -16,14 +15,13 @@ const Navbar = ({ navId }) => {
   const auth = getAuth();
   const history = useHistory();
 
-
   const logout = () => {
     signOut(auth)
       .then(() => {
         dispatch(getUsuario({}));
         history.push("/");
         toast.info("La sesión fue finalizada");
-        localStorage.removeItem('username')
+        localStorage.removeItem("username");
       })
       .catch((error) => {
         // An error happened.
@@ -44,73 +42,79 @@ const Navbar = ({ navId }) => {
         <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
 
         <li className="col-xl-1">
-          {/* <a className="textDecoration" href="#contain_title_abogado">Nuestro Equipo</a> */}
-          <Link to="/abogados">
-            <span className="textDecoration">Nuestro Equipo</span>
-          </Link>
+          <ButtonsNav
+            link="/abogados"
+            text="Nuestro Equipo"
+          />
         </li>
 
-        {localStorage.getItem('username') || usuario.firstName ? (
+        {localStorage.getItem("username") || usuario.firstName ? (
           <li>
             {!usuario.abogadoId && !usuario.dataValues && (
-              <div class="dropdown">
-                <a
-                  class="btn dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {localStorage.getItem('username') || usuario.firstName}
-                </a>
+              <ButtonsNav
+                link="/user/panel"
+                text={localStorage.getItem("username") || usuario.firstName}
+              />
 
-                <ul
-                  class="dropdown-menu bg-light shadow border-0"
-                  aria-labelledby="dropdownMenuButton1"
-                >
-                  <ButtonsNav link={"/user/panel"} text="Gestiones" />
-                  <span onClick={logout} class="dropdown-item pointer">
-                    Cerrar sesión
-                  </span>
-                </ul>
-              </div>
+              // <div class="dropdown">
+              //   <a
+              //     class="btn dropdown-toggle"
+              //     type="button"
+              //     id="dropdownMenuButton1"
+              //     data-bs-toggle="dropdown"
+              //     aria-expanded="false"
+              //   >
+              //     {localStorage.getItem('username') || usuario.firstName}
+              //   </a>
+
+              //   <ul
+              //     class="dropdown-menu bg-light shadow border-0"
+              //     aria-labelledby="dropdownMenuButton1"
+              //   >
+              //     <ButtonsNav link={"/user/panel"} text="Gestiones" />
+              //     <span onClick={logout} class="dropdown-item pointer">
+              //       Cerrar sesión
+              //     </span>
+              //   </ul>
+              // </div>
             )}
 
+
             {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
-              <div class="dropdown">
-                <a
-                  class="btn dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  {usuario.firstName}
-                </a>
+              <ButtonsNav link="/user/abogado" text={usuario.firstName} />
+              // <div class="dropdown">
+              //   <a
+              //     class="btn dropdown-toggle"
+              //     type="button"
+              //     id="dropdownMenuButton1"
+              //     data-bs-toggle="dropdown"
+              //     aria-expanded="false"
+              //   >
+              //     {usuario.firstName}
+              //   </a>
 
-                <ul
-                  class="dropdown-menu bg-light shadow border-0"
-                  aria-labelledby="dropdownMenuButton1"
-                >
-                  {/* { <ul class="dropdown-menu bg-light shadow border-0" aria-labelledby="dropdownMenuButton1"> */}
-                  {/* <span class="dropdown-item pointer" href="#">Panel</span> */}
-                  <Link to="/user/abogado">
-                    <span class="dropdown-item pointer">Panel</span>
-                  </Link>
+              //   <ul
+              //     class="dropdown-menu bg-light shadow border-0"
+              //     aria-labelledby="dropdownMenuButton1"
+              //   >
 
-                  <span onClick={logout} class="dropdown-item pointer">
-                    Cerrar sesión
-                  </span>
-                </ul>
-              </div>
+              //     <Link to="/user/abogado">
+              //       <span class="dropdown-item pointer">Panel</span>
+              //     </Link>
+              //     <Link to="/modificar-perfil">
+              //       <span class="dropdown-item pointer">Perfil</span>
+              //     </Link>
+
+              //     <span onClick={logout} class="dropdown-item pointer">
+              //       Cerrar sesión
+              //     </span>
+              //   </ul>
+              // </div>
             )}
           </li>
         ) : (
           <li className="col-xl-1">
-            {/* <Link to="/signup"> */}
             <ButtonsNav link={"/ingreso"} text="Registrate Ahora" />
-            {/* Registrate Ahora */}
-            {/* </Link> */}
           </li>
         )}
       </ul>

@@ -311,5 +311,6 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
+    // getUsuario,
     getTickets
 };
