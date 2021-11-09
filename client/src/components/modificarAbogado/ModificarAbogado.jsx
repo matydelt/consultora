@@ -44,11 +44,19 @@ export default function ModificarAbogado() {
           experiencia: data.experiencia || "",
           estudios: data.estudios || "",
           imagen: data.imagen,
-          materias: data.materias
+          materias: data.materias || []
         });
-        console.log(data);
+        let arr = []
+        data.materias.forEach(materia => 
+          arr.push(materia.nombre)
+        );
+        setMateriasEnviar(arr);
       });
   }, []);
+
+
+
+
 
   function modificarImagen(e) {
     if (!e.target.files[0]) return;
@@ -81,7 +89,7 @@ export default function ModificarAbogado() {
   function seleccionarMaterias(e) {
     setMateriasEnviar([ ...materiasEnviar, e.target.value]);
     setForm({...form, materias: [...materiasEnviar, e.target.value] });
-
+    console.log(materiasEnviar);
   };
 
   function quitarMateriaEnviar(materia) {
@@ -127,7 +135,6 @@ export default function ModificarAbogado() {
     
     if (!nombre || !apellido || !detalle || !estudios) return;
 
-    setForm({...form, materias: materiasEnviar });
     
     setLoading(true);
     axios
@@ -142,7 +149,7 @@ export default function ModificarAbogado() {
 
   return (
     <>
-      {usuario?.abogado?.id &&
+      {usuario?.abogado?.id ?
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
           <h2 className="">Modificar perfil</h2>
 
@@ -339,6 +346,8 @@ export default function ModificarAbogado() {
             </div>
           </form>
         </div>
+        :
+        <p>Carganding</p>
       }
 
     </>);

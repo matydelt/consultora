@@ -166,16 +166,15 @@ async function getAbogado(req, res) {
         let user = {};
         if (!eMail) {
             const { slug } = req.params
-            console.log(slug);
+            console.log(slug, '-----------------------------------------------------------------------');
             user = await Usuario.findOne({where: {slug}})
         } else {
             user = await Usuario.findByPk(eMail)
         }
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-        const abogadoPerfil = await Abogado.findOne({ where: { id: user.abogadoId } }) ///////////////////////  AGREGADO
-        const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
+        const { detalle, clientes, imagen, experiencia, estudios, materias } = await Abogado.findOne({ where: { id: user.abogadoId }, include: [Cliente, Materias] })
         let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular, slug: user.slug }, detalle, imagen, experiencia, estudios }
-        abogado.materias = await abogadoPerfil.getMaterias(); /////////////////// AGREGADO
+        abogado.materias = []
         abogado.clientes = []
         for (let i = 0; i < clientes.length; i++) {
             abogado.clientes.push(await Cliente.findOne({
@@ -184,6 +183,11 @@ async function getAbogado(req, res) {
                     model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
                     ]
                 }]
+            }))
+        }
+        for (let i = 0; i < materias.length; i++) {
+            abogado.materias.push(await Materias.findOne({
+                where: { nombre: materias[i].nombre }
             }))
         }
         if (user) {
