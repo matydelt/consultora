@@ -105,22 +105,22 @@ async function getMaterias(req, res) {
   }
 }
 
-async function getMateriaAbogado(req, res) {
+// async function getMateriaAbogado(req, res) {
 //   const { materias } = req.body;
-  try {
-    if (!materias) res.status(404).send("Not Found");
-    else {
-        const abogados = Abogado.findAll({
-            where: {
+//   try {
+//     if (!materias) res.status(404).send("Not Found");
+//     else {
+//         const abogados = Abogado.findAll({
+//             where: {
                 
-            }
-        })
-    }
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-}
+//             }
+//         })
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     return [];
+//   }
+// }
 
 async function getPersonas(req, res) {
   try {

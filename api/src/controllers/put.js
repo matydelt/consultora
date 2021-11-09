@@ -127,7 +127,7 @@ async function modificarAbogado(req, res) {
     if (!user) return res.sendStatus(404);
     const persona = await Persona.findByPk(user.personaDni);
     if (!persona) return res.sendStatus(404);
-    let abogado = await Abogado.findOne({ where: { id: user.abogadoId } ,include: Materias} );
+    let abogado = await Abogado.findOne({ where: { id: user.abogadoId }, include: Materias} );
     if (!abogado) return res.sendStatus(404);
 
     persona.firstName = nombre;
