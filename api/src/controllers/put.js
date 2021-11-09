@@ -244,25 +244,18 @@ async function putCaso(req, res) {
 // MP
 async function modificarTicket(req, res) {
 
-  const { enlace } = req.body;
-
-  console.log(enlace);
+  const { enlace, n_operacion } = req.body;
 
   try {
     const ticket = await Ticket.findOne({ where: { enlace: enlace } });
+    
+    let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
+    if (ticket.titulo===mpApi.description){
+    ticket.n_operacion = mpApi.id
+    ticket.estatus = mpApi.status
+    ticket.detalle_estatus = mpApi.status_detail
+    ticket.medioDePago = mpApi.payment_type_id
 
-    let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
-    // console.log(mpApi);
-    mpApi = mpApi.results.filter(e => {
-      if (e.description == ticket.titulo) return e
-    })
-    console.log(mpApi, 'RESPUESTAAAAA-----------------------------------');
-    ticket.n_operacion = mpApi[0].id
-    ticket.estatus = mpApi[0].status
-    ticket.detalle_estatus = mpApi[0].status_detail
-    ticket.medioDePago = mpApi[0].payment_type_id
-    // //
-    // console.log("modifico?", ticket);
     Promise.all([
       await ticket.save(),
     ]);
@@ -274,7 +267,8 @@ async function modificarTicket(req, res) {
         medioDePago: mpApi.payment_type_id
       },
       ticket,
-    });
+    })}
+    
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

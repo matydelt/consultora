@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import "./HomeAbogado.css";
@@ -39,10 +39,10 @@ export default function HomeAbogado() {
         <p class="lead">
           <a
             class="btn btn-primary btn-lg"
-            href="/user/abogado/modificar-perfil"
             role="button"
-          >
+          ><Link to="/user/abogado/modificar-perfil" className="nav-link">
             Detalles
+            </Link>
           </a>
         </p>
         <hr class="my-4"></hr>

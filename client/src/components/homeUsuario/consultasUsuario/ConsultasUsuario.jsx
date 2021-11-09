@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getConsultas, modificarTicket } from '../../../redux/actions';
+import { getConsultas, getTickets, modificarTicket } from '../../../redux/actions';
 import UsuarioNavBar from '../usuarioNavBar/UsuarioNavBar';
 
 export default function ConsultasUsuario() {
@@ -9,16 +9,19 @@ export default function ConsultasUsuario() {
     const dispatch = useDispatch();
 
     const { consultas, usuario } = useSelector((state) => state);
-
+    const [ n_operacion, setN_Operacion ] = useState('');
+    
+    // setConfirma
 
     useEffect(() => {
         dispatch(getConsultas());
+        dispatch(getTickets());
     }, []);
 
 
-    function efectuarPago(enlace) {
+    function efectuarPago(enlace, n_operacion) {
         console.log(enlace);
-        dispatch(modificarTicket({enlace}));
+        setTimeout(dispatch(modificarTicket({enlace, n_operacion})),60000);
     };
 
     return (<>
@@ -92,7 +95,8 @@ export default function ConsultasUsuario() {
                                 
                                 {
                                     <td>
-                                        <button disabled={consulta.ticket?.estatus!=='pending'}  onClick={() => efectuarPago(consulta.ticket.enlace)} className={`btn btn-${consulta.ticket?.estatus==='pending'? 'success':'light text-muted'}`}>Notificar</button>
+                                        <input type="number" min="0"  name="n_operacion" autoComplete="off" placeholder="1111111111" className="form-control" required onChange={(e) => { setN_Operacion(e.target.value) }} />
+                                        <button disabled={consulta?.ticket?.estatus!=='pending'}  onClick={()=>{efectuarPago(consulta.ticket?.enlace, n_operacion)}} className={`btn btn-${consulta.ticket?.estatus==='pending'? 'success':'light text-muted'}`}>Notificar</button>
                                     </td>
                                 }
                             </tr>
