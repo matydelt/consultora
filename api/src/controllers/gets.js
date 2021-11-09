@@ -142,7 +142,7 @@ async function getAbogado(req, res) {
         if (!eMail) {
             const { slug } = req.params
             console.log(slug);
-            user = await Usuario.findOne({where: {slug}})
+            user = await Usuario.findOne({ where: { slug } })
         } else {
             user = await Usuario.findByPk(eMail)
         }
@@ -266,28 +266,28 @@ async function getConsultas(req, res, next) {
 async function getTickets(req, res, next) {
     const { id, enlace } = req.body;
     console.log("id", req.body);
-    if (!!id && id!==null) {
-        try{
+    if (!!id && id !== null) {
+        try {
             const ticket = await Ticket.findByPk(id)
-            console.log("ticket",ticket);
+            console.log("ticket", ticket);
             res.json(ticket);
         } catch (error) {
             console.log(error);
             res.sendStatus(404);
         }
     }
-    
-    else if (!!enlace && enlace!==null) {
-        try{
-            const ticket = await Ticket.findOne({where: {enlace:enlace}})
-            console.log("ticket",ticket);
+
+    else if (!!enlace && enlace !== null) {
+        try {
+            const ticket = await Ticket.findOne({ where: { enlace: enlace } })
+            console.log("ticket", ticket);
             res.json(ticket);
         } catch (error) {
             console.log(error);
             res.sendStatus(404);
         }
     }
-    else{
+    else {
         try {
             const ticket = await Ticket.findAll();
             res.json(ticket);
@@ -300,7 +300,6 @@ async function getTickets(req, res, next) {
 
 module.exports = {
     getUsuarios,
-    // getUsuario,
     getPersonas,
     getCasos,
     getProvincias,
@@ -309,6 +308,5 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
-    getUsuario,
     getTickets
 };

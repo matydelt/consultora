@@ -205,6 +205,8 @@ async function setAbogado(req, res) {
   try {
     const { eMail, flag } = req.body;
     let user = await Usuario.findByPk(eMail);
+    // let cliente = await Cliente.findByPk(user.cleinteId)
+    // cliente.destroy();
     let persona = await Persona.findByPk(user.personaDni);
     if (flag) {
       const abogado = await Abogado.create({});
@@ -303,42 +305,7 @@ async function setConsulta(req, res, next) {
     }
   }
 }
-// async function setAdmin(req, res) {
-//   const { eMail, firstName, dni, lastName, celular, password } = req.body
-//   try {
-//     let aux = await Usuario.findByPk(eMail)
-//     let aux2 = await Persona.findByPk(dni)
-//     if (!aux && !aux2) {
-//       const user = await Usuario.create({
-//         eMail,
-//         password
-//       })
 
-//       const person = await Persona.create({
-//         firstName,
-//         dni,
-//         lastName,
-//         celular
-//       })
-//       const admin = await Admin.create({})
-
-//       person.setUsuario(user)
-//       admin.setUsuario(user)
-//       // client.setPersona(person)
-//       res.sendStatus(200)
-//     }
-//     else if (!aux.adminId) {
-//       const admin = await Admin.create({})
-//       admin.setUsuario(aux)
-//       res.sendStatus(200)
-//     } else res.sendStatus(500)
-
-//   } catch (error) {
-//     console.log(error)
-//     res.sendStatus(500)
-//   }
-
-// }
 async function setAdmin(req, res) {
   try {
     const { eMail, flag } = req.body;

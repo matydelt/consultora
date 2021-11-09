@@ -282,5 +282,6 @@ module.exports = {
   modificarAbogado,
   setBann,
   getAbogado,
-  modificarTicket
+  modificarTicket,
+  putCaso
 };
