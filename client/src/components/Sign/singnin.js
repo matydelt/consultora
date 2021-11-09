@@ -164,37 +164,38 @@ export const Signin = () => {
     <div>
       <Navbar navId={"menu"} />
       {!!usuario.firstName ? (
-        <div className="container p-4">
-          <div className="row">
-            <div className="col-md-4 mx-auto">
-              <div className="card text-center">
-                <div className="card-header">
-                  <h2>Bienvenido</h2>
-                </div>
-                <div className="card-header">
-                  <h3>
-                    {displayname
-                      ? displayname
-                      : `${usuario.firstName} ${usuario.lastName}`}
-                  </h3>
-                </div>
-                <img
-                  src={Logo}
-                  alt="Logo Consultora"
-                  className="card-img-top mx-auto m-2 rounded-circle w-50"
-                />
-                <div className="card-body">
-                  <button
-                    className="btn btn-primary btn-block"
-                    onClick={logout}
-                  >
-                    Cerrar sesión
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Redirect to="/user/panel" />
+        // <div className="container p-4">
+        //   <div className="row">
+        //     <div className="col-md-4 mx-auto">
+        //       <div className="card text-center">
+        //         <div className="card-header">
+        //           <h2>Bienvenido</h2>
+        //         </div>
+        //         <div className="card-header">
+        //           <h3>
+        //             {displayname
+        //               ? displayname
+        //               : `${usuario.firstName} ${usuario.lastName}`}
+        //           </h3>
+        //         </div>
+        //         <img
+        //           src={Logo}
+        //           alt="Logo Consultora"
+        //           className="card-img-top mx-auto m-2 rounded-circle w-50"
+        //         />
+        //         <div className="card-body">
+        //           <button
+        //             className="btn btn-primary btn-block"
+        //             onClick={logout}
+        //           >
+        //             Cerrar sesión
+        //           </button>
+        //         </div>
+        //       </div>
+        //     </div>
+        //   </div>
+        // </div>
       ) : displayname ? (
         <div className="container p-4">
           <div className="row">

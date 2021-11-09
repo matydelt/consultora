@@ -120,14 +120,14 @@ async function asignaConsulta(req, res, next) {
 
 async function modificarAbogado(req, res) {
   const { eMail } = req.params;
-  const { nombre, apellido, detalle, estudios, experiencia } = req.body;
+  const { nombre, apellido, detalle, estudios, experiencia, materias } = req.body;
 
   try {
     const user = await Usuario.findByPk(eMail);
     if (!user) return res.sendStatus(404);
     const persona = await Persona.findByPk(user.personaDni);
     if (!persona) return res.sendStatus(404);
-    let abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
+    let abogado = await Abogado.findOne({ where: { id: user.abogadoId } ,include: Materias} );
     if (!abogado) return res.sendStatus(404);
 
     persona.firstName = nombre;
@@ -137,11 +137,21 @@ async function modificarAbogado(req, res) {
     abogado.experiencia = experiencia;
     user.slug = `${nombre}-${apellido}`;
 
+    // console.log(abogado);
+
     Promise.all([
       await persona.save(),
       await abogado.save(),
       await user.save(),
     ]);
+
+    if (abogado.materias) {
+      abogado.materias.forEach(async (m) => {
+        await abogado.removeMateria(m)
+    })
+    }
+
+    await abogado.addMaterias(materias)
 
     return res.send({
       ...{

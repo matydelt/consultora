@@ -114,7 +114,7 @@ const Navbar = ({ navId }) => {
           </li>
         ) : (
           <li className="col-xl-1">
-            <ButtonsNav link={"/ingreso"} text="Registrate Ahora" />
+            <ButtonsNav link={"/ingreso"} text="Iniciar sesión" />
           </li>
         )}
       </ul>
