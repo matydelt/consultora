@@ -20,7 +20,7 @@ export default function Perfiles() {
 
   return (<>
 
-    <Navbar></Navbar>
+    <Navbar navId={"menu"}/>
 
     <div className="container">
 

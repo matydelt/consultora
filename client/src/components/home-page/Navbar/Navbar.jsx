@@ -32,7 +32,7 @@ const Navbar = ({ navId }) => {
 
   return (
     <nav id={navId} className="col-12 col-xl-12">
-      <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
+      <ul className="widht_li ul_principal row col-xxl-12 justify-content-evenly align-items-center border-bottom">
         <li className="col-xl-1">
           <Link to="/">Home</Link>
         </li>
@@ -50,7 +50,7 @@ const Navbar = ({ navId }) => {
           </Link>
         </li>
 
-        { localStorage.getItem('username') || usuario.firstName ? (
+        {localStorage.getItem('username') || usuario.firstName ? (
           <li>
             {!usuario.abogadoId && !usuario.dataValues && (
               <div class="dropdown">

@@ -5,23 +5,14 @@ import { Link } from "react-router-dom";
 import { getAbogado } from "../../redux/actions";
 import Casos from "../casos/casos";
 import "./clientes.css";
-import { Redirect } from "react-router";
 
 export default function Clientes() {
   //muestra cards de cada cliente con sus casos
   const [clientes, setClientes] = useState([]);
+  const [flag, setFlag] = useState(false);
   const { usuario, abogado } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  // if (!usuario.abogadoId) return (<Redirect to="/" />)
-
-  // if (!abogado) {
-  //     dispatch(getAbogado({ "eMail": usuario.eMail }))
-  //     return (<p>Loading...</p>)
-  // }
-  useEffect(() => {
-    dispatch(getAbogado({ eMail: usuario.eMail }));
-  }, [dispatch, usuario]);
   useEffect(() => {
     if (abogado.clientes === 0) return <h1>No hay clientes</h1>;
     let AllClients = JSON.parse(JSON.stringify(abogado?.clientes));
@@ -104,10 +95,7 @@ export default function Clientes() {
     }
   };
 
-  return !usuario.abogadoId ? (
-    <Redirect to="/" />
-  ) : (
-    // clientes.length === 0 ? <p>no hay clientes con estas especificaciones</p> :
+  return (
     <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
       <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
         <button
@@ -135,18 +123,45 @@ export default function Clientes() {
       </div>
 
       <div className="conteiner card mt-3 me-3 ms-3  flex-column">
-        {clientes?.map((e) => {
+        {clientes.map((e) => {
           const { id, casos, persona } = e;
           return (
             <div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
-              <Casos key={id} id={id} casos={casos} persona={persona} />
-              <Link to="/user/abogado/nuevo-caso">
-                <div className="d-flex justify-content-center">
-                  <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3">
-                    Crear caso{" "}
-                  </button>
-                </div>
-              </Link>
+              <Casos
+                key={id}
+                id={id}
+                casos={casos}
+                persona={persona}
+                flag={flag}
+              />
+              <div className="d-inline-flex flex-row justify-content-center ">
+                <Link to="/user/abogado/nuevo-caso">
+                  <div className="d-flex justify-content-center">
+                    <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3">
+                      Crear caso{" "}
+                    </button>
+                  </div>
+                </Link>
+                {flag ? (
+                  <div className="d-flex justify-content-center">
+                    <button
+                      className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3"
+                      onClick={(e) => setFlag(!flag)}
+                    >
+                      Terminar
+                    </button>
+                  </div>
+                ) : (
+                  <div className="d-flex justify-content-center">
+                    <button
+                      className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3"
+                      onClick={(e) => setFlag(!flag)}
+                    >
+                      modificar
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           );
         })}

@@ -71,6 +71,7 @@ const rootReducer = (state = initialState, action) => {
         personas: action.payload,
       };
     case "GET_CASOS":
+      console.log(action.payload)
       return {
         ...state,
         casos: action.payload,
@@ -150,7 +151,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         consultas: action.payload,
-      };
+      }
+    case "PUT_CASO":
+      return {
+        ...state,
+
+      }
     case "GET_TICKET":
       return {
         ...state,

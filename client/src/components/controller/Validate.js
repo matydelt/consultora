@@ -20,19 +20,19 @@ export const validate = (input) => {
     // }
 
     /* Verificacion de numero de expediente________ */
-    else if (!input.numeroExpediente) {
-        errors.numeroExpediente = 'Se requiere el número de expediente por favor';
-    } else if (!expresiones.num.test(input.numeroExpediente)) {
-        errors.numeroExpediente = 'Se permiten solo números con una cantidad máxima de 20 números';
-    }
+    // else if (!input.numeroExpediente) {
+    //     errors.numeroExpediente = 'Se requiere el número de expediente por favor';
+    // } else if (!expresiones.num.test(input.numeroExpediente)) {
+    //     errors.numeroExpediente = 'Se permiten solo números con una cantidad máxima de 20 números';
+    // }
 
 
     /* Verificacion de juzgado__________ */
-    else if (!input.juzgado) {
-        errors.juzgado = 'Se requiere el Juzgado por favor'
-    } else if (!expresiones.num.test(input.juzgado)) {
-        errors.juzgado = 'Se permiten solo números por favor';
-    }
+    // else if (!input.juzgado) {
+    //     errors.juzgado = 'Se requiere el Juzgado por favor'
+    // } else if (!expresiones.num.test(input.juzgado)) {
+    //     errors.juzgado = 'Se permiten solo números por favor';
+    // }
 
 
     /* Verificacion de detalle del caso__________ */
@@ -54,29 +54,29 @@ export const validate = (input) => {
     }
 
     /* Verificacion de la medida Cautelar */
-    else if (!input.medidaCautelar) {
-        errors.medidaCautelar = 'Se requiere el ingreso de la medida cautelar por favor';
-    }
+    // else if (!input.medidaCautelar) {
+    //     errors.medidaCautelar = 'Se requiere el ingreso de la medida cautelar por favor';
+    // }
 
     /* Verificacion de la traba afectiva */
-    else if (!input.trabaAfectiva) {
-        errors.trabaAfectiva = 'Se requiere el ingreso de la traba afectiva por favor';
-    }
+    // else if (!input.trabaAfectiva) {
+    //     errors.trabaAfectiva = 'Se requiere el ingreso de la traba afectiva por favor';
+    // }
 
     /* Verificacion de la vtoMedidaCautelar */
-    else if (!input.vtoMedidaCautelar) {
-        errors.vtoMedidaCautelar = 'Se requiere el ingreso de la VTO medida Cautelar por favor';
-    }
+    // else if (!input.vtoMedidaCautelar) {
+    //     errors.vtoMedidaCautelar = 'Se requiere el ingreso de la VTO medida Cautelar por favor';
+    // }
 
     /* Verificacion de la vtoTrabaAfectiva */
-    else if (!input.vtoTrabaAfectiva) {
-        errors.vtoTrabaAfectiva = 'Se requiere el ingreso de la VTO Traba Afectiva por favor';
-    }
+    // else if (!input.vtoTrabaAfectiva) {
+    //     errors.vtoTrabaAfectiva = 'Se requiere el ingreso de la VTO Traba Afectiva por favor';
+    // }
 
     /* Verificacion de la jurisdiccion */
-    else if (!input.jurisdiccion) {
-        errors.jurisdiccion = 'Se requiere el ingreso de la jurisdiccion por favor';
-    }
+    // else if (!input.jurisdiccion) {
+    //     errors.jurisdiccion = 'Se requiere el ingreso de la jurisdiccion por favor';
+    // }
 
     return errors;
 }

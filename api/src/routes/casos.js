@@ -1,12 +1,13 @@
 const { Router } = require('express');
 const get = require("../controllers/gets")
 const post = require("../controllers/post")
-
+const put = require("../controllers/put")
 
 const router = Router();
 
-router.get("/casos", (req, res) => get.getCasos(req, res))
-router.post("/casos/new", (req, res) => post.setCasos(req, res))
+router.get("/casos", get.getCasos)
+router.post("/casos/new", post.setCasos)
+router.put("/casos/put", put.putCaso)
 
 
 

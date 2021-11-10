@@ -66,7 +66,7 @@ export const Signin = () => {
               setEmail(aux);
               setFirstName(e.user.displayName.split(" ")[0]);
               setLastName(e.user.displayName.split(" ")[1]);
-              setPassword(md5(aux));
+              setPassword(md5(e.user.email));
             }
           })
           .catch((error) => {
@@ -102,7 +102,7 @@ export const Signin = () => {
         .then(() => {
           dispatch(getUsuario({ eMail: eMail }));
         })
-        .catch((error) => {});
+        .catch((error) => { });
       createOK();
       setFirstName("");
       setLastName("");
@@ -162,9 +162,9 @@ export const Signin = () => {
     <Redirect to="/user/abogado" />
   ) : (
     <div>
-      <Navbar />
+      <Navbar navId={"menu"} />
       {!!usuario.firstName ? (
-        <div className="container p-1">
+        <div className="container p-4">
           <div className="row">
             <div className="col-md-4 mx-auto">
               <div className="card text-center">
@@ -198,7 +198,7 @@ export const Signin = () => {
       ) : displayname ? (
         <div className="container p-4">
           <div className="row">
-            <div className="col-lg-4 col-md-6 col-sm-8 mx-auto mx-auto">
+            <div className="col-md-4 mx-auto">
               <div className="card text-center">
                 <div className="card-header">
                   <h3>Register</h3>
@@ -310,7 +310,7 @@ export const Signin = () => {
       ) : (
         <div className="container p-4">
           <div className="row">
-            <div className="col-lg-4 col-md-6 col-sm-8 mx-auto mx-auto">
+            <div className="col-md-4 mx-auto">
               <div className="card text-center">
                 <div className="card-header">
                   <h3>Iniciar Sesión</h3>
@@ -356,9 +356,6 @@ export const Signin = () => {
 
                   <p>-- O ingresar con --</p>
 
-                  {/* <button className="btn btn-primary btn-block" onClick={loginGoogle}>
-                                                            Google
-                                                        </button> */}
                   <div className="row">
                     <div className="col-md-12" onClick={loginGoogle}>
                       {" "}

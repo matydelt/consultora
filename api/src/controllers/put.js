@@ -27,7 +27,7 @@ async function usuario(req, res) {
         user.personaDni
       );
       const personas = await Persona.findAll();
-      if (personas.length<2){
+      if (personas.length < 2) {
         console.log("admin");
         res.send({
           ...{
@@ -44,36 +44,37 @@ async function usuario(req, res) {
           abogado,
         });
       }
-      else{
-      if (abogado) {
-        res.send({
-          ...{
-            eMail: user.eMail,
-            password: user.password,
-            abogadoId: user.abogadoId,
-            adminId: user.adminId,
-            slug: user.slug,
-            firstName,
-            lastName,
-            dni,
-            celular,
-          },
-          abogado,
-        });
-      } else
-        res.send({
-          ...{
-            eMail: user.eMail,
-            password: user.password,
-            abogadoId: user.abogadoId,
-            adminId: user.adminId,
-            firstName,
-            lastName,
-            dni,
-            celular,
-          },
-        });
-    }} else {
+      else {
+        if (abogado) {
+          res.send({
+            ...{
+              eMail: user.eMail,
+              password: user.password,
+              abogadoId: user.abogadoId,
+              adminId: user.adminId,
+              slug: user.slug,
+              firstName,
+              lastName,
+              dni,
+              celular,
+            },
+            abogado,
+          });
+        } else
+          res.send({
+            ...{
+              eMail: user.eMail,
+              password: user.password,
+              abogadoId: user.abogadoId,
+              adminId: user.adminId,
+              firstName,
+              lastName,
+              dni,
+              celular,
+            },
+          });
+      }
+    } else {
       res.sendStatus(404);
     }
   } catch (error) {
@@ -161,65 +162,34 @@ async function modificarAbogado(req, res) {
 
 async function getAbogado(req, res) {
   try {
-    let { eMail } = req.body;
+    let { eMail } = req.body
     if (!eMail) {
-      eMail = req.params;
+      eMail = req.params
     }
-    const user = await Usuario.findByPk(eMail);
-    const { firstName, lastName, dni, celular } = await Persona.findByPk(
-      user.personaDni
-    );
-    const { detalle, clientes, imagen, experiencia, estudios } =
-      await Abogado.findOne({
-        where: { id: user.abogadoId },
-        include: Cliente,
-      });
-    let abogado = {
-      ...{ eMail: user.eMail, firstName, lastName, dni, celular },
-      detalle,
-      imagen,
-      experiencia,
-      estudios,
-    };
-    abogado.clientes = [];
+    const user = await Usuario.findByPk(eMail)
+    const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
+    const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
+    let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular }, detalle, imagen, experiencia, estudios }
+    abogado.clientes = []
     for (let i = 0; i < clientes.length; i++) {
-      abogado.clientes.push(
-        await Cliente.findOne({
-          where: { id: clientes[i].id },
-          attributes: ["id", "asunto"],
-          include: [
-            {
-              model: Persona,
-              attributes: ["firstName", "lastName", "dni", "celular"],
-            },
-            {
-              model: Casos,
-              attributes: [
-                "juez",
-                "numeroExpediente",
-                "juzgado",
-                "detalle",
-                "estado",
-                "numeroLiquidacion",
-                "medidaCautelar",
-                "trabaAfectiva",
-                "vtoMedidaCautelar",
-                "vtoTrabaAfectiva",
-                "jurisdiccion",
-              ],
-            },
-          ],
-        })
-      );
+      abogado.clientes.push(await Cliente.findOne({
+        where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
+        {
+          model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
+            "numeroLiquidacion", "medidaCautelar", "trabaAfectiva", "vtoMedidaCautelar", "vtoTrabaAfectiva", "jurisdiccion"
+          ], include: Materias
+        }]
+      }))
     }
 
     if (user) {
-      res.json(abogado);
-    } else res.sendStatus(404);
+      res.json(abogado)
+    } else res.sendStatus(404)
   } catch (error) {
-    console.error(error);
-    res.sendStatus(404);
+    console.error(error)
+    res.sendStatus(404)
   }
+
 }
 
 async function setBann(req, res) {
@@ -240,10 +210,37 @@ async function setBann(req, res) {
     res.sendStatus(404);
   }
 }
+async function putCaso(req, res) {
+  try {
+    let { detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion, materia } = req.body
+    let caso = await Casos.findByPk(numeroLiquidacion)
+    if (vtoMedidaCautelar === "") vtoMedidaCautelar = null
+    if (vtoTrabaAfectiva === "") vtoTrabaAfectiva = null
+    if (caso) {
+      caso.detalle = detalle
+      caso.estado = estado
+      caso.juez = juez
+      caso.juzgado = juzgado
+      caso.numeroExpediente = numeroExpediente
+      caso.medidaCautelar = medidaCautelar
+      caso.vtoMedidaCautelar = vtoMedidaCautelar
+      caso.trabaAfectiva = trabaAfectiva
+      caso.vtoTrabaAfectiva = vtoTrabaAfectiva
+      caso.jurisdiccion = jurisdiccion
+      const auxMateria = await Materias.findByPk(materia)
+      caso.setMaterias(auxMateria)
+      await caso.save()
+      return res.sendStatus(200)
+    }
+  } catch (error) {
+    console.error(error)
+    res.sendStatus(404)
+  }
+}
 
 // MP
 async function modificarTicket(req, res) {
-  
+
   const { enlace } = req.body;
 
   try {
@@ -252,14 +249,14 @@ async function modificarTicket(req, res) {
     let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
     console.log(mpApi);
     mpApi = mpApi.results.filter(e => {
-      if (e.description==ticket.titulo) return e
+      if (e.description == ticket.titulo) return e
     })
-    ticket.n_operacion=mpApi[0].id
-    ticket.estatus=mpApi[0].status
-    ticket.detalle_estatus= mpApi[0].status_detail
-    ticket.medioDePago= mpApi[0].payment_type_id
-    // // 
-    console.log("modifico?",ticket);
+    ticket.n_operacion = mpApi[0].id
+    ticket.estatus = mpApi[0].status
+    ticket.detalle_estatus = mpApi[0].status_detail
+    ticket.medioDePago = mpApi[0].payment_type_id
+    // //
+    console.log("modifico?", ticket);
     Promise.all([
       await ticket.save(),
     ]);
@@ -285,5 +282,6 @@ module.exports = {
   modificarAbogado,
   setBann,
   getAbogado,
-  modificarTicket
+  modificarTicket,
+  putCaso
 };

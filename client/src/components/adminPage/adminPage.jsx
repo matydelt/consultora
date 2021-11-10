@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-redeclare */
 import React, { useEffect, useState } from "react";
@@ -17,19 +18,17 @@ import {
 } from "@firebase/auth";
 
 export default function AdminPage() {
-  let [cont] = useState(0);
-  const dispatch = useDispatch();
-  const { usuario } = useSelector((state) => state);
-  const allUsers = useSelector((state) => state.usuarios);
-  var alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+  let [cont] = useState(0)
+  const dispatch = useDispatch()
+  const { usuario } = useSelector(state => state)
+  const allUsers = useSelector(state => state.usuarios)
+  var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+
   useEffect(() => {
-    dispatch(getUsuarios());
-    // let type = "danger"
-    // let mensaje = "Cuidado , una vez eliminado el estado de abogado el mismo pierde toda su informacion"
-    // var wrapper = document.createElement('div')
-    // wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
-    // alertPlaceholder.append(wrapper)
-  }, [cont, dispatch]);
+    dispatch(getUsuarios())
+
+  }, [])
+
 
   const hadleChange = (e, type) => {
     e.preventDefault();
@@ -139,208 +138,84 @@ export default function AdminPage() {
     }
   };
 
-  return !usuario.adminId ? (
-    <Redirect to="/" />
-  ) : (
-    <div>
-      <Navbar />
-      <div className="ms-5 me-5 mt-3 mb-3">
-        <table className="table table-striped  ">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Admin</th>
-              <th scope="col">Abogado</th>
-              <th scope="col">Banneado</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Dni</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allUsers?.map((e, i) => {
-              let type = "";
-              return (
-                <tr key={i}>
-                  <th scope="row">{i}</th>
-                  {e.adminId ? (
-                    usuario.adminId !== 1 || e.adminId === 1 ? (
-                      <td>
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="flexSwitchCheckDefault"
-                          value={e.eMail}
-                          onInput={(e) => {
-                            hadleChange(e, (type = "admin"));
-                          }}
-                          defaultChecked
-                          disabled
-                        />
-                      </td>
-                    ) : (
-                      <td>
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="flexSwitchCheckDefault"
-                          value={e.eMail}
-                          onInput={(e) => {
-                            hadleChange(e, (type = "admin"));
-                          }}
-                          defaultChecked
-                        />
-                      </td>
-                    )
-                  ) : usuario.adminId !== 1 || e.adminId === 1 ? (
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckDefault"
-                        value={e.eMail}
-                        onInput={(e) => {
-                          hadleChange(e, (type = "admin"));
-                        }}
-                        disabled
-                      />
-                    </td>
-                  ) : (
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckDefault"
-                        value={e.eMail}
-                        onInput={(e) => {
-                          hadleChange(e, (type = "admin"));
-                        }}
-                      />
-                    </td>
-                  )}
-                  {e.abogadoId ? (
-                    usuario.eMail === e.eMail ||
-                    e.adminId !== 1 ||
-                    usuario.adminId === 1 ? (
-                      <td>
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="flexSwitchCheckDefault"
-                          value={e.eMail}
-                          onInput={(e) => {
-                            hadleChange(e, (type = "abogado"));
-                          }}
-                          defaultChecked
-                        />
-                      </td>
-                    ) : (
-                      <td>
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="flexSwitchCheckDefault"
-                          value={e.eMail}
-                          onInput={(e) => {
-                            hadleChange(e, (type = "abogado"));
-                          }}
-                          defaultChecked
-                          disabled
-                        />
-                      </td>
-                    )
-                  ) : usuario.eMail !== e.eMail ||
-                    e.adminId !== 1 ||
-                    usuario.adminId === 1 ? (
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckDefault"
-                        value={e.eMail}
-                        onInput={(e) => {
-                          hadleChange(e, (type = "abogado"));
-                        }}
-                      />
-                    </td>
-                  ) : (
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckDefault"
-                        value={e.eMail}
-                        onInput={(e) => {
-                          hadleChange(e, (type = "abogado"));
-                        }}
-                        disabled
-                      />
-                    </td>
-                  )}
-                  {e.banned ? (
-                    usuario.adminId === 1 && e.adminId !== 1 ? (
-                      <td>
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="flexSwitchCheckDefault"
-                          value={e.eMail}
-                          onInput={(e) => {
-                            hadleChange(e, (type = "bann"));
-                          }}
-                          defaultChecked
-                        />
-                      </td>
-                    ) : (
-                      <td>
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="flexSwitchCheckDefault"
-                          value={e.eMail}
-                          onInput={(e) => {
-                            hadleChange(e, (type = "bann"));
-                          }}
-                          defaultChecked
-                          disabled
-                        />
-                      </td>
-                    )
-                  ) : usuario.adminId === 1 && e.adminId !== 1 ? (
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckDefault"
-                        value={e.eMail}
-                        onInput={(e) => {
-                          hadleChange(e, (type = "bann"));
-                        }}
-                      />
-                    </td>
-                  ) : (
-                    <td>
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="flexSwitchCheckDefault"
-                        value={e.eMail}
-                        onInput={(e) => {
-                          hadleChange(e, (type = "bann"));
-                        }}
-                        disabled
-                      />
-                    </td>
-                  )}
-                  <td>{e.eMail}</td>
-                  <td>{e.personaDni} </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+  return (
+    !usuario.adminId ? <Redirect to="/" /> :
+      <div>
+        <Navbar navId={"menu"} />
+        <div className="ms-5 me-5 mt-3 mb-3">
 
-        <div id="liveAlertPlaceholder"></div>
+          <table className="table table-striped  ">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Admin</th>
+                <th scope="col">Abogado</th>
+                <th scope="col">Banneado</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Dni</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allUsers?.map((e, i) => {
+                let type = ""
+                return (
+                  <tr key={i}>
+                    <th scope="row">{i}</th>
+                    {e.adminId ? usuario.adminId !== 1 || e.adminId === 1 ?
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "admin") }} defaultChecked disabled />
+                      </td> :
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "admin") }} defaultChecked />
+                      </td> : usuario.adminId !== 1 || e.adminId === 1 ?
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "admin") }} disabled />
+                      </td> : <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "admin") }} />
+                      </td>
+                    }
+                    {e.abogadoId ? usuario.eMail === e.eMail || (e.adminId !== 1 || usuario.adminId === 1) ?
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "abogado") }} defaultChecked />
+                      </td> :
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "abogado") }} defaultChecked disabled />
+                      </td> : usuario.eMail !== e.eMail || (e.adminId !== 1 || usuario.adminId === 1) ?
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "abogado") }} />
+                      </td> :
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "abogado") }} disabled />
+                      </td>
+                    }
+                    {e.banned ? usuario.adminId === 1 && e.adminId !== 1 ?
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "bann") }} defaultChecked />
+                      </td> :
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "bann") }} defaultChecked disabled />
+                      </td> : usuario.adminId === 1 && e.adminId !== 1 ?
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "bann") }} />
+                      </td> :
+                      <td >
+                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" value={e.eMail} onInput={(e) => { hadleChange(e, type = "bann") }} disabled />
+                      </td>
+                    }
+                    <td>{e.eMail}</td>
+                    <td>{e.personaDni} </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+
+          <div id="liveAlertPlaceholder">
+            <div className="alert alert-danger alert-dismissible" role="alert">Cuidado una vez eliminado el estado de abogado el mismo pierde todo!<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
+          </div>
+
+        </div>
       </div>
-    </div>
-  );
+  )
+
 }
