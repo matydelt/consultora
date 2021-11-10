@@ -147,8 +147,8 @@ async function getAbogado(req, res) {
             user = await Usuario.findByPk(eMail)
         }
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-        const { detalle, clientes, imagen, experiencia, estudios, materias, provincias } = await Abogado.findOne({ where: { id: user.abogadoId }, include: [Cliente, Materias, Provincias] })
-        let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular, slug: user.slug }, detalle, imagen, experiencia, estudios }
+        const { detalle, clientes, matricula, imagen, experiencia, estudios, materias, provincias } = await Abogado.findOne({ where: { id: user.abogadoId }, include: [Cliente, Materias, Provincias] })
+        let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular, slug: user.slug }, detalle, imagen, experiencia, estudios, matricula }
         abogado.materias = []
         abogado.clientes = []
         abogado.provincias = []

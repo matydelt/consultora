@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAuth } from "@firebase/auth";
-import { getUsuario } from "./redux/actions";
+import { getMaterias, getProvincias, getUsuario } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
@@ -33,7 +33,13 @@ function App() {
         dispatch(getUsuario({ eMail: user.email }));
       }
     });
-  });
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    dispatch(getProvincias());
+    dispatch(getMaterias());
+  }, []);
 
   return (
     <div className="App container-fluid p-0">

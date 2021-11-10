@@ -120,7 +120,9 @@ async function asignaConsulta(req, res, next) {
 
 async function modificarAbogado(req, res) {
   const { eMail } = req.params;
-  const { nombre, apellido, detalle, estudios, experiencia, materias, provincias } = req.body;
+  const { nombre, apellido, detalle, matricula, estudios, experiencia, materias, provincias } = req.body;
+
+  console.log(matricula);
 
   try {
     const user = await Usuario.findByPk(eMail);
@@ -132,6 +134,7 @@ async function modificarAbogado(req, res) {
 
     persona.firstName = nombre;
     persona.lastName = apellido;
+    abogado.matricula = matricula;
     abogado.detalle = detalle;
     abogado.estudios = estudios;
     abogado.experiencia = experiencia;
@@ -152,11 +155,12 @@ async function modificarAbogado(req, res) {
       await persona.save(),
       await abogado.save(),
       await user.save(),
+      await abogado.setMaterias(materias),
+      await abogado.setProvincias(provincias)
     ]);
-    
 
-    await abogado.setMaterias(materias)
-    await abogado.setProvincias(provincias)
+
+    console.log(abogado);
 
     return res.send({
       ...{
