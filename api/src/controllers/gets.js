@@ -83,18 +83,20 @@ async function getMaterias(req, res) {
       "Derecho Civil",
       "Derecho Corporativo",
       "Derecho Comercial",
-      "Derecho Familia",
+      "Derecho Familiar",
       "Derecho Contencioso",
       "Derecho Administrativo",
       "Derecho Laboral",
       "Derecho Notarial",
     ];
-    let materias = await Materias.findAll({});
+    let materias = await Materias.findAll({
+        where: {},
+        include: Abogado, Persona
+    });
     if (materias.length === 0) {
       for (let i = 0; i < vec.length; i++) {
-        materias = await Materias.findOrCreate({
-          where: { nombre: vec[i] },
-          include: Abogado,
+        materias = await Materias.create({
+          where: { nombre: vec[i]}
         });
       }
     }
@@ -104,23 +106,6 @@ async function getMaterias(req, res) {
     res.sendStatus(404);
   }
 }
-
-// async function getMateriaAbogado(req, res) {
-//   const { materias } = req.body;
-//   try {
-//     if (!materias) res.status(404).send("Not Found");
-//     else {
-//         const abogados = Abogado.findAll({
-//             where: {
-                
-//             }
-//         })
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     return [];
-//   }
-// }
 
 async function getPersonas(req, res) {
   try {
@@ -333,7 +318,7 @@ module.exports = {
   getCasos,
   getProvincias,
   getMaterias,
-  getMateriaAbogado,
+//   getMateriaAbogado,
   getConsultas,
   getAbogados,
   getAbogado,

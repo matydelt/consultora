@@ -22,6 +22,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
 import "./App.css";
+import SiteMateria from "./components/Materia/SiteMateria/SiteMateria";
 function App() {
   const dispatch = useDispatch();
 
@@ -40,6 +41,9 @@ function App() {
       <Switch>
         <Route exact path="/">
           <HomePage />
+        </Route>
+        <Route exact path='/materias/:materia'>
+          <SiteMateria />
         </Route>
         <Route exact path="/consulta">
           <FormCita />

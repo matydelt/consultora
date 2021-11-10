@@ -34,25 +34,27 @@ export default function ModificarAbogado() {
 
     dispatch(getProvincias());
 
-    axios
-      .get(`/abogado/${usuario.slug}`)
-      .then(({ data }) => {
-        setForm({
-          nombre: data.firstName,
-          apellido: data.lastName,
-          detalle: data.detalle || "",
-          experiencia: data.experiencia || "",
-          estudios: data.estudios || "",
-          imagen: data.imagen,
-          materias: data.materias || []
+    if(usuario) {      
+      axios
+        .get(`/abogado/${usuario.slug}`)
+        .then(({ data }) => {
+          setForm({
+            nombre: data.firstName,
+            apellido: data.lastName,
+            detalle: data.detalle || "",
+            experiencia: data.experiencia || "",
+            estudios: data.estudios || "",
+            imagen: data.imagen,
+            materias: data.materias || []
+          });
+          let arr = []
+          data.materias.forEach(materia => 
+            arr.push(materia.nombre)
+          );
+          setMateriasEnviar(arr);
         });
-        let arr = []
-        data.materias.forEach(materia => 
-          arr.push(materia.nombre)
-        );
-        setMateriasEnviar(arr);
-      });
-  }, []);
+    }
+  }, [usuario]);
 
 
 

@@ -15,6 +15,13 @@ export function getMaterias() {
   };
 }
 
+export function getSiteMateria(payload) {
+  return {
+    type: 'GET_MATERIAS_SITE',
+    payload
+  }
+}
+
 export function getAbogados() {
   return async function (dispatch) {
     try {
