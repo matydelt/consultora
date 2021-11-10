@@ -13,17 +13,13 @@ export default function ConsultasUsuario() {
     const [n_operacion, setN_Operacion] = useState('');
 
     useEffect(() => {
-        dispatch(getConsultas());
+        if(consultas) {
+            dispatch(getConsultas());
+        }
     }, []);
 
 
 
-
-    // function efectuarPago(enlace) {
-
-    //           dispatch(modificarTicket({ enlace }));  
-
-    //   }
     function efectuarPago(enlace) {
         swal({
             title: "Notificar pago de la consulta",

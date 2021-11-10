@@ -142,16 +142,16 @@ async function getAbogado(req, res) {
         let user = {};
         if (!eMail) {
             const { slug } = req.params
-            console.log(slug, '-----------------------------------------------------------------------');
             user = await Usuario.findOne({where: {slug}})
         } else {
             user = await Usuario.findByPk(eMail)
         }
         const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-        const { detalle, clientes, imagen, experiencia, estudios, materias } = await Abogado.findOne({ where: { id: user.abogadoId }, include: [Cliente, Materias] })
+        const { detalle, clientes, imagen, experiencia, estudios, materias, provincias } = await Abogado.findOne({ where: { id: user.abogadoId }, include: [Cliente, Materias, Provincias] })
         let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular, slug: user.slug }, detalle, imagen, experiencia, estudios }
         abogado.materias = []
         abogado.clientes = []
+        abogado.provincias = []
         for (let i = 0; i < clientes.length; i++) {
             abogado.clientes.push(await Cliente.findOne({
                 where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
@@ -164,6 +164,11 @@ async function getAbogado(req, res) {
         for (let i = 0; i < materias.length; i++) {
             abogado.materias.push(await Materias.findOne({
                 where: { nombre: materias[i].nombre }
+            }))
+        }
+        for (let i = 0; i < provincias.length; i++) {
+            abogado.provincias.push(await Provincias.findOne({
+                where: { nombre: provincias[i].nombre }
             }))
         }
         if (user) {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router"
+import Footer from "../home-page/Footer/Footer";
 import Navbar from "../home-page/Navbar/Navbar";
 
 
@@ -31,9 +32,9 @@ export default function PerfilAbogado() {
 
   return (<>
 
-    <Navbar navId={"menu"}/>
+    <Navbar navId={"menu"} />
 
-    <div className="animate__animated animate__fadeIn animate__faster">
+    <div className="animate__animated animate__fadeIn animate__faster mb-5">
 
       <div className="">
 
@@ -64,15 +65,23 @@ export default function PerfilAbogado() {
 
           <div className="col">
             <p className="fs-4 text-muted">Especialidades</p>
-            <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p>
+            {/* <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p> */}
             <hr className="w-25 text-black"></hr>
-            <i className="bi bi-telephone"></i><p></p>
+          
+              { abogado.materias?.map(materia => {
+                console.log(materia);
+                return <p className="fs-6  fw-bold text-secondary">{materia.nombre}</p>
+              })
+              }
+          
           </div>
         </div>
 
       </div>
 
     </div>
+
+    <Footer></Footer>
 
   </>)
 }

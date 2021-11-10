@@ -16,43 +16,53 @@ export default function ModificarAbogado() {
     experiencia: "",
     estudios: "",
     imagen: "",
-    materias: []
+    materias: [],
+    provincias: [],
   });
 
   const [materiasEnviar, setMateriasEnviar] = useState([]);
+  const [provinciasEnviar, setProvinciasEnviar] = useState([]);
 
   let [errores, setErrores] = useState([]);
   let [loading, setLoading] = useState(false);
   let [loadingImage, setLoadingImage] = useState(false);
 
-  let { nombre, apellido, detalle, experiencia, estudios, imagen, materias } = form;
+  let { nombre, apellido, detalle, experiencia, estudios, imagen, materias, provincias } = form;
 
-  let { usuario, materias: materiasRedux, provincias } = useSelector((state) => state);
+  let { usuario, materias: materiasRedux, provincias: provinciasRedux } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
 
     dispatch(getProvincias());
 
-    axios
-      .get(`/abogado/${usuario.slug}`)
-      .then(({ data }) => {
-        setForm({
-          nombre: data.firstName,
-          apellido: data.lastName,
-          detalle: data.detalle || "",
-          experiencia: data.experiencia || "",
-          estudios: data.estudios || "",
-          imagen: data.imagen,
-          materias: data.materias || []
+    if (usuario) {
+      let arrMaterias = []
+      let arrProvincias = []
+      axios
+        .get(`/abogado/${usuario?.slug}`)
+        .then(({ data }) => {
+          setForm({
+            nombre: data.firstName,
+            apellido: data.lastName,
+            detalle: data.detalle || "",
+            experiencia: data.experiencia || "",
+            estudios: data.estudios || "",
+            imagen: data.imagen,
+            materias: arrMaterias || [],
+            provincias: arrProvincias || []
+          });
+          data.materias.forEach(materia =>
+            arrMaterias.push(materia.nombre)
+          );
+          data.provincias.forEach(provincia =>
+            arrProvincias.push(provincia.nombre)
+          );
+          setMateriasEnviar(arrMaterias);
+          setProvinciasEnviar(arrProvincias);
         });
-        let arr = []
-        data.materias.forEach(materia => 
-          arr.push(materia.nombre)
-        );
-        setMateriasEnviar(arr);
-      });
-  }, []);
+    }
+  }, [usuario]);
 
 
 
@@ -87,14 +97,22 @@ export default function ModificarAbogado() {
 
 
   function seleccionarMaterias(e) {
-    setMateriasEnviar([ ...materiasEnviar, e.target.value]);
-    setForm({...form, materias: [...materiasEnviar, e.target.value] });
-    console.log(materiasEnviar);
+    setMateriasEnviar([...materiasEnviar, e.target.value]);
+    setForm({ ...form, materias: [...materiasEnviar, e.target.value] });
+  };
+  function seleccionarProvincias(e) {
+    setProvinciasEnviar([...provinciasEnviar, e.target.value]);
+    setForm({ ...form, provincias: [...provinciasEnviar, e.target.value] });
   };
 
   function quitarMateriaEnviar(materia) {
     setMateriasEnviar(materiasEnviar.filter(me => me !== materia))
-    setForm({...form, materias: (materiasEnviar.filter(me => me !== materia)) });
+    setForm({ ...form, materias: (materiasEnviar.filter(me => me !== materia)) });
+  };
+
+  function quitarProvinciaEnviar(provincia) {
+    setProvinciasEnviar(provinciasEnviar.filter(pe => pe !== provincia))
+    setForm({ ...form, provincias: (provinciasEnviar.filter(pe => pe !== provincia)) });
   };
 
   function eliminarImagen() {
@@ -119,7 +137,7 @@ export default function ModificarAbogado() {
 
     setErrores([]);
 
-    
+
     if (!nombre) {
       setErrores((errores) => [...errores, "El nombre es requerido"]);
     }
@@ -132,10 +150,12 @@ export default function ModificarAbogado() {
     if (!estudios) {
       setErrores((errores) => [...errores, "Los estudios son requeridos"]);
     }
-    
+
     if (!nombre || !apellido || !detalle || !estudios) return;
 
-    
+    console.log(form);
+
+
     setLoading(true);
     axios
       .put(`/abogado/${usuario.eMail}`, form)
@@ -260,35 +280,40 @@ export default function ModificarAbogado() {
 
               <div className="col">
                 <label htmlFor="selectMaterias" className="form-label">Seleccionar materias</label>
-                <select className="form-select pointer" id="selectMaterias"  onChange={(e) => seleccionarMaterias(e)}>
+                <select className="form-select pointer" id="selectMaterias" onChange={(e) => seleccionarMaterias(e)}>
                   <option>Seleccionar materias</option>
                   {materiasRedux?.map(materia => {
-                    if(!materiasEnviar.includes(materia.nombre)) {
-
+                    if (!materiasEnviar.includes(materia.nombre)) {
                       return <option value={materia.nombre}>{materia.nombre}</option>
                     }
                   })
                   }
                 </select>
-
-                { materiasEnviar &&
+                {materiasEnviar &&
                   materiasEnviar.map(me => {
-                    return <span onClick={() => quitarMateriaEnviar(me)} className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer">{me} X</span>
+                    return <span onClick={() => quitarMateriaEnviar(me)} className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer animate__animated animate__fadeIn animate__faster">{me} X</span>
                   })
                 }
-
-
               </div>
+
               <div className="col">
                 <label htmlFor="selectProvincias" className="form-label">Seleccionar provincias</label>
-                <select className="form-select pointer" id="selectProvincias">
-                  {provincias?.map(provincia => {
-                    return <option>{provincia.nombre}</option>
+                <select className="form-select pointer" id="selectProvincias" onChange={(e) => seleccionarProvincias(e)}>
+                <option>Seleccionar provincias</option>
+                  {provinciasRedux?.map(provincia => {
+                    if (!provinciasEnviar.includes(provincia.nombre)) {
+                      return <option>{provincia.nombre}</option>
+                    }
                   })
                   }
                 </select>
-              </div>
+                {provinciasEnviar &&
+                  provinciasEnviar?.map(pe => {
+                    return <span onClick={() => quitarProvinciaEnviar(pe)} className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer animate__animated animate__fadeIn animate__faster">{pe} X</span>
+                  })
+                }
 
+              </div>
             </div>
 
 
@@ -347,7 +372,20 @@ export default function ModificarAbogado() {
           </form>
         </div>
         :
-        <p>Carganding</p>
+        <>
+          <div className="container text-center mt-5 w-100 h-100">
+
+            <div class="spinner-grow" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow mx-3" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-grow" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </>
       }
 
     </>);

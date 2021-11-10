@@ -120,14 +120,14 @@ async function asignaConsulta(req, res, next) {
 
 async function modificarAbogado(req, res) {
   const { eMail } = req.params;
-  const { nombre, apellido, detalle, estudios, experiencia, materias } = req.body;
+  const { nombre, apellido, detalle, estudios, experiencia, materias, provincias } = req.body;
 
   try {
     const user = await Usuario.findByPk(eMail);
     if (!user) return res.sendStatus(404);
     const persona = await Persona.findByPk(user.personaDni);
     if (!persona) return res.sendStatus(404);
-    let abogado = await Abogado.findOne({ where: { id: user.abogadoId } ,include: Materias} );
+    let abogado = await Abogado.findOne({ where: { id: user.abogadoId }, include: [Materias, Provincias] });
     if (!abogado) return res.sendStatus(404);
 
     persona.firstName = nombre;
@@ -137,21 +137,26 @@ async function modificarAbogado(req, res) {
     abogado.experiencia = experiencia;
     user.slug = `${nombre}-${apellido}`;
 
-    // console.log(abogado);
+    if (abogado.materias) {
+      abogado.materias.forEach(async (m) => {
+        await abogado.removeMateria(m)
+      })
+    }
+    if (abogado.provincias) {
+      abogado.provincias.forEach(async (p) => {
+        await abogado.removeProvincia(p)
+      })
+    }
 
     Promise.all([
       await persona.save(),
       await abogado.save(),
       await user.save(),
     ]);
+    
 
-    if (abogado.materias) {
-      abogado.materias.forEach(async (m) => {
-        await abogado.removeMateria(m)
-    })
-    }
-
-    await abogado.addMaterias(materias)
+    await abogado.setMaterias(materias)
+    await abogado.setProvincias(provincias)
 
     return res.send({
       ...{
@@ -262,16 +267,16 @@ async function modificarTicket(req, res) {
     let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
 
 
-    if (ticket.titulo===mpApi.description){
+    if (ticket.titulo === mpApi.description) {
       ticket.n_operacion = mpApi.id
       ticket.estatus = mpApi.status
       ticket.detalle_estatus = mpApi.status_detail
       ticket.medioDePago = mpApi.payment_type_id
-  
+
       Promise.all([
         await ticket.save(),
       ]);
-  
+
       return res.send({
         ...{
           estatus: mpApi.status,
@@ -279,7 +284,8 @@ async function modificarTicket(req, res) {
           medioDePago: mpApi.payment_type_id
         },
         ticket,
-      })}
+      })
+    }
 
   } catch (error) {
     console.log(error);
