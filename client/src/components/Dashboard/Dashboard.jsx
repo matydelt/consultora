@@ -1,10 +1,12 @@
 import React from "react";
-import Chart from "./Chart/Chart";
+import ChartUsersPerMonth from "./Chart/ChartUsersPerMonth";
+import ChartUserDistribution from "./Chart/ChartUserDistribution";
 import UsersCard from "./UsersCard/UsersCard";
 import { useSelector } from "react-redux";
 import newUser from "./images/usuario.png";
 import allUsers from "./images/grupo.png";
 import bannedUser from "./images/usuario-ban.png";
+import "./Dashboard.css";
 
 const month = new Date().getMonth() + 1;
 const year = new Date().getFullYear();
@@ -46,7 +48,10 @@ const Dashboard = () => {
           img={bannedUser}
         />
       </div>
-      <Chart />
+      <div className="charts">
+        <ChartUsersPerMonth />
+        <ChartUserDistribution />
+      </div>
     </div>
   );
 };
