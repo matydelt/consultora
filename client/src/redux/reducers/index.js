@@ -22,7 +22,7 @@ const rootReducer = (state = initialState, action) => {
         materias: action.payload,
       };
       case 'GET_MATERIAS_SITE':
-        let materiaId = state.materias && state.materias.find((m) => m.nombre === action.payload).abogados.map((a) => a.abogadomateria.abogadoId);
+        let materiaId = state.materias.length > 0 && state.materias?.find((m) => m.nombre === action.payload).abogados.map((a) => a.abogadomateria.abogadoId);
         let abogadoMateria = state.abogados.filter((m) => materiaId.includes(m.abogado.id));
         return {
           ...state,

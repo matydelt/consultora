@@ -1,8 +1,9 @@
 import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
 import { getUsuario } from "./redux/actions";
+import { getAbogados } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
@@ -35,6 +36,10 @@ function App() {
       }
     });
   });
+  
+  useEffect(() => {
+    dispatch(getAbogados());
+  }, [dispatch]);
 
   return (
     <div className="App container-fluid p-0">
@@ -42,7 +47,7 @@ function App() {
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route exact path='/materias/:materia'>
+        <Route exact path="/materias/:materia">
           <SiteMateria />
         </Route>
         <Route exact path="/consulta">
