@@ -337,7 +337,7 @@ export function getClientes() {
       .then(response => {
         return dispatch({
           type: "GET_CLIENTS",
-          payload: response.data.filter(e => e.abogados.length > 0)
+          payload: response.data.filter(e => e.casos.length > 0)
         });
       })
       .catch((err) => {

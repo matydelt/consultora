@@ -91,7 +91,8 @@ export default function AdminPage() {
           ' alert-dismissible" role="alert">' +
           mensaje +
           '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        alertPlaceholder.append(wrapper);
+
+        alertPlaceholder?.append(wrapper);
       } else {
         let mensaje = "no puede hacer eso!";
         let type = "danger";
@@ -142,7 +143,8 @@ export default function AdminPage() {
   const handleChangeAbogado = (e, clienteId, abogadoId) => {
     e.preventDefault()
     const cambios = { abogado: e.target.value, cliente: clienteId, abogadoAntiguo: abogadoId }
-    if (cambios.abogado !== undefined && cambios.cliente !== undefined && cambios.abogadoAntiguo !== undefined) {
+    console.log(cambios)
+    if ((cambios.abogado !== undefined && cambios.abogado !== "") && cambios.cliente !== undefined) {
       dispatch(putClienteAbogado(cambios))
     }
   }
@@ -245,20 +247,26 @@ export default function AdminPage() {
                     const { persona } = e
                     const personaAbogado = e.abogados[0]?.persona
                     const clienteId = e.id
-                    const abogadoId = e.abogados[0]?.id
                     const aux = e.casos.filter(e => e.estado !== "cerrado")
-                    console.log(e)
                     return (
                       <>
                         <tr key={i}>
                           <th scope="row">{i}</th>
                           <td>{persona.firstName} {persona.lastName}</td>
-                          <td><select className="form-select w-25" onChange={e => handleChangeAbogado(e, clienteId, abogadoId)}>
-                            {abogados.map(e => {
-                              if (personaAbogado.dni === e.dni) {
-                                return (<option value={e.eMail} selected>{e.slug}</option>)
-                              } else return <option value={e.eMail} >{e.slug} </option>
-                            })}
+                          <td><select className="form-select w-25" onChange={h => handleChangeAbogado(h, clienteId, e.abogados[0]?.id)}>
+                            <option value={null}>ninguno</option>
+                            {e.abogados.length !== 0 ?
+                              abogados.map(e => {
+                                if (personaAbogado.dni === e.personaDni) {
+                                  return (<option value={e.eMail} selected>{e.slug}</option>)
+                                } else return <option value={e.eMail} >{e.slug} </option>
+                              }) :
+                              abogados.map((e, i) => {
+                                if (i === 0) return (
+                                  <option value={e.eMail}>{e.slug} </option>)
+                                return <option value={e.eMail} >{e.slug} </option>
+                              })
+                            }
                           </select></td>
                           <td>{aux.length > 0 ? aux.length : "no tiene"}</td>
                         </tr>
