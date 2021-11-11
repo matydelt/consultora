@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import swal from 'sweetalert';
-import { getConsultas, modificarTicket } from '../../../redux/actions';
+import { deleteConsulta, getConsultas, modificarTicket } from '../../../redux/actions';
 import UsuarioNavBar from '../usuarioNavBar/UsuarioNavBar';
 
 export default function ConsultasUsuario() {
@@ -13,17 +13,13 @@ export default function ConsultasUsuario() {
     const [n_operacion, setN_Operacion] = useState('');
 
     useEffect(() => {
-        dispatch(getConsultas());
+        if(consultas) {
+            dispatch(getConsultas());
+        }
     }, []);
 
 
 
-
-    // function efectuarPago(enlace) {
-
-    //           dispatch(modificarTicket({ enlace }));  
-
-    //   }
     function efectuarPago(enlace) {
         swal({
             title: "Notificar pago de la consulta",
@@ -40,6 +36,26 @@ export default function ConsultasUsuario() {
                 }, 1000)
 
 
+            }
+
+        });
+    };
+
+    function eliminarConsulta(consultaId) {
+        swal({
+            title: "Eliminar",
+            text: "¿Quiere eliminar la consulta?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                dispatch(deleteConsulta(consultaId)).then(() => {
+                    dispatch(getConsultas());
+                });
+                swal("La consulta fue eliminada", {
+                    icon: "success",
+                });
             }
 
         });
@@ -118,6 +134,11 @@ export default function ConsultasUsuario() {
                                         <button disabled={consulta?.ticket?.estatus !== 'pending'} onClick={() => { efectuarPago(consulta.ticket?.enlace, n_operacion) }} className={`btn btn-${consulta.ticket?.estatus === 'pending' ? 'success' : 'light text-muted'}`}>Notificar</button>
                                     </td>
                                 }
+
+                                <td>
+                                    <button disabled={consulta.abogadoId} onClick={() => { eliminarConsulta(consulta.id) }} className={`btn btn-${!consulta.abogadoId ? 'danger' : 'light text-muted'}`}>Eliminar</button>
+                                </td>
+
                             </tr>
 
 
