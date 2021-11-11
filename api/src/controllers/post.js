@@ -67,7 +67,7 @@ const postTickets = async (req, res, next) => {
       const tickets = await Ticket.create(ticket)
 
 
-      tickets.setConsultum(consul)
+      consul.setTicket(tickets)
 
 
       res.json({

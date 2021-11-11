@@ -11,6 +11,10 @@ import store from "./redux/store/store";
 import { FirebaseAppProvider } from 'reactfire'
 import firebaseConfig from './firebase';
 import Loaded from './components/Loaded/Loaded';
+import axios from 'axios';
+
+
+axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
 
 
 ReactDOM.render(

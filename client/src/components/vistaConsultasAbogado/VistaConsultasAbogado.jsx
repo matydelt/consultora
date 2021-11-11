@@ -16,7 +16,7 @@ export default function VistaConsultasAbogado() {
 
   useEffect(() => {
     dispatch(getConsultas());
-  }, []);
+  }, [dispatch]);
 
   function actualizarConsultas() {
     dispatch(getConsultas());
@@ -76,7 +76,7 @@ export default function VistaConsultasAbogado() {
             onClick={actualizarConsultas}
             className="mx-5 btn btn-light border"
           >
-            @ Actualizar
+            🔁 Actualizar
           </button>
         </div>
       </nav>

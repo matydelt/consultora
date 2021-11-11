@@ -60,7 +60,7 @@ export const Signin = () => {
           .then((e) => {
             setDisplayName(e.user.displayName);
             const aux = e.user.email;
-            if (usuarios.some((e) => e.eMail == aux)) {
+            if (usuarios.some((e) => e.eMail === aux)) {
               dispatch(getUsuario({ eMail: e.user.email }));
             } else {
               setEmail(aux);
@@ -102,7 +102,7 @@ export const Signin = () => {
         .then(() => {
           dispatch(getUsuario({ eMail: eMail }));
         })
-        .catch((error) => { });
+        .catch((error) => {});
       createOK();
       setFirstName("");
       setLastName("");
@@ -126,7 +126,8 @@ export const Signin = () => {
         // An error happened.
       });
   };
-  const Login = async () => {
+  const Login = async (e) => {
+    e.preventDefault();
     await setPersistence(auth, browserSessionPersistence)
       .then(async () => {
         await signInWithEmailAndPassword(auth, eMail, md5(password))
@@ -210,7 +211,7 @@ export const Signin = () => {
                       value={firstName}
                       name="firstName"
                       autoComplete="off"
-                      placeholder=" First Name"
+                      placeholder=" Nombre"
                       className="form-control"
                       autoFocus
                       required
@@ -225,7 +226,7 @@ export const Signin = () => {
                       value={lastName}
                       name="lastName"
                       autoComplete="off"
-                      placeholder=" Last Name"
+                      placeholder=" Apellido"
                       className="form-control"
                       autoFocus
                       required
@@ -254,7 +255,7 @@ export const Signin = () => {
                       value={celular}
                       name="Number"
                       autoComplete="off"
-                      placeholder="Number : 11 1111-1111"
+                      placeholder="Teléfono : 11 1111-1111"
                       className="form-control"
                       required
                       onChange={(e) => {
@@ -269,7 +270,7 @@ export const Signin = () => {
                       name="Mail"
                       disabled="on"
                       autoComplete="off"
-                      placeholder="Mail : Ejemplo@ejemplo.com"
+                      placeholder="Email: ejemplo@ejemplo.com"
                       className="form-control"
                       required
                     />
@@ -281,7 +282,7 @@ export const Signin = () => {
                       disabled="on"
                       name="password"
                       autoComplete="off"
-                      placeholder="Password min 6 digits"
+                      placeholder="Contraseña"
                       className="form-control"
                       required
                     />
@@ -320,7 +321,7 @@ export const Signin = () => {
                   alt="Logo Consultora"
                   className="card-img-top mx-auto m-2 rounded-circle w-50"
                 />
-                <div className="card-body form-sign">
+                <form className="card-body form-sign" onSubmit={Login}>
                   <div className="form-group">
                     <input
                       type="text"
@@ -343,7 +344,7 @@ export const Signin = () => {
                       name="password"
                       autoComplete="off"
                       required
-                      placeholder="Password"
+                      placeholder="Contraseña"
                       className="form-control"
                       onChange={(e) => {
                         setPassword(e.target.value);
@@ -360,12 +361,15 @@ export const Signin = () => {
                     <div className="col-md-12" onClick={loginGoogle}>
                       {" "}
                       <a class="btn btn-block btn-outline-primary" href="#">
-                        <img src="https://img.icons8.com/color/16/000000/google-logo.png" />{" "}
+                        <img
+                          src="https://img.icons8.com/color/16/000000/google-logo.png"
+                          alt="Google"
+                        />{" "}
                         Google
                       </a>{" "}
                     </div>
                   </div>
-                </div>
+                </form>
 
                 <div className="card-footer">
                   <Link to="/signup">

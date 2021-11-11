@@ -25,6 +25,7 @@
     "react-scripts": "4.0.3",
     "react-toastify": "^8.1.0",
     "reactfire": "^4.2.0",
+    "recharts": "^2.1.6",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.0",
     "styled-components": "^5.3.3",
@@ -34,7 +35,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -8,16 +8,19 @@ import { toast } from "react-toastify";
 
 export default function NavAbogado() {
   let usuario = useSelector((state) => state.usuario);
+
+  const history = useHistory();
+
   const dispatch = useDispatch();
   const auth = getAuth();
-  const history = useHistory();
 
   const logout = () => {
     signOut(auth)
       .then(() => {
         dispatch(getUsuario({}));
-        history.push("/");
         toast.info("La sesión fue finalizada");
+        localStorage.removeItem('username')
+        history.push("/");
       })
       .catch((error) => {
         // An error happened.
@@ -55,9 +58,10 @@ export default function NavAbogado() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link onClick={logout} className="nav-link">
+              <a onClick={logout} className="nav-link pointer">
                 Salir ❌
-              </Link>
+              </a>
+
             </li>
           </ul>
         </div>
