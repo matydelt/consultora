@@ -23,7 +23,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
 import "./App.css";
-import SiteMateria from "./components/Materia/SiteMateria/SiteMateria";
+import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
 function App() {
   const dispatch = useDispatch();
 
