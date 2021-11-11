@@ -94,7 +94,8 @@ Abogado.hasOne(Persona);
 
 Abogado.hasMany(Consulta);
 
-Ticket.hasOne(Consulta);
+// Ticket.hasOne(Consulta);
+Consulta.hasOne(Ticket);
 
 Ticket.hasOne(Casos);
 

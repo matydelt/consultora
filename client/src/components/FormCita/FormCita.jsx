@@ -65,7 +65,7 @@ export default function FormCita({ history }) {
       telefono: usuario.celular,
       email: usuario.eMail,
     });
-  }, []);
+  }, [usuario]);
 
   const handleChange = function (e) {
     setInput({
@@ -102,11 +102,7 @@ export default function FormCita({ history }) {
 
         <form onSubmit={handleSubmit} className="form-cita">
           <div className="form-group row mt-3">
-            <label
-              className="col-sm-2 col-form-label"
-              htmlFor="nombre"
-              htmlFor="nombre"
-            >
+            <label className="col-sm-2 col-form-label" htmlFor="nombre">
               Nombre
             </label>
             <div class="col-sm-10">

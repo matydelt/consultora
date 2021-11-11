@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAbogado } from "../../redux/actions";
+import { getAbogado, getMaterias } from "../../redux/actions";
 import Casos from "../casos/casos"
 import "./clientes.css"
 
@@ -11,11 +11,12 @@ import "./clientes.css"
 export default function Clientes() {   //muestra cards de cada cliente con sus casos
   const [clientes, setClientes] = useState([]);
   const [flag, setFlag] = useState(false);
-  const { usuario, abogado } = useSelector(state => state)
+  const { usuario, abogado, materias } = useSelector(state => state)
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getAbogado({ "eMail": usuario.eMail }))
+    dispatch(getMaterias())
   }, [dispatch, usuario])
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     }
   }
 
-  const handleChange = (e) => {
+  const handleChangeByEstado = (e) => {
     e.preventDefault();
     let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
     if (e.target.value === "inicio") {
@@ -70,17 +71,72 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
         return <h3>No hay casos con el estado inicial</h3>;
     }
   };
+  const handleChangeByMateria = (e) => {
+    e.preventDefault();
+    let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+    AllClients.map(
+      (a) => (a.casos = a.casos.filter((h) => h.materias[0].nombre === e.target.value))
+    );
+    AllClients = AllClients.filter(e => e.casos.length > 0)
+    setClientes([...AllClients]);
+    if (clientes.length === 0)
+      return <h3>No hay casos con el estado inicial</h3>;
+
+  };
+  const handleChangeByFecha = (e) => {
+    e.preventDefault();
+    let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+    if (e.target.value === "Ascendente") {
+      AllClients.map(e => e.casos.sort(function (a, b) {
+        if (Date.parse(a.fecha) > Date.parse(b.fecha)) {
+          return 1
+        }
+        if (Date.parse(a.fecha) < Date.parse(b.fecha)) {
+          return -1
+        }
+        return 0
+      }))
+
+    } else if (e.target.value === "Descendente") {
+      AllClients.map(e => e.casos.sort(function (a, b) {
+        if (Date.parse(a.fecha) < Date.parse(b.fecha)) {
+          return 1
+        }
+        if (Date.parse(a.fecha) > Date.parse(b.fecha)) {
+          return -1
+        }
+        return 0
+      }))
+    }
+    console.log(AllClients)
+    setClientes([...AllClients]);
+    if (clientes.length === 0)
+      return <h3>No hay casos con el estado inicial</h3>;
+
+  };
 
   return (
     <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
       <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
         <button className=" btn  btn-danger  mt-3 mb-3" onClick={(e) => handleClick(e, 0)}>Clientes Actuales</button>
         <button className="btn  btn-danger mt-3 mb-3 " onClick={(e) => handleClick(e, 1)}>Historial</button>
-        <select className="form-select" aria-label="Default select example" onChange={e => handleChange(e)}>
+        <select className="form-select" aria-label="Default select example" onChange={e => handleChangeByEstado(e)}>
           <option selected>Seleccion por estado</option>
           <option value="inicio">inicio</option>
           <option value="prueba">prueba</option>
           <option value="sentencia">sentencia</option>
+        </select>
+        <select className="mt-3 form-select" onChange={e => handleChangeByMateria(e)}>
+          <option value={null}>Seleccion por materia</option>
+          {
+            materias.map(e => <option value={e.nombre}  >{e.nombre}</option>)
+          }
+        </select>
+        <select className="mt-3 form-select" onChange={handleChangeByFecha}>
+          <option value={null}>Ordenar por fecha</option>
+          <option value="Ascendente">Ascendente</option>
+          <option value={"Descendente"}>Descendente</option>
+
         </select>
       </div>
 
@@ -111,3 +167,5 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
     </div>
   );
 }
+
+

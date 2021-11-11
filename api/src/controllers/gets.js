@@ -13,18 +13,14 @@ const {
 
 async function getUsuarios(req, res) {
     try {
-        const user = await Usuario.findAll();
-        res.json(user);
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(404);
-    }
-}
-
-async function getPersonas(req, res) {
-    try {
-        const user = await Persona.findAll();
-        res.json(user);
+        const users = await Usuario.findAll();
+        const usersData = users.map((user) => {
+            const { updatedAt, ...usersData } = user.dataValues;
+            usersData.createdAt = `${usersData.createdAt.getFullYear()}-${usersData.createdAt.getMonth() + 1
+                }`;
+            return usersData;
+        });
+        res.json(usersData);
     } catch (error) {
         console.error(error);
         res.sendStatus(404);
@@ -74,6 +70,10 @@ async function getProvincias(req, res) {
         console.error(error);
         res.sendStatus(404);
     }
+    let abogados = await Abogado.findAll({
+        include: Provincias,
+    });
+    res.json(provs);
 }
 async function getMaterias(req, res) {
     try {
@@ -92,7 +92,8 @@ async function getMaterias(req, res) {
         if (materias.length === 0) {
             for (let i = 0; i < vec.length; i++) {
                 materias = await Materias.findOrCreate({
-                    where: { nombre: vec[i] }, include: Abogado
+                    where: { nombre: vec[i] },
+                    include: Abogado,
                 });
             }
         }
@@ -103,11 +104,14 @@ async function getMaterias(req, res) {
     }
 }
 
-
 async function getPersonas(req, res) {
     try {
-        const user = await Persona.findAll();
-        res.json(user);
+        const users = await Persona.findAll();
+        const usersData = users.map((user) => {
+            const { createdAt, updatedAt, ...usersData } = user.dataValues;
+            return usersData;
+        });
+        res.json(usersData);
     } catch (error) {
         console.log(error);
         res.sendStatus(404);
@@ -125,7 +129,14 @@ async function getAbogados(req, res) {
             const abogado = await Abogado.findByPk(user[i].abogadoId);
             if (abogado)
                 abogados.push({
-                    ...{ eMail: user[i].eMail, firstName, lastName, dni, celular, slug: user[i].slug },
+                    ...{
+                        eMail: user[i].eMail,
+                        firstName,
+                        lastName,
+                        dni,
+                        celular,
+                        slug: user[i].slug,
+                    },
                     abogado,
                 });
         }
@@ -137,40 +148,129 @@ async function getAbogados(req, res) {
 }
 async function getAbogado(req, res) {
     try {
-        let { eMail } = req.body
+        let { eMail } = req.body;
         let user = {};
         if (!eMail) {
-            const { slug } = req.params
+            const { slug } = req.params;
             console.log(slug);
-            user = await Usuario.findOne({ where: { slug } })
+            user = await Usuario.findOne({ where: { slug } });
         } else {
-            user = await Usuario.findByPk(eMail)
+            user = await Usuario.findByPk(eMail);
         }
-        const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-        const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
-        let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular, slug: user.slug }, detalle, imagen, experiencia, estudios }
-        abogado.clientes = []
+        const { firstName, lastName, dni, celular } = await Persona.findByPk(
+            user.personaDni
+        );
+        const { detalle, clientes, imagen, experiencia, estudios } =
+            await Abogado.findOne({
+                where: { id: user.abogadoId },
+                include: Cliente,
+            });
+        let abogado = {
+            ...{
+                eMail: user.eMail,
+                firstName,
+                lastName,
+                dni,
+                celular,
+                slug: user.slug,
+            },
+            detalle,
+            imagen,
+            experiencia,
+            estudios,
+        };
+        abogado.clientes = [];
         for (let i = 0; i < clientes.length; i++) {
-            abogado.clientes.push(await Cliente.findOne({
-                where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
-                {
-                    model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
-                    ]
-                }]
-            }))
+            abogado.clientes.push(
+                await Cliente.findOne({
+                    where: { id: clientes[i].id },
+                    attributes: ["id", "asunto"],
+                    include: [
+                        {
+                            model: Persona,
+                            attributes: ["firstName", "lastName", "dni", "celular"],
+                        },
+                        {
+                            model: Casos,
+                            attributes: [
+                                "juez",
+                                "numeroExpediente",
+                                "juzgado",
+                                "detalle",
+                                "estado",
+                            ],
+                        },
+                    ],
+                })
+            );
         }
         if (user) {
-            res.json(abogado)
-        } else res.sendStatus(404)
+            res.json(abogado);
+        } else res.sendStatus(404);
     } catch (error) {
-        console.error(error)
-        res.sendStatus(404)
+        console.error(error);
+        res.sendStatus(404);
     }
+    const user = await Usuario.findByPk(eMail);
+    const { firstName, lastName, dni, celular } = await Persona.findByPk(
+        user.personaDni
+    );
+    const { detalle, clientes, imagen, experiencia, estudios } =
+        await Abogado.findOne({
+            where: { id: user.abogadoId },
+            include: Cliente,
+        });
+    let abogado = {
+        ...{ eMail: user.eMail, firstName, lastName, dni, celular },
+        detalle,
+        imagen,
+        experiencia,
+        estudios,
+    };
+    abogado.clientes = [];
+    for (let i = 0; i < clientes.length; i++) {
+        abogado.clientes.push(
+            await Cliente.findOne({
+                where: { id: clientes[i].id },
+                attributes: ["id", "asunto"],
+                include: [
+                    {
+                        model: Persona,
+                        attributes: ["firstName", "lastName", "dni", "celular"],
+                    },
+                    {
+                        model: Casos,
+                        attributes: [
+                            "juez",
+                            "numeroExpediente",
+                            "juzgado",
+                            "detalle",
+                            "estado",
+                        ],
+                    },
+                ],
+            })
+        );
+    }
+    if (user) {
+        res.json(abogado);
+    } else res.sendStatus(404);
 }
 
 async function getCasos(req, res) {
-    const { numeroExpediente, estado, juez } = req.body;
+    const { numeroExpediente, estado, juez, clienteId } = req.body;
     try {
+        if (clienteId) {
+            const casos = Casos.findAll({
+                where: { clienteId },
+            });
+            res.json({
+                result: casos,
+                count: casos.length,
+            });
+            return;
+        }
+
         let Cases = await Casos.findAll();
 
         if (numeroExpediente != "" && numeroExpediente != null) {
@@ -197,7 +297,9 @@ async function getCasos(req, res) {
             });
         }
 
-        return res.send({
+        // console.log("Cases",Cases);
+
+        return res.json({
             result: Cases,
             count: Cases.length,
         });
@@ -205,6 +307,7 @@ async function getCasos(req, res) {
         console.error(error);
         res.sendStatus(404);
     }
+    // console.log("Cases",Cases);
 }
 
 async function getConsultas(req, res, next) {
@@ -230,20 +333,11 @@ async function getConsultas(req, res, next) {
     }
     if (apellido) {
         try {
-            const apellidosDB = await Consulta.findAll({
-                where: {
-                    apellido: {
-                        [Op.iLike]: `%${apellido}%`,
-                    },
-                },
+            const todasConsultas = await Consulta.findAll({
+                order: [["createdAt", "DESC"]],
+                include: Ticket,
             });
-            if (apellidosDB !== null) {
-                res.json(apellidosDB);
-            } else {
-                res
-                    .status(404)
-                    .send({ msg: "no se encuentra persona con ese apellido" });
-            }
+            res.json(todasConsultas);
         } catch (error) {
             console.log(error);
             next({ msg: "error al conseguir la persona por apellido" });
@@ -251,11 +345,7 @@ async function getConsultas(req, res, next) {
     }
 
     try {
-        const todasConsultas = await Consulta.findAll({
-            order: [
-                ['createdAt', 'DESC']
-            ]
-        });
+        const todasConsultas = await Consulta.findAll();
         res.json(todasConsultas);
     } catch (error) {
         next({ msg: "error en traer consultas de la DB" });
@@ -268,26 +358,23 @@ async function getTickets(req, res, next) {
     console.log("id", req.body);
     if (!!id && id !== null) {
         try {
-            const ticket = await Ticket.findByPk(id)
+            const ticket = await Ticket.findByPk(id);
             console.log("ticket", ticket);
             res.json(ticket);
         } catch (error) {
             console.log(error);
             res.sendStatus(404);
         }
-    }
-
-    else if (!!enlace && enlace !== null) {
+    } else if (!!enlace && enlace !== null) {
         try {
-            const ticket = await Ticket.findOne({ where: { enlace: enlace } })
+            const ticket = await Ticket.findOne({ where: { enlace: enlace } });
             console.log("ticket", ticket);
             res.json(ticket);
         } catch (error) {
             console.log(error);
             res.sendStatus(404);
         }
-    }
-    else {
+    } else {
         try {
             const ticket = await Ticket.findAll();
             res.json(ticket);
@@ -297,7 +384,18 @@ async function getTickets(req, res, next) {
         }
     }
 }
+async function getAllCasos(req, res, next) {
+    try {
+        const cliente = await Cliente.findAll({ where: {}, include: [{ model: Abogado, include: Persona }, { model: Casos }, { model: Persona }] })
 
+        if (cliente.length > 0)
+            return res.json(cliente)
+        else return res.sendStatus(404)
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(404)
+    }
+}
 module.exports = {
     getUsuarios,
     getPersonas,
@@ -308,6 +406,6 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
-    // getUsuario,
-    getTickets
+    getTickets,
+    getAllCasos
 };

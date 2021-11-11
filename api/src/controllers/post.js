@@ -67,7 +67,7 @@ const postTickets = async (req, res, next) => {
       const tickets = await Ticket.create(ticket)
 
 
-      tickets.setConsultum(consul)
+      consul.setTicket(tickets)
 
 
       res.json({
@@ -334,6 +334,35 @@ async function reiniciarPassword(req, res) {
 
 }
 
+//MP automatizado
+const postPago = async (req, res, next) => {
+  const MPInfo = req.body
+
+  try {
+    const mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/${MPInfo.data.id}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
+
+    const ticket = await Ticket.findOne({ where: { titulo: mpApi.description } });
+
+    if (mpApi.description && ticket.titulo === mpApi.description) {
+      ticket.n_operacion = mpApi.id
+      ticket.estatus = mpApi.status
+      ticket.detalle_estatus = mpApi.status_detail
+      ticket.medioDePago = mpApi.payment_type_id
+
+      Promise.all([
+        await ticket.save(),
+      ]);
+      res.sendStatus(200);
+    }
+
+    res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+
 module.exports = {
   setUsuarios,
   setCasos,
@@ -343,5 +372,6 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
-  reiniciarPassword
+  reiniciarPassword,
+  postPago
 };
