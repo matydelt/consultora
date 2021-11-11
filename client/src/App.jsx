@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
 import { getUsuario } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
@@ -25,6 +25,7 @@ import "./App.css";
 
 function App() {
   const dispatch = useDispatch();
+  const { usuario } = useSelector(state => state)
 
   useEffect(() => {
     const auth = getAuth();
@@ -34,7 +35,7 @@ function App() {
         dispatch(getUsuario({ eMail: user.email }));
       }
     });
-  });
+  }, []);
 
   return (
     <div className="App container-fluid p-0">
@@ -51,7 +52,7 @@ function App() {
         <Route exact path="/abogados">
           <Perfiles />
         </Route>
-        <Route path="/admin" render={(props) => <AdminPage props={props} />} />
+        <Route path="/admin" render={(props) => <AdminPage props={props} adminId={usuario.adminId} />} />
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />

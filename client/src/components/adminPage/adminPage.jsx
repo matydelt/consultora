@@ -12,7 +12,7 @@ import {
   setBann,
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
+// import { Redirect } from "react-router";
 import Navbar from "../home-page/Navbar/Navbar";
 import {
   getAuth,
@@ -149,7 +149,7 @@ export default function AdminPage() {
     }
   }
   const abogados = allUsers.filter(e => e.abogadoId !== null)
-  if (usuario.adminId === undefined) return <Redirect to="/" />
+  // if (usuario.adminId === undefined) return <Redirect to="/" />
   return (
     <div className="mt-3" >
       <Navbar navId={"menu"} />

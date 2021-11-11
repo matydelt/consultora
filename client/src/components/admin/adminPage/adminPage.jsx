@@ -23,10 +23,8 @@ export default function AdminPage() {
   useEffect(() => {
     dispatch(getUsuarios());
   }, []);
-
-  return !usuario.adminId ? (
-    <Redirect to="/" />
-  ) : (
+  // if (adminId === undefined) return (<Redirect to="/" />)
+  return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
       <div style={{ display: "flex" }}>
         <Sidebar />
