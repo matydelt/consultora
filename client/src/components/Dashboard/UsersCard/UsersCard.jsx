@@ -7,7 +7,7 @@ const UsersCard = (props) => {
       <div className="users-card-top" style={{ backgroundColor: props.color }}>
         <div className="users-card-text">
           <p>{props.title}</p>
-          <p style={{ fontSize: "25px" }}>{props.users}</p>
+          <p>{props.users}</p>
         </div>
         <img src={props.img} alt={props.title} className="users-card-image" />
       </div>

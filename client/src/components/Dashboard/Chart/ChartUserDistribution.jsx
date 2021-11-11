@@ -8,6 +8,7 @@ import {
   Legend,
 } from "recharts";
 import { useSelector } from "react-redux";
+import "./ChartUserDistribution.css";
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB25", "#FF8042"];
 const RADIAN = Math.PI / 180;
@@ -62,8 +63,8 @@ const ChartUserDistribution = () => {
   const data = getData();
 
   return (
-    <div style={{ width: "300px", height: "300px", border: "1px solid" }}>
-      <h3 style={{ textAlign: "center" }}>User Distribution</h3>
+    <div id="chartUD">
+      <h5>User Distribution</h5>
       <ResponsiveContainer width="100%" height="80%">
         <PieChart width={400} height={400}>
           <Pie

@@ -9,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 // import { useSelector } from "react-redux";
+import "./ChartUsersPerMonth.css";
 
 const data = [
   {
@@ -52,8 +53,8 @@ const ChartUsersPerMonth = () => {
   // const data = getData();
 
   return (
-    <div style={{ width: "1000px", height: "300px", border: "1px solid" }}>
-      <h3 style={{ textAlign: "center" }}>Users Growth</h3>
+    <div id="chartUPR">
+      <h5>Users Growth</h5>
       <ResponsiveContainer width="100%" height="80%">
         <AreaChart
           width={500}

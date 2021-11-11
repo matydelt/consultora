@@ -9,7 +9,7 @@ import {
   setBann,
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router";
+import { Redirect, Route } from "react-router";
 import Navbar from "../home-page/Navbar/Navbar";
 import {
   getAuth,
@@ -17,13 +17,15 @@ import {
   updatePassword,
 } from "@firebase/auth";
 import Dashboard from "../Dashboard/Dashboard";
+import Sidebar from "../Sidebar/Sidebar";
+import Materia from "../Materia/Materia";
 
 export default function AdminPage() {
-  let [cont] = useState(0);
+  const [count, setCount] = useState(0);
   const dispatch = useDispatch();
   const { usuario } = useSelector((state) => state);
   const allUsers = useSelector((state) => state.usuarios);
-  var alertPlaceholder = document.getElementById("liveAlertPlaceholder");
+  let alertPlaceholder = document.getElementById("liveAlertPlaceholder");
 
   useEffect(() => {
     dispatch(getUsuarios());
@@ -31,7 +33,7 @@ export default function AdminPage() {
 
   const handleChange = (e, type) => {
     e.preventDefault();
-    cont++;
+    setCount((count) => count + 1);
     let eMail = e.target.value;
     let aux = allUsers.find((e) => e.eMail === eMail);
     console.log(aux);
@@ -140,10 +142,10 @@ export default function AdminPage() {
   return !usuario.adminId ? (
     <Redirect to="/" />
   ) : (
-    <div>
-      <Navbar navId={"menu"} />
+    <div style={{ backgroundColor: "#EEEEEE" }}>
+      {/* <Navbar navId={"menu"} /> */}
       <div className="ms-5 me-5 mt-3 mb-3">
-        <table className="table table-striped  ">
+        {/* <table className="table table-striped  ">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -335,9 +337,13 @@ export default function AdminPage() {
               );
             })}
           </tbody>
-        </table>
-        <Dashboard />
-        <div id="liveAlertPlaceholder">
+        </table> */}
+        <div style={{ display: "flex" }}>
+          <Sidebar />
+          <Route path="/admin" exact component={Dashboard} />
+          <Route path="/admin/users" exact component={Materia} />
+        </div>
+        {/* <div id="liveAlertPlaceholder">
           <div className="alert alert-danger alert-dismissible" role="alert">
             Cuidado una vez eliminado el estado de abogado el mismo pierde todo!
             <button
@@ -347,7 +353,7 @@ export default function AdminPage() {
               aria-label="Close"
             ></button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

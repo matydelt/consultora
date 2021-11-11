@@ -1,7 +1,8 @@
 .users-card-container {
-  border: 1px solid;
-  width: 15%;
+  width: 25%;
   border-radius: 15px;
+  box-shadow: 0 3px 6px rgba(151, 148, 148, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  background: #fff;
 }
 
 .users-card-top {
@@ -23,5 +24,9 @@
 }
 
 .users-card-text {
-  margin-left: 5px;
+  margin-left: 15px;
+}
+
+.users-card-text p {
+  font-size: 25px;
 }
