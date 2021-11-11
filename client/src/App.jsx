@@ -1,6 +1,6 @@
 import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
 import { getMaterias, getProvincias, getUsuario } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
@@ -22,6 +22,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
 import "./App.css";
+import SiteMateria from "./components/Materia/SiteMateria/SiteMateria";
 function App() {
   const dispatch = useDispatch();
 
@@ -33,19 +34,20 @@ function App() {
         dispatch(getUsuario({ eMail: user.email }));
       }
     });
-  }, [dispatch]);
-
+  });
 
   useEffect(() => {
-    dispatch(getProvincias());
-    dispatch(getMaterias());
-  }, []);
+    dispatch(getAbogados());
+  }, [dispatch]);
 
   return (
     <div className="App container-fluid p-0">
       <Switch>
         <Route exact path="/">
           <HomePage />
+        </Route>
+        <Route exact path="/materias/:materia">
+          <SiteMateria />
         </Route>
         <Route exact path="/consulta">
           <FormCita />

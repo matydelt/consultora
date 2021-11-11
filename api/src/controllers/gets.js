@@ -288,6 +288,7 @@ async function getConsultas(req, res, next) {
   try {
     const todasConsultas = await Consulta.findAll({
       order: [["createdAt", "DESC"]],
+      include: Ticket,
     });
     res.json(todasConsultas);
   } catch (error) {
