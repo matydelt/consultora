@@ -226,19 +226,6 @@ async function getAbogado(req, res) {
             },
             {
               model: Casos,
-              attributes: [
-                "juez",
-                "numeroExpediente",
-                "juzgado",
-                "detalle",
-                "estado",
-                "numeroLiquidacion",
-                "medidaCautelar",
-                "trabaAfectiva",
-                "vtoMedidaCautelar",
-                "vtoTrabaAfectiva",
-                "jurisdiccion",
-              ],
               include: Materias,
             },
           ],
@@ -323,9 +310,19 @@ async function modificarTicket(req, res) {
 
     let mpApi = (
       await axios.get(
-        `https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
+        `https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
       )
     ).data;
+    console.log(mpApi);
+    mpApi = mpApi.results.filter((e) => {
+      if (e.description == ticket.titulo) return e;
+    });
+    ticket.n_operacion = mpApi[0].id;
+    ticket.estatus = mpApi[0].status;
+    ticket.detalle_estatus = mpApi[0].status_detail;
+    ticket.medioDePago = mpApi[0].payment_type_id;
+    console.log("modifico?", ticket);
+    Promise.all([await ticket.save()]);
 
     if (ticket.titulo === mpApi.description) {
       ticket.n_operacion = mpApi.id;
@@ -350,6 +347,22 @@ async function modificarTicket(req, res) {
   }
 }
 
+async function CLienteAbogado(req, res) {
+  try {
+    const { abogado, cliente, abogadoAntiguo } = req.body;
+    const auxCliente = await Cliente.findByPk(cliente);
+    let auxAbogado = await Usuario.findByPk(abogado);
+    auxAbogado = await Abogado.findByPk(auxAbogado.id);
+    const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo);
+    await auxCliente.removeAbogado(auxAbogadoAntiguo);
+    await auxCliente.addAbogados(auxAbogado);
+    res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(404);
+  }
+}
+
 module.exports = {
   usuario,
   asignaConsulta,
@@ -358,4 +371,5 @@ module.exports = {
   getAbogado,
   modificarTicket,
   putCaso,
+  CLienteAbogado,
 };

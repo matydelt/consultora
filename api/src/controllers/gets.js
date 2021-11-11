@@ -353,7 +353,24 @@ async function getreseñas(req, res, next) {
     }
   }
 }
+async function getAllCasos(req, res, next) {
+  try {
+    const cliente = await Cliente.findAll({
+      where: {},
+      include: [
+        { model: Abogado, include: Persona },
+        { model: Casos },
+        { model: Persona },
+      ],
+    });
 
+    if (cliente.length > 0) return res.json(cliente);
+    else return res.sendStatus(404);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(404);
+  }
+}
 module.exports = {
   // getUsuario,
   getUsuarios,
