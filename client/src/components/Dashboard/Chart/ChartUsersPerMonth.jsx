@@ -8,49 +8,30 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "./ChartUsersPerMonth.css";
 
-const data = [
-  {
-    createdAt: "2021-11",
-    usuarios: 5,
-  },
-  {
-    createdAt: "2021-12",
-    usuarios: 25,
-  },
-  {
-    createdAt: "2021-1",
-    usuarios: 50,
-  },
-  {
-    createdAt: "2021-2",
-    usuarios: 8,
-  },
-];
-
 const ChartUsersPerMonth = () => {
-  // const { usuarios } = useSelector((state) => state);
+  const { usuarios } = useSelector((state) => state);
 
-  // const getData = () => {
-  //   let stack = [];
-  //   let seen = {};
-  //   for (const usuario of usuarios) {
-  //     if (seen[usuario.createdAt]) {
-  //       const found = stack.find(
-  //         (entry) => entry.createdAt === usuario.createdAt
-  //       );
-  //       found.usuarios++;
-  //     } else {
-  //       seen[usuario.createdAt] = true;
-  //       stack.push({ createdAt: usuario.createdAt, usuarios: 1 });
-  //     }
-  //   }
-  //   return stack;
-  // };
+  const getData = () => {
+    let stack = [];
+    let seen = {};
+    for (const usuario of usuarios) {
+      if (seen[usuario.createdAt]) {
+        const found = stack.find(
+          (entry) => entry.createdAt === usuario.createdAt
+        );
+        found.usuarios++;
+      } else {
+        seen[usuario.createdAt] = true;
+        stack.push({ createdAt: usuario.createdAt, usuarios: 1 });
+      }
+    }
+    return stack;
+  };
 
-  // const data = getData();
+  const data = getData();
 
   return (
     <div id="chartUPR">

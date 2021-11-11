@@ -1,5 +1,6 @@
 import React from "react";
 import "./UsersCard.css";
+import { Link } from "react-router-dom";
 
 const UsersCard = (props) => {
   return (
@@ -11,7 +12,9 @@ const UsersCard = (props) => {
         </div>
         <img src={props.img} alt={props.title} className="users-card-image" />
       </div>
-      <p className="users-card-bottom">Ver Detalles</p>
+      <Link to={props.url}>
+        <p className="users-card-bottom">Ver Detalles</p>
+      </Link>
     </div>
   );
 };

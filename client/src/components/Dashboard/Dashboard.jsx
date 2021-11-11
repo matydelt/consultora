@@ -28,18 +28,26 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-evenly",
+          paddingTop: "20px",
+        }}
+      >
         <UsersCard
           title="New Users This Month"
           users={getUsersThisMonth()}
           color="#4285f4"
           img={newUser}
+          url="/admin/users/new"
         />
         <UsersCard
           title="Total Users"
           users={usuarios.length}
           color="#34a853"
           img={allUsers}
+          url="/admin/users"
         />
         <UsersCard
           title="Banned Users"

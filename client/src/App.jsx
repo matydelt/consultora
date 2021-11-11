@@ -20,9 +20,9 @@ import HomeUsuario from "./components/homeUsuario/HomeUsuario";
 import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/ConsultasUsuario";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminPage from "./components/adminPage/adminPage";
+import AdminPage from "./components/admin/adminPage/adminPage";
 import "./App.css";
-import Dashboard from "./components/Dashboard/Dashboard";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ function App() {
         <Route exact path="/abogados">
           <Perfiles />
         </Route>
-        <Route exact path={"/admin"} component={AdminPage}></Route>
+        <Route path="/admin" render={(props) => <AdminPage props={props} />} />
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
