@@ -20,6 +20,11 @@ const Sidebar = () => {
           >
             <Link to="/admin/users/new">New Users</Link>
           </li>
+          <li
+            className={location?.pathname === "/admin/users/clients" && "selected"}
+          >
+            <Link to="/admin/users/clients">Clients</Link>
+          </li>
         </ul>
       </nav>
     </div>
