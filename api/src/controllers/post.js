@@ -13,7 +13,8 @@ const {
   Consulta,
   Admin,
   Materias,
-  Ticket
+  Ticket,
+  Resena,
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
@@ -34,8 +35,7 @@ const postTickets = async (req, res, next) => {
     ],
   };
   try {
-
-    const response = await mercadopago.preferences.create(preference)
+    const response = await mercadopago.preferences.create(preference);
 
     // console.log(response.body.init_point);
     let ticket = {
@@ -45,41 +45,37 @@ const postTickets = async (req, res, next) => {
       n_operacion: "",
       estatus: "pending",
       detalle_estatus: "not accredited",
-      medioDePago: "No information"
-    }
+      medioDePago: "No information",
+    };
     // Tickets.create(ticket)
     if (!!casoid) {
-      const cass = await Consulta.findByPk(casoid)
+      const cass = await Consulta.findByPk(casoid);
 
-      const tickets = await Ticket.create(ticket)
+      const tickets = await Ticket.create(ticket);
 
-
-      tickets.setCasos(cass)
-
+      tickets.setCasos(cass);
 
       res.json({
-        cass, tickets
+        cass,
+        tickets,
       });
-    }
-    else {
-      const consul = await Consulta.findByPk(consultaid)
+    } else {
+      const consul = await Consulta.findByPk(consultaid);
 
-      const tickets = await Ticket.create(ticket)
+      const tickets = await Ticket.create(ticket);
 
-
-      tickets.setConsultum(consul)
-
+      tickets.setConsultum(consul);
 
       res.json({
-        consul, tickets
+        consul,
+        tickets,
       });
       // res.sendStatus(200);
     }
-  }
-  catch {
+  } catch {
     (function (error) {
       console.log(error);
-    })
+    });
   }
 };
 // CLOUDINARY
@@ -244,7 +240,7 @@ async function setCasos(req, res) {
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion,
-      materia
+      materia,
     } = req.body;
 
     const caso = await Casos.create({
@@ -263,8 +259,8 @@ async function setCasos(req, res) {
       vtoTrabaAfectiva,
       jurisdiccion,
     });
-    const auxMateria = await Materias.findByPk(materia)
-    auxMateria.addCasos(caso)
+    const auxMateria = await Materias.findByPk(materia);
+    auxMateria.addCasos(caso);
     const { clienteId } = await Usuario.findByPk(eMail);
     const cliente = await Cliente.findByPk(clienteId);
     cliente.addCasos(caso);
@@ -363,8 +359,27 @@ async function setAdmin(req, res) {
   }
 }
 
-async function reiniciarPassword(req, res) {
-
+async function reiniciarPassword(req, res) {}
+async function setReseña(req, res, next) {
+  const { abogadoId, clienteId, titulo, mensaje, puntuacion } = req.body;
+  if (abogadoId && clienteId && titulo && mensaje && puntuacion) {
+    try {
+      let reseña = {
+        abogadoId,
+        clienteId,
+        titulo,
+        mensaje,
+        puntuacion,
+      };
+      await Resena.create(reseña);
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      next({ msg: "fallo algo en post reseña" });
+    }
+  } else {
+    sen.sendStatus(500);
+  }
 }
 
 module.exports = {
@@ -377,5 +392,6 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
-  reiniciarPassword
+  reiniciarPassword,
+  setReseña,
 };
