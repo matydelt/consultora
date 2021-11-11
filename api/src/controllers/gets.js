@@ -308,5 +308,9 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
+<<<<<<< HEAD
+=======
+    // getUsuario,
+>>>>>>> 31bba625e8432ba82de2a7d7267b038550b85404
     getTickets
 };
