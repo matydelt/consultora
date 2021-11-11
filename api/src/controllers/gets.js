@@ -88,7 +88,7 @@ async function getMaterias(req, res) {
             "Derecho Laboral",
             "Derecho Notarial",
         ];
-        let materias = await Materias.findAll({});
+        let materias = await Materias.findAll({ where: {}, include: Abogado });
         if (materias.length === 0) {
             for (let i = 0; i < vec.length; i++) {
                 materias = await Materias.findOrCreate({
@@ -169,8 +169,8 @@ async function getAbogado(req, res) {
 }
 
 async function getCasos(req, res) {
-    const { numeroExpediente, estado, juez } = req.body;
     try {
+        const { numeroExpediente, estado, juez } = req.body;
         let Cases = await Casos.findAll();
 
         if (numeroExpediente != "" && numeroExpediente != null) {
@@ -297,7 +297,18 @@ async function getTickets(req, res, next) {
         }
     }
 }
+async function getAllCasos(req, res, next) {
+    try {
+        const cliente = await Cliente.findAll({ where: {}, include: [{ model: Abogado, include: Persona }, { model: Casos }, { model: Persona }] })
 
+        if (cliente.length > 0)
+            return res.json(cliente)
+        else return res.sendStatus(404)
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(404)
+    }
+}
 module.exports = {
     getUsuarios,
     getPersonas,
@@ -308,5 +319,6 @@ module.exports = {
     getAbogados,
     getAbogado,
     getPersonas,
-    getTickets
+    getTickets,
+    getAllCasos
 };

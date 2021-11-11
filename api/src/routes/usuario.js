@@ -19,7 +19,7 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
     try {
         let { abogadoId } = await Usuario.findByPk(abogado)
         let { clienteId } = await Usuario.findByPk(cliente)
-
+        console.log(abogadoId)
         let clienteAux = await Cliente.findByPk(clienteId)
         let abogadoAux = await Abogado.findByPk(abogadoId)
         if (clienteAux, abogadoAux) {
@@ -36,7 +36,7 @@ router.put("/bann", put.setBann)//bannea usuario
 
 router.post("/usuario", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
-router.post("/forzar-reinicio-password", (req, res) => post.reiniciarPassword(req, res))  
+router.post("/forzar-reinicio-password", (req, res) => post.reiniciarPassword(req, res))
 
 router.put("/usuario", (req, res) => put.usuario(req, res)); // get  user(for login)
 
@@ -59,6 +59,6 @@ router.post("/adm", (req, res) => post.setAdmin(req, res))
 
 router.put("/abogado/:eMail", (req, res) => put.modificarAbogado(req, res)); // modificar abogado, actualizar foto etc
 
-
+router.put("/cliente/actualizar", put.CLienteAbogado)
 
 module.exports = router; 

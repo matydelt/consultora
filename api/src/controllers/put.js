@@ -175,9 +175,7 @@ async function getAbogado(req, res) {
       abogado.clientes.push(await Cliente.findOne({
         where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
         {
-          model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
-            "numeroLiquidacion", "medidaCautelar", "trabaAfectiva", "vtoMedidaCautelar", "vtoTrabaAfectiva", "jurisdiccion"
-          ], include: Materias
+          model: Casos, include: Materias
         }]
       }))
     }
@@ -255,7 +253,6 @@ async function modificarTicket(req, res) {
     ticket.estatus = mpApi[0].status
     ticket.detalle_estatus = mpApi[0].status_detail
     ticket.medioDePago = mpApi[0].payment_type_id
-    // //
     console.log("modifico?", ticket);
     Promise.all([
       await ticket.save(),
@@ -275,6 +272,22 @@ async function modificarTicket(req, res) {
   }
 }
 
+async function CLienteAbogado(req, res) {
+  try {
+    const { abogado, cliente, abogadoAntiguo } = req.body
+    const auxCliente = await Cliente.findByPk(cliente)
+    let auxAbogado = await Usuario.findByPk(abogado)
+    auxAbogado = await Abogado.findByPk(auxAbogado.id)
+    const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo)
+    await auxCliente.removeAbogado(auxAbogadoAntiguo)
+    await auxCliente.addAbogados(auxAbogado)
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
+  }
+}
+
 
 module.exports = {
   usuario,
@@ -283,5 +296,6 @@ module.exports = {
   setBann,
   getAbogado,
   modificarTicket,
-  putCaso
+  putCaso,
+  CLienteAbogado
 };
