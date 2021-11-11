@@ -159,9 +159,6 @@ async function modificarAbogado(req, res) {
       await abogado.setProvincias(provincias)
     ]);
 
-
-    console.log(abogado);
-
     return res.send({
       ...{
         eMail: user.eMail,

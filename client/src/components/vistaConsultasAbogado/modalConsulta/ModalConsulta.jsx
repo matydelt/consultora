@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import swal from "sweetalert";
+import ReactWhatsapp from 'react-whatsapp';
 import {
   deleteConsulta,
   getConsultas,
@@ -35,7 +36,7 @@ export default function ModalConsulta({ usuario, modalId }) {
       if (willDelete) {
         const titulo = `${usuario.firstName + " " + usuario.lastName
           } - Consulta ${consulta.id}`;
-        
+
         dispatch(setConsulta(consulta.id, usuario.abogado.id, respuesta)).then(
           () => {
             if (price > 0) {
@@ -118,7 +119,12 @@ export default function ModalConsulta({ usuario, modalId }) {
                 </li>
                 <li className="list-group-item ">
                   <span>Teléfono: </span>
-                  {consulta?.telefono}
+                  {
+                    (consulta?.telefono) && 
+                    <ReactWhatsapp className="btn btn-success" number={'+549'+consulta?.telefono} message={`Buenos días, ${consulta?.nombre}. Te contacto de La Consultora.`}>
+                      📱 {consulta?.telefono}
+                    </ReactWhatsapp>
+                  }
                 </li>
                 <li className="list-group-item ">
                   <span>Email: </span>

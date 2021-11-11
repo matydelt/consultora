@@ -21,7 +21,11 @@ import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/Consulta
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/adminPage/adminPage";
+import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
+
 import "./App.css";
+import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -67,6 +71,9 @@ function App() {
         <Route exact path="/user/panel/consultas">
           <ConsultasUsuario />
         </Route>
+        <Route exact path="/user/panel/turnos">
+          <TurnosUsuario />
+        </Route>
         <div>
           <NavAbogado />
           <Route exact path="/user/abogado">
@@ -83,6 +90,9 @@ function App() {
             path="/user/abogado/modificar-perfil"
             component={ModificarAbogado}
           ></Route>
+          <Route path="/user/abogado/gestionar-turnos">
+            <TurnosAbogado></TurnosAbogado>
+          </Route>
           <Route exact path="/user/abogado/nuevo-caso">
             <FormCasos />
           </Route>

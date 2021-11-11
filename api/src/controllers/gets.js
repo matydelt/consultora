@@ -8,8 +8,11 @@ const {
     Consulta,
     Cliente,
     Ticket,
+    Dia,
+    Turno,
     Op,
 } = require("../db");
+const turno = require("../models/turno");
 
 async function getUsuarios(req, res) {
     try {
@@ -311,6 +314,40 @@ async function getTickets(req, res, next) {
     }
 }
 
+async function getDias(req, res) {
+
+    const { abogadoId } = req.query;
+    let dias = [];
+    try {
+        if(abogadoId) {
+             dias = await Dia.findAll({
+                where: { 
+                    fecha: { [Op.gte]: new Date().getTime()},
+                    abogadoId
+                 },
+                include: Turno,
+                order: [
+                    ['fecha', 'DESC']
+                ],
+            });
+            
+        } else {
+             dias = await Dia.findAll({
+                include: Turno,
+                order: [
+                    ['fecha', 'DESC']
+                ],
+            });
+        }
+            
+        return res.json(dias);
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+
+};
+
 module.exports = {
     // getUsuario,
     getUsuarios,
@@ -324,5 +361,6 @@ module.exports = {
     getAbogado,
     getPersonas,
     // getUsuario,
-    getTickets
+    getTickets,
+    getDias
 };

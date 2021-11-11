@@ -74,7 +74,9 @@ const {
   Provincias,
   Consulta,
   Admin,
-  Ticket
+  Ticket,
+  Dia,
+  Turno
 } = sequelize.models;
 
 // Aca vendrian las relaciones
@@ -99,7 +101,9 @@ Consulta.hasOne(Ticket);
 
 Ticket.hasOne(Casos);
 
-
+Abogado.hasMany(Dia);
+Dia.hasMany(Turno);
+Cliente.hasOne(Turno);
 
 Abogado.belongsToMany(Provincias, { through: "abogadoprovincia" });
 
@@ -122,6 +126,7 @@ Cliente.hasMany(Casos);
 Abogado.belongsToMany(Cliente, { through: "abogadocliente" });
 Cliente.belongsToMany(Abogado, { through: "abogadocliente" });
 // Abogado.hasMany(Consulta);
+
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
