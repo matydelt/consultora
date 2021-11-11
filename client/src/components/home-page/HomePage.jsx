@@ -35,9 +35,11 @@ const HomePage = () => {
       <div className="mb-5">
         <h3 className="text-center mb-4 fs-1">Competencias</h3>
         <div className="flex-materias">
-          {materia.map((m) => (
-            <Materia id={m.id} nombre={m.nombre} />
-          ))}
+          {
+            materia.map((m, i) => (
+              <Materia key={i} nombre={m.nombre} />
+            ))
+          }
         </div>
       </div>
       <Banner

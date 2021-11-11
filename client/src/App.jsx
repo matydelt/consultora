@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
-import { getMaterias, getProvincias, getUsuario } from "./redux/actions";
+import { getMaterias, getProvincias, getUsuario, getAbogados } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
@@ -26,6 +26,7 @@ import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 import "./App.css";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
 
+import SiteMateria from "./components/Materia/SiteMateria/SiteMateria";
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector(state => state)
@@ -43,6 +44,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getProvincias());
+    dispatch(getAbogados());
     dispatch(getMaterias());
   }, []);
 
@@ -51,6 +53,9 @@ function App() {
       <Switch>
         <Route exact path="/">
           <HomePage />
+        </Route>
+        <Route exact path="/materias/:materia">
+          <SiteMateria />
         </Route>
         <Route exact path="/consulta">
           <FormCita />

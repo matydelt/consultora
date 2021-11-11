@@ -34,20 +34,32 @@ export default function ModificarAbogado() {
 
   useEffect(() => {
 
+<<<<<<< HEAD
     if (usuario?.slug?.length > 0) {
       let arrMaterias = []
       let arrProvincias = []
       axios
         .get(`/abogado/${usuario?.slug}`)
+=======
+    dispatch(getProvincias());
+
+    if(usuario) {      
+      axios
+        .get(`/abogado/${usuario.slug}`)
+>>>>>>> origin/angelo
         .then(({ data }) => {
           setForm({
             nombre: data.firstName,
             apellido: data.lastName,
+<<<<<<< HEAD
             matricula: data.matricula || "",
+=======
+>>>>>>> origin/angelo
             detalle: data.detalle || "",
             experiencia: data.experiencia || "",
             estudios: data.estudios || "",
             imagen: data.imagen,
+<<<<<<< HEAD
             materias: arrMaterias || [],
             provincias: arrProvincias || []
           });
@@ -62,6 +74,18 @@ export default function ModificarAbogado() {
         });
     }
   }, []);
+=======
+            materias: data.materias || []
+          });
+          let arr = []
+          data.materias.forEach(materia => 
+            arr.push(materia.nombre)
+          );
+          setMateriasEnviar(arr);
+        });
+    }
+  }, [usuario]);
+>>>>>>> origin/angelo
 
 
 
