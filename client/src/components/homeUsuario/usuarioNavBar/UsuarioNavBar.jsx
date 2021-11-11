@@ -16,25 +16,26 @@ export default function UsuarioNavBar() {
 
     const logout = () => {
         signOut(auth)
-          .then(() => {
-            dispatch(getUsuario({}));
-            history.push("/");
-            toast.info("La sesión fue finalizada");
-            localStorage.removeItem('username')
-          })
-          .catch((error) => {
-            // An error happened.
-          });
-      };
+            .then(() => {
+                dispatch(getUsuario({}));
+                history.push("/");
+                toast.info("La sesión fue finalizada");
+                localStorage.removeItem('username')
+            })
+            .catch((error) => {
+                // An error happened.
+            });
+    };
 
     return (<>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="container-fluid">
+     
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <Link to="/">
                         <a class="nav-item nav-link mx-2"> {'< '}Volver al sitio</a>
@@ -46,7 +47,11 @@ export default function UsuarioNavBar() {
                         <a class="nav-item nav-link mx-2">Consultas realizadas</a>
                     </Link>
                     <a class="nav-item nav-link mx-2" href="#">Casos</a>
+                    <Link to="/user/panel/turnos">
+                        <a class="nav-item nav-link mx-2">Turnos</a>
+                    </Link>
                     <span class="nav-item nav-link mx-2 pointer" onClick={logout}>Salir</span>
+                </div>
                 </div>
             </div>
         </nav>

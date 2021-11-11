@@ -13,7 +13,9 @@ const {
   Consulta,
   Admin,
   Materias,
-  Ticket
+  Ticket,
+  Dia,
+  Turno
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
@@ -330,9 +332,32 @@ async function setAdmin(req, res) {
   }
 }
 
-async function reiniciarPassword(req, res) {
+async function postDia(req, res) {
+  const { form, abogadoId } = req.body;
+  const { fecha, nota, turnos } = form;
 
-}
+  console.log(abogadoId);
+
+  try {
+
+    const dia = await Dia.create({ fecha, nota });
+    const abogado = await Abogado.findByPk(abogadoId);
+    console.log(abogado);
+    const crearTurnos = turnos.map(async turno => {
+      return await Turno.create({ hora: turno.hora, diumId: dia.id })
+    })
+
+    // Promise.all([crearTurnos, await abogado.addDia(dia)])
+    await abogado.addDia(dia)
+
+    return res.json(dia)
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+
+
+};
 
 //MP automatizado
 const postPago = async (req, res, next) => {
@@ -372,6 +397,7 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
-  reiniciarPassword,
-  postPago
+
+  postPago,
+  postDia
 };
