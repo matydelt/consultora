@@ -22,6 +22,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/admin/adminPage/adminPage";
 import "./App.css";
+import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 
 function App() {
   const dispatch = useDispatch();
@@ -88,6 +89,7 @@ function App() {
             <FormCasos />
           </Route>
           <Footer />
+          <Route exact path={"/user/abogado/gestionar-turnos"} ><TurnosAbogado /></Route>
         </div>
       </Switch>
       <ToastContainer></ToastContainer>
