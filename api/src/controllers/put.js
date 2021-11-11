@@ -18,7 +18,7 @@ async function usuario(req, res) {
   try {
     // console.log(req.body, req.params, req.query)
     const { eMail } = req.body;
-    console.log(eMail, '-----------------------------');
+
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
       console.log(user);
@@ -95,7 +95,10 @@ async function asignaConsulta(req, res, next) {
         .json({ msg: "La consulta ya fue asignada a un abogado" });
 
     const result = await Consulta.update(
-      { abogadoId: abogadoId },
+      {
+        abogadoId: abogadoId,
+        respuestaAbogado: respuesta
+      },
       { where: { id: consultaId } }
     );
 
@@ -117,28 +120,47 @@ async function asignaConsulta(req, res, next) {
 
 async function modificarAbogado(req, res) {
   const { eMail } = req.params;
-  const { nombre, apellido, detalle, estudios, experiencia } = req.body;
+  const { nombre, apellido, detalle, matricula, estudios, experiencia, materias, provincias } = req.body;
+
+  console.log(matricula);
 
   try {
     const user = await Usuario.findByPk(eMail);
     if (!user) return res.sendStatus(404);
     const persona = await Persona.findByPk(user.personaDni);
     if (!persona) return res.sendStatus(404);
-    let abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
+    let abogado = await Abogado.findOne({ where: { id: user.abogadoId }, include: [Materias, Provincias] });
     if (!abogado) return res.sendStatus(404);
 
     persona.firstName = nombre;
     persona.lastName = apellido;
+    abogado.matricula = matricula;
     abogado.detalle = detalle;
     abogado.estudios = estudios;
     abogado.experiencia = experiencia;
     user.slug = `${nombre}-${apellido}`;
 
+    if (abogado.materias) {
+      abogado.materias.forEach(async (m) => {
+        await abogado.removeMateria(m)
+      })
+    }
+    if (abogado.provincias) {
+      abogado.provincias.forEach(async (p) => {
+        await abogado.removeProvincia(p)
+      })
+    }
+
     Promise.all([
       await persona.save(),
       await abogado.save(),
       await user.save(),
+      await abogado.setMaterias(materias),
+      await abogado.setProvincias(provincias)
     ]);
+
+
+    console.log(abogado);
 
     return res.send({
       ...{
@@ -241,34 +263,34 @@ async function putCaso(req, res) {
 // MP
 async function modificarTicket(req, res) {
 
-  const { enlace } = req.body;
+  const { enlace, n_operacion } = req.body;
 
   try {
     const ticket = await Ticket.findOne({ where: { enlace: enlace } });
 
-    let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
-    console.log(mpApi);
-    mpApi = mpApi.results.filter(e => {
-      if (e.description == ticket.titulo) return e
-    })
-    ticket.n_operacion = mpApi[0].id
-    ticket.estatus = mpApi[0].status
-    ticket.detalle_estatus = mpApi[0].status_detail
-    ticket.medioDePago = mpApi[0].payment_type_id
-    // //
-    console.log("modifico?", ticket);
-    Promise.all([
-      await ticket.save(),
-    ]);
+    let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
 
-    return res.send({
-      ...{
-        estatus: mpApi.status,
-        detalle_estatus: mpApi.status_detail,
-        medioDePago: mpApi.payment_type_id
-      },
-      ticket,
-    });
+
+    if (ticket.titulo === mpApi.description) {
+      ticket.n_operacion = mpApi.id
+      ticket.estatus = mpApi.status
+      ticket.detalle_estatus = mpApi.status_detail
+      ticket.medioDePago = mpApi.payment_type_id
+
+      Promise.all([
+        await ticket.save(),
+      ]);
+
+      return res.send({
+        ...{
+          estatus: mpApi.status,
+          detalle_estatus: mpApi.status_detail,
+          medioDePago: mpApi.payment_type_id
+        },
+        ticket,
+      })
+    }
+
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

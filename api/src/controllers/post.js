@@ -62,7 +62,7 @@ const postTickets = async (req, res, next) => {
     } else {
       const consul = await Consulta.findByPk(consultaid);
 
-      const tickets = await Ticket.create(ticket);
+      consul.setTicket(tickets);
 
       tickets.setConsultum(consul);
 

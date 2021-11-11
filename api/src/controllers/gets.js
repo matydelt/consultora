@@ -61,7 +61,8 @@ async function getProvincias(req, res) {
       "Tierra del Fuego",
       "Tucumán",
     ];
-    let provs = await Provincias.findAll({ where: {}, include: Abogado });
+    let provs = await Provincias.findAll({ where: {} });
+    // let provs = await Provincias.findAll({ where: {}, include: Abogado });
     if (provs.length === 0) {
       for (let i = 0; i < vec.length; i++) {
         provs.push(
@@ -273,20 +274,11 @@ async function getConsultas(req, res, next) {
   }
   if (apellido) {
     try {
-      const apellidosDB = await Consulta.findAll({
-        where: {
-          apellido: {
-            [Op.iLike]: `%${apellido}%`,
-          },
-        },
+      const todasConsultas = await Consulta.findAll({
+        order: [["createdAt", "DESC"]],
+        include: Ticket,
       });
-      if (apellidosDB !== null) {
-        res.json(apellidosDB);
-      } else {
-        res
-          .status(404)
-          .send({ msg: "no se encuentra persona con ese apellido" });
-      }
+      res.json(todasConsultas);
     } catch (error) {
       console.log(error);
       next({ msg: "error al conseguir la persona por apellido" });
@@ -363,7 +355,9 @@ async function getreseñas(req, res, next) {
 }
 
 module.exports = {
+  // getUsuario,
   getUsuarios,
+  // getUsuario,
   getPersonas,
   getCasos,
   getProvincias,
@@ -372,6 +366,6 @@ module.exports = {
   getAbogados,
   getAbogado,
   getPersonas,
+  // getUsuario,
   getTickets,
-  getreseñas,
 };

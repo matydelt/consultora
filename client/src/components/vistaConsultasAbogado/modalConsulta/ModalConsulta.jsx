@@ -9,7 +9,6 @@ import {
   postTickets,
 } from "../../../redux/actions";
 
-let myModal = "";
 
 export default function ModalConsulta({ usuario, modalId }) {
   let [respuesta, setRespuesta] = useState("");
@@ -19,7 +18,12 @@ export default function ModalConsulta({ usuario, modalId }) {
 
   useEffect(() => {
     setRespuesta("");
+    setPrice(0);
   }, [consulta]);
+
+  useEffect(() => {
+    dispatch(getConsultas());
+  }, [dispatch]);
 
   function confimarConsulta() {
     swal({
@@ -29,10 +33,9 @@ export default function ModalConsulta({ usuario, modalId }) {
       buttons: true,
     }).then((willDelete) => {
       if (willDelete) {
-        const titulo = `${
-          usuario.firstName + " " + usuario.lastName
-        } - Consulta ${consulta.id}`;
-        console.log("id", consulta.id);
+        const titulo = `${usuario.firstName + " " + usuario.lastName
+          } - Consulta ${consulta.id}`;
+        
         dispatch(setConsulta(consulta.id, usuario.abogado.id, respuesta)).then(
           () => {
             if (price > 0) {
@@ -44,9 +47,13 @@ export default function ModalConsulta({ usuario, modalId }) {
                 })
               );
             }
-            dispatch(getConsultas());
           }
-        );
+        ).then(() => {
+          setTimeout(() => {
+            dispatch(getConsultas());
+          }, 1500)
+
+        })
       }
       setRespuesta("");
     });
@@ -105,18 +112,36 @@ export default function ModalConsulta({ usuario, modalId }) {
                     Nombre: {consulta?.nombre} {consulta?.apellido}{" "}
                   </span>
                 </li>
+                <li className="list-group-item ">
+                  <span>DNI: </span>
+                  {consulta?.dni}
+                </li>
+                <li className="list-group-item ">
+                  <span>Teléfono: </span>
+                  {consulta?.telefono}
+                </li>
+                <li className="list-group-item ">
+                  <span>Email: </span>
+                  {consulta?.email}
+                </li>
+
+                {consulta?.ticket &&
+                  <li className="list-group-item ">
+                    <span>Pago: ${consulta.ticket.precio}</span>
+                    {consulta?.ticket.estatus === 'pending' ?
+                      <span className="badge bg-warning mx-2">Pendiente</span>
+                      :
+                      <span className="badge bg-success mx-2">Abonado</span>
+                    }
+
+                  </li>
+                }
+
+
+                <li className="list-group-item ">
+                  <span>{consulta?.mensaje}</span>
+                </li>
               </ul>
-              <li className="list-group-item ">
-                <span>Teléfono: </span>
-                {consulta?.telefono}
-              </li>
-              <li className="list-group-item ">
-                <span>Email: </span>
-                {consulta?.email}
-              </li>
-              <li className="list-group-item ">
-                <span>{consulta?.mensaje}</span>
-              </li>
             </div>
 
             {!consulta?.abogadoId ? (

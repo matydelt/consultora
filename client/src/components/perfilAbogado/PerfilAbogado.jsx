@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router"
+import Footer from "../home-page/Footer/Footer";
 import Navbar from "../home-page/Navbar/Navbar";
 
 
@@ -20,20 +21,17 @@ export default function PerfilAbogado() {
 
 
   const getAbogado = () => {
-
-    // return axios.get(`http://localhost:3001/abogado/${eMail}@gmail.com`).then(({ data }) => {
-    return axios.get(`http://localhost:3001/abogado/${slug}`).then(({ data }) => {
+    return axios.get(`abogado/${slug}`).then(({ data }) => {
       setAbogado(data);
     });
-
   };
 
 
   return (<>
 
-    <Navbar navId={"menu"}/>
+    <Navbar navId={"menu"} />
 
-    <div className="animate__animated animate__fadeIn animate__faster">
+    <div className="animate__animated animate__fadeIn animate__faster mb-5">
 
       <div className="">
 
@@ -44,6 +42,15 @@ export default function PerfilAbogado() {
             <img className="rounded mx-auto d-block shadow imagen-perfil-abogado" src={abogado?.imagen || 'https://www.caracteristicas.co/wp-content/uploads/2017/03/Derecho-e1564875517201.jpg'} alt="" />
             <h1 className="text-secondary text-center mt-4">{abogado.firstName} {abogado.lastName}</h1>
             <h5 className="color-titulo text-center p-4">Abogado</h5>
+
+            <div className="text-center">
+              {
+                abogado.provincias?.map(provincia => {
+                  return <span key={provincia.nombre} className="text-muted">{provincia.nombre} <span hidden={abogado.provincias.length-1 === abogado.provincias.indexOf(provincia)}> | </span> </span>
+                })
+              }
+            </div>
+
           </div>
 
         </div>
@@ -64,15 +71,22 @@ export default function PerfilAbogado() {
 
           <div className="col">
             <p className="fs-4 text-muted">Especialidades</p>
-            <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p>
+            {/* <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p> */}
             <hr className="w-25 text-black"></hr>
-            <i className="bi bi-telephone"></i><p></p>
+
+            {abogado.materias?.map(materia => {
+              return <p key={materia.nombre} className="fs-6  fw-bold text-secondary">{materia.nombre}</p>
+            })
+            }
+
           </div>
         </div>
 
       </div>
 
     </div>
+
+    <Footer></Footer>
 
   </>)
 }

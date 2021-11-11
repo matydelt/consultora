@@ -12,7 +12,7 @@ import Footer from "./Footer/Footer";
 
 const HomePage = () => {
 
-  const materias = useSelector(state => state.materias)
+  const materia = useSelector(state => state.materias)
   const dispatch = useDispatch()
     
 
@@ -38,8 +38,8 @@ const HomePage = () => {
         <h3 className="text-center mb-4 fs-1">Competencias</h3>
         <div className="flex-materias">
           {
-            materias.map(m => (
-              <Materia key={m.id} nombre={m.nombre} />
+            materia.map(m => (
+              <Materia id={m.id} nombre={m.nombre} />
             ))
           }
         </div>

@@ -164,37 +164,38 @@ export const Signin = () => {
     <div>
       <Navbar navId={"menu"} />
       {!!usuario.firstName ? (
-        <div className="container p-4">
-          <div className="row">
-            <div className="col-md-4 mx-auto">
-              <div className="card text-center">
-                <div className="card-header">
-                  <h2>Bienvenido</h2>
-                </div>
-                <div className="card-header">
-                  <h3>
-                    {displayname
-                      ? displayname
-                      : `${usuario.firstName} ${usuario.lastName}`}
-                  </h3>
-                </div>
-                <img
-                  src={Logo}
-                  alt="Logo Consultora"
-                  className="card-img-top mx-auto m-2 rounded-circle w-50"
-                />
-                <div className="card-body">
-                  <button
-                    className="btn btn-primary btn-block"
-                    onClick={logout}
-                  >
-                    Cerrar sesión
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Redirect to="/user/panel" />
+        // <div className="container p-4">
+        //   <div className="row">
+        //     <div className="col-md-4 mx-auto">
+        //       <div className="card text-center">
+        //         <div className="card-header">
+        //           <h2>Bienvenido</h2>
+        //         </div>
+        //         <div className="card-header">
+        //           <h3>
+        //             {displayname
+        //               ? displayname
+        //               : `${usuario.firstName} ${usuario.lastName}`}
+        //           </h3>
+        //         </div>
+        //         <img
+        //           src={Logo}
+        //           alt="Logo Consultora"
+        //           className="card-img-top mx-auto m-2 rounded-circle w-50"
+        //         />
+        //         <div className="card-body">
+        //           <button
+        //             className="btn btn-primary btn-block"
+        //             onClick={logout}
+        //           >
+        //             Cerrar sesión
+        //           </button>
+        //         </div>
+        //       </div>
+        //     </div>
+        //   </div>
+        // </div>
       ) : displayname ? (
         <div className="container p-4">
           <div className="row">
@@ -210,7 +211,7 @@ export const Signin = () => {
                       value={firstName}
                       name="firstName"
                       autoComplete="off"
-                      placeholder=" First Name"
+                      placeholder=" Nombre"
                       className="form-control"
                       autoFocus
                       required
@@ -225,7 +226,7 @@ export const Signin = () => {
                       value={lastName}
                       name="lastName"
                       autoComplete="off"
-                      placeholder=" Last Name"
+                      placeholder=" Apellido"
                       className="form-control"
                       autoFocus
                       required
@@ -254,7 +255,7 @@ export const Signin = () => {
                       value={celular}
                       name="Number"
                       autoComplete="off"
-                      placeholder="Number : 11 1111-1111"
+                      placeholder="Teléfono : 11 1111-1111"
                       className="form-control"
                       required
                       onChange={(e) => {
@@ -269,7 +270,7 @@ export const Signin = () => {
                       name="Mail"
                       disabled="on"
                       autoComplete="off"
-                      placeholder="Mail : Ejemplo@ejemplo.com"
+                      placeholder="Email: ejemplo@ejemplo.com"
                       className="form-control"
                       required
                     />
@@ -281,7 +282,7 @@ export const Signin = () => {
                       disabled="on"
                       name="password"
                       autoComplete="off"
-                      placeholder="Password min 6 digits"
+                      placeholder="Contraseña"
                       className="form-control"
                       required
                     />
@@ -343,7 +344,7 @@ export const Signin = () => {
                       name="password"
                       autoComplete="off"
                       required
-                      placeholder="Password"
+                      placeholder="Contraseña"
                       className="form-control"
                       onChange={(e) => {
                         setPassword(e.target.value);

@@ -39,7 +39,7 @@ export const dniNoOK = () => {
 
 export const sessionIN = () => {
     swal({
-        title: "WELCOME",
+        title: "Bienvenido",
         text: '',
         icon: "success",
         button: "Aceptar"

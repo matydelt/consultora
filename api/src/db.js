@@ -95,21 +95,21 @@ Abogado.hasOne(Persona);
 
 Abogado.hasMany(Consulta);
 
-Ticket.hasOne(Consulta);
+// Ticket.hasOne(Consulta);
+Consulta.hasOne(Ticket);
 
 Ticket.hasOne(Casos);
 
-Abogado.hasMany(Provincias);
 
-Abogado.hasMany(Provincias);
 
-Abogado.belongsToMany(Provincias, { through: "abogadomatricula" });
+Abogado.belongsToMany(Provincias, { through: "abogadoprovincia" });
 
 Abogado.belongsToMany(Matricula, { through: "abogadomatricula" });
 
 Matricula.belongsTo(Abogado, { through: "abogadomatricula" });
 
 Abogado.belongsToMany(Materias, { through: "abogadomateria" });
+Materias.belongsToMany(Abogado, { through: "abogadomateria" });
 
 Materias.belongsToMany(Abogado, { through: "abogadomateria" });
 
