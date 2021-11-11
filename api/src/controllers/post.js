@@ -339,7 +339,6 @@ module.exports = {
   setCasos,
   setAbogado,
   setConsulta,
-  // setPersona,
   setAdmin,
   eliminarImagen,
   subirImagen,
