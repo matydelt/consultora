@@ -26,7 +26,7 @@ import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 import "./App.css";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
 
-import SiteMateria from "./components/Materia/SiteMateria/SiteMateria";
+import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector(state => state)
