@@ -193,8 +193,8 @@ const AdminUsersPage = () => {
                 )}
                 {e.abogadoId ? (
                   usuario.eMail === e.eMail ||
-                  e.adminId !== 1 ||
-                  usuario.adminId === 1 ? (
+                    e.adminId !== 1 ||
+                    usuario.adminId === 1 ? (
                     <td>
                       <input
                         className="form-check-input"

@@ -23,7 +23,6 @@ const AdminNewUsersPage = () => {
     e.preventDefault();
     let eMail = e.target.value;
     let aux = usuarios.find((e) => e.eMail === eMail);
-    console.log(aux);
     if (type === "abogado") {
       if (aux.adminId !== 1 || usuario.adminId === 1) {
         let mensaje = "";
@@ -205,8 +204,8 @@ const AdminNewUsersPage = () => {
                 )}
                 {e.abogadoId ? (
                   usuario.eMail === e.eMail ||
-                  e.adminId !== 1 ||
-                  usuario.adminId === 1 ? (
+                    e.adminId !== 1 ||
+                    usuario.adminId === 1 ? (
                     <td>
                       <input
                         className="form-check-input"
@@ -325,15 +324,7 @@ const AdminNewUsersPage = () => {
         </tbody>
       </table>
       <div id="liveAlertPlaceholder">
-        <div className="alert alert-danger alert-dismissible" role="alert">
-          Cuidado una vez eliminado el estado de abogado el mismo pierde todo!
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
-        </div>
+
       </div>
     </div>
   );
