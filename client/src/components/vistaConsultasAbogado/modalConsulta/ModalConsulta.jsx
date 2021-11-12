@@ -8,6 +8,7 @@ import {
   getConsultas,
   setConsulta,
   postTickets,
+  setCliente,
 } from "../../../redux/actions";
 
 
@@ -56,6 +57,7 @@ export default function ModalConsulta({ usuario, modalId }) {
 
         })
       }
+      dispatch(setCliente(consulta.email, usuario.abogado.id));
       setRespuesta("");
     });
   }

@@ -16,12 +16,15 @@ router.get("/abogado/:slug", (req, res) => get.getAbogado(req, res)) // get abog
 
 router.post("/cliente", async function (req, res) {    // set client to abogado
     const { cliente, abogado } = req.body
+    console.log(cliente,abogado);
     try {
-        let { abogadoId } = await Usuario.findByPk(abogado)
+        let abogadoBuscado = await Abogado.findByPk(abogado)
         let { clienteId } = await Usuario.findByPk(cliente)
 
+        // console.log(abogadoId, clienteId, '------------');
+
         let clienteAux = await Cliente.findByPk(clienteId)
-        let abogadoAux = await Abogado.findByPk(abogadoId)
+        let abogadoAux = await Abogado.findByPk(abogadoBuscado.id)
         if (clienteAux, abogadoAux) {
             abogadoAux.addClientes(clienteAux)
             res.sendStatus(200)
@@ -58,6 +61,8 @@ router.post("/adm", (req, res) => post.setAdmin(req, res))
 
 
 router.put("/abogado/:eMail", (req, res) => put.modificarAbogado(req, res)); // modificar abogado, actualizar foto etc
+
+router.get("/abogados-cliente", (req, res) => get.getAbogadosCliente(req, res));
 
 
 

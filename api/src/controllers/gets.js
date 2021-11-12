@@ -145,7 +145,7 @@ async function getAbogado(req, res) {
         let user = {};
         if (!eMail) {
             const { slug } = req.params
-            user = await Usuario.findOne({where: {slug}})
+            user = await Usuario.findOne({ where: { slug } })
         } else {
             user = await Usuario.findByPk(eMail)
         }
@@ -282,28 +282,28 @@ async function getConsultas(req, res, next) {
 async function getTickets(req, res, next) {
     const { id, enlace } = req.body;
     console.log("id", req.body);
-    if (!!id && id!==null) {
-        try{
+    if (!!id && id !== null) {
+        try {
             const ticket = await Ticket.findByPk(id)
-            console.log("ticket",ticket);
+            console.log("ticket", ticket);
             res.json(ticket);
         } catch (error) {
             console.log(error);
             res.sendStatus(404);
         }
     }
-    
-    else if (!!enlace && enlace!==null) {
-        try{
-            const ticket = await Ticket.findOne({where: {enlace:enlace}})
-            console.log("ticket",ticket);
+
+    else if (!!enlace && enlace !== null) {
+        try {
+            const ticket = await Ticket.findOne({ where: { enlace: enlace } })
+            console.log("ticket", ticket);
             res.json(ticket);
         } catch (error) {
             console.log(error);
             res.sendStatus(404);
         }
     }
-    else{
+    else {
         try {
             const ticket = await Ticket.findAll();
             res.json(ticket);
@@ -319,27 +319,27 @@ async function getDias(req, res) {
     const { abogadoId } = req.query;
     let dias = [];
     try {
-        if(abogadoId) {
-             dias = await Dia.findAll({
-                where: { 
-                    fecha: { [Op.gte]: new Date().getTime()},
+        if (abogadoId) {
+            dias = await Dia.findAll({
+                where: {
+                    fecha: { [Op.gte]: new Date().getTime() },
                     abogadoId
-                 },
-                include: Turno,
+                },
+                include: { model: Turno, where: { clienteId: null } },
                 order: [
                     ['fecha', 'DESC']
                 ],
             });
-            
+
         } else {
-             dias = await Dia.findAll({
+            dias = await Dia.findAll({
                 include: Turno,
                 order: [
                     ['fecha', 'DESC']
                 ],
             });
         }
-            
+
         return res.json(dias);
     } catch (error) {
         console.log(error);
@@ -347,6 +347,46 @@ async function getDias(req, res) {
     }
 
 };
+
+
+async function getAbogadosCliente(req, res) {
+    const { clienteId } = req.query;
+
+    console.log(clienteId);
+    try {
+        const cliente = await Cliente.findByPk(clienteId);
+    
+        const abogados = await cliente.getAbogados();
+        
+    
+        return res.json(abogados)
+    } catch (error) {
+        console.log(error);
+    }
+
+
+};
+
+
+async function getTurno(req, res) {
+    const { clienteId } = req.query;
+    
+    try {
+        
+        const cliente = await Cliente.findByPk(clienteId);
+
+        const turno = await cliente.getTurno();
+
+        const dia = await Dia.findByPk(turno.diumId);
+
+        return res.json({turno, dia});
+        
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+};
+
 
 module.exports = {
     // getUsuario,
@@ -362,5 +402,7 @@ module.exports = {
     getPersonas,
     // getUsuario,
     getTickets,
-    getDias
+    getDias,
+    getAbogadosCliente,
+    getTurno
 };

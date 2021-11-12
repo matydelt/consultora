@@ -388,8 +388,30 @@ async function postDia(req, res) {
     console.log(error);
     return res.sendStatus(500);
   }
+};
 
+async function confirmarTurno(req, res) {
+  const { clienteId, turnoId } = req.body;
 
+  try {
+    
+      const cliente = await Cliente.findByPk(clienteId);
+    
+      const turno = await Turno.findByPk(turnoId);
+
+      if(turno.clienteId){
+        return res.status(400).json({mensaje: 'El turno fue tomado'})
+      }
+    
+      await cliente.setTurno(turno);
+    
+      return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      mensaje: 'El turno fue tomado'
+    });
+  }
 };
 
 module.exports = {
@@ -402,5 +424,6 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
-  postDia
+  postDia,
+  confirmarTurno
 };

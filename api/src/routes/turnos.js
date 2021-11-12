@@ -8,6 +8,10 @@ router.post("/dia", (req, res) => post.postDia(req, res));
 
 router.get("/dias", (req, res) => get.getDias(req, res));
 
+router.get("/turno", (req, res) => get.getTurno(req, res));
+
+router.post("/confirmar-turno", (req, res) => post.confirmarTurno(req, res));
+
 // router.put("/dia", (req, res) => put.(req, res));
 
 module.exports = router;
