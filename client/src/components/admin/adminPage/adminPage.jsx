@@ -16,6 +16,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import AdminUsersPage from "../adminUsersPage/adminUsersPage";
 import AdminNewUsersPage from "../adminNewUsersPage/adminNewUsersPage";
 import AdminClientes from "../adminClients/clientes";
+import AdminBannedUsersPage from "../adminBannedUsersPage/adminBannedUsersPage";
 import Navbar from "../../home-page/Navbar/Navbar";
 
 export default function AdminPage() {
@@ -29,13 +30,18 @@ export default function AdminPage() {
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
       <Navbar navId={"menu"} />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", marginTop: "-20px" }}>
         <Sidebar />
         <Switch>
           <Route path="/admin" exact component={Dashboard} />
           <Route path="/admin/users" exact component={AdminUsersPage} />
           <Route path="/admin/users/new" exact component={AdminNewUsersPage} />
           <Route path="/admin/users/clientes" exact component={AdminClientes} />
+          <Route
+            path="/admin/users/banned"
+            exact
+            component={AdminBannedUsersPage}
+          />
         </Switch>
       </div>
     </div>

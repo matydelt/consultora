@@ -193,8 +193,8 @@ const AdminUsersPage = () => {
                 )}
                 {e.abogadoId ? (
                   usuario.eMail === e.eMail ||
-                    e.adminId !== 1 ||
-                    usuario.adminId === 1 ? (
+                  e.adminId !== 1 ||
+                  usuario.adminId === 1 ? (
                     <td>
                       <input
                         className="form-check-input"
@@ -317,7 +317,7 @@ const AdminUsersPage = () => {
           Cuidado una vez eliminado el estado de abogado el mismo pierde todo!
           <button
             type="button"
-            class="btn-close"
+            className="btn-close"
             data-bs-dismiss="alert"
             aria-label="Close"
           ></button>
