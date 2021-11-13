@@ -242,16 +242,16 @@ async function setCasos(req, res) {
       juzgado,
       detalle,
       estado,
-      eMail,
       medidaCautelar,
       trabaAfectiva,
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion,
-      materia
+      materia,
+      id
     } = req.body;
 
-    const caso = await Casos.create({
+    const caso = Casos.build({
       trabaAfectiva,
       medidaCautelar,
       numeroLiquidacion,
@@ -266,13 +266,16 @@ async function setCasos(req, res) {
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion,
+
     });
-    const auxMateria = await Materias.findByPk(materia)
-    auxMateria.addCasos(caso)
-    const { clienteId } = await Usuario.findByPk(eMail);
-    const cliente = await Cliente.findByPk(clienteId);
-    cliente.addCasos(caso);
-    res.sendStatus(200);
+    const cliente = await Cliente.findByPk(id);
+    if (cliente) {
+      await caso.save();
+      const auxMateria = await Materias.findByPk(materia)
+      auxMateria.addCasos(caso)
+      cliente.addCasos(caso);
+      return res.sendStatus(200);
+    } else return res.sendStatus(404);
   } catch (error) {
     console.log(error);
     res.sendStatus(404);

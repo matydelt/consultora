@@ -86,6 +86,8 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
   const handleChangeByFecha = (e) => {
     e.preventDefault();
     let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+    AllClients = AllClients.filter(e => e.casos.length > 0)
+
     if (e.target.value === "Ascendente") {
       AllClients.map(e => e.casos.sort(function (a, b) {
         if (Date.parse(a.fecha) > Date.parse(b.fecha)) {
@@ -108,7 +110,6 @@ export default function Clientes() {   //muestra cards de cada cliente con sus c
         return 0
       }))
     }
-    console.log(AllClients)
     setClientes([...AllClients]);
     if (clientes.length === 0)
       return <h3>No hay casos con el estado inicial</h3>;

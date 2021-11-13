@@ -208,6 +208,8 @@ async function getAbogado(req, res) {
                 "vtoMedidaCautelar",
                 "vtoTrabaAfectiva",
                 "jurisdiccion",
+                "updatedAt"
+
               ],
               include: Materias,
             },
