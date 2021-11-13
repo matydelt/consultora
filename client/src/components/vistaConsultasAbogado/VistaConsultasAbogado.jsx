@@ -16,7 +16,7 @@ export default function VistaConsultasAbogado() {
 
   useEffect(() => {
     dispatch(getConsultas());
-  }, []);
+  }, [dispatch]);
 
   function actualizarConsultas() {
     dispatch(getConsultas());

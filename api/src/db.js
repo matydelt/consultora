@@ -76,6 +76,8 @@ const {
   Admin,
   Ticket,
   Resena,
+  Dia,
+  Turno,
 } = sequelize.models;
 
 // Aca vendrian las relaciones
@@ -100,7 +102,9 @@ Consulta.hasOne(Ticket);
 
 Ticket.hasOne(Casos);
 
-
+Abogado.hasMany(Dia);
+Dia.hasMany(Turno);
+Cliente.hasOne(Turno);
 
 Abogado.belongsToMany(Provincias, { through: "abogadoprovincia" });
 

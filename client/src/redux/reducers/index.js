@@ -5,7 +5,22 @@ const initialState = {
   usuario: {},
   provincias: [],
   abogados: [],
-  abogado: {},
+  abogado: {
+    eMail: "jonito@gmail.com",
+    firstName: "jony",
+    lastName: "lolin",
+    dni: 12312123,
+    celular: 114512873,
+    abogado: {
+      id: 1,
+      detalle: null,
+      imagen: null,
+      estudios: null,
+      experiencia: null,
+      createdAt: "2021-11-01T19:44:04.807Z",
+      updatedAt: "2021-11-01T19:44:04.807Z",
+    },
+  },
   error: "",
   consultas: [],
   admin: {},
@@ -22,8 +37,9 @@ const rootReducer = (state = initialState, action) => {
         materias: action.payload,
       };
       case 'GET_MATERIAS_SITE':
-        let materiaId = state.materias.length > 0 && state.materias?.find((m) => m.nombre === action.payload).abogados.map((a) => a.abogadomateria.abogadoId);
+        let materiaId = state.materias.length > 0 && state.materias?.find((m) => m.nombre  === action.payload).abogados.map((a) => a.abogadomateria.abogadoId);
         let abogadoMateria = state.abogados.filter((m) => materiaId.includes(m.abogado.id));
+        console.log(materiaId)
         return {
           ...state,
           abogados: abogadoMateria
@@ -46,7 +62,7 @@ const rootReducer = (state = initialState, action) => {
     case "SET_CONSULTA":
       return {
         ...state,
-        consulta: action.payload
+        consulta: action.payload,
       };
     case "GET_USUARIO":
       let user = action.payload;
@@ -130,6 +146,10 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         consultas: action.payload,
       };
+    case "ASIGNAR_CONSULTA":
+      return {
+        ...state,
+      };
     case "DELETE_CONSULTA":
       return {
         ...state,
@@ -157,12 +177,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         consultas: action.payload,
-      }
+      };
     case "PUT_CASO":
       return {
         ...state,
-
-      }
+      };
     case "GET_TICKET":
       return {
         ...state,

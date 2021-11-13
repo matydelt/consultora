@@ -144,7 +144,6 @@ async function modificarAbogado(req, res) {
 
     persona.firstName = nombre;
     persona.lastName = apellido;
-    abogado.matricula = matricula;
     abogado.detalle = detalle;
     abogado.estudios = estudios;
     abogado.experiencia = experiencia;
@@ -226,6 +225,19 @@ async function getAbogado(req, res) {
             },
             {
               model: Casos,
+              attributes: [
+                "juez",
+                "numeroExpediente",
+                "juzgado",
+                "detalle",
+                "estado",
+                "numeroLiquidacion",
+                "medidaCautelar",
+                "trabaAfectiva",
+                "vtoMedidaCautelar",
+                "vtoTrabaAfectiva",
+                "jurisdiccion",
+              ],
               include: Materias,
             },
           ],
@@ -352,11 +364,15 @@ async function CLienteAbogado(req, res) {
     const { abogado, cliente, abogadoAntiguo } = req.body;
     const auxCliente = await Cliente.findByPk(cliente);
     let auxAbogado = await Usuario.findByPk(abogado);
-    auxAbogado = await Abogado.findByPk(auxAbogado.id);
-    const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo);
-    await auxCliente.removeAbogado(auxAbogadoAntiguo);
-    await auxCliente.addAbogados(auxAbogado);
-    res.sendStatus(200);
+    let auxAbogado1 = await Abogado.findByPk(auxAbogado.abogadoId);
+    if (abogadoAntiguo) {
+      const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo);
+      await auxCliente.removeAbogado(auxAbogadoAntiguo);
+    }
+    if (auxAbogado1 && auxCliente) {
+      auxAbogado1.addClientes(auxCliente);
+      return res.sendStatus(200);
+    } else return res.sendStatus(404);
   } catch (e) {
     console.log(e);
     res.sendStatus(404);

@@ -17,9 +17,9 @@ export function getMaterias() {
 
 export function getSiteMateria(payload) {
   return {
-    type: 'GET_MATERIAS_SITE',
-    payload
-  }
+    type: "GET_MATERIAS_SITE",
+    payload,
+  };
 }
 
 export function getAbogados() {
@@ -64,7 +64,7 @@ export function getUsuarios() {
   };
 }
 
-export function getCasos() {
+export function getCasos(data) {
   return async function (dispatch) {
     try {
       const json = await axios.get("/casos");
@@ -117,6 +117,7 @@ export const getUsuario = (usuario) => {
     axios
       .put("/usuario", usuario)
       .then((user) => {
+        console.log(user);
         localStorage.setItem("username", user.data.firstName);
         return dispatch({
           type: "GET_USUARIO",
@@ -251,6 +252,21 @@ export function getConsultas() {
     }
   };
 }
+export function asignarConsulta(consultaId, abogadoId) {
+  return async function (dispatch) {
+    try {
+      await axios.put("http://localhost:3001/consultas", {
+        consultaId,
+        abogadoId,
+      });
+      return dispatch({
+        type: "ASIGNAR_CONSULTA",
+      });
+    } catch (error) {
+      alert("no se pudo asignar");
+    }
+  };
+}
 
 export function getPersonas() {
   return async function (dispatch) {
@@ -346,7 +362,7 @@ export function getClientes() {
       .then((response) => {
         return dispatch({
           type: "GET_CLIENTS",
-          payload: response.data.filter((e) => e.abogados.length > 0),
+          payload: response.data.filter((e) => e.casos.length > 0),
         });
       })
       .catch((err) => {

@@ -15,6 +15,8 @@ const {
   Materias,
   Ticket,
   Resena,
+  Dia,
+  Turno,
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
@@ -349,6 +351,62 @@ async function setReseña(req, res, next) {
   }
 }
 
+async function postDia(req, res) {
+  const { form, abogadoId } = req.body;
+  const { fecha, nota, turnos } = form;
+
+  console.log(abogadoId);
+
+  try {
+    const dia = await Dia.create({ fecha, nota });
+    const abogado = await Abogado.findByPk(abogadoId);
+    console.log(abogado);
+    const crearTurnos = turnos.map(async (turno) => {
+      return await Turno.create({ hora: turno.hora, diumId: dia.id });
+    });
+
+    // Promise.all([crearTurnos, await abogado.addDia(dia)])
+    await abogado.addDia(dia);
+
+    return res.json(dia);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+//MP automatizado
+const postPago = async (req, res, next) => {
+  const MPInfo = req.body;
+
+  try {
+    const mpApi = (
+      await axios.get(
+        `https://api.mercadopago.com/v1/payments/${MPInfo.data.id}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
+      )
+    ).data;
+
+    const ticket = await Ticket.findOne({
+      where: { titulo: mpApi.description },
+    });
+
+    if (mpApi.description && ticket.titulo === mpApi.description) {
+      ticket.n_operacion = mpApi.id;
+      ticket.estatus = mpApi.status;
+      ticket.detalle_estatus = mpApi.status_detail;
+      ticket.medioDePago = mpApi.payment_type_id;
+
+      Promise.all([await ticket.save()]);
+      res.sendStatus(200);
+    }
+
+    res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+};
+
 module.exports = {
   setUsuarios,
   setCasos,
@@ -360,4 +418,6 @@ module.exports = {
   postTickets,
   reiniciarPassword,
   setReseña,
+  postPago,
+  postDia,
 };

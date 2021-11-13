@@ -12,6 +12,7 @@ const {
   cloudinary,
   tickets,
   resenas,
+  turnos,
 } = require("./routes/index.js");
 
 require("./db.js");
@@ -52,6 +53,7 @@ server.use(consultas);
 server.use(cloudinary);
 server.use(tickets);
 server.use(resenas);
+server.use(turnos);
 
 // Error catching endware.
 server.use((err, req, res, next) => {
