@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUsuario } from "../../redux/actions";
+import { Redirect } from "react-router";
 
 import "./ModificarAbogado.css";
 
@@ -18,7 +19,7 @@ export default function ModificarAbogado() {
     materias: [],
     provincias: [],
   });
-  
+
   const [materiasEnviar, setMateriasEnviar] = useState([]);
   const [provinciasEnviar, setProvinciasEnviar] = useState([]);
 
@@ -46,32 +47,21 @@ export default function ModificarAbogado() {
 
   const dispatch = useDispatch();
 
-  useEffect(() =>
-    if(usuario?.slug?.length > 0) {
-      let arrMaterias = []
-      let arrProvincias = []
-      axios
-        .get(`/abogado/${usuario?.slug}`)
-        .then(({ data }) => {
-          setForm({
-            nombre: data.firstName,
-            apellido: data.lastName,
-            matricula: data.matricula || "",
-            detalle: data.detalle || "",
-            experiencia: data.experiencia || "",
-            estudios: data.estudios || "",
-            imagen: data.imagen,
-            materias: arrMaterias || [],
-            provincias: arrProvincias || []
-          });
-          data.materias.forEach(materia =>
-            arrMaterias.push(materia.nombre)
-          );
-          data.provincias.forEach(provincia =>
-            arrProvincias.push(provincia.nombre)
-          );
-          setMateriasEnviar(arrMaterias);
-          setProvinciasEnviar(arrProvincias);
+  useEffect(() => {
+    if (usuario?.slug?.length > 0) {
+      let arrMaterias = [];
+      let arrProvincias = [];
+      axios.get(`/abogado/${usuario?.slug}`).then(({ data }) => {
+        setForm({
+          nombre: data.firstName,
+          apellido: data.lastName,
+          matricula: data.matricula || "",
+          detalle: data.detalle || "",
+          experiencia: data.experiencia || "",
+          estudios: data.estudios || "",
+          imagen: data.imagen,
+          materias: arrMaterias || [],
+          provincias: arrProvincias || [],
         });
         data.materias.forEach((materia) => arrMaterias.push(materia.nombre));
         data.provincias.forEach((provincia) =>
@@ -80,7 +70,14 @@ export default function ModificarAbogado() {
         setMateriasEnviar(arrMaterias);
         setProvinciasEnviar(arrProvincias);
       });
-  }, [])
+      data.materias.forEach((materia) => arrMaterias.push(materia.nombre));
+      data.provincias.forEach((provincia) =>
+        arrProvincias.push(provincia.nombre)
+      );
+      setMateriasEnviar(arrMaterias);
+      setProvinciasEnviar(arrProvincias);
+    }
+  }, []);
 
   function modificarImagen(e) {
     if (!e.target.files[0]) return;
