@@ -6,6 +6,7 @@ import {
   deleteConsulta,
   getConsultas,
   modificarTicket,
+  getTickets
 } from "../../../redux/actions";
 import UsuarioNavBar from "../usuarioNavBar/UsuarioNavBar";
 
