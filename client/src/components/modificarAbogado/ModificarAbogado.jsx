@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router";
 import { toast } from "react-toastify";
 import { setUsuario } from "../../redux/actions";
 import { Redirect } from "react-router";
@@ -69,15 +70,15 @@ export default function ModificarAbogado() {
         );
         setMateriasEnviar(arrMaterias);
         setProvinciasEnviar(arrProvincias);
+        data.materias.forEach((materia) => arrMaterias.push(materia.nombre));
+        data.provincias.forEach((provincia) =>
+          arrProvincias.push(provincia.nombre)
+        );
       });
-      data.materias.forEach((materia) => arrMaterias.push(materia.nombre));
-      data.provincias.forEach((provincia) =>
-        arrProvincias.push(provincia.nombre)
-      );
       setMateriasEnviar(arrMaterias);
       setProvinciasEnviar(arrProvincias);
     }
-  }, []);
+  }, [usuario]);
 
   function modificarImagen(e) {
     if (!e.target.files[0]) return;
