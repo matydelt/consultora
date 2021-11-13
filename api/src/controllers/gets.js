@@ -260,6 +260,7 @@ async function getAbogado(req, res) {
     console.error(error);
     res.sendStatus(404);
   }
+
   const user = await Usuario.findByPk(eMail);
   const { firstName, lastName, dni, celular } = await Persona.findByPk(
     user.personaDni
@@ -508,6 +509,38 @@ async function getDias(req, res) {
     }
 
     return res.json(dias);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+async function getAbogadosCliente(req, res) {
+  const { clienteId } = req.query;
+
+  console.log(clienteId);
+  try {
+    const cliente = await Cliente.findByPk(clienteId);
+
+    const abogados = await cliente.getAbogados();
+
+    return res.json(abogados);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getTurno(req, res) {
+  const { clienteId } = req.query;
+
+  try {
+    const cliente = await Cliente.findByPk(clienteId);
+
+    const turno = await cliente.getTurno();
+
+    const dia = await Dia.findByPk(turno.diumId);
+
+    return res.json({ turno, dia });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

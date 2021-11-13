@@ -384,3 +384,16 @@ export function putClienteAbogado(cambios) {
       });
   };
 }
+
+export function setCliente(cliente, abogado) {
+  return (dispatch) => {
+    axios
+      .post("/cliente", { cliente, abogado })
+      .then((response) => {
+        // return dispatch({ type: });
+      })
+      .catch((err) => {
+        console.log("ruta no existe");
+      });
+  };
+}

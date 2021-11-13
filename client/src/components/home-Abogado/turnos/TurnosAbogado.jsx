@@ -113,7 +113,7 @@ export default function TurnosAbogado() {
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary" disabled={!fecha || turnos.length === 0}>Guardar</button>
                         </div>
                     </div>
                 </div>
