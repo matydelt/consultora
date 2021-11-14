@@ -13,7 +13,7 @@ import Navbar from "../home-page/Navbar/Navbar.jsx";
 
 import "./sign.css";
 
-export const Signup = () => {
+export const Signup = ({history}) => {
   const { usuarios, personas } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -55,7 +55,7 @@ export const Signup = () => {
               password: md5(password),
             })
           );
-
+          history.push('/ingreso')
           createOK();
         })
         .catch((error) => {
