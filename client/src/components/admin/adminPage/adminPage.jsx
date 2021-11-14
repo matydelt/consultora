@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-redeclare */
 import React, { useEffect } from "react";
-import { getUsuarios } from "../../../redux/actions";
+import { getClientes, getUsuarios } from "../../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route } from "react-router";
 import { Switch } from "react-router-dom";
@@ -24,6 +24,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     dispatch(getUsuarios());
+    dispatch(getClientes())
   }, []);
   // if (adminId === undefined) return (<Redirect to="/" />)
   return (

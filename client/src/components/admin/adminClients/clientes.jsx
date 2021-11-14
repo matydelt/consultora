@@ -9,6 +9,7 @@ export default function AdminClientes() {
     const dispatch = useDispatch();
     const { clients } = useSelector(state => state)
     const allUsers = useSelector(state => state.usuarios)
+
     const handleChangeAbogado = (e, clienteId, abogadoId) => {
         e.preventDefault()
         const cambios = { abogado: e.target.value, cliente: clienteId, abogadoAntiguo: abogadoId }
@@ -42,17 +43,17 @@ export default function AdminClientes() {
                                         <th scope="row">{i}</th>
                                         <td>{persona.firstName} {persona.lastName}</td>
                                         <td><select className="form-select w-25" onChange={h => handleChangeAbogado(h, clienteId, e.abogados[0]?.id)}>
-                                            <option value={null}>ninguno</option>
+                                            <option defaultValue={null}>ninguno</option>
                                             {e.abogados.length !== 0 ?
                                                 abogados.map(e => {
                                                     if (personaAbogado.dni === e.personaDni) {
-                                                        return (<option value={e.eMail} selected>{e.slug}</option>)
-                                                    } else return <option value={e.eMail} >{e.slug} </option>
+                                                        return (<option defaultValue={e.eMail} selected>{e.slug}</option>)
+                                                    } else return <option defaultValue={e.eMail} >{e.slug} </option>
                                                 }) :
                                                 abogados.map((e, i) => {
                                                     if (i === 0) return (
-                                                        <option value={e.eMail}>{e.slug} </option>)
-                                                    return <option value={e.eMail} >{e.slug} </option>
+                                                        <option defaultValue={e.eMail}>{e.slug} </option>)
+                                                    return <option defaultValue={e.eMail} >{e.slug} </option>
                                                 })
                                             }
                                         </select></td>

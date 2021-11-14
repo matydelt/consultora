@@ -10,9 +10,6 @@ import CardClients from "./cardClients";
 export default function Clients() {   //muestra cards de cada cliente con sus casos
     const [clientes, setClientes] = useState([]);
     const { usuario, abogado } = useSelector(state => state)
-    const [flag, setFlag] = useState(true);
-    const [id, setId] = useState("");
-
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -27,13 +24,13 @@ export default function Clients() {   //muestra cards de cada cliente con sus ca
 
 
 
-    return (flag ?
+    return (
         <div className="d-flex justify-content-center">
-
             <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column conteiner justify-content-center">
 
                 {clientes.map(e => {
                     const { id, persona } = e
+
                     return (
                         <div className=" mt-3 me-3 ms-3 mb-3 card ">
                             <CardClients persona={persona} />
@@ -44,12 +41,6 @@ export default function Clients() {   //muestra cards de cada cliente con sus ca
                     )
                 })}
 
-            </div>
-        </div> :
-        <div>
-            <FormCasos cliente={id} />
-            <div className="d-flex justify-content-center">
-                <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3" onClick={e => setFlag(true)}>Terminar</button>
             </div>
         </div>
 

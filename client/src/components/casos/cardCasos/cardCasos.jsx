@@ -37,8 +37,11 @@ export default function CardCasos({ detalle, estado, juez, juzgado, fecha, numer
     })
     const handleSubmit = function (e) {
         e.preventDefault()
-        dispatch(putCaso(input))
-        toast.success('cambios realizados!');
+        if (error.medidaCautelar === "", error.trabaAfectiva === "", error.vtoMedidaCautelar === "", error.vtoTrabaAfectiva === "") {
+
+            dispatch(putCaso(input))
+            toast.success('cambios realizados!');
+        } else toast.error("no se pudieron realizar los cambios")
     }
     const validate = function (name, value) {
         if (name === "trabaAfectiva") {
