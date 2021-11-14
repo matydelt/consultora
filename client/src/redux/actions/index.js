@@ -1,6 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import swal from "sweetalert";
+import { usuarioBloqueado } from "../../components/Sign/alert";
 
 export function getMaterias() {
   return async function (dispatch) {
@@ -127,7 +128,7 @@ export const getUsuario = (usuario) => {
       })
       .catch((error) => {
         console.log(error.response);
-        if(error.response.status === 403) toast.error(error.response.data.mensaje);
+        if(error.response.status === 403) usuarioBloqueado();
         return dispatch({
           type: "GET_USUARIO",
           payload: {},
