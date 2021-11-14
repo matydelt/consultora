@@ -7,12 +7,11 @@ const {
   Persona,
   Cliente,
   Consulta,
-  Ticket
+  Ticket,
 } = require("../db");
 const enviarEmail = require("../email/email");
 const axios = require("axios");
 const mercadopago = require("../config/MercadoPago");
-
 
 async function usuario(req, res) {
   try {
@@ -20,6 +19,9 @@ async function usuario(req, res) {
     const { eMail } = req.body;
 
     const user = await Usuario.findOne({ where: { eMail } });
+
+    if(user.banned) return res.status(403).json({mensaje: 'Su cuenta se encuentra deshabilitada'})
+    
     if (user) {
       console.log(user);
       const abogado = await Abogado.findByPk(user.abogadoId);
@@ -44,8 +46,7 @@ async function usuario(req, res) {
           },
           abogado,
         });
-      }
-      else {
+      } else {
         if (abogado) {
           res.send({
             ...{
@@ -99,7 +100,7 @@ async function asignaConsulta(req, res, next) {
     const result = await Consulta.update(
       {
         abogadoId: abogadoId,
-        respuestaAbogado: respuesta
+        respuestaAbogado: respuesta,
       },
       { where: { id: consultaId } }
     );
@@ -180,37 +181,68 @@ async function modificarAbogado(req, res) {
     return res.sendStatus(500);
   }
 }
-
 async function getAbogado(req, res) {
   try {
-    let { eMail } = req.body
+    let { eMail } = req.body;
     if (!eMail) {
-      eMail = req.params
+      eMail = req.params;
     }
-    const user = await Usuario.findByPk(eMail)
-    const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-    const { detalle, clientes, imagen, experiencia, estudios } = await Abogado.findOne({ where: { id: user.abogadoId }, include: Cliente })
-    let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular }, detalle, imagen, experiencia, estudios }
-    abogado.clientes = []
+    const user = await Usuario.findByPk(eMail);
+    const { firstName, lastName, dni, celular } = await Persona.findByPk(
+      user.personaDni
+    );
+    const { detalle, clientes, imagen, experiencia, estudios } =
+      await Abogado.findOne({
+        where: { id: user.abogadoId },
+        include: Cliente,
+      });
+    let abogado = {
+      ...{ eMail: user.eMail, firstName, lastName, dni, celular },
+      detalle,
+      imagen,
+      experiencia,
+      estudios,
+    };
+    abogado.clientes = [];
     for (let i = 0; i < clientes.length; i++) {
-      abogado.clientes.push(await Cliente.findOne({
-        where: { id: clientes[i].id }, attributes: ["id", "asunto"], include: [{ model: Persona, attributes: ["firstName", "lastName", "dni", "celular"] },
-        {
-          model: Casos, attributes: ["juez", "numeroExpediente", "juzgado", "detalle", "estado",
-            "numeroLiquidacion", "medidaCautelar", "trabaAfectiva", "vtoMedidaCautelar", "vtoTrabaAfectiva", "jurisdiccion"
-          ], include: Materias
-        }]
-      }))
+      abogado.clientes.push(
+        await Cliente.findOne({
+          where: { id: clientes[i].id },
+          attributes: ["id", "asunto"],
+          include: [
+            {
+              model: Persona,
+              attributes: ["firstName", "lastName", "dni", "celular"],
+            },
+            {
+              model: Casos,
+              attributes: [
+                "juez",
+                "numeroExpediente",
+                "juzgado",
+                "detalle",
+                "estado",
+                "numeroLiquidacion",
+                "medidaCautelar",
+                "trabaAfectiva",
+                "vtoMedidaCautelar",
+                "vtoTrabaAfectiva",
+                "jurisdiccion",
+              ],
+              include: Materias,
+            },
+          ],
+        })
+      );
     }
 
     if (user) {
-      res.json(abogado)
-    } else res.sendStatus(404)
+      res.json(abogado);
+    } else res.sendStatus(404);
   } catch (error) {
-    console.error(error)
-    res.sendStatus(404)
+    console.error(error);
+    res.sendStatus(404);
   }
-
 }
 
 async function setBann(req, res) {
@@ -233,66 +265,98 @@ async function setBann(req, res) {
 }
 async function putCaso(req, res) {
   try {
-    let { detalle, estado, juez, juzgado, numeroExpediente, numeroLiquidacion, medidaCautelar, trabaAfectiva, vtoMedidaCautelar, vtoTrabaAfectiva, jurisdiccion, materia } = req.body
-    let caso = await Casos.findByPk(numeroLiquidacion)
-    if (vtoMedidaCautelar === "") vtoMedidaCautelar = null
-    if (vtoTrabaAfectiva === "") vtoTrabaAfectiva = null
+    let {
+      detalle,
+      estado,
+      juez,
+      juzgado,
+      numeroExpediente,
+      numeroLiquidacion,
+      medidaCautelar,
+      trabaAfectiva,
+      vtoMedidaCautelar,
+      vtoTrabaAfectiva,
+      jurisdiccion,
+      materia,
+    } = req.body;
+    let caso = await Casos.findByPk(numeroLiquidacion);
+    if (vtoMedidaCautelar === "") vtoMedidaCautelar = null;
+    if (vtoTrabaAfectiva === "") vtoTrabaAfectiva = null;
     if (caso) {
-      caso.detalle = detalle
-      caso.estado = estado
-      caso.juez = juez
-      caso.juzgado = juzgado
-      caso.numeroExpediente = numeroExpediente
-      caso.medidaCautelar = medidaCautelar
-      caso.vtoMedidaCautelar = vtoMedidaCautelar
-      caso.trabaAfectiva = trabaAfectiva
-      caso.vtoTrabaAfectiva = vtoTrabaAfectiva
-      caso.jurisdiccion = jurisdiccion
-      const auxMateria = await Materias.findByPk(materia)
-      caso.setMaterias(auxMateria)
-      await caso.save()
-      return res.sendStatus(200)
+      caso.detalle = detalle;
+      caso.estado = estado;
+      caso.juez = juez;
+      caso.juzgado = juzgado;
+      caso.numeroExpediente = numeroExpediente;
+      caso.medidaCautelar = medidaCautelar;
+      caso.vtoMedidaCautelar = vtoMedidaCautelar;
+      caso.trabaAfectiva = trabaAfectiva;
+      caso.vtoTrabaAfectiva = vtoTrabaAfectiva;
+      caso.jurisdiccion = jurisdiccion;
+      const auxMateria = await Materias.findByPk(materia);
+      caso.setMaterias(auxMateria);
+      await caso.save();
+      return res.sendStatus(200);
     }
   } catch (error) {
-    console.error(error)
-    res.sendStatus(404)
+    console.error(error);
+    res.sendStatus(404);
   }
 }
 
 // MP
 async function modificarTicket(req, res) {
-
   const { enlace, n_operacion } = req.body;
 
   try {
     const ticket = await Ticket.findOne({ where: { enlace: enlace } });
 
-    let mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
-
+    let mpApi = (
+      await axios.get(
+        `https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
+      )
+    ).data;
 
     if (ticket.titulo === mpApi.description) {
-      ticket.n_operacion = mpApi.id
-      ticket.estatus = mpApi.status
-      ticket.detalle_estatus = mpApi.status_detail
-      ticket.medioDePago = mpApi.payment_type_id
+      ticket.n_operacion = mpApi.id;
+      ticket.estatus = mpApi.status;
+      ticket.detalle_estatus = mpApi.status_detail;
+      ticket.medioDePago = mpApi.payment_type_id;
 
-      Promise.all([
-        await ticket.save(),
-      ]);
+      Promise.all([await ticket.save()]);
 
       return res.send({
         ...{
           estatus: mpApi.status,
           detalle_estatus: mpApi.status_detail,
-          medioDePago: mpApi.payment_type_id
+          medioDePago: mpApi.payment_type_id,
         },
         ticket,
-      })
+      });
     }
-
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
+  }
+}
+
+async function CLienteAbogado(req, res) {
+  try {
+    const { abogado, cliente, abogadoAntiguo } = req.body
+    const auxCliente = await Cliente.findByPk(cliente)
+    let auxAbogado = await Usuario.findByPk(abogado)
+    let auxAbogado1 = await Abogado.findByPk(auxAbogado.abogadoId)
+    if (abogadoAntiguo) {
+      const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo)
+      await auxCliente.removeAbogado(auxAbogadoAntiguo)
+    }
+    if (auxAbogado1 && auxCliente) {
+      auxAbogado1.addClientes(auxCliente)
+      return res.sendStatus(200)
+    } else return res.sendStatus(404)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
   }
 }
 
@@ -304,5 +368,6 @@ module.exports = {
   setBann,
   getAbogado,
   modificarTicket,
-  putCaso
+  putCaso,
+  CLienteAbogado
 };

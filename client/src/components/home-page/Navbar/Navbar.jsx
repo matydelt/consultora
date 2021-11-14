@@ -42,10 +42,7 @@ const Navbar = ({ navId }) => {
         <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
 
         <li className="col-xl-1">
-          <ButtonsNav
-            link="/abogados"
-            text="Nuestro Equipo"
-          />
+          <ButtonsNav link="/abogados" text="Nuestro Equipo" />
         </li>
 
         {localStorage.getItem("username") || usuario.firstName ? (
@@ -78,7 +75,6 @@ const Navbar = ({ navId }) => {
               //   </ul>
               // </div>
             )}
-
 
             {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
               <ButtonsNav link="/user/abogado" text={usuario.firstName} />

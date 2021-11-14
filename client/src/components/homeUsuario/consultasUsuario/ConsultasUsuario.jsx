@@ -83,7 +83,8 @@ export default function ConsultasUsuario() {
                     <th>Respuesta</th>
                     <th>Estado</th>
                     <th>Link de pago</th>
-                    <th>Notificar pago</th>
+                    {/* <th>Notificar pago</th> */}
+                    <th>Opciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -128,12 +129,12 @@ export default function ConsultasUsuario() {
                                             <td className="text-success">La consulta fue abonada</td>
                                 }
 
-                                {
+                                {/* {
                                     <td>
                                         <input type="number" min="0" name="n_operacion" autoComplete="off" placeholder="1111111111" className="form-control" required onChange={(e) => { setN_Operacion(e.target.value) }} />
                                         <button disabled={consulta?.ticket?.estatus !== 'pending'} onClick={() => { efectuarPago(consulta.ticket?.enlace, n_operacion) }} className={`btn btn-${consulta.ticket?.estatus === 'pending' ? 'success' : 'light text-muted'}`}>Notificar</button>
                                     </td>
-                                }
+                                } */}
 
                                 <td>
                                     <button disabled={consulta.abogadoId} onClick={() => { eliminarConsulta(consulta.id) }} className={`btn btn-${!consulta.abogadoId ? 'danger' : 'light text-muted'}`}>Eliminar</button>

@@ -46,7 +46,7 @@ export default function PerfilAbogado() {
             <div className="text-center">
               {
                 abogado.provincias?.map(provincia => {
-                  return <span key={provincia.nombre} className="text-muted">{provincia.nombre} <span hidden={abogado.provincias.length-1 === abogado.provincias.indexOf(provincia)}> | </span> </span>
+                  return <span key={provincia.nombre} className="text-muted">{provincia.nombre} <span hidden={abogado.provincias.length - 1 === abogado.provincias.indexOf(provincia)}> | </span> </span>
                 })
               }
             </div>
@@ -61,7 +61,7 @@ export default function PerfilAbogado() {
         <div className="row mt-4">
 
           <div className="mx-5 col">
-            <p className="fs-4 text-muted">Formación y experiencia</p>
+            <p className="fs-4 text-muted">FormaciÃ³n y experiencia</p>
             <ul>
               <li className="text-muted my-1">{abogado.estudios}</li>
               <li className="text-muted my-1">{abogado.detalle}</li>

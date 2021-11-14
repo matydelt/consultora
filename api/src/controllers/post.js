@@ -207,6 +207,8 @@ async function setAbogado(req, res) {
   try {
     const { eMail, flag } = req.body;
     let user = await Usuario.findByPk(eMail);
+    // let cliente = await Cliente.findByPk(user.cleinteId)
+    // cliente.destroy();
     let persona = await Persona.findByPk(user.personaDni);
     if (flag) {
       const abogado = await Abogado.create({});
@@ -305,42 +307,7 @@ async function setConsulta(req, res, next) {
     }
   }
 }
-// async function setAdmin(req, res) {
-//   const { eMail, firstName, dni, lastName, celular, password } = req.body
-//   try {
-//     let aux = await Usuario.findByPk(eMail)
-//     let aux2 = await Persona.findByPk(dni)
-//     if (!aux && !aux2) {
-//       const user = await Usuario.create({
-//         eMail,
-//         password
-//       })
 
-//       const person = await Persona.create({
-//         firstName,
-//         dni,
-//         lastName,
-//         celular
-//       })
-//       const admin = await Admin.create({})
-
-//       person.setUsuario(user)
-//       admin.setUsuario(user)
-//       // client.setPersona(person)
-//       res.sendStatus(200)
-//     }
-//     else if (!aux.adminId) {
-//       const admin = await Admin.create({})
-//       admin.setUsuario(aux)
-//       res.sendStatus(200)
-//     } else res.sendStatus(500)
-
-//   } catch (error) {
-//     console.log(error)
-//     res.sendStatus(500)
-//   }
-
-// }
 async function setAdmin(req, res) {
   try {
     const { eMail, flag } = req.body;
@@ -367,23 +334,22 @@ async function setAdmin(req, res) {
 
 async function postDia(req, res) {
   const { form, abogadoId } = req.body;
-  const { fecha, nota, turnos } = form;
+  const { fechas, nota, turnos } = form;
 
-  console.log(abogadoId);
-  
   try {
-    
-    const dia = await Dia.create({ fecha, nota });
     const abogado = await Abogado.findByPk(abogadoId);
-    console.log(abogado);
-    const crearTurnos = turnos.map(async turno => {
-      return await Turno.create({ hora: turno.hora, diumId: dia.id })
+
+    fechas.map(d => {
+      return Dia.create({ fecha: d, nota }).then(dia => {
+        abogado.addDia(dia);
+        turnos.map(turno => {
+          return Turno.create({ hora: turno.hora, diumId: dia.id }).then(() => {
+          })
+        })
+      })
     })
 
-    // Promise.all([crearTurnos, await abogado.addDia(dia)])
-    await abogado.addDia(dia)
-
-    return res.json(dia)
+    return res.json({mensaje: 'Creados con éxito'})
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
@@ -394,36 +360,64 @@ async function confirmarTurno(req, res) {
   const { clienteId, turnoId } = req.body;
 
   try {
-    
-      const cliente = await Cliente.findByPk(clienteId);
-    
-      const turno = await Turno.findByPk(turnoId);
 
-      if(turno.clienteId){
-        return res.status(400).json({mensaje: 'El turno fue tomado'})
-      }
-    
-      await cliente.setTurno(turno);
-    
-      return res.sendStatus(200);
+    const cliente = await Cliente.findByPk(clienteId);
+
+    const turno = await Turno.findByPk(turnoId);
+
+    if (turno.clienteId) {
+      return res.status(400).json({ mensaje: 'El turno fue tomado' })
+    }
+
+    await cliente.setTurno(turno);
+
+    return res.sendStatus(200);
   } catch (error) {
     console.log(error);
-    return res.json({
-      mensaje: 'El turno fue tomado'
-    });
+    return res.sendStatus(500);
   }
 };
+
+//MP automatizado
+const postPago = async (req, res, next) => {
+  const MPInfo = req.body
+
+  try {
+    const mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/${MPInfo.data.id}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
+
+    const ticket = await Ticket.findOne({ where: { titulo: mpApi.description } });
+
+    if (mpApi.description && ticket.titulo === mpApi.description) {
+      ticket.n_operacion = mpApi.id
+      ticket.estatus = mpApi.status
+      ticket.detalle_estatus = mpApi.status_detail
+      ticket.medioDePago = mpApi.payment_type_id
+
+      Promise.all([
+        await ticket.save(),
+      ]);
+      res.sendStatus(200);
+    }
+
+    res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
 
 module.exports = {
   setUsuarios,
   setCasos,
   setAbogado,
   setConsulta,
-  // setPersona,
   setAdmin,
   eliminarImagen,
   subirImagen,
   postTickets,
   postDia,
-  confirmarTurno
+  confirmarTurno,
+  postPago,
+  postDia
 };

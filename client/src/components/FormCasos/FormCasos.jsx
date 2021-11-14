@@ -107,7 +107,6 @@ const FormCasos = ({ label }) => {
 
   return (
     <div className="">
-      <Navbar navId={"menu"}/>
       <div className="">
         <div>
           <form onSubmit={handleSubmit}>

@@ -32,6 +32,7 @@ import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
 
 import "./sign.css";
+import { toast } from "react-toastify";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -60,7 +61,7 @@ export const Signin = () => {
           .then((e) => {
             setDisplayName(e.user.displayName);
             const aux = e.user.email;
-            if (usuarios.some((e) => e.eMail == aux)) {
+            if (usuarios.some((e) => e.eMail === aux)) {
               dispatch(getUsuario({ eMail: e.user.email }));
             } else {
               setEmail(aux);
@@ -102,7 +103,7 @@ export const Signin = () => {
         .then(() => {
           dispatch(getUsuario({ eMail: eMail }));
         })
-        .catch((error) => { });
+        .catch((error) => {});
       createOK();
       setFirstName("");
       setLastName("");
@@ -126,7 +127,8 @@ export const Signin = () => {
         // An error happened.
       });
   };
-  const Login = async () => {
+  const Login = async (e) => {
+    e.preventDefault();
     await setPersistence(auth, browserSessionPersistence)
       .then(async () => {
         await signInWithEmailAndPassword(auth, eMail, md5(password))
@@ -135,13 +137,12 @@ export const Signin = () => {
             console.log("login");
             const user = userCredential.user;
             dispatch(getUsuario({ eMail: eMail }));
-            sessionIN();
+            // sessionIN();
             setEmail("");
             setPassword("");
             // ...
           })
           .catch((error) => {
-            console.log("error");
             sessionERR();
             const errorCode = error.code;
             const errorMessage = error.message;
@@ -321,7 +322,7 @@ export const Signin = () => {
                   alt="Logo Consultora"
                   className="card-img-top mx-auto m-2 rounded-circle w-50"
                 />
-                <div className="card-body form-sign">
+                <form className="card-body form-sign" onSubmit={Login}>
                   <div className="form-group">
                     <input
                       type="text"
@@ -361,12 +362,15 @@ export const Signin = () => {
                     <div className="col-md-12" onClick={loginGoogle}>
                       {" "}
                       <a class="btn btn-block btn-outline-primary" href="#">
-                        <img src="https://img.icons8.com/color/16/000000/google-logo.png" />{" "}
+                        <img
+                          src="https://img.icons8.com/color/16/000000/google-logo.png"
+                          alt="Google"
+                        />{" "}
                         Google
                       </a>{" "}
                     </div>
                   </div>
-                </div>
+                </form>
 
                 <div className="card-footer">
                   <Link to="/signup">

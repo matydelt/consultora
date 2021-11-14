@@ -23,6 +23,7 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
         // console.log(abogadoId, clienteId, '------------');
 
+        // console.log(abogadoId)
         let clienteAux = await Cliente.findByPk(clienteId)
         let abogadoAux = await Abogado.findByPk(abogadoBuscado.id)
         if (clienteAux, abogadoAux) {
@@ -39,7 +40,7 @@ router.put("/bann", put.setBann)//bannea usuario
 
 router.post("/usuario", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
-router.post("/forzar-reinicio-password", (req, res) => post.reiniciarPassword(req, res))  
+router.post("/forzar-reinicio-password", (req, res) => post.reiniciarPassword(req, res))
 
 router.put("/usuario", (req, res) => put.usuario(req, res)); // get  user(for login)
 
@@ -65,5 +66,6 @@ router.put("/abogado/:eMail", (req, res) => put.modificarAbogado(req, res)); // 
 router.get("/abogados-cliente", (req, res) => get.getAbogadosCliente(req, res));
 
 
+router.put("/cliente/actualizar", put.CLienteAbogado)
 
 module.exports = router; 

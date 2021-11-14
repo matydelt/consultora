@@ -1,143 +1,168 @@
 const {
-    Casos,
-    Usuario,
-    Provincias,
-    Materias,
-    Abogado,
-    Persona,
-    Consulta,
-    Cliente,
-    Ticket,
-    Dia,
-    Turno,
-    Op,
+  Casos,
+  Usuario,
+  Provincias,
+  Materias,
+  Abogado,
+  Persona,
+  Consulta,
+  Cliente,
+  Ticket,
+  Dia,
+  Turno,
+  Op,
 } = require("../db");
 const turno = require("../models/turno");
 
 async function getUsuarios(req, res) {
-    try {
-        const user = await Usuario.findAll();
-        res.json(user);
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(404);
-    }
+  try {
+    const users = await Usuario.findAll();
+    const usersData = users.map((user) => {
+      const { updatedAt, ...usersData } = user.dataValues;
+      usersData.createdAt = `${usersData.createdAt.getFullYear()}-${usersData.createdAt.getMonth() + 1
+        }`;
+      return usersData;
+    });
+    res.json(usersData);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
+//   try {
+//     const user = await Usuario.findAll();
+//     res.json(user);
+//   } catch (error) {
+//     console.error(error);
+//     res.sendStatus(404);
+//   }
 }
 
 async function getPersonas(req, res) {
-    try {
-        const user = await Persona.findAll();
-        res.json(user);
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(404);
-    }
+  try {
+    const user = await Persona.findAll();
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
 }
 
 async function getProvincias(req, res) {
-    try {
-        let vec = [
-            "Buenos Aires",
-            "Capital Federal",
-            "Catamarca",
-            "Chaco",
-            "Chubut",
-            "Córdoba",
-            "Corrientes",
-            "Entre Ríos",
-            "Formosa",
-            "Jujuy",
-            "La Pampa",
-            "La Rioja",
-            "Mendoza",
-            "Misiones",
-            "Neuquén",
-            "Río Negro",
-            "Salta",
-            "San Juan",
-            "San Luis",
-            "Santa Cruz",
-            "Santa Fe",
-            "Santiago del Estero",
-            "Tierra del Fuego",
-            "Tucumán",
-        ];
-        let provs = await Provincias.findAll({ where: {} });
-        // let provs = await Provincias.findAll({ where: {}, include: Abogado });
-        if (provs.length === 0) {
-            for (let i = 0; i < vec.length; i++) {
-                provs.push(
-                    await Provincias.findOrCreate({
-                        where: { nombre: vec[i] },
-                    })
-                );
-            }
-        }
-        res.json(provs);
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(404);
+  try {
+    let vec = [
+      "Buenos Aires",
+      "Capital Federal",
+      "Catamarca",
+      "Chaco",
+      "Chubut",
+      "Córdoba",
+      "Corrientes",
+      "Entre Ríos",
+      "Formosa",
+      "Jujuy",
+      "La Pampa",
+      "La Rioja",
+      "Mendoza",
+      "Misiones",
+      "Neuquén",
+      "Río Negro",
+      "Salta",
+      "San Juan",
+      "San Luis",
+      "Santa Cruz",
+      "Santa Fe",
+      "Santiago del Estero",
+      "Tierra del Fuego",
+      "Tucumán",
+    ];
+    let provs = await Provincias.findAll({ where: {} });
+    // let provs = await Provincias.findAll({ where: {}, include: Abogado });
+    if (provs.length === 0) {
+      for (let i = 0; i < vec.length; i++) {
+        provs.push(
+          await Provincias.findOrCreate({
+            where: { nombre: vec[i] },
+          })
+        );
+      }
     }
+    res.json(provs);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
+  let abogados = await Abogado.findAll({
+    include: Provincias,
+  });
+//   res.json(provs);
 }
 async function getMaterias(req, res) {
-    try {
-        let vec = [
-            "Derecho Penal",
-            "Derecho Civil",
-            "Derecho Corporativo",
-            "Derecho Comercial",
-            "Derecho Familia",
-            "Derecho Contencioso",
-            "Derecho Administrativo",
-            "Derecho Laboral",
-            "Derecho Notarial",
-        ];
-        let materias = await Materias.findAll({});
-        if (materias.length === 0) {
-            for (let i = 0; i < vec.length; i++) {
-                materias = await Materias.findOrCreate({
-                    where: { nombre: vec[i] }, include: Abogado
-                });
-            }
-        }
-        res.send(materias);
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(404);
+  try {
+    let vec = [
+      "Derecho Penal",
+      "Derecho Civil",
+      "Derecho Corporativo",
+      "Derecho Comercial",
+      "Derecho Familia",
+      "Derecho Contencioso",
+      "Derecho Administrativo",
+      "Derecho Laboral",
+      "Derecho Notarial",
+    ];
+    let materias = await Materias.findAll({ where: {}, include: Abogado, Persona });
+    if (materias.length === 0) {
+      for (let i = 0; i < vec.length; i++) {
+        materias = await Materias.Create({ nombre: vec[i] });
+      }
     }
+    res.send(materias);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
 }
 
-
 async function getPersonas(req, res) {
-    try {
-        const user = await Persona.findAll();
-        res.json(user);
-    } catch (error) {
-        console.log(error);
-        res.sendStatus(404);
-    }
+  try {
+    const users = await Persona.findAll();
+    const usersData = users.map((user) => {
+      const { createdAt, updatedAt, ...usersData } = user.dataValues;
+      return usersData;
+    });
+    res.json(usersData);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(404);
+  }
 }
 
 async function getAbogados(req, res) {
-    try {
-        const user = await Usuario.findAll({});
-        let abogados = [];
-        for (let i = 0; i < user.length; i++) {
-            const { firstName, lastName, dni, celular } = await Persona.findByPk(
-                user[i].personaDni
-            );
-            const abogado = await Abogado.findByPk(user[i].abogadoId);
-            if (abogado)
-                abogados.push({
-                    ...{ eMail: user[i].eMail, firstName, lastName, dni, celular, slug: user[i].slug },
-                    abogado,
-                });
-        }
-        res.send(abogados);
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(404);
+  try {
+    const user = await Usuario.findAll({});
+    let abogados = [];
+    for (let i = 0; i < user.length; i++) {
+      const { firstName, lastName, dni, celular } = await Persona.findByPk(
+        user[i].personaDni
+      );
+      const abogado = await Abogado.findByPk(user[i].abogadoId);
+      if (abogado)
+        abogados.push({
+          ...{
+            eMail: user[i].eMail,
+            firstName,
+            lastName,
+            dni,
+            celular,
+            slug: user[i].slug,
+          },
+          abogado,
+        });
     }
+    res.send(abogados);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
 }
 async function getAbogado(req, res) {
     try {
@@ -184,160 +209,181 @@ async function getAbogado(req, res) {
 }
 
 async function getCasos(req, res) {
-    const { numeroExpediente, estado, juez } = req.body;
-    try {
-        let Cases = await Casos.findAll();
-
-        if (numeroExpediente != "" && numeroExpediente != null) {
-            Cases = Cases.filter((c) => {
-                if (c.numeroExpediente == `${numeroExpediente}`) {
-                    return c;
-                }
-            });
-        }
-
-        if (estado != "" && estado != null) {
-            Cases = Cases.filter((c) => {
-                if (c.estado == `${estado}`) {
-                    return c;
-                }
-            });
-        }
-
-        if (juez != "" && juez != null) {
-            Cases = Cases.filter((c) => {
-                if (c.juez == `${juez}`) {
-                    return c;
-                }
-            });
-        }
-
-        return res.send({
-            result: Cases,
-            count: Cases.length,
-        });
-    } catch (error) {
-        console.error(error);
-        res.sendStatus(404);
+  const { numeroExpediente, estado, juez, clienteId } = req.body;
+  try {
+    if (clienteId) {
+      const casos = Casos.findAll({
+        where: { clienteId },
+      });
+      res.json({
+        result: casos,
+        count: casos.length,
+      });
+      return;
     }
+
+    let Cases = await Casos.findAll();
+
+    if (numeroExpediente != "" && numeroExpediente != null) {
+      Cases = Cases.filter((c) => {
+        if (c.numeroExpediente == `${numeroExpediente}`) {
+          return c;
+        }
+      });
+    }
+
+    if (estado != "" && estado != null) {
+      Cases = Cases.filter((c) => {
+        if (c.estado == `${estado}`) {
+          return c;
+        }
+      });
+    }
+
+    if (juez != "" && juez != null) {
+      Cases = Cases.filter((c) => {
+        if (c.juez == `${juez}`) {
+          return c;
+        }
+      });
+    }
+
+    return res.send({
+      result: Cases,
+      count: Cases.length,
+    });
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(404);
+  }
 }
 
 async function getConsultas(req, res, next) {
-    const { nombre, apellido } = req.body;
+  const { nombre, apellido } = req.body;
 
-    if (nombre) {
-        try {
-            const nombresDB = await Consulta.findAll({
-                where: {
-                    nombre: {
-                        [Op.iLike]: `%${nombre}%`,
-                    },
-                },
-            });
-            if (nombresDB !== null) {
-                res.json(nombresDB);
-            } else {
-                res.status(404).send({ msg: "no se encuentra persona con ese nombre" });
-            }
-        } catch (error) {
-            next(error);
-        }
-    }
-    if (apellido) {
-        try {
-            const apellidosDB = await Consulta.findAll({
-                where: {
-                    apellido: {
-                        [Op.iLike]: `%${apellido}%`,
-                    },
-                },
-            });
-            if (apellidosDB !== null) {
-                res.json(apellidosDB);
-            } else {
-                res
-                    .status(404)
-                    .send({ msg: "no se encuentra persona con ese apellido" });
-            }
-        } catch (error) {
-            console.log(error);
-            next({ msg: "error al conseguir la persona por apellido" });
-        }
-    }
-
+  if (nombre) {
     try {
-        const todasConsultas = await Consulta.findAll({
-            order: [
-                ['createdAt', 'DESC']
-            ],
-            include: Ticket
-        });
-        res.json(todasConsultas);
+      const nombresDB = await Consulta.findAll({
+        where: {
+          nombre: {
+            [Op.iLike]: `%${nombre}%`,
+          },
+        },
+      });
+      if (nombresDB !== null) {
+        res.json(nombresDB);
+      } else {
+        res.status(404).send({ msg: "no se encuentra persona con ese nombre" });
+      }
     } catch (error) {
-        next({ msg: "error en traer consultas de la DB" });
+      next(error);
     }
+  }
+  if (apellido) {
+    try {
+      const todasConsultas = await Consulta.findAll({
+        order: [["createdAt", "DESC"]],
+        include: Ticket,
+      });
+      res.json(todasConsultas);
+    } catch (error) {
+      console.log(error);
+      next({ msg: "error al conseguir la persona por apellido" });
+    }
+  }
+  if (apellido) {
+    try {
+      const todasConsultas = await Consulta.findAll();
+      res.json(todasConsultas);
+    } catch (error) {
+      console.log(error);
+      next({ msg: "error al conseguir la persona por apellido" });
+    }
+  }
+
+  try {
+    const todasConsultas = await Consulta.findAll({
+      order: [["createdAt", "DESC"]],
+      include: Ticket,
+    });
+    res.json(todasConsultas);
+  } catch (error) {
+    next({ msg: "error en traer consultas de la DB" });
+  }
+
 }
 
 //MP
 async function getTickets(req, res, next) {
-    const { id, enlace } = req.body;
-    console.log("id", req.body);
-    if (!!id && id !== null) {
-        try {
-            const ticket = await Ticket.findByPk(id)
-            console.log("ticket", ticket);
-            res.json(ticket);
-        } catch (error) {
-            console.log(error);
-            res.sendStatus(404);
-        }
+  const { id, enlace } = req.body;
+  console.log("id", req.body);
+  if (!!id && id !== null) {
+    try {
+      const ticket = await Ticket.findByPk(id);
+      console.log("ticket", ticket);
+      res.json(ticket);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(404);
     }
-
-    else if (!!enlace && enlace !== null) {
-        try {
-            const ticket = await Ticket.findOne({ where: { enlace: enlace } })
-            console.log("ticket", ticket);
-            res.json(ticket);
-        } catch (error) {
-            console.log(error);
-            res.sendStatus(404);
-        }
+  } else if (!!enlace && enlace !== null) {
+    try {
+      const ticket = await Ticket.findOne({ where: { enlace: enlace } });
+      console.log("ticket", ticket);
+      res.json(ticket);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(404);
     }
-    else {
-        try {
-            const ticket = await Ticket.findAll();
-            res.json(ticket);
-        } catch (error) {
-            console.log(error);
-            res.sendStatus(404);
-        }
+  } else {
+    try {
+      const ticket = await Ticket.findAll();
+      res.json(ticket);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(404);
     }
+  }
 }
 
-async function getDias(req, res) {
+async function getAllCasos(req, res, next) {
+  try {
+    const cliente = await Cliente.findAll({ where: {}, include: [{ model: Abogado, include: Persona }, { model: Casos }, { model: Persona }] })
 
-    const { abogadoId } = req.query;
+    if (cliente.length > 0)
+      return res.json(cliente)
+    else return res.sendStatus(404)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
+  }
+}
+async function getDias(req, res) {
+    const { abogadoId, abogadoFlag } = req.query;
+
     let dias = [];
     try {
-        if (abogadoId) {
-            dias = await Dia.findAll({
-                where: {
-                    fecha: { [Op.gte]: new Date().getTime() },
-                    abogadoId
-                },
-                include: { model: Turno, where: { clienteId: null } },
-                order: [
-                    ['fecha', 'DESC']
-                ],
-            });
-
+        if (abogadoFlag) {
+          dias = await Dia.findAll({
+              where: {
+                abogadoId
+              },
+              include: Turno,
+              order: [
+                  ['fecha', 'DESC']
+              ],
+          });
         } else {
-            dias = await Dia.findAll({
-                include: Turno,
-                order: [
-                    ['fecha', 'DESC']
-                ],
-            });
+          dias = await Dia.findAll({
+            where: {
+                fecha: { [Op.gte]: new Date().getTime() },
+                abogadoId
+            },
+            include: { model: Turno, where: { clienteId: null } },
+            order: [
+                ['fecha', 'DESC']
+            ],
+        });
         }
 
         return res.json(dias);
@@ -345,20 +391,31 @@ async function getDias(req, res) {
         console.log(error);
         return res.sendStatus(500);
     }
+};
 
+async function getDia(req, res) {
+  const { diaId } = req.query;
+
+  try {
+    const dia = await Dia.findByPk(diaId);
+
+    const turnos = await dia.getTurnos({ order: [['hora', 'ASC']], include: [{model:Cliente, include: [{ model: Persona }]  }] });
+    
+    return res.json({dia, turnos});
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
 };
 
 
 async function getAbogadosCliente(req, res) {
     const { clienteId } = req.query;
-
-    console.log(clienteId);
     try {
         const cliente = await Cliente.findByPk(clienteId);
     
-        const abogados = await cliente.getAbogados();
+        let abogados = await cliente.getAbogados({ include: [{model:Persona}] });
         
-    
         return res.json(abogados)
     } catch (error) {
         console.log(error);
@@ -376,6 +433,8 @@ async function getTurno(req, res) {
         const cliente = await Cliente.findByPk(clienteId);
 
         const turno = await cliente.getTurno();
+
+        if(!turno) return res.status(404).json({mensaje: 'No tiene un turno asignado'})
 
         const dia = await Dia.findByPk(turno.diumId);
 
@@ -404,5 +463,18 @@ module.exports = {
     getTickets,
     getDias,
     getAbogadosCliente,
-    getTurno
+    getTurno,
+  getPersonas,
+  getCasos,
+  getProvincias,
+  getMaterias,
+  getConsultas,
+  getAbogados,
+  getAbogado,
+  getPersonas,
+  getTickets,
+  getAllCasos,
+  // getUsuario,   
+  getDias,
+  getDia
 };

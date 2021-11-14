@@ -61,7 +61,7 @@ export default function ModificarAbogado() {
           setProvinciasEnviar(arrProvincias);
         });
     }
-  }, []);
+  }, [usuario]);
 
 
 
@@ -87,7 +87,7 @@ export default function ModificarAbogado() {
           .get(`/abogado/${usuario?.slug}`)
           .then(({ data }) => {
             setForm({ ...form, imagen: data.imagen });
-            toast.success("La imagen fue cambiada con éxito");
+            toast.success("La foto fue cambiada con éxito");
             setLoadingImage(false);
           })
           .catch((err) => console.log(err));
@@ -294,7 +294,7 @@ export default function ModificarAbogado() {
               </div>
             </div>
 
-            <hr className="text-muted"/>
+            <hr className="text-muted" />
 
             <div className="row my-5">
 
