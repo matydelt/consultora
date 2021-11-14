@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { toast } from "react-toastify";
 import { setUsuario } from "../../redux/actions";
-import { Redirect } from "react-router";
 
 import "./ModificarAbogado.css";
 

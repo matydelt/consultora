@@ -445,28 +445,11 @@ async function getTickets(req, res, next) {
 }
 
 async function getreseñas(req, res, next) {
-  const { abogadoId, clienteId } = req.body;
-  if (abogadoId) {
-    try {
-      const reseña = await Resena.findAll({ where: { abogadoId: abogadoId } });
-      res.json(reseña);
-    } catch (error) {
-      next({ msg: "error en getReseñas en traer reseñas por id abogado" });
-    }
-  } else if (clienteId) {
-    try {
-      const reseña = await Resena.findAll({ where: { clienteId: clienteId } });
-      res.json(reseña);
-    } catch (error) {
-      next({ msg: "error en getReseñas en traer reseñas por id cliente" });
-    }
-  } else {
-    try {
-      const reseña = await Resena.findAll();
-      res.json(reseña);
-    } catch (error) {
-      next({ msg: "aca fallo algo en Get reseña" });
-    }
+  try {
+    const reseña = await Resena.findAll();
+    res.json(reseña);
+  } catch (error) {
+    next({ msg: "aca fallo algo en Get reseña" });
   }
 }
 
@@ -562,4 +545,5 @@ module.exports = {
   getAllCasos,
   // getUsuario,
   getDias,
+  getreseñas,
 };

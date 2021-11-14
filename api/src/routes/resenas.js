@@ -6,6 +6,7 @@ const put = require("../controllers/put");
 const router = Router();
 
 router.get("/resenas", (req, res, next) => get.getreseñas(req, res, next));
+
 router.post("/resenas", (req, res, next) => post.setReseña(req, res, next));
 // router.delete("/reseñas", (req, res, next) =>
 //   del.deleteConsulta(req, res, next)
