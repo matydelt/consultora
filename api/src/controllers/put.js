@@ -327,8 +327,9 @@ async function CLienteAbogado(req, res) {
     const { abogado, cliente, abogadoAntiguo } = req.body
     const auxCliente = await Cliente.findByPk(cliente)
     let auxAbogado = await Usuario.findByPk(abogado)
+    console.log(req.body)
     let auxAbogado1 = await Abogado.findByPk(auxAbogado.abogadoId)
-    if (abogadoAntiguo) {
+    if (abogadoAntiguo !== undefined) {
       const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo)
       await auxCliente.removeAbogado(auxAbogadoAntiguo)
     }

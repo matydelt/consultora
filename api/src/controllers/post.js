@@ -228,9 +228,8 @@ async function setAbogado(req, res) {
     }
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
-  return res.sendStatus(404);
 }
 
 async function setCasos(req, res) {

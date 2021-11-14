@@ -1,13 +1,15 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { setAbogado, setAdmin, setBann } from "../../../redux/actions/index";
+import { getUsuarios, setAbogado, setAdmin, setBann } from "../../../redux/actions/index";
 
 const AdminUsersPage = () => {
   const { usuarios, usuario } = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  useEffect(() => {
+    dispatch(getUsuarios())
+  }, [dispatch])
   const handleChange = (e, type) => {
     e.preventDefault();
     let eMail = e.target.value;
