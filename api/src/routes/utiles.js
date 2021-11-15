@@ -22,7 +22,6 @@ router.put("/items/modify", put.items)
 router.delete("/items/delete", erase.items)
 
 router.get("/about/find", get.about)
-router.post("/about/create", post.about)
 router.put("/about/modify", put.about)
 
 

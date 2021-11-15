@@ -16,7 +16,7 @@ async function items(req, res) {
     const actualItem = await Items.findByPk(item)
     if (items.length === 0) return res.sendStatus(404)
     await actualItem.destroy();
-    res.sendStatus(200)
+    return res.sendStatus(200)
   } catch (e) {
     console.log(e)
     return res.sendStatus(404)

@@ -17,6 +17,7 @@ import AdminUsersPage from "../adminUsersPage/adminUsersPage";
 import AdminNewUsersPage from "../adminNewUsersPage/adminNewUsersPage";
 import AdminClientes from "../adminClients/clientes";
 import Navbar from "../../home-page/Navbar/Navbar";
+import ModifierHome from "../adminHome/modifierHome"
 
 export default function AdminPage() {
   const dispatch = useDispatch();
@@ -37,6 +38,7 @@ export default function AdminPage() {
           <Route path="/admin/users" exact component={AdminUsersPage} />
           <Route path="/admin/users/new" exact component={AdminNewUsersPage} />
           <Route path="/admin/users/clientes" exact component={AdminClientes} />
+          <Route path={"/admin/About"} exact component={ModifierHome} />
         </Switch>
       </div>
     </div>

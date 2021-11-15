@@ -15,7 +15,6 @@ const {
   Materias,
   Ticket,
   Items,
-  About,
   Dia,
   Turno
 } = require("../db");
@@ -398,23 +397,13 @@ const postPago = async (req, res, next) => {
     return res.sendStatus(500);
   }
 }
-async function about(req, res) {
-  try {
-    const { about } = req.body
-    const { sobreNosotros, nuestraFilosofia, contacto, direccion } = about
-    await Items.create({ where: { sobreNosotros, nuestraFilosofia, contacto, direccion } })
-    res.sendStatus(200)
-  } catch (e) {
-    console.log(e)
-    res.sendStatus(500)
-  }
-}
+
 
 async function items(req, res) {
   try {
     const { item } = req.body
     const { descripcion } = item
-    await About.create({ where: { descripcion } })
+    await Items.create({ where: { descripcion } })
     res.sendStatus(200)
   } catch (e) {
     console.log(e)
@@ -433,6 +422,5 @@ module.exports = {
   postTickets,
   items,
   postPago,
-  about,
   postDia
 };

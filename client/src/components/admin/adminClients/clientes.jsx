@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientes, putClienteAbogado } from "../../../redux/actions"
-
+import { toast } from "react-toastify";
 
 
 
@@ -20,7 +20,8 @@ export default function AdminClientes() {
 
         if ((cambios.abogado !== undefined && cambios.abogado !== "ninguno") && cambios.cliente !== undefined) {
             dispatch(putClienteAbogado(cambios))
-        }
+            toast.success("Abogado asignado")
+        } else toast.error("Ocurrio un error")
     }
     const abogados = allUsers.filter(e => e.abogadoId !== null)
     return (
