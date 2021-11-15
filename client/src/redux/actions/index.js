@@ -390,3 +390,22 @@ export function putClienteAbogado(cambios) {
       })
   }
 }
+
+export function putAbout() {
+
+}
+export function getAbout() {
+
+}
+export function putItem() {
+
+}
+export function getItems() {
+
+}
+export function postItem() {
+
+}
+export function deleteItem() {
+
+}

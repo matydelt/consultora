@@ -14,6 +14,7 @@ const {
   Admin,
   Materias,
   Ticket,
+  Items,
   Dia,
   Turno
 } = require("../db");
@@ -24,7 +25,6 @@ const {
 const postTickets = async (req, res, next) => {
   const { title, unit_price, casoid, consultaid } = req.body;
 
-  console.log(title, unit_price, casoid, consultaid);
 
   let preference = {
     items: [
@@ -39,7 +39,6 @@ const postTickets = async (req, res, next) => {
 
     const response = await mercadopago.preferences.create(preference)
 
-    // console.log(response.body.init_point);
     let ticket = {
       titulo: title,
       precio: unit_price,
@@ -88,7 +87,6 @@ const postTickets = async (req, res, next) => {
 async function subirImagen(req, res) {
   const { email } = req.body;
 
-  console.log(req.files);
 
   try {
     let result = await cloudinary.uploader.upload(
@@ -352,13 +350,10 @@ async function postDia(req, res) {
   const { form, abogadoId } = req.body;
   const { fecha, nota, turnos } = form;
 
-  console.log(abogadoId);
 
   try {
-
     const dia = await Dia.create({ fecha, nota });
     const abogado = await Abogado.findByPk(abogadoId);
-    console.log(abogado);
     const crearTurnos = turnos.map(async turno => {
       return await Turno.create({ hora: turno.hora, diumId: dia.id })
     })
@@ -404,6 +399,18 @@ const postPago = async (req, res, next) => {
 }
 
 
+async function items(req, res) {
+  try {
+    const { item } = req.body
+    const { descripcion } = item
+    await Items.create({ where: { descripcion } })
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(500)
+  }
+}
+
 module.exports = {
   setUsuarios,
   setCasos,
@@ -413,7 +420,7 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
-
+  items,
   postPago,
   postDia
 };

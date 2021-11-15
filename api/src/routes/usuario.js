@@ -57,6 +57,6 @@ router.put("/abogado", (req, res) => put.getAbogado(req, res)); // get  abogado
 
 router.put("/abogado/:eMail", (req, res) => put.modificarAbogado(req, res)); // modificar abogado, actualizar foto etc
 
-router.put("/cliente/actualizar", put.CLienteAbogado)
+router.put("/cliente/actualizar", put.clienteAbogado)
 
 module.exports = router; 
