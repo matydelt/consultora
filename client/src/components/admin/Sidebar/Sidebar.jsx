@@ -9,42 +9,56 @@ const Sidebar = () => {
     <div>
       <nav className="SideBar">
         <ul>
-          <li
-            className={location.pathname === "/admin" ? "selected" : undefined}
-          >
-            <Link to="/admin">Dashboard</Link>
+          <li>
+            <div
+              className={
+                location.pathname === "/admin" ? "selected" : undefined
+              }
+            >
+              <Link to="/admin">Dashboard</Link>
+            </div>
           </li>
-          <li
-            className={
-              location.pathname === "/admin/users" ? "selected" : undefined
-            }
-          >
-            <Link to="/admin/users">Users</Link>
+          <li>
+            <div
+              className={
+                location.pathname === "/admin/users" ? "selected" : undefined
+              }
+            >
+              <Link to="/admin/users">Users</Link>
+            </div>
           </li>
-          <li
-            className={
-              location.pathname === "/admin/users/new" ? "selected" : undefined
-            }
-          >
-            <Link to="/admin/users/new">New Users</Link>
+          <li>
+            <div
+              className={
+                location.pathname === "/admin/users/new"
+                  ? "selected"
+                  : undefined
+              }
+            >
+              <Link to="/admin/users/new">New Users</Link>
+            </div>
           </li>
-          <li
-            className={
-              location.pathname === "/admin/users/banned"
-                ? "selected"
-                : undefined
-            }
-          >
-            <Link to="/admin/users/banned">Banned Users</Link>
+          <li>
+            <div
+              className={
+                location.pathname === "/admin/users/banned"
+                  ? "selected"
+                  : undefined
+              }
+            >
+              <Link to="/admin/users/banned">Banned Users</Link>
+            </div>
           </li>
-          <li
-            className={
-              location.pathname === "/admin/users/clientes"
-                ? "selected"
-                : undefined
-            }
-          >
-            <Link to="/admin/users/clientes">Clientes</Link>
+          <li>
+            <div
+              className={
+                location.pathname === "/admin/users/clientes"
+                  ? "selected"
+                  : undefined
+              }
+            >
+              <Link to="/admin/users/clientes">Clientes</Link>
+            </div>
           </li>
         </ul>
       </nav>
