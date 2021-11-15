@@ -11,7 +11,7 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
     },
     puntuacion: {
-      type: DataTypes.TEXT,
+      type: DataTypes.ENUM(["1", "2", "3", "4", "5"]),
     },
   });
 };

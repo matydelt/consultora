@@ -32,6 +32,7 @@ import "./App.css";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
 
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias";
+import CrearResena from "./components/homeUsuario/crearReseña/CrearResena";
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector((state) => state);
@@ -116,6 +117,10 @@ function App() {
           </Route>
         </div>
       </Switch>
+      <Route exact path="/form-resena">
+        {" "}
+        <CrearResena></CrearResena>{" "}
+      </Route>
       <ToastContainer></ToastContainer>
     </div>
   );
