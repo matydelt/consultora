@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const get = require("../controllers/gets")
+const post = require("../controllers/post")
+const put = require("../controllers/put")
 const { Materias } = require("../db")
 
 
@@ -13,7 +15,13 @@ router.get("/materias", get.getMaterias)
 
 router.post("/tickets/webhooks", (req, res) => post.postPago(req, res));
 
+router.get("/items/find", get.items)
+router.post("/items/create", post.items)
+router.put("/items/modify", put.items)
 
+router.get("/about/find", get.about)
+router.post("/about/create", post.about)
+router.put("/about/modify", put.about)
 
 
 

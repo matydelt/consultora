@@ -11,6 +11,7 @@ const {
   Dia,
   Turno,
   Items,
+  About,
   Op,
 } = require("../db");
 const turno = require("../models/turno");
@@ -376,11 +377,9 @@ async function getConsultas(req, res, next) {
 //MP
 async function getTickets(req, res, next) {
   const { id, enlace } = req.body;
-  console.log("id", req.body);
   if (!!id && id !== null) {
     try {
       const ticket = await Ticket.findByPk(id);
-      console.log("ticket", ticket);
       res.json(ticket);
     } catch (error) {
       console.log(error);
@@ -389,7 +388,6 @@ async function getTickets(req, res, next) {
   } else if (!!enlace && enlace !== null) {
     try {
       const ticket = await Ticket.findOne({ where: { enlace: enlace } });
-      console.log("ticket", ticket);
       res.json(ticket);
     } catch (error) {
       console.log(error);
@@ -452,12 +450,26 @@ async function getDias(req, res) {
 
 };
 
-async function getItems(req, res) {
+async function items(req, res) {
   try {
-
     const items = await Items.findAll({})
     if (items.length === 0) return res.sendStatus(404)
     return res.json(items)
+  } catch (e) {
+    console.log(e)
+    return res.sendStatus(404)
+  }
+}
+async function about(req, res) {
+  try {
+    let about = await About.findByPk(1)
+    if (!about) about = await About.create({
+      where: {
+        sobreNosotros: "Somos una consultoria Jurídica enfocada a la Solución civíl y promovemos la autonomía jurídica y legislativa constitucional y orgánica. Por tanto, nos enfocamos en el cumplimiento objetivo dictado como supremacía por LA CONSTITUCIÓN y no por subjetividades. Nos especializamos y diferenciamos por la capacidad de personificar cada caso en cada unos de nuestros clientes de persona natiral y jurídica. Somos unas de las consultorías mas solicitadas por la rápida respuesta ante cualquier consulta aún si no eres nuestro cliente"
+        , NuestraFilosofia: "Las leyes estan por encima de todo, esto es lo que hace cumplir la verdadera justicia en cada juridicción. Esto es nuestro lema y nuestro éxito ante cada caso que solucionamos de manera objetiva día tras día. Creeemos que la ley es el principio de la verdadera libertad a partir de los poderes estatales hasta cada ciudadano."
+      }
+    })
+    res.json(about)
   } catch (e) {
     console.log(e)
     return res.sendStatus(404)
@@ -476,6 +488,7 @@ module.exports = {
   getPersonas,
   getTickets,
   getAllCasos,
-  getItems,
+  items,
+  about,
   getDias
 };

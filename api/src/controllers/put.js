@@ -8,6 +8,7 @@ const {
   Cliente,
   Consulta,
   Ticket,
+  Items
 } = require("../db");
 const enviarEmail = require("../email/email");
 const axios = require("axios");
@@ -20,14 +21,12 @@ async function usuario(req, res) {
 
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
-      console.log(user);
       const abogado = await Abogado.findByPk(user.abogadoId);
       const { firstName, lastName, dni, celular } = await Persona.findByPk(
         user.personaDni
       );
       const personas = await Persona.findAll();
       if (personas.length < 2) {
-        console.log("admin");
         res.send({
           ...{
             eMail: user.eMail,
@@ -327,7 +326,6 @@ async function clienteAbogado(req, res) {
     const { abogado, cliente, abogadoAntiguo } = req.body
     const auxCliente = await Cliente.findByPk(cliente)
     let auxAbogado = await Usuario.findByPk(abogado)
-    console.log(req.body)
     let auxAbogado1 = await Abogado.findByPk(auxAbogado.abogadoId)
     if (abogadoAntiguo !== undefined) {
       const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo)
@@ -343,9 +341,33 @@ async function clienteAbogado(req, res) {
   }
 }
 async function items(req, res) {
-
+  try {
+    const { item } = req.body
+    const actualItem = await Items.findByPk({ where: { id: item.id } })
+    if (item.descripcion !== "" && item.descripcion) actualItem.descripcion = item.descripcion
+    await actualItem.save();
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(500)
+  }
 }
 
+async function about(req, res) {
+  try {
+    const { about } = req.body
+    const actualItem = await Items.findByPk({ where: { id: about.id } })
+    if (about.sobreNosotros !== "" && about.sobreNosotros) actualItem.sobreNosotros = about.sobreNosotros
+    if (about.NuestraFilosofia !== "" && about.NuestraFilosofia) actualItem.NuestraFilosofia = about.NuestraFilosofia
+    if (about.contacto !== "" && about.contacto) actualItem.contacto = about.contacto
+    if (about.direccion !== "" && about.direccion) actualItem.direccion = about.direccion
+    await actualItem.save();
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(500)
+  }
+}
 
 module.exports = {
   usuario,
@@ -355,5 +377,7 @@ module.exports = {
   getAbogado,
   modificarTicket,
   putCaso,
-  clienteAbogado
+  clienteAbogado,
+  items,
+  about
 };

@@ -5,18 +5,18 @@ module.exports = (sequelize) => {
   // defino el modelo
   const About = sequelize.define('about', {
     sobreNosotros: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false
     },
-    NuestraFilosofia: {
-      type: DataTypes.STRING,
+    nuestraFilosofia: {
+      type: DataTypes.TEXT,
       allowNull: false
     },
     contacto: {
-      type: DataTypes.TEXT
+      type: DataTypes.STRING
     },
     direccion: {
-      type: DataTypes.TEXT
+      type: DataTypes.STRING
     },
   });
 
