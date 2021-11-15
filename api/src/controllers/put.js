@@ -8,6 +8,8 @@ const {
   Cliente,
   Consulta,
   Ticket,
+  Dia,
+  Turno
 } = require("../db");
 const enviarEmail = require("../email/email");
 const axios = require("axios");
@@ -20,8 +22,8 @@ async function usuario(req, res) {
 
     const user = await Usuario.findOne({ where: { eMail } });
 
-    if(user.banned) return res.status(403).json({mensaje: 'Su cuenta se encuentra deshabilitada'})
-    
+    if (user.banned) return res.status(403).json({ mensaje: 'Su cuenta se encuentra deshabilitada' })
+
     if (user) {
       console.log(user);
       const abogado = await Abogado.findByPk(user.abogadoId);
@@ -360,6 +362,62 @@ async function CLienteAbogado(req, res) {
   }
 }
 
+async function modificarDia(req, res) {
+  const { diaId, form } = req.body;
+
+  const { fecha, notaModificar, turnos } = form;
+  
+  let cambioFecha = false;
+
+  try {
+
+    const dia = await Dia.findByPk(diaId);
+
+    dia.nota = notaModificar;
+    if (new Date(dia.fecha).toISOString().slice(0, 10) !== fecha) {
+      console.log(dia.fecha, fecha);
+      dia.fecha = fecha;
+      cambioFecha = true;
+    }
+
+    await dia.save();
+
+    turnos.map(async turno => {
+
+      let turnoExiste = await Turno.findByPk(turno.id);
+
+      if ( (cambioFecha && turnoExiste?.clienteId) || (turnoExiste.hora !== turno.hora) ) {
+
+        const cliente = await Cliente.findOne({ where: {id: turnoExiste.clienteId}, include: [{model: Usuario}]});
+        
+        enviarEmail.send({
+          email: cliente.usuario.eMail,
+          fecha: new Date(fecha).toLocaleDateString(),
+          hora: turno.hora,
+          subject: "Turno reprogramado",
+          htmlFile: "turno-reprogramado.html",
+        });
+      }
+
+      if (turnoExiste) {
+
+        return await Turno.update(turno, { where: { id: turno.id } })
+      } else {
+        return await Turno.create({ hora: turno.hora, diumId: dia.id })
+      }
+    })
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+
+
+
+
+};
+
 
 module.exports = {
   usuario,
@@ -369,5 +427,6 @@ module.exports = {
   getAbogado,
   modificarTicket,
   putCaso,
-  CLienteAbogado
+  CLienteAbogado,
+  modificarDia
 };

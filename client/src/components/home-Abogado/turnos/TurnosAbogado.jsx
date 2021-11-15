@@ -6,6 +6,7 @@ import DatePicker from "react-multi-date-picker";
 import { useDispatch } from 'react-redux';
 import { getDia } from '../../../redux/actions';
 import ModalVerTurnos from './modalVerTurnos/ModalVerTurnos';
+import ModalModificarTurnos from './modalModificarTurnos.jsx/ModalModificarTurnos';
 
 const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
 
@@ -17,6 +18,7 @@ export default function TurnosAbogado() {
     const [dias, setDias] = useState([]);
     const [fechasSeleccionadas, setFechasSeleccionadas] = useState();
     const [cargandoDias, setCargandoDias] = useState(true);
+
     const { usuario, dia } = useSelector(state => state);
 
     const [form, setForm] = useState({
@@ -34,15 +36,14 @@ export default function TurnosAbogado() {
     useEffect(() => {
 
         getDias();
-
-    }, [usuario]);
+        console.log('asdasd');
+    }, [usuario, dia, cargandoDias]);
     // }, []);
 
 
     useEffect(() => {
         let hoy = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
         const turnoHoy = dias?.find(dia => {
-            console.log(new Date(dia.fecha).toLocaleDateString() === hoy);
             return new Date(dia.fecha).toLocaleDateString() === hoy
         });
         setTurnoHoy(turnoHoy);
@@ -101,13 +102,19 @@ export default function TurnosAbogado() {
     };
 
 
+
+    // CAMBIAR
     function verTurnos(diaId) {
-            dispatch(getDia(diaId));
+        dispatch(getDia(diaId));
     };
 
     function verTurnosHoy() {
         dispatch(getDia(turnoHoy?.id));
-    }
+    };
+
+    function modificarDia(diaId) {
+        dispatch(getDia(diaId));
+    };
 
 
 
@@ -115,19 +122,21 @@ export default function TurnosAbogado() {
 
         <ModalVerTurnos />
 
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <ModalModificarTurnos getDias={getDias} />
+
+        <div class="modal fade" id="modalTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <form onSubmit={(e) => submitForm(e)}>
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Turnos</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Agregar turnos</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
 
+                            {/* { diaModificar?.dia?.id?.length === 0 &&
+                                } */}
                             <div className="row">
-                                {/* <div className="col-auto">
-                                </div> */}
                                 <div className="col align-middle text-end">
                                     <label for="fecha" className="col-form-label pointer">Seleccionar fechas:
                                         <span className="col-1 mx-2">📅</span>
@@ -157,7 +166,9 @@ export default function TurnosAbogado() {
                                         <div className="col-auto">
                                             <input className="form-control pointer clase-turno" type="time" min="09:00" max="18:00" data-id={i} value={turnos[i].hora} onChange={handleForm}></input>
                                         </div>
-                                        <span className="col-1 mt-1 text-danger pointer" onClick={() => quitarTurno(i)}> x </span>
+                                        <div className="col-auto align-middle text-center p-0">
+                                            <span className="badge rounded-pill bg-light border shadow text-danger pointer fs-3 px-2 py-0 " onClick={() => quitarTurno(i)}> - </span>
+                                        </div>
                                     </div>
                                 })
 
@@ -181,7 +192,7 @@ export default function TurnosAbogado() {
             <hr></hr>
 
             <div>
-                <button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#modalTurnos">
                     Agregar turnos
                 </button>
                 <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={verTurnosHoy} disabled={!turnoHoy}>
@@ -211,10 +222,10 @@ export default function TurnosAbogado() {
                         <table className="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Fecha</th>
-                                    <th>Cantidad</th>
-                                    <th>Notas</th>
-                                    <th className="text-center">Opciones</th>
+                                    <th className="w-25">Fecha</th>
+                                    <th className="w-25">Cantidad</th>
+                                    <th className="w-25">Notas</th>
+                                    <th className="text-center w-25">Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -225,9 +236,13 @@ export default function TurnosAbogado() {
                                             <td>{dia.turnos?.length}</td>
                                             <td>{dia.nota}</td>
                                             <td className="text-center">
-                                                <button className="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={() => verTurnos(dia.id)}>
+                                                <button className="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={() => verTurnos(dia.id)}>
                                                     Ver turnos
                                                 </button>
+                                                <button onClick={() => modificarDia(dia.id)} type="button" class="btn btn-outline-primary btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalModificarTurnos">
+                                                    Modificar
+                                                </button>
+                                                <button className="btn btn-outline-danger btn-sm">Eliminar</button>
                                             </td>
                                         </tr>
                                     </>)
@@ -245,8 +260,8 @@ export default function TurnosAbogado() {
                         </div>
 
             }
-            
-    
+
+
         </div>
     </>)
 };

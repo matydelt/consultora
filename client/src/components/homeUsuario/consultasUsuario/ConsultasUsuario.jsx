@@ -91,9 +91,9 @@ export default function ConsultasUsuario() {
                 {
                     consultas?.filter(c => c.dni?.toString() === usuario.dni?.toString()).map(consulta => {
 
-                        return (<>
+                        return (
 
-                            <tr className="align-middle">
+                            <tr key={consulta.id} className="align-middle">
                                 <td>
                                     <div className="text-muted">
                                         {new Date(consulta.createdAt).toLocaleTimeString()}
@@ -143,7 +143,7 @@ export default function ConsultasUsuario() {
                             </tr>
 
 
-                        </>)
+                        )
                     })
 
                 }

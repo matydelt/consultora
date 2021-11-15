@@ -1,15 +1,37 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import swal from 'sweetalert';
+import { actionCancelarTurno, getDia } from '../../../../redux/actions';
 
 export default function ModalVerTurnos() {
 
     const { dia } = useSelector(state => state);
 
+    // const dispatch = useDispatch();
+
+
+
+    // function cancelarTurno(turnoId) {
+    //     swal({
+    //         title: "Cancelar y eliminar",
+    //         text: "El turno se eliminará y el cliente será notificado por email ¿Continuar?",
+    //         icon: "warning",
+    //         buttons: true,
+    //     }
+    //     ).then((willDelete) => {
+    //         if (willDelete) {
+    //             dispatch(actionCancelarTurno(turnoId, true));
+    //             toast.success('El turno fue cancelado');
+    //             dispatch(getDia(dia?.dia?.id));
+    //         }
+    //     }).catch(err => toast.error('Ocurrió un problema al cancelar el turno'));
+    // };
+
 
 
     return (<>
-
-        <div class="modal fade" id="modalVerTurnos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalVerTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -23,7 +45,8 @@ export default function ModalVerTurnos() {
                             <thead>
                                 <tr>
                                     <th>Hora</th>
-                                    <th>Datos</th>
+                                    <th className="w-75 text-center">Datos</th>
+                                    {/* <td>Opciones</td> */}
                                 </tr>
                             </thead>
 
@@ -32,9 +55,12 @@ export default function ModalVerTurnos() {
                                 {
                                     dia.turnos?.map(turno => {
 
-                                        return < tr >
+                                        return < tr key={turno.id}>
                                             <td>{turno.hora}</td>
-                                            <td>{turno?.cliente?.persona?.firstName} {turno?.cliente?.persona?.lastName}</td>
+                                            <td className="text-center">{turno?.cliente?.persona?.firstName} {turno?.cliente?.persona?.lastName}</td>
+                                            {/* <td>
+                                                <button className="btn btn-danger btn-sm" disabled={!turno.cliente} onClick={() => cancelarTurno(turno.id)}>Cancelar</button>
+                                            </td> */}
                                         </tr>
 
                                     })
@@ -48,7 +74,7 @@ export default function ModalVerTurnos() {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Guardar</button>
+                        {/* <button type="button" class="btn btn-primary">Guardar</button> */}
                     </div>
                 </div>
             </div>

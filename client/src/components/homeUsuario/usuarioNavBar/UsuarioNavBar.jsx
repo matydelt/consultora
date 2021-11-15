@@ -39,17 +39,17 @@ export default function UsuarioNavBar() {
                 <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
                         <Link to="/">
-                            <a className="nav-item nav-link mx-2"> {'< '}Volver al sitio</a>
+                            <span className="nav-item nav-link mx-2"> {'< '}Volver al sitio</span>
                         </Link>
                         <Link to="/cita">
-                            <a className="nav-item nav-link mx-2">Nueva consulta</a>
+                            <span className="nav-item nav-link mx-2">Nueva consulta</span>
                         </Link>
                         <Link to="/user/panel/consultas">
-                            <a className="nav-item nav-link mx-2">Consultas realizadas</a>
+                            <span className="nav-item nav-link mx-2">Consultas realizadas</span>
                         </Link>
-                        <a className="nav-item nav-link mx-2" href="#">Casos</a>
+                        <span className="nav-item nav-link mx-2" href="#">Casos</span>
                         <Link to="/user/panel/turnos">
-                            <a className="nav-item nav-link mx-2">Turnos</a>
+                            <span className="nav-item nav-link mx-2">Turnos</span>
                         </Link>
                         <span className="nav-item nav-link mx-2 pointer" onClick={logout}>Salir</span>
                     </div>

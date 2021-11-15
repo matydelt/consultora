@@ -357,19 +357,29 @@ async function postDia(req, res) {
 };
 
 async function confirmarTurno(req, res) {
-  const { clienteId, turnoId } = req.body;
+  const { clienteId, turnoId, fecha } = req.body;
 
   try {
 
     const cliente = await Cliente.findByPk(clienteId);
-
+    
     const turno = await Turno.findByPk(turnoId);
-
+    
     if (turno.clienteId) {
       return res.status(400).json({ mensaje: 'El turno fue tomado' })
     }
-
+    
     await cliente.setTurno(turno);
+
+    const { eMail } = await cliente.getUsuario();
+
+    enviarEmail.send({
+      email: eMail,
+      fecha: new Date(fecha).toLocaleDateString(),
+      hora: turno.hora,
+      subject: "Turno confirmado",
+      htmlFile: "turno-confirmado.html",
+    });
 
     return res.sendStatus(200);
   } catch (error) {

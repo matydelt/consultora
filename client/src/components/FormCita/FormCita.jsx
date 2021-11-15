@@ -105,7 +105,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="nombre">
               Nombre
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -123,7 +123,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="apellido">
               Apellido
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -141,7 +141,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="dni">
               DNI
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -159,7 +159,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="telefono">
               Teléfono
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -177,7 +177,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="email">
               Email
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"

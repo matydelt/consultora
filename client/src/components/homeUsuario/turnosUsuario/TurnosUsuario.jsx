@@ -80,7 +80,7 @@ export default function TurnosUsuario() {
             }
         ).then((willDelete) => {
             if (willDelete) {
-                axios.post('/confirmar-turno', { clienteId: usuario.clienteId, turnoId: turno.id }).then(data => {
+                axios.post('/confirmar-turno', { clienteId: usuario.clienteId, turnoId: turno.id, fecha: diaSeleccionado.fecha }).then(data => {
                     toast.success('Turno confirmado')
                     setTurnoConfirmado({ turnoId: turno.id, hora: turno.hora, fecha: diaSeleccionado.fecha });
                 }).catch(error => {

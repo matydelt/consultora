@@ -128,7 +128,7 @@ export const getUsuario = (usuario) => {
       })
       .catch((error) => {
         console.log(error.response);
-        if(error.response.status === 403) usuarioBloqueado();
+        if (error?.response?.status === 403) usuarioBloqueado();
         return dispatch({
           type: "GET_USUARIO",
           payload: {},
@@ -359,17 +359,17 @@ export function modificarTicket(Ticket) {
 }
 export function setCliente(cliente, abogado) {
   return (dispatch) => {
-    axios.post("/cliente", {cliente, abogado})
+    axios.post("/cliente", { cliente, abogado })
       .then(response => {
         // return dispatch({ type: });
-        
+
       })
       .catch((err) => {
         console.log("ruta no existe")
       })
   }
 }
-        
+
 export function getClientes() {
   return (dispatch) => {
     axios.get("http://localhost:3001/casos/all")
@@ -399,8 +399,8 @@ export function putClienteAbogado(cambios) {
 }
 export function getDia(diaId) {
   return (dispatch) => {
-    axios.get('/dia', { params: {diaId}})
-    .then(resp => {
+    axios.get('/dia', { params: { diaId } })
+      .then(resp => {
         return dispatch({
           type: "GET_DIA",
           payload: resp.data
@@ -408,14 +408,14 @@ export function getDia(diaId) {
       })
       .catch((err) => {
         console.log(err)
-    });
+      });
   }
 }
-export function actionCancelarTurno(turnoId) {
+export function actionCancelarTurno(turnoId, eliminar) {
   return (dispatch) => {
-    axios.post("/cancelar-turno", {turnoId})
+    axios.post("/cancelar-turno", { turnoId, eliminar })
       .then(() => {
-        
+
       })
       .catch((err) => {
         console.log(err)

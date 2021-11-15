@@ -7,6 +7,8 @@ const del = require("../controllers/delete")
 
 router.post("/dia", (req, res) => post.postDia(req, res));
 
+router.put("/dia", (req, res) => put.modificarDia(req, res));
+
 router.get("/dia", (req, res) => get.getDia(req, res));
 
 router.get("/dias", (req, res) => get.getDias(req, res));

@@ -64,7 +64,7 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
                                 return c
                             }
                         }).map((consulta, i) => {
-                            return (<>
+                            return (
                                 <tr key={consulta.createdAt} className="text-center">
                                     <td className="align-middle">
                                         <div className="text-muted">
@@ -105,7 +105,7 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
                                     </td>
                                 </tr>
 
-                            </>);
+                            );
                         })
                     }
                     <tr>

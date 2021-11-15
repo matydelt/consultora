@@ -7,7 +7,6 @@ import "./HomeAbogado.css";
 export default function HomeAbogado() {
   const { usuario } = useSelector((state) => state);
 
-  console.log(usuario.abogadoId);
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
