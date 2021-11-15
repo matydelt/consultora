@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router";
-import { getSiteMateria, buttonNext, buttonPrev } from "../../../redux/actions";
+import { getSiteMateria } from "../../../redux/actions";
 import SiteMateria from "./SiteMateria/SiteMateria";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav.jsx";
 import { Link } from "react-router-dom";

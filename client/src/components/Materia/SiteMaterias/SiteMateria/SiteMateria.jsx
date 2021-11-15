@@ -2,7 +2,8 @@ import React from "react";
 import "./SiteMateria.css";
 import { gsap } from "gsap";
 
-const SiteMateria = ({ firstName, lastName, img, abogado }) => {
+const SiteMateria = ({ firstName, lastName, img }) => {
+console.log(img)
   var timeline = gsap.timeline();
 
   const handleMouseMove = (e) => {

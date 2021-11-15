@@ -171,16 +171,6 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         ticket: action.payload,
       };
-    case "NEXT":
-      return {
-          ...state,
-          slideIndex: (state.slideIndex + 1) % state.abogados.length
-      }
-    case "PREV":
-      return {
-          ...state,
-          slideIndex: state.slideIndex === 0 ? state.abogados.length - 1 : state.slideIndex - 1
-      }
     default:
       return state;
   }
