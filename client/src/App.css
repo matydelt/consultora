@@ -19,13 +19,35 @@ html {
   scroll-behavior: smooth;
 }
 
-/* #root {
-  min-height: 2000px;
+body {
+  width: 100%;
+}
+
+button {
+  border    : none;
+  background: none;
+  cursor    : pointer;
+}
+
+
+/* button {
+  outline      : 0;
+  border       : 0;
+  background   : #d4e6f4;
+  padding      : 6px;
+  cursor       : pointer;
+  border-radius: 2px;
 } */
+
+button:focus {
+  outline: none;
+  border : none;
+}
 
 .hidden {
   overflow: hidden;
 }
+
 .textDecoration {
   text-decoration: none;
   list-style     : none;

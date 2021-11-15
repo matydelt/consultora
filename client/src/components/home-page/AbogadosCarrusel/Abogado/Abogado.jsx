@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import ButtonsNav from '../../../ButtonsNav/ButtonsNav';
 
 const Abogado = ({ abogado, frase }) => {
     return (
@@ -14,9 +15,10 @@ const Abogado = ({ abogado, frase }) => {
                 </div>
             </div>
             <div className="button_ver_mas">
-                <Link to={`/perfil/${abogado.slug}`}>
+                {/* <Link to={`/perfil/${abogado.slug}`}>
                     Ver más
-                </Link>
+                </Link> */}
+                <ButtonsNav link={`/perfil/${abogado.slug}`} text="Ver más" />
             </div>
         </>
     )

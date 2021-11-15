@@ -339,3 +339,15 @@ export function modificarTicket(Ticket) {
       })
   }
 }
+
+
+export function buttonNext() {
+  return {
+    type: 'NEXT'
+  }
+}
+export function buttonPrev() {
+  return {
+    type: 'PREV'
+  }
+}
