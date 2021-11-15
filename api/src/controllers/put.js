@@ -366,7 +366,7 @@ async function modificarDia(req, res) {
   const { diaId, form } = req.body;
 
   const { fecha, notaModificar, turnos } = form;
-  
+
   let cambioFecha = false;
 
   try {
@@ -386,10 +386,13 @@ async function modificarDia(req, res) {
 
       let turnoExiste = await Turno.findByPk(turno.id);
 
-      if ( (cambioFecha && turnoExiste?.clienteId) || (turnoExiste.hora !== turno.hora) ) {
+      if ((cambioFecha && turnoExiste?.clienteId) || (turnoExiste.clienteId && turnoExiste.hora !== turno.hora)) {
 
-        const cliente = await Cliente.findOne({ where: {id: turnoExiste.clienteId}, include: [{model: Usuario}]});
-        
+        console.log(turnoExiste?.hora !== turno.hora)
+        console.log(turnoExiste?.hora, turno.hora)
+
+        const cliente = await Cliente.findOne({ where: { id: turnoExiste.clienteId }, include: [{ model: Usuario }] });
+
         enviarEmail.send({
           email: cliente.usuario.eMail,
           fecha: new Date(fecha).toLocaleDateString(),
@@ -400,9 +403,9 @@ async function modificarDia(req, res) {
       }
 
       if (turnoExiste) {
-
-        return await Turno.update(turno, { where: { id: turno.id } })
-      } else {
+        return await Turno.update(turno, { where: { id: turnoExiste.id } })
+      }
+      if (!turnoExiste) {
         return await Turno.create({ hora: turno.hora, diumId: dia.id })
       }
     })
