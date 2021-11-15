@@ -344,8 +344,39 @@ async function getConsultas(req, res, next) {
 
   try {
     const todasConsultas = await Consulta.findAll();
-    res.json(todasConsultas);
+    const todasConsultasAbogado = [];
+    for (var i=0; i < todasConsultas.length; i++) {
+      var consulta = todasConsultas[i];
+      if (!consulta.abogadoId) {
+        todasConsultasAbogado.push(consulta);
+        continue;
+      }
+      const abogado = await Usuario.findOne({
+        where:{abogadoId: consulta.abogadoId}
+      })
+      const { firstName, lastName, dni, celular } = await Persona.findByPk(
+        abogado.personaDni
+      );
+      consulta.dataValues.abogado = {
+        firstName: firstName,
+         lastName: lastName,
+         dni: dni,
+         celular: celular
+      }
+      todasConsultasAbogado.push(consulta);
+    }
+    /* const todasConsultasAbogado = todasConsultas.map( c => {
+      const abogado = await Usuario.findOne({
+        where:{abogadoId: c.abogadoId}
+      })
+      const { firstName, lastName, dni, celular } = await Persona.findByPk(
+        abogado.personaDni
+      ); 
+      return  c;
+    }) */
+    res.json(todasConsultasAbogado);
   } catch (error) {
+    console.log(error)
     next({ msg: "error en traer consultas de la DB" });
   }
 }

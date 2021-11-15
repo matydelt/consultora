@@ -56,6 +56,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         consulta: action.payload,
       };
+    case "SET_CONSULTA_DETALLE" :
+      return {
+        ...state,
+        consulta: action.payload,
+      };
     case "GET_USUARIO":
       let user = action.payload;
       if (!user.abogadoId && !user.adminId) {

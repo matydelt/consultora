@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import swal from 'sweetalert';
-import { getConsultas, modificarTicket } from '../../../redux/actions';
+import { getConsultas, modificarTicket, mostartDetalleConsulta } from '../../../redux/actions';
 import UsuarioNavBar from '../usuarioNavBar/UsuarioNavBar';
+import DetalleConsulta from '../DetalleConsulta/DetalleConsulta';
 
 export default function ConsultasUsuario() {
 
@@ -11,6 +12,7 @@ export default function ConsultasUsuario() {
 
     const { consultas, usuario } = useSelector((state) => state);
     const [n_operacion, setN_Operacion] = useState('');
+    const [ detalle, setDetalle ] = useState();
 
     useEffect(() => {
         dispatch(getConsultas());
@@ -46,9 +48,19 @@ export default function ConsultasUsuario() {
     }
 
 
+     function setConsulta(consulta) {
+         console.log("setConsulta", consulta)
+        dispatch(mostartDetalleConsulta(consulta))
+    }
+
+
+
     return (<>
 
         <UsuarioNavBar></UsuarioNavBar>
+
+        <DetalleConsulta modalId={`modalConsultaDetalle`}></DetalleConsulta>
+
 
         <div className="container mt-5">
 
@@ -58,7 +70,7 @@ export default function ConsultasUsuario() {
         </div>
 
 
-        <table className="table table-hover mt-5">
+         <table className="table table-hover mt-5">
             <thead>
                 <tr>
                     <th>Fecha</th>
@@ -68,6 +80,8 @@ export default function ConsultasUsuario() {
                     <th>Estado</th>
                     <th>Link de pago</th>
                     <th>Notificar pago</th>
+
+                    <th>Opciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -118,7 +132,11 @@ export default function ConsultasUsuario() {
                                         <button disabled={consulta?.ticket?.estatus !== 'pending'} onClick={() => { efectuarPago(consulta.ticket?.enlace, n_operacion) }} className={`btn btn-${consulta.ticket?.estatus === 'pending' ? 'success' : 'light text-muted'}`}>Notificar</button>
                                     </td>
                                 }
+                                <td><button onClick={() => { setConsulta(consulta) }} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#modalConsultaDetalle`}>
+                                            Ver detalle
+                                        </button></td>
                             </tr>
+                            
 
 
                         </>)
@@ -127,5 +145,6 @@ export default function ConsultasUsuario() {
                 }
             </tbody>
         </table>
+      
     </>)
 }

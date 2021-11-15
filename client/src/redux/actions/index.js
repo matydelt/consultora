@@ -195,6 +195,15 @@ export const mostrarConsulta = (consulta) => {
   };
 };
 
+export const mostartDetalleConsulta = (consulta) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "SET_CONSULTA_DETALLE",
+      payload: consulta
+    })
+  }
+}
+
 export function setAbogado(user) {
   return async function (dispatch) {
     try {
