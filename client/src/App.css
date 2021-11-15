@@ -23,6 +23,9 @@ html {
   min-height: 2000px;
 } */
 
+.hidden {
+  overflow: hidden;
+}
 .textDecoration {
   text-decoration: none;
   list-style     : none;

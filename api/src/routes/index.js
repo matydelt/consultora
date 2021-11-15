@@ -14,5 +14,6 @@ module.exports = {
   consultas: require("./consultas"),
   cloudinary: require("./cloudinary"),
   tickets: require("./tickets"),
+  turnos: require("./turnos"),
   index: router,
 };

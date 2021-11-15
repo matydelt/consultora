@@ -15,6 +15,13 @@ export function getMaterias() {
   };
 }
 
+export function getSiteMateria(payload) {
+  return {
+    type: 'GET_MATERIAS_SITE',
+    payload
+  }
+}
+
 export function getAbogados() {
   return async function (dispatch) {
     try {
@@ -347,13 +354,39 @@ export function getTickets(id) {
 }
 export function modificarTicket(Ticket) {
   return (dispatch) => {
-    axios
-      .put("/tickets/edit", Ticket)
-      .then((response) => {
+    axios.put("http://localhost:3001/tickets/edit", Ticket)
+      .then(response => {
         return dispatch({ type: "PUT_TICKET" });
       })
       .catch((err) => {
-        console.log("ruta no existe");
-      });
-  };
+        console.log("ruta no existe")
+      })
+  }
+}
+export function getClientes() {
+  return (dispatch) => {
+    axios.get("http://localhost:3001/casos/all")
+      .then(response => {
+        return dispatch({
+          type: "GET_CLIENTS",
+          payload: response.data.filter(e => e.casos.length > 0)
+        });
+      })
+      .catch((err) => {
+        console.log("ruta no existe")
+      })
+  }
+}
+export function putClienteAbogado(cambios) {
+  return (dispatch) => {
+    axios.put("http://localhost:3001/cliente/actualizar", cambios)
+      .then(() => {
+        return dispatch({
+          type: "PUT_CLIENTES",
+        });
+      })
+      .catch((err) => {
+        console.log("ruta no existe")
+      })
+  }
 }

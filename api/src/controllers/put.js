@@ -320,6 +320,27 @@ async function modificarTicket(req, res) {
   }
 }
 
+async function CLienteAbogado(req, res) {
+  try {
+    const { abogado, cliente, abogadoAntiguo } = req.body
+    const auxCliente = await Cliente.findByPk(cliente)
+    let auxAbogado = await Usuario.findByPk(abogado)
+    let auxAbogado1 = await Abogado.findByPk(auxAbogado.abogadoId)
+    if (abogadoAntiguo) {
+      const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo)
+      await auxCliente.removeAbogado(auxAbogadoAntiguo)
+    }
+    if (auxAbogado1 && auxCliente) {
+      auxAbogado1.addClientes(auxCliente)
+      return res.sendStatus(200)
+    } else return res.sendStatus(404)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(404)
+  }
+}
+
+
 module.exports = {
   usuario,
   asignaConsulta,
@@ -328,4 +349,5 @@ module.exports = {
   getAbogado,
   modificarTicket,
   putCaso,
+  CLienteAbogado
 };

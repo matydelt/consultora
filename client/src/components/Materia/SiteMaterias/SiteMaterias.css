@@ -1,0 +1,7 @@
+.flex_materia {
+    display: flex;
+    
+}
+.flex_materia img{
+    width: 40%;    
+}
