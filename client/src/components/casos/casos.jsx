@@ -29,6 +29,8 @@ function Casos({ id, casos, persona, flag }) {
               vtoTrabaAfectiva,
               jurisdiccion,
               materias,
+              updatedAt
+
             } = e;
             return (
               <CardCasos
@@ -44,6 +46,7 @@ function Casos({ id, casos, persona, flag }) {
                 vtoMedidaCautelar={vtoMedidaCautelar}
                 vtoTrabaAfectiva={vtoTrabaAfectiva}
                 jurisdiccion={jurisdiccion}
+                fecha={updatedAt}
                 flag={flag}
               />
             );

@@ -43,7 +43,7 @@ export default function NavAbogado() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="#" className="nav-link">
+              <Link to="/user/abogado/casos" className="nav-link">
                 Casos 📔
               </Link>
             </li>

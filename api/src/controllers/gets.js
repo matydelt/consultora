@@ -29,24 +29,24 @@ async function getUsuarios(req, res) {
     res.json(usersData);
   } catch (error) {
     console.error(error);
-    res.sendStatus(404);
+    return res.sendStatus(404);
   }
   try {
     const user = await Usuario.findAll();
-    res.json(user);
+    return res.json(user);
   } catch (error) {
     console.error(error);
-    res.sendStatus(404);
+    return res.sendStatus(404);
   }
 }
 
 async function getPersonas(req, res) {
   try {
     const user = await Persona.findAll();
-    res.json(user);
+    return res.json(user);
   } catch (error) {
     console.error(error);
-    res.sendStatus(404);
+    return res.sendStatus(404);
   }
 }
 

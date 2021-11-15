@@ -1,10 +1,15 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { putClienteAbogado } from "../../../redux/actions";
+import { getClientes, putClienteAbogado } from "../../../redux/actions";
 
 export default function AdminClientes() {
   const dispatch = useDispatch();
   const { clients } = useSelector((state) => state);
   const allUsers = useSelector((state) => state.usuarios);
+
+  useEffect(() => {
+    dispatch(getClientes());
+  }, [dispatch]);
   const handleChangeAbogado = (e, clienteId, abogadoId) => {
     e.preventDefault();
     const cambios = {
@@ -12,10 +17,10 @@ export default function AdminClientes() {
       cliente: clienteId,
       abogadoAntiguo: abogadoId,
     };
-    console.log(cambios);
+
     if (
       cambios.abogado !== undefined &&
-      cambios.abogado !== "" &&
+      cambios.abogado !== "ninguno" &&
       cambios.cliente !== undefined
     ) {
       dispatch(putClienteAbogado(cambios));
@@ -35,6 +40,7 @@ export default function AdminClientes() {
         </thead>
         <tbody>
           {clients.map((e, i) => {
+            console.log(e);
             const { persona } = e;
             const personaAbogado = e.abogados[0]?.persona;
             const clienteId = e.id;
