@@ -27,7 +27,11 @@ export default function HomeAbogado() {
           interesadas o tus clientes.
         </p>
         <p className="lead">
-          <a className="btn btn-primary btn-lg" href="/" role="button">
+          <a
+            className="btn btn-primary btn-lg"
+            href="/user/abogado"
+            role="button"
+          >
             Home
           </a>
         </p>

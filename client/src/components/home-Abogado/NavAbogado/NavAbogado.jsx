@@ -19,7 +19,7 @@ export default function NavAbogado() {
       .then(() => {
         dispatch(getUsuario({}));
         toast.info("La sesión fue finalizada");
-        localStorage.removeItem('username')
+        localStorage.removeItem("username");
         history.push("/");
       })
       .catch((error) => {
@@ -33,7 +33,7 @@ export default function NavAbogado() {
         <div className="izquierda">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link to="/" className="nav-link">
+              <Link to="/user/abogado" className="nav-link">
                 Home 🏠
               </Link>
             </li>
@@ -66,7 +66,6 @@ export default function NavAbogado() {
               <a onClick={logout} className="nav-link pointer">
                 Salir ❌
               </a>
-
             </li>
           </ul>
         </div>
