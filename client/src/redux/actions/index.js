@@ -17,9 +17,9 @@ export function getMaterias() {
 
 export function getSiteMateria(payload) {
   return {
-    type: 'GET_MATERIAS_SITE',
-    payload
-  }
+    type: "GET_MATERIAS_SITE",
+    payload,
+  };
 }
 
 export function getAbogados() {
@@ -206,10 +206,10 @@ export const mostartDetalleConsulta = (consulta) => {
   return (dispatch) => {
     return dispatch({
       type: "SET_CONSULTA_DETALLE",
-      payload: consulta
-    })
-  }
-}
+      payload: consulta,
+    });
+  };
+};
 
 export function setAbogado(user) {
   return async function (dispatch) {
@@ -354,58 +354,108 @@ export function getTickets(id) {
 }
 export function modificarTicket(Ticket) {
   return (dispatch) => {
-    axios.put("http://localhost:3001/tickets/edit", Ticket)
-      .then(response => {
+    axios
+      .put("http://localhost:3001/tickets/edit", Ticket)
+      .then((response) => {
         return dispatch({ type: "PUT_TICKET" });
       })
       .catch((err) => {
-        console.log("ruta no existe")
-      })
-  }
+        console.log("ruta no existe");
+      });
+  };
 }
 export function getClientes() {
   return (dispatch) => {
-    axios.get("http://localhost:3001/casos/all")
-      .then(response => {
+    axios
+      .get("http://localhost:3001/casos/all")
+      .then((response) => {
         return dispatch({
           type: "GET_CLIENTS",
-          payload: response.data.filter(e => e.casos.length > 0)
+          payload: response.data.filter((e) => e.casos.length > 0),
         });
       })
       .catch((err) => {
-        console.log("ruta no existe")
-      })
-  }
+        console.log("ruta no existe");
+      });
+  };
 }
 export function putClienteAbogado(cambios) {
   return (dispatch) => {
-    axios.put("http://localhost:3001/cliente/actualizar", cambios)
+    axios
+      .put("http://localhost:3001/cliente/actualizar", cambios)
       .then(() => {
         return dispatch({
           type: "PUT_CLIENTES",
         });
       })
       .catch((err) => {
-        console.log("ruta no existe")
-      })
-  }
+        console.log("ruta no existe");
+      });
+  };
 }
 
-export function putAbout() {
-
+export function putAbout(about) {
+  return async (dispatch) => {
+    try {
+      await axios.put("/about/modify", about);
+      return dispatch({ type: "PUT_ABOUT" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
+
 export function getAbout() {
-
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/about/find");
+      return dispatch({ type: "GET_ABOUT", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
-export function putItem() {
 
+export function putItem(item) {
+  return async (dispatch) => {
+    try {
+      await axios.put("/items/modify", item);
+      return dispatch({ type: "PUT_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
+
 export function getItems() {
-
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/items/find");
+      return dispatch({ type: "GET_ITEMS", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
-export function postItem() {
 
+export function postItem(item) {
+  return async (dispatch) => {
+    try {
+      await axios.post("/items/create", item);
+      return dispatch({ type: "POST_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
-export function deleteItem() {
 
+export function deleteItem(item) {
+  return async (dispatch) => {
+    try {
+      await axios.delete("/items/delete", item);
+      return dispatch({ type: "DELETE_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }

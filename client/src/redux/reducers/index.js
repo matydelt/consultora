@@ -34,43 +34,28 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_MATERIAS":
-      return {
-        ...state,
-        materias: action.payload,
-      };
-    case 'GET_MATERIAS_SITE':
-      let materiaId = state.materias.length > 0 && state.materias?.find((m) => m.nombre === action.payload).abogados.map((a) => a.abogadomateria.abogadoId);
-      let abogadoMateria = state.abogados.filter((m) => materiaId.includes(m.abogado.id));
-      console.log(materiaId)
-      return {
-        ...state,
-        abogados: abogadoMateria
-      }
+      return { ...state, materias: action.payload };
+    case "GET_MATERIAS_SITE":
+      let materiaId =
+        state.materias.length > 0 &&
+        state.materias
+          ?.find((m) => m.nombre === action.payload)
+          .abogados.map((a) => a.abogadomateria.abogadoId);
+      let abogadoMateria = state.abogados.filter((m) =>
+        materiaId.includes(m.abogado.id)
+      );
+      console.log(materiaId);
+      return { ...state, abogados: abogadoMateria };
     case "GET_ABOGADOS":
-      return {
-        ...state,
-        abogados: action.payload,
-      };
+      return { ...state, abogados: action.payload };
     case "GET_PROVINCIAS":
-      return {
-        ...state,
-        provincias: action.payload,
-      };
+      return { ...state, provincias: action.payload };
     case "SET_USUARIO":
-      return {
-        ...state,
-        usuario: action.payload,
-      };
+      return { ...state, usuario: action.payload };
     case "SET_CONSULTA":
-      return {
-        ...state,
-        consulta: action.payload,
-      };
-    case "SET_CONSULTA_DETALLE" :
-      return {
-        ...state,
-        consulta: action.payload,
-      };
+      return { ...state, consulta: action.payload };
+    case "SET_CONSULTA_DETALLE":
+      return { ...state, consulta: action.payload };
     case "GET_USUARIO":
       let user = action.payload;
       if (!user.abogadoId && !user.adminId) {
@@ -91,77 +76,38 @@ const rootReducer = (state = initialState, action) => {
         };
       }
     case "GET_USUARIOS":
-      return {
-        ...state,
-        usuarios: action.payload,
-      };
+      return { ...state, usuarios: action.payload };
     case "GET_PERSONAS":
-      return {
-        ...state,
-        personas: action.payload,
-      };
+      return { ...state, personas: action.payload };
     case "GET_CASOS":
-      return {
-        ...state,
-        casos: action.payload,
-      };
+      return { ...state, casos: action.payload };
     case "POST_USUARIO": //for login
       let aux = action.payload;
       if (!!aux.adminId) {
-        return {
-          ...state,
-          admin: action.payload,
-        };
+        return { ...state, admin: action.payload };
       } else if (!!aux.abogadoId) {
-        return {
-          ...state,
-          abogado: action.payload,
-        };
+        return { ...state, abogado: action.payload };
       } else {
-        return {
-          ...state,
-          usuario: action.payload,
-        };
+        return { ...state, usuario: action.payload };
       }
     case "POST_ABOGADO":
-      return {
-        ...state,
-      };
+      return { ...state };
     case "SET_BANN":
-      return {
-        ...state,
-      };
+      return { ...state };
     case "POST_CONSULTA":
-      return {
-        ...state,
-      };
+      return { ...state };
     case "GET_ABOGADO":
-      return {
-        ...state,
-        abogado: action.payload,
-      };
+      return { ...state, abogado: action.payload };
     case "SET_ABOGADO":
-      return {
-        ...state,
-      };
+      return { ...state };
     case "SET_ADMIN":
-      return {
-        ...state,
-      };
+      return { ...state };
     case "GET_CONSULTAS":
-      return {
-        ...state,
-        consultas: action.payload,
-      };
+      return { ...state, consultas: action.payload };
     case "ASIGNAR_CONSULTA":
-      return {
-        ...state,
-      };
+      return { ...state };
     case "DELETE_CONSULTA":
-      return {
-        ...state,
-        consultas: [],
-      };
+      return { ...state, consultas: [] };
     case "FILTRAR_MATERIAS":
       const materiasFiltradas =
         action.payload === "todas"
@@ -181,28 +127,27 @@ const rootReducer = (state = initialState, action) => {
         abogados: provinciasFiltradas,
       };
     case "GET_CLIENTES":
-      return {
-        ...state,
-        consultas: action.payload,
-      };
+      return { ...state, consultas: action.payload };
     case "PUT_CASO":
-      return {
-        ...state,
-      };
+      return { ...state };
     case "GET_TICKET":
-      return {
-        ...state,
-        ticket: action.payload,
-      };
+      return { ...state, ticket: action.payload };
     case "GET_CLIENTS":
-      return {
-        ...state,
-        clients: action.payload
-      }
+      return { ...state, clients: action.payload };
     case "PUT_CLIENTES":
-      return {
-        ...state
-      }
+      return { ...state };
+    case "PUT_ABOUT":
+      return { ...state };
+    case "GET_ABOUT":
+      return { ...state, about: action.payload };
+    case "PUT_ITEM":
+      return { ...state };
+    case "GET_ITEMS":
+      return { ...state, items: action.payload };
+    case "POST_ITEM":
+      return { ...state };
+    case "DELETE_ITEM":
+      return { ...state };
     default:
       return state;
   }
