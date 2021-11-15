@@ -19,6 +19,8 @@ router.post("/confirmar-turno", (req, res) => post.confirmarTurno(req, res));
 
 router.post("/cancelar-turno", (req, res) => del.cancelarTurno(req, res));
 
+router.post("/eliminar-dia", (req, res) => del.eliminarDia(req, res));
+
 // router.put("/dia", (req, res) => put.(req, res));
 
 module.exports = router;

@@ -4,9 +4,10 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import DatePicker from "react-multi-date-picker";
 import { useDispatch } from 'react-redux';
-import { getDia } from '../../../redux/actions';
+import { actionEliminarDia, getDia } from '../../../redux/actions';
 import ModalVerTurnos from './modalVerTurnos/ModalVerTurnos';
 import ModalModificarTurnos from './modalModificarTurnos.jsx/ModalModificarTurnos';
+import swal from 'sweetalert';
 
 const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
 
@@ -34,9 +35,7 @@ export default function TurnosAbogado() {
 
 
     useEffect(() => {
-
         getDias();
-        console.log('asdasd');
     }, [usuario, dia, cargandoDias]);
     // }, []);
 
@@ -114,6 +113,26 @@ export default function TurnosAbogado() {
 
     function modificarDia(diaId) {
         dispatch(getDia(diaId));
+    };
+
+
+    function eliminarDia(diaId) {
+        swal({
+            title: "Eliminar",
+            text: "Si elimina el día con todos sus turnos, los clientes serán notificados por email que su turno fue cancelado, ¿Eliminar?",
+            icon: "warning",
+            buttons: true,
+        }
+        ).then((willDelete) => {
+            if (willDelete) {
+                setCargandoDias(true);
+                dispatch(actionEliminarDia(diaId))
+                getDias();
+                toast.success('El día fue eliminado');
+            }
+        }).catch(err => toast.error('Ocurrió un problema al eliminar el día y sus turnos'));
+        
+        setCargandoDias(false);
     };
 
 
@@ -242,7 +261,7 @@ export default function TurnosAbogado() {
                                                 <button onClick={() => modificarDia(dia.id)} type="button" class="btn btn-outline-primary btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalModificarTurnos">
                                                     Modificar
                                                 </button>
-                                                <button className="btn btn-outline-danger btn-sm">Eliminar</button>
+                                                <button className="btn btn-outline-danger btn-sm" onClick={() => eliminarDia(dia.id)}>Eliminar</button>
                                             </td>
                                         </tr>
                                     </>)

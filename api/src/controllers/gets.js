@@ -291,47 +291,47 @@ async function getAbogado(req, res) {
     res.sendStatus(404);
   }
 
-  const user = await Usuario.findByPk(eMail);
-  const { firstName, lastName, dni, celular } = await Persona.findByPk(
-    user.personaDni
-  );
-  const { detalle, clientes, imagen, experiencia, estudios } =
-    await Abogado.findOne({
-      where: { id: user.abogadoId },
-      include: Cliente,
-    });
-  let abogado = {
-    ...{ eMail: user.eMail, firstName, lastName, dni, celular },
-    detalle,
-    imagen,
-    experiencia,
-    estudios,
-  };
-  abogado.clientes = [];
-  for (let i = 0; i < clientes.length; i++) {
-    abogado.clientes.push(
-      await Cliente.findOne({
-        where: { id: clientes[i].id },
-        attributes: ["id", "asunto"],
-        include: [
-          {
-            model: Persona,
-            attributes: ["firstName", "lastName", "dni", "celular"],
-          },
-          {
-            model: Casos,
-            attributes: [
-              "juez",
-              "numeroExpediente",
-              "juzgado",
-              "detalle",
-              "estado",
-            ],
-          },
-        ],
-      })
-    );
-  }
+  // const user = await Usuario.findByPk(eMail);
+  // const { firstName, lastName, dni, celular } = await Persona.findByPk(
+  //   user.personaDni
+  // );
+  // const { detalle, clientes, imagen, experiencia, estudios } =
+  //   await Abogado.findOne({
+  //     where: { id: user.abogadoId },
+  //     include: Cliente,
+  //   });
+  // let abogado = {
+  //   ...{ eMail: user.eMail, firstName, lastName, dni, celular },
+  //   detalle,
+  //   imagen,
+  //   experiencia,
+  //   estudios,
+  // };
+  // abogado.clientes = [];
+  // for (let i = 0; i < clientes.length; i++) {
+  //   abogado.clientes.push(
+  //     await Cliente.findOne({
+  //       where: { id: clientes[i].id },
+  //       attributes: ["id", "asunto"],
+  //       include: [
+  //         {
+  //           model: Persona,
+  //           attributes: ["firstName", "lastName", "dni", "celular"],
+  //         },
+  //         {
+  //           model: Casos,
+  //           attributes: [
+  //             "juez",
+  //             "numeroExpediente",
+  //             "juzgado",
+  //             "detalle",
+  //             "estado",
+  //           ],
+  //         },
+  //       ],
+  //     })
+  //   );
+  // }
 }
 
 async function getCasos(req, res) {
@@ -501,12 +501,12 @@ async function getAllCasos(req, res, next) {
 async function getDias(req, res) {
   const { abogadoId, abogadoFlag } = req.query;
 
+  console.log(abogadoFlag);
   let dias = [];
   try {
     if (abogadoFlag) {
       dias = await Dia.findAll({
         where: {
-          fecha: { [Op.gte]: new Date().getTime() },
           abogadoId,
         },
         include: Turno,

@@ -399,35 +399,32 @@ async function modificarDia(req, res) {
   let cambioFecha = false;
 
   try {
+
     const dia = await Dia.findByPk(diaId);
 
     dia.nota = notaModificar;
     if (new Date(dia.fecha).toISOString().slice(0, 10) !== fecha) {
-      console.log(dia.fecha, fecha);
-      dia.fecha = fecha;
-      cambioFecha = true;
+      cambioFecha = new Date(fecha).getTime() + new Date(fecha).getTimezoneOffset() * 60000;
+     
+      dia.fecha = cambioFecha;
     }
 
     await dia.save();
 
-    turnos.map(async (turno) => {
+    turnos.map(async turno => {
+
       let turnoExiste = await Turno.findByPk(turno.id);
 
-      if (
-        (cambioFecha && turnoExiste?.clienteId) ||
-        (turnoExiste.clienteId && turnoExiste.hora !== turno.hora)
-      ) {
-        console.log(turnoExiste?.hora !== turno.hora);
-        console.log(turnoExiste?.hora, turno.hora);
+      if ((cambioFecha && turnoExiste?.clienteId) || (turnoExiste.clienteId && turnoExiste.hora !== turno.hora)) {
 
-        const cliente = await Cliente.findOne({
-          where: { id: turnoExiste.clienteId },
-          include: [{ model: Usuario }],
-        });
+        // console.log(turnoExiste?.hora !== turno.hora)
+        // console.log(turnoExiste?.hora, turno.hora)
+
+        const cliente = await Cliente.findOne({ where: { id: turnoExiste.clienteId }, include: [{ model: Usuario }] });
 
         enviarEmail.send({
           email: cliente.usuario.eMail,
-          fecha: new Date(fecha).toLocaleDateString(),
+          fecha: cambioFecha ? new Date(cambioFecha).toLocaleDateString() : new Date(dia.fecha).toLocaleDateString(),
           hora: turno.hora,
           subject: "Turno reprogramado",
           htmlFile: "turno-reprogramado.html",
@@ -435,19 +432,23 @@ async function modificarDia(req, res) {
       }
 
       if (turnoExiste) {
-        return await Turno.update(turno, { where: { id: turnoExiste.id } });
+        return await Turno.update(turno, { where: { id: turnoExiste.id } })
       }
       if (!turnoExiste) {
-        return await Turno.create({ hora: turno.hora, diumId: dia.id });
+        return await Turno.create({ hora: turno.hora, diumId: dia.id })
       }
-    });
+    })
 
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
-}
+
+
+
+
+};
 
 module.exports = {
   usuario,

@@ -115,9 +115,9 @@ function App() {
             <FormCasos />
           </Route>
           <Footer />
-          <Route exact path={"/user/abogado/gestionar-turnos"}>
+          {/* <Route exact path={"/user/abogado/gestionar-turnos"}>
             <TurnosAbogado />
-          </Route>
+          </Route> */}
         </div>
       </Switch>
       {/* <Route exact path="/form-resena">

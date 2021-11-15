@@ -425,3 +425,18 @@ export function actionCancelarTurno(turnoId, eliminar) {
       });
   };
 }
+export function actionEliminarDia(diaId) {
+  return (dispatch) => {
+    axios
+      .post("/eliminar-dia", {diaId})
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+
+
+
