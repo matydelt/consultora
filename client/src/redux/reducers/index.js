@@ -5,22 +5,7 @@ const initialState = {
   usuario: {},
   provincias: [],
   abogados: [],
-  abogado: {
-    eMail: "jonito@gmail.com",
-    firstName: "jony",
-    lastName: "lolin",
-    dni: 12312123,
-    celular: 114512873,
-    abogado: {
-      id: 1,
-      detalle: null,
-      imagen: null,
-      estudios: null,
-      experiencia: null,
-      createdAt: "2021-11-01T19:44:04.807Z",
-      updatedAt: "2021-11-01T19:44:04.807Z",
-    },
-  },
+  abogado: {},
   error: "",
   consultas: [],
   admin: {},
@@ -37,14 +22,20 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         materias: action.payload,
       };
-      case 'GET_MATERIAS_SITE':
-        let materiaId = state.materias.length > 0 && state.materias?.find((m) => m.nombre  === action.payload).abogados.map((a) => a.abogadomateria.abogadoId);
-        let abogadoMateria = state.abogados.filter((m) => materiaId.includes(m.abogado.id));
-        console.log(materiaId)
-        return {
-          ...state,
-          abogados: abogadoMateria
-        }
+    case "GET_MATERIAS_SITE":
+      let materiaId =
+        state.materias.length > 0 &&
+        state.materias
+          ?.find((m) => m.nombre === action.payload)
+          .abogados.map((a) => a.abogadomateria.abogadoId);
+      let abogadoMateria = state.abogados.filter((m) =>
+        materiaId.includes(m.abogado.id)
+      );
+      console.log(materiaId);
+      return {
+        ...state,
+        abogados: abogadoMateria,
+      };
     case "GET_ABOGADOS":
       return {
         ...state,
@@ -196,12 +187,12 @@ const rootReducer = (state = initialState, action) => {
     case "GET_CLIENTS":
       return {
         ...state,
-        clients: action.payload
-      }
+        clients: action.payload,
+      };
     case "PUT_CLIENTES":
       return {
-        ...state
-      }
+        ...state,
+      };
     default:
       return state;
   }
