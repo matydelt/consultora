@@ -18,7 +18,7 @@ router.get("/personas", (req, res) => get.getPersonas(req, res)); //busca person
 
 router.get("/abogado/:slug", (req, res) => get.getAbogado(req, res)) // get abogado 
 
-router.post("/adm", (req, res) => post.setAdmin(req, res))
+router.post("/adm", (req, res) => post.setAdmin(req, res)) // set adm
 
 router.post("/usuario/abogado", (req, res) => post.setAbogado(req, res)); //set abogado
 

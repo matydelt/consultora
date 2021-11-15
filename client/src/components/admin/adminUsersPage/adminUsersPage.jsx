@@ -18,6 +18,7 @@ const AdminUsersPage = () => {
       if (aux.adminId !== 1 || usuario.adminId === 1) {
 
         let user = { eMail: e.target.value, flag: e.target.checked };
+        console.log(user)
         dispatch(setAbogado(user));
         if (user.flag) {
           toast.success('Abogado asignado');
