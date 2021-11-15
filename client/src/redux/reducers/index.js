@@ -27,6 +27,7 @@ const initialState = {
   consulta: {},
   clients: [],
   ticket: {},
+  dia: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -53,6 +54,11 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         provincias: action.payload,
+      };
+    case "GET_DIA":
+      return {
+        ...state,
+        dia: action.payload,
       };
     case "SET_USUARIO":
       return {

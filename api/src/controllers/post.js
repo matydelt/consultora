@@ -200,13 +200,13 @@ async function setAbogado(req, res) {
   try {
     const { eMail, flag } = req.body;
     let user = await Usuario.findByPk(eMail);
-    console.log(user)
+    console.log(user);
     let persona = await Persona.findByPk(user.personaDni);
     if (flag) {
       const abogado = await Abogado.create({});
       if (user) {
         user.slug = `${persona.firstName}-${persona.lastName}`;
-        const cliente = await Cliente.findByPk(user.clienteId)
+        const cliente = await Cliente.findByPk(user.clienteId);
         if (cliente) await cliente.destroy();
         abogado.setUsuario(user);
         abogado.setPersona(persona);
@@ -215,8 +215,8 @@ async function setAbogado(req, res) {
       return res.sendStatus(404);
     } else {
       if (!user.adminId) {
-        const client = await Cliente.create()
-        const person = await Cliente.findByPk(user.personaDni)
+        const client = await Cliente.create();
+        const person = await Cliente.findByPk(user.personaDni);
         client.setUsuario(user);
         client.setPersona(person);
       }
@@ -316,7 +316,7 @@ async function setAdmin(req, res) {
     if (flag) {
       const admin = await Admin.create({ tipo: "normal" });
       if (user.clienteId) {
-        const client = await Cliente.findByPk(user.clienteId)
+        const client = await Cliente.findByPk(user.clienteId);
         await client.destroy();
       }
       if (user) {
@@ -327,7 +327,7 @@ async function setAdmin(req, res) {
     } else {
       if (!user.abogadoId) {
         const client = await Cliente.create();
-        const person = await Persona.findByPk(user.personaDni)
+        const person = await Persona.findByPk(user.personaDni);
         client.setUsuario(user);
         client.setPersona(person);
       }
@@ -368,22 +368,54 @@ async function setReseña(req, res, next) {
 
 async function postDia(req, res) {
   const { form, abogadoId } = req.body;
-  const { fecha, nota, turnos } = form;
-
-  console.log(abogadoId);
+  const { fechas, nota, turnos } = form;
 
   try {
-    const dia = await Dia.create({ fecha, nota });
     const abogado = await Abogado.findByPk(abogadoId);
-    console.log(abogado);
-    const crearTurnos = turnos.map(async (turno) => {
-      return await Turno.create({ hora: turno.hora, diumId: dia.id });
+
+    fechas.map((d) => {
+      return Dia.create({ fecha: d, nota }).then((dia) => {
+        abogado.addDia(dia);
+        turnos.map((turno) => {
+          return Turno.create({ hora: turno.hora, diumId: dia.id }).then(
+            () => {}
+          );
+        });
+      });
     });
 
-    // Promise.all([crearTurnos, await abogado.addDia(dia)])
-    await abogado.addDia(dia);
+    return res.json({ mensaje: "Creados con éxito" });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
 
-    return res.json(dia);
+async function confirmarTurno(req, res) {
+  const { clienteId, turnoId, fecha } = req.body;
+
+  try {
+    const cliente = await Cliente.findByPk(clienteId);
+
+    const turno = await Turno.findByPk(turnoId);
+
+    if (turno.clienteId) {
+      return res.status(400).json({ mensaje: "El turno fue tomado" });
+    }
+
+    await cliente.setTurno(turno);
+
+    const { eMail } = await cliente.getUsuario();
+
+    enviarEmail.send({
+      email: eMail,
+      fecha: new Date(fecha).toLocaleDateString(),
+      hora: turno.hora,
+      subject: "Turno confirmado",
+      htmlFile: "turno-confirmado.html",
+    });
+
+    return res.sendStatus(200);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
@@ -435,4 +467,5 @@ module.exports = {
   setReseña,
   postPago,
   postDia,
+  confirmarTurno,
 };

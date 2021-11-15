@@ -55,6 +55,15 @@ export const sessionOUT = () => {
     })
 }
 
+export const usuarioBloqueado = () => {
+    swal({
+        title: "Usuario bloqueado",
+        text: 'Su cuenta se encuentra bloqueada',
+        icon: "error",
+        button: "Aceptar"
+    })
+}
+
 export const sessionERR = () => {
     swal({
         title: "Usuario o Contraseña incorrecta",

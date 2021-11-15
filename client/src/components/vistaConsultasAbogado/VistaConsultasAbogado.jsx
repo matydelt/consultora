@@ -11,6 +11,8 @@ export default function VistaConsultasAbogado() {
   let [busquedaTodas, setBusquedaTodas] = useState("");
   let [busquedaAceptadas, setBusquedaAceptadas] = useState("");
 
+  const [actualizando, setActualizando] = useState(false);
+
   const dispatch = useDispatch();
   const { consultas, usuario } = useSelector((state) => state);
 
@@ -20,8 +22,17 @@ export default function VistaConsultasAbogado() {
 
   function actualizarConsultas() {
     dispatch(getConsultas());
+
+    setActualizando(true);
+    
+    setTimeout(() => {
+      setActualizando(false);
+    }, 4000);
+    
     toast.success("Las consultas fueron actualizadas");
   }
+
+  
 
   return !usuario.abogadoId ? (
     <Redirect to="/" />
@@ -75,8 +86,9 @@ export default function VistaConsultasAbogado() {
           <button
             onClick={actualizarConsultas}
             className="mx-5 btn btn-light border"
+            disabled={actualizando}
           >
-            🔁 Actualizar
+            { actualizando ? '🔁 Actualizando' : '🔁 Actualizar' }
           </button>
         </div>
       </nav>

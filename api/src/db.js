@@ -105,6 +105,7 @@ Ticket.hasOne(Casos);
 Abogado.hasMany(Dia);
 Dia.hasMany(Turno);
 Cliente.hasOne(Turno);
+Turno.belongsTo(Cliente);
 
 Abogado.belongsToMany(Provincias, { through: "abogadoprovincia" });
 

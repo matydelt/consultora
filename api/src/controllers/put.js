@@ -8,6 +8,8 @@ const {
   Cliente,
   Consulta,
   Ticket,
+  Dia,
+  Turno,
 } = require("../db");
 const enviarEmail = require("../email/email");
 const axios = require("axios");
@@ -19,6 +21,12 @@ async function usuario(req, res) {
     const { eMail } = req.body;
 
     const user = await Usuario.findOne({ where: { eMail } });
+
+    if (user.banned)
+      return res
+        .status(403)
+        .json({ mensaje: "Su cuenta se encuentra deshabilitada" });
+
     if (user) {
       console.log(user);
       const abogado = await Abogado.findByPk(user.abogadoId);
@@ -146,6 +154,7 @@ async function modificarAbogado(req, res) {
 
     persona.firstName = nombre;
     persona.lastName = apellido;
+    abogado.matricula = matricula;
     abogado.detalle = detalle;
     abogado.estudios = estudios;
     abogado.experiencia = experiencia;
@@ -191,7 +200,6 @@ async function modificarAbogado(req, res) {
     return res.sendStatus(500);
   }
 }
-
 async function getAbogado(req, res) {
   try {
     let { eMail } = req.body;
@@ -362,7 +370,7 @@ async function modificarTicket(req, res) {
   }
 }
 
-async function CLienteAbogado(req, res) {
+async function clienteAbogado(req, res) {
   try {
     const { abogado, cliente, abogadoAntiguo } = req.body;
     const auxCliente = await Cliente.findByPk(cliente);
@@ -383,6 +391,64 @@ async function CLienteAbogado(req, res) {
   }
 }
 
+async function modificarDia(req, res) {
+  const { diaId, form } = req.body;
+
+  const { fecha, notaModificar, turnos } = form;
+
+  let cambioFecha = false;
+
+  try {
+    const dia = await Dia.findByPk(diaId);
+
+    dia.nota = notaModificar;
+    if (new Date(dia.fecha).toISOString().slice(0, 10) !== fecha) {
+      console.log(dia.fecha, fecha);
+      dia.fecha = fecha;
+      cambioFecha = true;
+    }
+
+    await dia.save();
+
+    turnos.map(async (turno) => {
+      let turnoExiste = await Turno.findByPk(turno.id);
+
+      if (
+        (cambioFecha && turnoExiste?.clienteId) ||
+        (turnoExiste.clienteId && turnoExiste.hora !== turno.hora)
+      ) {
+        console.log(turnoExiste?.hora !== turno.hora);
+        console.log(turnoExiste?.hora, turno.hora);
+
+        const cliente = await Cliente.findOne({
+          where: { id: turnoExiste.clienteId },
+          include: [{ model: Usuario }],
+        });
+
+        enviarEmail.send({
+          email: cliente.usuario.eMail,
+          fecha: new Date(fecha).toLocaleDateString(),
+          hora: turno.hora,
+          subject: "Turno reprogramado",
+          htmlFile: "turno-reprogramado.html",
+        });
+      }
+
+      if (turnoExiste) {
+        return await Turno.update(turno, { where: { id: turnoExiste.id } });
+      }
+      if (!turnoExiste) {
+        return await Turno.create({ hora: turno.hora, diumId: dia.id });
+      }
+    });
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
 module.exports = {
   usuario,
   asignaConsulta,
@@ -391,5 +457,6 @@ module.exports = {
   getAbogado,
   modificarTicket,
   putCaso,
-  CLienteAbogado,
+  clienteAbogado,
+  modificarDia,
 };

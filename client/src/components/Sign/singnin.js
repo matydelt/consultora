@@ -32,6 +32,7 @@ import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
 
 import "./sign.css";
+import { toast } from "react-toastify";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -136,13 +137,12 @@ export const Signin = () => {
             console.log("login");
             const user = userCredential.user;
             dispatch(getUsuario({ eMail: eMail }));
-            sessionIN();
+            // sessionIN();
             setEmail("");
             setPassword("");
             // ...
           })
           .catch((error) => {
-            console.log("error");
             sessionERR();
             const errorCode = error.code;
             const errorMessage = error.message;
