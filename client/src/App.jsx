@@ -120,9 +120,9 @@ function App() {
           </Route>
         </div>
       </Switch>
-      <Route exact path="/form-resena">
+      {/* <Route exact path="/form-resena">
         <CrearResena></CrearResena>{" "}
-      </Route>
+      </Route> */}
       <ToastContainer></ToastContainer>
     </div>
   );
