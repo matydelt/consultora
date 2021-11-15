@@ -10,6 +10,7 @@ const {
   Ticket,
   Dia,
   Turno,
+  Items,
   Op,
 } = require("../db");
 const turno = require("../models/turno");
@@ -451,6 +452,18 @@ async function getDias(req, res) {
 
 };
 
+async function getItems(req, res) {
+  try {
+
+    const items = await Items.findAll({})
+    if (items.length === 0) return res.sendStatus(404)
+    return res.json(items)
+  } catch (e) {
+    console.log(e)
+    return res.sendStatus(404)
+  }
+}
+
 module.exports = {
   getUsuarios,
   getPersonas,
@@ -463,6 +476,6 @@ module.exports = {
   getPersonas,
   getTickets,
   getAllCasos,
-  // getUsuario,   
+  getItems,
   getDias
 };

@@ -322,7 +322,7 @@ async function modificarTicket(req, res) {
   }
 }
 
-async function CLienteAbogado(req, res) {
+async function clienteAbogado(req, res) {
   try {
     const { abogado, cliente, abogadoAntiguo } = req.body
     const auxCliente = await Cliente.findByPk(cliente)
@@ -342,6 +342,9 @@ async function CLienteAbogado(req, res) {
     res.sendStatus(404)
   }
 }
+async function items(req, res) {
+
+}
 
 
 module.exports = {
@@ -352,5 +355,5 @@ module.exports = {
   getAbogado,
   modificarTicket,
   putCaso,
-  CLienteAbogado
+  clienteAbogado
 };
