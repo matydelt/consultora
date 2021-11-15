@@ -1,4 +1,4 @@
-const { Consulta } = require("../db");
+const { Consulta, Items } = require("../db");
 
 async function deleteConsulta(req, res, next) {
   const { id } = req.params;
@@ -10,4 +10,18 @@ async function deleteConsulta(req, res, next) {
     next({ msg: "no se encontro la consulta" });
   }
 }
-module.exports = { deleteConsulta };
+async function items(req, res) {
+  try {
+    const { item } = req.body
+    const actualItem = await Items.findByPk(item)
+    if (items.length === 0) return res.sendStatus(404)
+    await actualItem.destroy();
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    return res.sendStatus(404)
+  }
+}
+
+
+module.exports = { deleteConsulta, items };
