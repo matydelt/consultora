@@ -27,6 +27,7 @@ import "./App.css";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
 
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
+import Clients from "./components/home-Abogado/clients/clients";
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector(state => state)
@@ -85,11 +86,12 @@ function App() {
             <HomeAbogado />
           </Route>
           <Route exact path="/user/abogado/clientes">
-            <Clientes />
+            <Clients />
           </Route>
           <Route exact path="/user/abogado/consultas">
             <VistaConsultasAbogado />
           </Route>
+          <Route exact path="/user/abogado/casos"><Clientes /></Route>
           <Route
             exact
             path="/user/abogado/modificar-perfil"

@@ -166,13 +166,10 @@ async function setUsuarios(req, res) {
           lastName,
           celular,
         });
-        const client = await Cliente.create({});
 
         const adm = await Admin.create({ tipo: "gm" });
         person.setUsuario(user);
-        client.setUsuario(user);
         adm.setUsuario(user);
-        client.setPersona(person);
         res.sendStatus(200);
       } else res.sendStatus(500);
     } else {
@@ -207,30 +204,36 @@ async function setAbogado(req, res) {
   try {
     const { eMail, flag } = req.body;
     let user = await Usuario.findByPk(eMail);
-    // let cliente = await Cliente.findByPk(user.cleinteId)
-    // cliente.destroy();
+    console.log(user)
     let persona = await Persona.findByPk(user.personaDni);
     if (flag) {
       const abogado = await Abogado.create({});
       if (user) {
         user.slug = `${persona.firstName}-${persona.lastName}`;
+        const cliente = await Cliente.findByPk(user.clienteId)
+        if (cliente) await cliente.destroy();
         abogado.setUsuario(user);
         abogado.setPersona(persona);
         return res.sendStatus(200);
       }
       return res.sendStatus(404);
     } else {
+      if (!user.adminId) {
+        const client = await Cliente.create()
+        const person = await Cliente.findByPk(user.personaDni)
+        client.setUsuario(user);
+        client.setPersona(person);
+      }
       let abogado = await Abogado.findByPk(user.abogadoId);
-      await abogado.destroy();
+      await abogado?.destroy();
       abogado = await Abogado.findByPk(user.abogadoId);
       if (!abogado) return res.sendStatus(200);
       else return res.sendStatus(500);
     }
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    return res.sendStatus(500);
   }
-  return res.sendStatus(404);
 }
 
 async function setCasos(req, res) {
@@ -242,16 +245,16 @@ async function setCasos(req, res) {
       juzgado,
       detalle,
       estado,
-      eMail,
       medidaCautelar,
       trabaAfectiva,
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion,
-      materia
+      materia,
+      id
     } = req.body;
 
-    const caso = await Casos.create({
+    const caso = Casos.build({
       trabaAfectiva,
       medidaCautelar,
       numeroLiquidacion,
@@ -266,13 +269,16 @@ async function setCasos(req, res) {
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion,
+
     });
-    const auxMateria = await Materias.findByPk(materia)
-    auxMateria.addCasos(caso)
-    const { clienteId } = await Usuario.findByPk(eMail);
-    const cliente = await Cliente.findByPk(clienteId);
-    cliente.addCasos(caso);
-    res.sendStatus(200);
+    const cliente = await Cliente.findByPk(id);
+    if (cliente) {
+      await caso.save();
+      const auxMateria = await Materias.findByPk(materia)
+      auxMateria.addCasos(caso)
+      cliente.addCasos(caso);
+      return res.sendStatus(200);
+    } else return res.sendStatus(404);
   } catch (error) {
     console.log(error);
     res.sendStatus(404);
@@ -314,12 +320,22 @@ async function setAdmin(req, res) {
     let user = await Usuario.findByPk(eMail);
     if (flag) {
       const admin = await Admin.create({ tipo: "normal" });
+      if (user.clienteId) {
+        const client = await Cliente.findByPk(user.clienteId)
+        await client.destroy();
+      }
       if (user) {
         admin.setUsuario(user);
         return res.sendStatus(200);
       }
       return res.sendStatus(404);
     } else {
+      if (!user.abogadoId) {
+        const client = await Cliente.create();
+        const person = await Persona.findByPk(user.personaDni)
+        client.setUsuario(user);
+        client.setPersona(person);
+      }
       let admin = await Admin.findByPk(user.adminId);
       await admin.destroy();
       admin = await Abogado.findByPk(user.adminId);

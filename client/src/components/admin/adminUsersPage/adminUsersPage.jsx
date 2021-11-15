@@ -1,115 +1,62 @@
-import React from "react";
+/* eslint-disable no-unused-vars */
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAbogado, setAdmin, setBann } from "../../../redux/actions/index";
+import { toast } from "react-toastify";
+import { getUsuarios, setAbogado, setAdmin, setBann } from "../../../redux/actions/index";
 
 const AdminUsersPage = () => {
   const { usuarios, usuario } = useSelector((state) => state);
   const dispatch = useDispatch();
-  let alertPlaceholder = document.getElementById("liveAlertPlaceholder");
-
+  useEffect(() => {
+    dispatch(getUsuarios())
+  }, [dispatch])
   const handleChange = (e, type) => {
     e.preventDefault();
     let eMail = e.target.value;
     let aux = usuarios.find((e) => e.eMail === eMail);
-    console.log(aux);
     if (type === "abogado") {
       if (aux.adminId !== 1 || usuario.adminId === 1) {
-        let mensaje = "";
-        let type = "";
+
         let user = { eMail: e.target.value, flag: e.target.checked };
+        console.log(user)
         dispatch(setAbogado(user));
         if (user.flag) {
-          mensaje = "Abogado asignado";
-          type = "success";
+          toast.success('Abogado asignado');
         } else {
-          mensaje = "Abogado eliminado";
-          type = "danger";
+          toast.error('Abogado eliminado');
         }
-        let wrapper = document.createElement("div");
-        wrapper.innerHTML =
-          '<div class="alert alert-' +
-          type +
-          ' alert-dismissible" role="alert">' +
-          mensaje +
-          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        alertPlaceholder.append(wrapper);
+
       } else {
-        let mensaje = "No tienes estos permisos";
-        let type = "danger";
-        let wrapper = document.createElement("div");
-        wrapper.innerHTML =
-          '<div class="alert alert-' +
-          type +
-          ' alert-dismissible" role="alert">' +
-          mensaje +
-          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        alertPlaceholder.append(wrapper);
+        toast.success("No tienes estos permisos");
+
       }
     } else if (type === "admin") {
       if (aux.adminId !== 1) {
-        let mensaje = "";
-        let type = "";
         let user = { eMail: e.target.value, flag: e.target.checked };
         dispatch(setAdmin(user));
         if (user.flag) {
-          mensaje = "admin  asignado";
-          type = "success";
+          toast.success("admin  asignado");
         } else {
-          mensaje = "admin eliminado";
-          type = "danger";
+          toast.success("admin eliminado");
         }
-        let wrapper = document.createElement("div");
-        wrapper.innerHTML =
-          '<div class="alert alert-' +
-          type +
-          ' alert-dismissible" role="alert">' +
-          mensaje +
-          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        alertPlaceholder.append(wrapper);
+
       } else {
-        let mensaje = "no puede hacer eso!";
-        let type = "danger";
-        let wrapper = document.createElement("div");
-        wrapper.innerHTML =
-          '<div class="alert alert-' +
-          type +
-          ' alert-dismissible" role="alert">' +
-          mensaje +
-          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        alertPlaceholder.append(wrapper);
+        toast.error("no puede hacer eso!");
+
       }
     } else if (type === "bann") {
       if (usuario.adminId === 1 && aux.adminId !== 1) {
-        let mensaje = "";
-        let type = "";
         let user = { eMail: e.target.value, flag: e.target.checked };
         dispatch(setBann(user));
         if (user.flag) {
-          mensaje = "bann asignado";
-          type = "success";
+          toast.success("bann asignado");
         } else {
-          mensaje = "bann eliminado";
-          type = "danger";
+          toast.error("bann eliminado");
         }
-        let wrapper = document.createElement("div");
-        wrapper.innerHTML =
-          '<div class="alert alert-' +
-          type +
-          ' alert-dismissible" role="alert">' +
-          mensaje +
-          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        alertPlaceholder.append(wrapper);
+
       } else {
-        let mensaje = "no puede hacer eso!";
-        type = "danger";
-        let wrapper = document.createElement("div");
-        wrapper.innerHTML =
-          '<div class="alert alert-' +
-          type +
-          ' alert-dismissible" role="alert">' +
-          mensaje +
-          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
-        alertPlaceholder.append(wrapper);
+        toast.error("no puede hacer eso!");
+
       }
     }
   };

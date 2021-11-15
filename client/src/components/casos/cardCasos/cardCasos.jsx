@@ -24,7 +24,7 @@ export default function CardCasos({ detalle, estado, juez, juzgado, fecha, numer
         vtoTrabaAfectiva: vtoTrabaAfectiva,
         jurisdiccion: jurisdiccion,
         materia: materia,
-        fecha: fecha
+        fecha
 
     })
     const [error, setError] = useState({
@@ -35,11 +35,13 @@ export default function CardCasos({ detalle, estado, juez, juzgado, fecha, numer
         vtoTrabaAfectiva: "",
 
     })
-
     const handleSubmit = function (e) {
         e.preventDefault()
-        dispatch(putCaso(input))
-        toast.success('cambios realizados!');
+        if (error.medidaCautelar === "" || error.trabaAfectiva === "" || error.vtoMedidaCautelar === "" || error.vtoTrabaAfectiva === "") {
+
+            dispatch(putCaso(input))
+            toast.success('cambios realizados!');
+        } else toast.error("no se pudieron realizar los cambios")
     }
     const validate = function (name, value) {
         if (name === "trabaAfectiva") {
@@ -234,11 +236,11 @@ export default function CardCasos({ detalle, estado, juez, juzgado, fecha, numer
                         </h2>
                         <div id={'e' + numeroLiquidacion} className="accordion-collapse collapse" aria-labelledby={'a' + numeroLiquidacion} data-bs-parent="#accordionFlushExample">
                             <ul className="list-group mb-3">
-                                <li className="list-group-item">Juez: {input.juez}</li>
+                                <li className="list-group-item">Juez: {input.juez ? input.juez : "no tiene"}</li>
                                 <li className="list-group-item">Estado: {input.estado}</li>
-                                <li className="list-group-item">Juzgado: {input.juzgado}</li>
+                                <li className="list-group-item">Juzgado: {input.juzgado ? input.juez : "no tiene"}</li>
                                 <li className="list-group-item">jurisdiccion: {input.jurisdiccion ? input.jurisdiccion : "ninguna"}</li>
-                                <li className="list-group-item">N° Expediente: {input.numeroExpediente}</li>
+                                <li className="list-group-item">N° Expediente: {input.numeroExpediente ? input.numeroExpediente : "no tiene"}</li>
                                 <li className="list-group-item">N° Liquidacion: {input.numeroLiquidacion}</li>
                                 <li className="list-group-item">Medida Cautelar: {input.medidaCautelar ? "si, hasta : " : "no"}{input.vtoMedidaCautelar ? input.vtoMedidaCautelar.slice(0, 10) : ""}</li>
                                 <li className="list-group-item">Traba Afectiva: {input.trabaAfectiva ? "si, hasta : " : "no"}{input.vtoTrabaAfectiva ? input.vtoTrabaAfectiva : ""}</li>
