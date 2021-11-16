@@ -77,7 +77,7 @@ async function getProvincias(req, res) {
       "Tierra del Fuego",
       "Tucumán",
     ];
-    let provs = await Provincias.findAll({ where: {} });
+    let provs = await Provincias.findAll({ where: {}, include: Abogado });
     // let provs = await Provincias.findAll({ where: {}, include: Abogado });
     if (provs.length === 0) {
       for (let i = 0; i < vec.length; i++) {
@@ -88,15 +88,11 @@ async function getProvincias(req, res) {
         );
       }
     }
-    res.json(provs);
+    return res.json(provs);
   } catch (error) {
     console.error(error);
     res.sendStatus(404);
   }
-  let abogados = await Abogado.findAll({
-    include: Provincias,
-  });
-  res.json(provs);
 }
 async function getMaterias(req, res) {
   try {
