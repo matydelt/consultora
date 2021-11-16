@@ -33,7 +33,6 @@ export default function ModificarAbogado() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-
     if (usuario?.slug?.length > 0) {
       let arrMaterias = []
       let arrProvincias = []
@@ -61,7 +60,8 @@ export default function ModificarAbogado() {
           setProvinciasEnviar(arrProvincias);
         });
     }
-  }, [usuario]);
+
+  }, [usuario?.abogado?.id]);
 
 
 
@@ -168,7 +168,7 @@ export default function ModificarAbogado() {
 
   return (
     <>
-      {usuario?.abogado?.id ?
+      {usuario?.abogado?.id && !loading ?
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
           <h2 className="">Modificar perfil</h2>
 
@@ -232,19 +232,6 @@ export default function ModificarAbogado() {
                 </label>
               </div>
 
-              {errores.length > 0 && (
-                <div className="alert alert-danger">
-                  {errores.map((e, i) => {
-                    return (
-                      <p key={i}>
-                        <span className="fw-bold">X </span>
-                        {e}
-                      </p>
-                    );
-                  })}
-                </div>
-              )}
-
               <div className="col">
 
                 <div className="mt-3">
@@ -295,6 +282,19 @@ export default function ModificarAbogado() {
             </div>
 
             <hr className="text-muted" />
+
+            {errores.length > 0 && (
+                <div className="alert alert-danger">
+                  {errores.map((e, i) => {
+                    return (
+                      <p key={i}>
+                        <span className="fw-bold">X </span>
+                        {e}
+                      </p>
+                    );
+                  })}
+                </div>
+              )}
 
             <div className="row my-5">
 
@@ -393,7 +393,7 @@ export default function ModificarAbogado() {
         </div>
         :
         <>
-          <div className="container text-center mt-5">
+          <div className="container text-center my-5" style={ {padding: '300px'}}>
 
             <div class="spinner-grow" role="status">
               <span class="visually-hidden">Loading...</span>

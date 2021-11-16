@@ -499,12 +499,15 @@ async function getAllCasos(req, res, next) {
   }
 }
 async function getDias(req, res) {
-  const { abogadoId, abogadoFlag } = req.query;
+  const { abogadoId, abogadoFlag, periodoFiltrar } = req.query;
 
-  console.log(abogadoFlag);
+
+  // console.log(new Date(new Date().getFullYear(), periodoFiltrar, 1));
+  // console.log(new Date(new Date().getFullYear(), parseInt(periodoFiltrar)+1, 0));
   let dias = [];
   try {
-    if (abogadoFlag) {
+    if (abogadoFlag && !periodoFiltrar) {
+      console.log('IF');
       dias = await Dia.findAll({
         where: {
           abogadoId,
@@ -512,7 +515,23 @@ async function getDias(req, res) {
         include: Turno,
         order: [["fecha", "DESC"]],
       });
+    } else if (abogadoFlag && periodoFiltrar) {
+      // console.log(new Date(`${periodoFiltrar}-1`));
+      console.log('ELSE IF');
+      dias = await Dia.findAll({
+        where: {
+          fecha: { 
+            // [Op.notBetween]: [new Date(new Date().getFullYear(), parseInt(periodoFiltrar), 1), new Date(new Date().getFullYear(), parseInt(periodoFiltrar)+1, 0)]
+            [Op.gt]: new Date(new Date().getFullYear(), periodoFiltrar, 1),
+            [Op.lte]: new Date(new Date().getFullYear(), parseInt(periodoFiltrar)+1, 0+1)
+        },
+          abogadoId,
+        },
+        include: Turno,
+        order: [["fecha", "DESC"]],
+      });
     } else {
+      console.log('ELSE');
       dias = await Dia.findAll({
         where: {
           fecha: { [Op.gte]: new Date().getTime() },

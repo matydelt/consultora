@@ -25,7 +25,8 @@ export default function ModalModificarTurnos({ getDias }) {
 
 
     useEffect(() => {
-        let fecha = `${new Date(dia?.dia?.fecha).getFullYear()}-${new Date(dia?.dia?.fecha).getMonth() + 1}-${new Date(dia?.dia?.fecha).getDate()}`
+        // let fecha = new Date(dia?.dia?.fecha).toISOString().slice(0, 10);
+        let fecha = `${new Date(dia?.dia?.fecha).getFullYear()}-${new Date(dia?.dia?.fecha).getMonth() + 1}-${new Date(dia?.dia?.fecha).getDate()<10?'0':''}${new Date(dia?.dia?.fecha).getDate()}`
         setForm({ fecha: fecha || '', notaModificar: dia?.dia?.nota, turnos: dia?.turnos })
     }, [dia]);
     // }, []);
@@ -91,8 +92,6 @@ export default function ModalModificarTurnos({ getDias }) {
 
 
     return (<>
-
-        {console.log(dia)}
 
         <div class="modal fade" id="modalModificarTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <form onSubmit={(e) => submitForm(e)}>

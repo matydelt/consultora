@@ -35,9 +35,10 @@ export default function TurnosAbogado() {
 
 
     useEffect(() => {
-        getDias();
-    }, [usuario, dia, cargandoDias]);
-    // }, []);
+        // getDias();
+        getDias(new Date().getMonth());
+    // }, [usuario, dia, cargandoDias]);
+    }, []);
 
 
     useEffect(() => {
@@ -49,9 +50,10 @@ export default function TurnosAbogado() {
     }, [dias]);
 
 
-    function getDias() {
-        axios.get('/dias', { params: { abogadoId: usuario?.abogado?.id, abogadoFlag: true } }).then(({ data }) => {
+    function getDias(periodoFiltrar) {
+        axios.get('/dias', { params: { abogadoId: usuario?.abogado?.id, abogadoFlag: true, periodoFiltrar } }).then(({ data }) => {
             setDias(data);
+            console.log(data);
         }).then(() => {
             setCargandoDias(false);
         });
@@ -82,7 +84,7 @@ export default function TurnosAbogado() {
 
         axios.post('/dia', { form, abogadoId: usuario.abogado.id }).then(resp => {
             setCargandoDias(true);
-            getDias();
+            getDias(new Date().getMonth());
             toast.success('Día añadido')
         }).then(() => {
             setCargandoDias(false);
@@ -119,7 +121,7 @@ export default function TurnosAbogado() {
     function eliminarDia(diaId) {
         swal({
             title: "Eliminar",
-            text: "Si elimina el día con todos sus turnos, los clientes serán notificados por email que su turno fue cancelado, ¿Eliminar?",
+            text: "Al eliminar el día con todos sus turnos, se notificará vía email a los clientes cuyos turnos fueron cancelados, ¿Eliminar?",
             icon: "warning",
             buttons: true,
         }
@@ -131,10 +133,14 @@ export default function TurnosAbogado() {
                 toast.success('El día fue eliminado');
             }
         }).catch(err => toast.error('Ocurrió un problema al eliminar el día y sus turnos'));
-        
+
         setCargandoDias(false);
     };
 
+
+    function filtrarPorMes(e) {
+        getDias(e.target.value);
+    };
 
 
     return (<>
@@ -210,13 +216,33 @@ export default function TurnosAbogado() {
             <h1>Turnos</h1>
             <hr></hr>
 
-            <div>
-                <button type="button" class="btn btn-primary my-2" data-bs-toggle="modal" data-bs-target="#modalTurnos">
-                    Agregar turnos
-                </button>
-                <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={verTurnosHoy} disabled={!turnoHoy}>
-                    Ver turnos de hoy
-                </button>
+            <div className="row align-middle my-3">
+                <div className="col my-1">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTurnos">
+                        Agregar turnos
+                    </button>
+                    <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={verTurnosHoy} disabled={!turnoHoy}>
+                        Ver turnos de hoy
+                    </button>
+                </div>
+
+                <div className="col-auto text-right align-middle ">
+                    <select className="form-control pointer shadow p-2" onChange={(e) => filtrarPorMes(e)}>
+                        <option value="">Ver todos los turnos</option>
+                        <option selected={new Date().getMonth()===0} value="0">Enero</option>
+                        <option selected={new Date().getMonth()===1} value="1">Febrero</option>
+                        <option selected={new Date().getMonth()===2} value="2">Marzo</option>
+                        <option selected={new Date().getMonth()===3} value="3">Abril</option>
+                        <option selected={new Date().getMonth()===4} value="4">Mayo</option>
+                        <option selected={new Date().getMonth()===5} value="5">Junio</option>
+                        <option selected={new Date().getMonth()===6} value="6">Julio</option>
+                        <option selected={new Date().getMonth()===7} value="7">Agosto</option>
+                        <option selected={new Date().getMonth()===8} value="8">Septiembre</option>
+                        <option selected={new Date().getMonth()===9} value="9">Octubre</option>
+                        <option selected={new Date().getMonth()===10} value="10">Noviembre</option>
+                        <option selected={new Date().getMonth()===11} value="11">Diciembre</option>
+                    </select>
+                </div>
             </div>
 
 

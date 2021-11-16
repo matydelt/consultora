@@ -415,7 +415,7 @@ async function modificarDia(req, res) {
 
       let turnoExiste = await Turno.findByPk(turno.id);
 
-      if ((cambioFecha && turnoExiste?.clienteId) || (turnoExiste.clienteId && turnoExiste.hora !== turno.hora)) {
+      if ((cambioFecha && turnoExiste?.clienteId) || (turnoExiste?.clienteId && turnoExiste?.hora !== turno.hora)) {
 
         // console.log(turnoExiste?.hora !== turno.hora)
         // console.log(turnoExiste?.hora, turno.hora)
