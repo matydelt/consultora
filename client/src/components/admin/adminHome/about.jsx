@@ -1,49 +1,87 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { putAbout } from "../../../redux/actions/index";
 
-export default function About({ sobreNosotros, nuestraFilosofia, direccion, contacto }) {
-    const [flag, setFlag] = useState(false)
+export default function About(props) {
+    const [flag, setFlag] = useState(false);
     const dispatch = useDispatch();
+
+    const { sobreNosotros, nuestraFilosofia, direccion, contacto, id } =
+        props.about;
     const [input, setInput] = useState({
+        id,
+        sobreNosotros,
+        nuestraFilosofia,
+        direccion,
+        contacto,
+    });
 
-    })
-
-
-
-    return (<div className="d-flex justify-content-center">
-        {
-            flag ?
+    return (
+        <div>
+            {flag ? (
                 <div>
-                    <div className="">
-
-                        <form className="form-group">
-                            <label>Sobre Nosotros :</label>
-                            <textarea placeholder="Sobre Nosotros... " className="form-control" rows="3" ></textarea ><br />
-                            <label>Nuestra Filosofía :</label>
-                            <textarea placeholder="Nuestra Filosofía..." className="form-control" rows="3"></textarea><br />
-                            <label>Nuetra Direccion :</label>
-                            <input placeholder="Nuetra Direccion..." className="form-control"></input><br />
-                            <label>Contacto :</label>
-                            <input placeholder=" Contacto..." className="form-control"></input><br />
-
-                        </form>
-                        <div className="d-flex justify-content-center ">
-                            <button className="btn btn-warning d-flex justify-content-center ms-3 me-1">Aplicar</button>
-                            <button className="btn btn-primary d-flex justify-content-center" onClick={e => { setFlag(false) }}>Terminar</button>
-                        </div>
-                    </div>
-                </div> :
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            dispatch(putAbout(input));
+                        }}
+                    >
+                        <ul>
+                            <li>
+                                <textarea
+                                    placeholder="Sobre Nosotros..."
+                                    value={input.sobreNosotros}
+                                    onChange={(e) =>
+                                        setInput({ ...input, sobreNosotros: e.target.value })
+                                    }
+                                ></textarea>
+                            </li>
+                            <li>
+                                <textarea
+                                    placeholder="Nuestra Filosofía..."
+                                    value={input.nuestraFilosofia}
+                                    onChange={(e) =>
+                                        setInput({ ...input, nuestraFilosofia: e.target.value })
+                                    }
+                                ></textarea>
+                            </li>
+                            <li>
+                                <input placeholder="Nuetra Direccion..."></input>
+                            </li>
+                            <li>
+                                <input
+                                    type="email"
+                                    placeholder="Mi Email De Contacto..."
+                                ></input>
+                            </li>
+                        </ul>
+                        <button type="submit">Submit</button>
+                    </form>
+                    <button
+                        onClick={(e) => {
+                            setFlag(false);
+                        }}
+                    >
+                        Terminar
+                    </button>
+                </div>
+            ) : (
                 <div>
                     <ul>
-                        <p>sobre Nosotros: {sobreNosotros}</p>
+                        <p>Sobre Nosotros: {sobreNosotros}</p>
                         <p>Nuestra Filosofia: {nuestraFilosofia}</p>
                         <p>Nuestra Direccion: {direccion}</p>
                         <p>Contacto: {contacto}</p>
                     </ul>
-                    <div className="d-flex justify-content-center">
-                        <button className="btn btn-primary d-flex justify-content-center" onClick={e => { setFlag(true) }}>Modificar</button>
-                    </div>
+                    <button
+                        onClick={(e) => {
+                            setFlag(true);
+                        }}
+                    >
+                        Modificar
+                    </button>
                 </div>
-        }
-    </div>)
+            )}
+        </div>
+    );
 }

@@ -198,6 +198,18 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state
       }
+    case "PUT_ABOUT":
+      return { ...state };
+    case "GET_ABOUT":
+      return { ...state, about: action.payload };
+    case "PUT_ITEM":
+      return { ...state };
+    case "GET_ITEMS":
+      return { ...state, items: action.payload };
+    case "POST_ITEM":
+      return { ...state };
+    case "DELETE_ITEM":
+      return { ...state };
     default:
       return state;
   }

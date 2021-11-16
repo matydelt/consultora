@@ -382,21 +382,69 @@ export function putClienteAbogado(cambios) {
   }
 }
 
-export function putAbout() {
-
+export function putAbout(about) {
+  console.log(about);
+  return async (dispatch) => {
+    try {
+      await axios.put("/about/modify", about);
+      return dispatch({ type: "PUT_ABOUT" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
+
 export function getAbout() {
-
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/about/find");
+      return dispatch({ type: "GET_ABOUT", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
-export function putItem() {
 
+export function putItem(item) {
+  return async (dispatch) => {
+    try {
+      await axios.put("/items/modify", item);
+      return dispatch({ type: "PUT_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
+
 export function getItems() {
-
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/items/find");
+      return dispatch({ type: "GET_ITEMS", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
-export function postItem() {
 
+export function postItem(item) {
+  return async (dispatch) => {
+    try {
+      await axios.post("/items/create", item);
+      return dispatch({ type: "POST_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
-export function deleteItem() {
 
+export function deleteItem(item) {
+  return async (dispatch) => {
+    try {
+      await axios.delete("/items/delete", item);
+      return dispatch({ type: "DELETE_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
