@@ -41,7 +41,7 @@ export default function ModificarAbogado() {
           imagen: data.imagen,
         });
       });
-  }, []);
+  }, [usuario]);
 
   function modificarImagen(e) {
     if (!e.target.files[0]) return;

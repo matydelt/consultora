@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import swal from 'sweetalert';
-import { getConsultas, modificarTicket } from '../../../redux/actions';
+import { getConsultas, getTickets, modificarTicket } from '../../../redux/actions';
 import UsuarioNavBar from '../usuarioNavBar/UsuarioNavBar';
 
 export default function ConsultasUsuario() {
@@ -61,20 +61,20 @@ export default function ConsultasUsuario() {
             </thead>
             <tbody>
                 {
-                    consultas?.filter(c => c.dni?.toString() === usuario.dni?.toString()).map(consulta => {
+                    consultas?.filter(c => c.dni?.toString() === usuario?.dni?.toString()).map(consulta => {
 
                         return (<>
 
                             <tr className="align-middle">
                                 <td>
                                     <div className="text-muted">
-                                        {new Date(consulta.createdAt).toLocaleTimeString()}
+                                        {new Date(consulta?.createdAt).toLocaleTimeString()}
                                     </div>
                                     <div>
-                                        {new Date(consulta.createdAt).toLocaleDateString()}
+                                        {new Date(consulta?.createdAt).toLocaleDateString()}
                                     </div>
                                 </td>
-                                <td className="w-25">{consulta.mensaje}</td>
+                                <td className="w-25">{consulta?.mensaje}</td>
 
                                 {consulta.respuestaAbogado ?
                                     <td>{consulta.respuestaAbogado}</td>

@@ -83,7 +83,7 @@ function App() {
           <Footer />
         </div>
       </Switch>
-      <ToastContainer></ToastContainer>
+      <ToastContainer/>
     </div>
   );
 }
