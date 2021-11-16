@@ -106,6 +106,8 @@ export default function Clientes() {
   const handleChangeByFecha = (e) => {
     e.preventDefault();
     let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+    AllClients = AllClients.filter(e => e.casos.length > 0)
+
     if (e.target.value === "Ascendente") {
       AllClients.map((e) =>
         e.casos.sort(function (a, b) {
@@ -131,7 +133,6 @@ export default function Clientes() {
         })
       );
     }
-    console.log(AllClients);
     setClientes([...AllClients]);
     if (clientes.length === 0)
       return <h3>No hay casos con el estado inicial</h3>;
