@@ -65,7 +65,7 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
                             }
                         }).map((consulta, i) => {
                             return (<>
-                                <tr key={i} className="text-center">
+                                <tr key={consulta.createdAt} className="text-center">
                                     <td className="align-middle">
                                         <div className="text-muted">
                                             {new Date(consulta.createdAt).toLocaleTimeString()}

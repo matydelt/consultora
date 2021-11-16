@@ -58,6 +58,11 @@ export default function NavAbogado() {
               </Link>
             </li>
             <li className="nav-item">
+              <Link to="/user/abogado/gestionar-turnos" className="nav-link">
+                Turnos
+              </Link>
+            </li>
+            <li className="nav-item">
               <a onClick={logout} className="nav-link pointer">
                 Salir ❌
               </a>

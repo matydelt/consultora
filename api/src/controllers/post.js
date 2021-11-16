@@ -13,7 +13,10 @@ const {
   Consulta,
   Admin,
   Materias,
-  Ticket
+  Ticket,
+  Resena,
+  Dia,
+  Turno,
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
@@ -34,8 +37,7 @@ const postTickets = async (req, res, next) => {
     ],
   };
   try {
-
-    const response = await mercadopago.preferences.create(preference)
+    const response = await mercadopago.preferences.create(preference);
 
     // console.log(response.body.init_point);
     let ticket = {
@@ -45,41 +47,37 @@ const postTickets = async (req, res, next) => {
       n_operacion: "",
       estatus: "pending",
       detalle_estatus: "not accredited",
-      medioDePago: "No information"
-    }
+      medioDePago: "No information",
+    };
     // Tickets.create(ticket)
     if (!!casoid) {
-      const cass = await Consulta.findByPk(casoid)
+      const cass = await Consulta.findByPk(casoid);
 
-      const tickets = await Ticket.create(ticket)
+      const tickets = await Ticket.create(ticket);
 
-
-      tickets.setCasos(cass)
-
+      tickets.setCasos(cass);
 
       res.json({
-        cass, tickets
+        cass,
+        tickets,
       });
-    }
-    else {
-      const consul = await Consulta.findByPk(consultaid)
+    } else {
+      const consul = await Consulta.findByPk(consultaid);
 
-      const tickets = await Ticket.create(ticket)
+      consul.setTicket(tickets);
 
-
-      consul.setTicket(tickets)
-
+      tickets.setConsultum(consul);
 
       res.json({
-        consul, tickets
+        consul,
+        tickets,
       });
       // res.sendStatus(200);
     }
-  }
-  catch {
+  } catch {
     (function (error) {
       console.log(error);
-    })
+    });
   }
 };
 // CLOUDINARY
@@ -205,6 +203,8 @@ async function setAbogado(req, res) {
   try {
     const { eMail, flag } = req.body;
     let user = await Usuario.findByPk(eMail);
+    // let cliente = await Cliente.findByPk(user.cleinteId)
+    // cliente.destroy();
     let persona = await Persona.findByPk(user.personaDni);
     if (flag) {
       const abogado = await Abogado.create({});
@@ -244,7 +244,7 @@ async function setCasos(req, res) {
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion,
-      materia
+      materia,
     } = req.body;
 
     const caso = await Casos.create({
@@ -263,8 +263,8 @@ async function setCasos(req, res) {
       vtoTrabaAfectiva,
       jurisdiccion,
     });
-    const auxMateria = await Materias.findByPk(materia)
-    auxMateria.addCasos(caso)
+    const auxMateria = await Materias.findByPk(materia);
+    auxMateria.addCasos(caso);
     const { clienteId } = await Usuario.findByPk(eMail);
     const cliente = await Cliente.findByPk(clienteId);
     cliente.addCasos(caso);
@@ -303,42 +303,7 @@ async function setConsulta(req, res, next) {
     }
   }
 }
-// async function setAdmin(req, res) {
-//   const { eMail, firstName, dni, lastName, celular, password } = req.body
-//   try {
-//     let aux = await Usuario.findByPk(eMail)
-//     let aux2 = await Persona.findByPk(dni)
-//     if (!aux && !aux2) {
-//       const user = await Usuario.create({
-//         eMail,
-//         password
-//       })
 
-//       const person = await Persona.create({
-//         firstName,
-//         dni,
-//         lastName,
-//         celular
-//       })
-//       const admin = await Admin.create({})
-
-//       person.setUsuario(user)
-//       admin.setUsuario(user)
-//       // client.setPersona(person)
-//       res.sendStatus(200)
-//     }
-//     else if (!aux.adminId) {
-//       const admin = await Admin.create({})
-//       admin.setUsuario(aux)
-//       res.sendStatus(200)
-//     } else res.sendStatus(500)
-
-//   } catch (error) {
-//     console.log(error)
-//     res.sendStatus(500)
-//   }
-
-// }
 async function setAdmin(req, res) {
   try {
     const { eMail, flag } = req.body;
@@ -363,19 +328,96 @@ async function setAdmin(req, res) {
   }
 }
 
-async function reiniciarPassword(req, res) {
-
+async function reiniciarPassword(req, res) {}
+async function setReseña(req, res, next) {
+  const { abogadoId, clienteId, titulo, mensaje, puntuacion } = req.body;
+  if (abogadoId && clienteId && titulo && mensaje && puntuacion) {
+    try {
+      let reseña = {
+        abogadoId,
+        clienteId,
+        titulo,
+        mensaje,
+        puntuacion,
+      };
+      await Resena.create(reseña);
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      next({ msg: "fallo algo en post reseña" });
+    }
+  } else {
+    sen.sendStatus(500);
+  }
 }
+
+async function postDia(req, res) {
+  const { form, abogadoId } = req.body;
+  const { fecha, nota, turnos } = form;
+
+  console.log(abogadoId);
+
+  try {
+    const dia = await Dia.create({ fecha, nota });
+    const abogado = await Abogado.findByPk(abogadoId);
+    console.log(abogado);
+    const crearTurnos = turnos.map(async (turno) => {
+      return await Turno.create({ hora: turno.hora, diumId: dia.id });
+    });
+
+    // Promise.all([crearTurnos, await abogado.addDia(dia)])
+    await abogado.addDia(dia);
+
+    return res.json(dia);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+//MP automatizado
+const postPago = async (req, res, next) => {
+  const MPInfo = req.body;
+
+  try {
+    const mpApi = (
+      await axios.get(
+        `https://api.mercadopago.com/v1/payments/${MPInfo.data.id}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
+      )
+    ).data;
+
+    const ticket = await Ticket.findOne({
+      where: { titulo: mpApi.description },
+    });
+
+    if (mpApi.description && ticket.titulo === mpApi.description) {
+      ticket.n_operacion = mpApi.id;
+      ticket.estatus = mpApi.status;
+      ticket.detalle_estatus = mpApi.status_detail;
+      ticket.medioDePago = mpApi.payment_type_id;
+
+      Promise.all([await ticket.save()]);
+      res.sendStatus(200);
+    }
+
+    res.sendStatus(201);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+};
 
 module.exports = {
   setUsuarios,
   setCasos,
   setAbogado,
   setConsulta,
-  // setPersona,
   setAdmin,
   eliminarImagen,
   subirImagen,
   postTickets,
-  reiniciarPassword
+  reiniciarPassword,
+  setReseña,
+  postPago,
+  postDia,
 };
