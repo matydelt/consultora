@@ -26,7 +26,7 @@ export default function About(props) {
               dispatch(putAbout(input));
             }}
           >
-            <ul>
+            <ul style={{ paddingLeft: "0 " }}>
               <li>
                 <textarea
                   placeholder="Sobre Nosotros..."
@@ -67,14 +67,14 @@ export default function About(props) {
         </div>
       ) : (
         <div>
-          <ul>
+          <ul style={{ paddingLeft: "0 " }}>
             <p>Sobre Nosotros: {sobreNosotros}</p>
             <p>Nuestra Filosofia: {nuestraFilosofia}</p>
             <p>Nuestra Direccion: {direccion}</p>
             <p>Contacto: {contacto}</p>
           </ul>
           <button
-            onClick={(e) => {
+            onClick={() => {
               setFlag(true);
             }}
           >

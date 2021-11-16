@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { deleteItem } from "../../../redux/actions/index";
+import "./items.css";
 
 export default function Items({ item }) {
   const [flag, setFlag] = useState(true);
@@ -10,17 +11,16 @@ export default function Items({ item }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(input);
     setFlag(true);
   };
 
   return flag ? (
-    <li className="list-group-item d-flex  justify-content-center flex-column">
+    <li className="list-group-item justify-content-center flex-column col-2">
       {input.descripcion}
       <button className="btn btn-warning" onClick={() => setFlag(false)}>
         edit
       </button>
-      <button className="btn btn-danger " onClick={deleteItem()}>
+      <button className="btn btn-danger" onClick={deleteItem()}>
         X
       </button>
     </li>

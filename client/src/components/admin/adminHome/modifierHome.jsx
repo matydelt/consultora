@@ -18,7 +18,14 @@ export default function ModifierHome() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div
+      style={{
+        width: "90%",
+        paddingTop: "20px",
+        paddingLeft: "60px",
+        paddingRight: "20px",
+      }}
+    >
       <About about={about} />
       {items.map((item) => {
         return <Items item={item} />;

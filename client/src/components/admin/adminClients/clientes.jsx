@@ -31,7 +31,10 @@ export default function AdminClientes() {
 
   const abogados = allUsers.filter((e) => e.abogadoId !== null);
   return (
-    <div className="ms-2 me-2 mt-2 mb-3 p-2 bd-highlight w-100">
+    <div
+      className="ms-5 me-5 mt-3 mb-3"
+      style={{ width: "90%", paddingTop: "20px", paddingLeft: "20px" }}
+    >
       <table className="table table-striped ">
         <thead>
           <tr>

@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Sidebar.css";
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
+  const [showNav, setShowNav] = useState(false);
   const location = useLocation();
 
+  const handleShowNav = () => setShowNav(!showNav);
+
   return (
-    <div>
-      <nav className="SideBar">
+    <div className="containSideBar">
+      <button onClick={handleShowNav} className="Button_X">
+        X
+      </button>
+      <nav className={showNav ? "SideBar active" : "SideBar"}>
+        <button onClick={handleShowNav} className="Button_X">
+          X
+        </button>
         <ul>
           <li>
             <div
