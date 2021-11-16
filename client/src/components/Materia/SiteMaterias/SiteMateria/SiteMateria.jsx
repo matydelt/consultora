@@ -3,7 +3,6 @@ import "./SiteMateria.css";
 import { gsap } from "gsap";
 
 const SiteMateria = ({ firstName, lastName, img }) => {
-console.log(img)
   var timeline = gsap.timeline();
 
   const handleMouseMove = (e) => {
@@ -15,10 +14,14 @@ console.log(img)
       xAxis
     )}deg) rotateX(${Math.floor(yAxis)}deg)`;
   };
+  const handleMouseLeave = (e) => {
+    let { currentTarget } = e;
+    currentTarget.style.transform = "perspective(650px) rotateY(28deg)";
+  };
 
   return (
     <div>
-      <div onMouseMove={handleMouseMove} className="site_materia_img_name">
+      <div onMouseMove={handleMouseMove}  onMouseOut={handleMouseLeave} className="site_materia_img_name">
         <img src={img} alt="Imagen Abogado" />
         <p>
           {firstName} {lastName}

@@ -15,11 +15,21 @@ export function getMaterias() {
   };
 }
 
-export function getSiteMateria(payload) {
-  return {
-    type: 'GET_MATERIAS_SITE',
-    payload
-  }
+export function getSiteMateria(materia) {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("/materias");
+      const abogados = await axios.get("/abogados");
+      return dispatch({
+        type: 'GET_MATERIAS_SITE',
+        payload: json.data,
+        materia,
+        abogados: abogados.data
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export function getAbogados() {

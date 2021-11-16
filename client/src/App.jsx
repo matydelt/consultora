@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
-import { getUsuario } from "./redux/actions";
+import { getMaterias, getUsuario } from "./redux/actions";
 import { getAbogados } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import FormCita from "./components/FormCita/FormCita";
@@ -36,10 +36,7 @@ function App() {
       }
     });
   });
-  
-  useEffect(() => {
-    dispatch(getAbogados());
-  }, [dispatch]);
+
 
   return (
     <div className="App container-fluid p-0">
