@@ -395,6 +395,7 @@ export function putClienteAbogado(cambios) {
 }
 
 export function putAbout(about) {
+  console.log(about);
   return async (dispatch) => {
     try {
       await axios.put("/about/modify", about);

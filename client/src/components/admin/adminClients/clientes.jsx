@@ -1,14 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-<<<<<<< HEAD
 import { getClientes, putClienteAbogado } from "../../../redux/actions";
-=======
-import { getClientes, putClienteAbogado } from "../../../redux/actions"
 import { toast } from "react-toastify";
-
-
-
->>>>>>> origin/mirror
 
 export default function AdminClientes() {
   const dispatch = useDispatch();
@@ -26,21 +19,16 @@ export default function AdminClientes() {
       abogadoAntiguo: abogadoId,
     };
 
-<<<<<<< HEAD
     if (
       cambios.abogado !== undefined &&
       cambios.abogado !== "ninguno" &&
       cambios.cliente !== undefined
     ) {
       dispatch(putClienteAbogado(cambios));
-=======
-        if ((cambios.abogado !== undefined && cambios.abogado !== "ninguno") && cambios.cliente !== undefined) {
-            dispatch(putClienteAbogado(cambios))
-            toast.success("Abogado asignado")
-        } else toast.error("Ocurrio un error")
->>>>>>> origin/mirror
-    }
+      toast.success("Abogado asignado");
+    } else toast.error("Ocurrio un error");
   };
+
   const abogados = allUsers.filter((e) => e.abogadoId !== null);
   return (
     <div className="ms-2 me-2 mt-2 mb-3 p-2 bd-highlight w-100">

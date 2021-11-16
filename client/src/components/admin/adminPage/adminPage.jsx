@@ -18,7 +18,7 @@ import AdminNewUsersPage from "../adminNewUsersPage/adminNewUsersPage";
 import AdminClientes from "../adminClients/clientes";
 import AdminBannedUsersPage from "../adminBannedUsersPage/adminBannedUsersPage";
 import Navbar from "../../home-page/Navbar/Navbar";
-import ModifierHome from "../adminHome/modifierHome"
+import ModifierHome from "../adminHome/modifierHome";
 
 export default function AdminPage() {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     dispatch(getUsuarios());
-    dispatch(getClientes())
+    dispatch(getClientes());
   }, []);
   // if (adminId === undefined) return (<Redirect to="/" />)
   return (
@@ -39,15 +39,12 @@ export default function AdminPage() {
           <Route path="/admin/users" exact component={AdminUsersPage} />
           <Route path="/admin/users/new" exact component={AdminNewUsersPage} />
           <Route path="/admin/users/clientes" exact component={AdminClientes} />
-<<<<<<< HEAD
           <Route
             path="/admin/users/banned"
             exact
             component={AdminBannedUsersPage}
           />
-=======
           <Route path={"/admin/About"} exact component={ModifierHome} />
->>>>>>> origin/mirror
         </Switch>
       </div>
     </div>

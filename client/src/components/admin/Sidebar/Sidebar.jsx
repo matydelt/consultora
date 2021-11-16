@@ -61,7 +61,13 @@ const Sidebar = () => {
             </div>
           </li>
           <li>
-            <Link to="/admin/About">About</Link>
+            <div
+              className={
+                location.pathname === "/admin/About" ? "selected" : undefined
+              }
+            >
+              <Link to="/admin/About">About</Link>
+            </div>
           </li>
         </ul>
       </nav>

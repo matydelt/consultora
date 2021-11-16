@@ -11,7 +11,7 @@ import About from "./About/About";
 import Footer from "./Footer/Footer";
 
 const HomePage = () => {
-  const materia = useSelector((state) => state.materias);
+  const { materias } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,11 +35,9 @@ const HomePage = () => {
       <div className="mb-5">
         <h3 className="text-center mb-4 fs-1">Competencias</h3>
         <div className="flex-materias">
-          {
-            materia.map((m, i) => (
-              <Materia key={i} nombre={m.nombre} />
-            ))
-          }
+          {materias?.map((m, i) => (
+            <Materia key={i} nombre={m.nombre} />
+          ))}
         </div>
       </div>
       <Banner
