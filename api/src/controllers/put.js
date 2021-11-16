@@ -16,9 +16,7 @@ const mercadopago = require("../config/MercadoPago");
 
 async function usuario(req, res) {
   try {
-    // console.log(req.body, req.params, req.query)
     const { eMail } = req.body;
-
     const user = await Usuario.findOne({ where: { eMail } });
     if (user) {
       const abogado = await Abogado.findByPk(user.abogadoId);
@@ -27,7 +25,7 @@ async function usuario(req, res) {
       );
       const personas = await Persona.findAll();
       if (personas.length < 2) {
-        res.send({
+        return res.json({
           ...{
             eMail: user.eMail,
             password: user.password,
@@ -43,7 +41,7 @@ async function usuario(req, res) {
         });
       } else {
         if (abogado) {
-          res.send({
+          return res.json({
             ...{
               eMail: user.eMail,
               password: user.password,
@@ -58,7 +56,7 @@ async function usuario(req, res) {
             abogado,
           });
         } else
-          res.send({
+          return res.json({
             ...{
               eMail: user.eMail,
               password: user.password,
@@ -71,12 +69,10 @@ async function usuario(req, res) {
             },
           });
       }
-    } else {
-      res.sendStatus(404);
-    }
+    } else return res.sendStatus(404);
   } catch (error) {
     console.error(error);
-    res.sendStatus(500);
+    return res.sendStatus(404);
   }
 }
 

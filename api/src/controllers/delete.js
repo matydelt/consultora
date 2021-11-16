@@ -12,8 +12,9 @@ async function deleteConsulta(req, res, next) {
 }
 async function items(req, res) {
   try {
-    const { item } = req.body
+    const { item } = JSON.parse(req.params.dataFromFrontEnd)
     const actualItem = await Items.findByPk(item)
+    console.log(item)
     if (items.length === 0) return res.sendStatus(404)
     await actualItem.destroy();
     return res.sendStatus(200)

@@ -439,9 +439,10 @@ export function postItem(item) {
 }
 
 export function deleteItem(item) {
+  console.log(item)
   return async (dispatch) => {
     try {
-      await axios.delete("/items/delete", item);
+      await axios.delete("/items/delete/" + JSON.stringify(item), { headers: { 'authorization': localStorage.getItem('token') } });
       return dispatch({ type: "DELETE_ITEM" });
     } catch (error) {
       console.log(error);
