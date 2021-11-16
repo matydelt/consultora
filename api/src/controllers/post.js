@@ -401,9 +401,10 @@ const postPago = async (req, res, next) => {
 
 async function items(req, res) {
   try {
-    const { item } = req.body
-    const { descripcion } = item
-    await Items.create({ where: { descripcion } })
+    const { descripcion } = req.body
+    // const { descripcion } = item
+    const item = await Items.create({ descripcion: descripcion })
+    console.log(item)
     res.sendStatus(200)
   } catch (e) {
     console.log(e)
