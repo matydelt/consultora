@@ -50,7 +50,7 @@ export default function ModalModificarTurnos({ getDias }) {
         axios.put('/dia', { diaId: dia?.dia?.id, form }).then(resp => {
             toast.success('Día modificado')
         }).then(() => {
-            getDias();
+            getDias(new Date(dia.dia.fecha).getMonth());
         }).catch(err => toast.error('Hubo un problema al modificar los turnos'));
     };
 

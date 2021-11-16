@@ -499,24 +499,31 @@ async function getAllCasos(req, res, next) {
   }
 }
 async function getDias(req, res) {
-  const { abogadoId, abogadoFlag, periodoFiltrar } = req.query;
+  let { abogadoId, abogadoFlag, periodoFiltrar, desde } = req.query;
 
+  console.log(abogadoId, abogadoFlag, periodoFiltrar, desde);
 
-  // console.log(new Date(new Date().getFullYear(), periodoFiltrar, 1));
-  // console.log(new Date(new Date().getFullYear(), parseInt(periodoFiltrar)+1, 0));
   let dias = [];
   try {
-    if (abogadoFlag && !periodoFiltrar) {
+    if (abogadoFlag && !periodoFiltrar || (abogadoFlag && desde && !periodoFiltrar ) ) {
+      
       console.log('IF');
-      dias = await Dia.findAll({
+
+      desde = parseInt(desde)
+
+      let limit = 15
+      let offset = 0 + (desde - 1) * limit
+      
+      dias = await Dia.findAndCountAll({
         where: {
           abogadoId,
         },
         include: Turno,
+        offset: offset,
+        limit: limit,
         order: [["fecha", "DESC"]],
       });
-    } else if (abogadoFlag && periodoFiltrar) {
-      // console.log(new Date(`${periodoFiltrar}-1`));
+    } else if (abogadoFlag && periodoFiltrar && !desde) {
       console.log('ELSE IF');
       dias = await Dia.findAll({
         where: {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import DatePicker from "react-multi-date-picker";
@@ -15,12 +15,18 @@ export default function TurnosAbogado() {
 
     const dispatch = useDispatch();
 
+    // let mesActual = useRef(new Date().getMonth());
+
+    const [mesActual, setMesActual] = useState(new Date().getMonth());
     const [turnoHoy, setTurnoHoy] = useState();
     const [dias, setDias] = useState([]);
     const [fechasSeleccionadas, setFechasSeleccionadas] = useState();
     const [cargandoDias, setCargandoDias] = useState(true);
+    const [desde, setDesde] = useState(1);
+    const [cantidadDias, setCantidadDias] = useState(0);
+    const [element, setElement] = useState(null);
 
-    const { usuario, dia } = useSelector(state => state);
+    const { usuario } = useSelector(state => state);
 
     const [form, setForm] = useState({
         fechas: [],
@@ -33,30 +39,79 @@ export default function TurnosAbogado() {
     const { fechas, nota, turnos } = form;
 
 
+    const observer = useRef(
+        new IntersectionObserver(
+            async entries => {
+                const first = entries[0];
+                if (first.isIntersecting) {
+                    setDesde(state => state + 1)
+                }
+            },
+            {
+                threshold: 1
+            }
+        )
+    );
+
+
+    useEffect(() => {
+        const currentElement = element;
+        const currentObserver = observer.current;
+
+        if (currentElement) {
+            currentObserver.observe(currentElement);
+        }
+
+        return () => {
+            if (currentElement) {
+                currentObserver.unobserve(currentElement);
+            }
+        };
+    }, [element]);
+
+
 
     useEffect(() => {
         // getDias();
-        getDias(new Date().getMonth());
-    // }, [usuario, dia, cargandoDias]);
-    }, []);
+        getDias(mesActual);
+        // }, [usuario, dia, cargandoDias]);
+    }, [usuario]);
 
 
     useEffect(() => {
-        let hoy = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
+        let hoy = new Date().getDate() + '/' + (mesActual + 1) + '/' + new Date().getFullYear()
         const turnoHoy = dias?.find(dia => {
             return new Date(dia.fecha).toLocaleDateString() === hoy
         });
         setTurnoHoy(turnoHoy);
     }, [dias]);
 
+    useEffect(() => {
+        if (dias.length < cantidadDias-desde) {
+            getDias(undefined, desde)
+            console.log(desde);
+            console.log(dias.length, cantidadDias);
+        }
+    }, [desde]);
 
-    function getDias(periodoFiltrar) {
-        axios.get('/dias', { params: { abogadoId: usuario?.abogado?.id, abogadoFlag: true, periodoFiltrar } }).then(({ data }) => {
-            setDias(data);
-            console.log(data);
-        }).then(() => {
-            setCargandoDias(false);
-        });
+
+    function getDias(periodoFiltrar, desde) {
+        if (usuario?.abogado?.id) {
+            axios.get('/dias', { params: { abogadoId: usuario?.abogado?.id, abogadoFlag: true, periodoFiltrar, desde } }).then(({ data }) => {
+                if (!periodoFiltrar && desde) {
+                    setCantidadDias(data.count)
+                    setDias(state => [...state, ...data.rows]);
+                    console.log('DESDE');
+                } else {
+                    setDias([])
+                    setDias(data);
+                    console.log('SIN DESDE');
+                    console.log(dias);
+                }
+            }).then(() => {
+                setCargandoDias(false);
+            });
+        }
     }
 
     function seleccionarFechas(e) {
@@ -84,7 +139,9 @@ export default function TurnosAbogado() {
 
         axios.post('/dia', { form, abogadoId: usuario.abogado.id }).then(resp => {
             setCargandoDias(true);
-            getDias(new Date().getMonth());
+            setDias([])
+            getDias(undefined, desde);
+            setMesActual('');
             toast.success('Día añadido')
         }).then(() => {
             setCargandoDias(false);
@@ -118,7 +175,7 @@ export default function TurnosAbogado() {
     };
 
 
-    function eliminarDia(diaId) {
+    function eliminarDia(dia) {
         swal({
             title: "Eliminar",
             text: "Al eliminar el día con todos sus turnos, se notificará vía email a los clientes cuyos turnos fueron cancelados, ¿Eliminar?",
@@ -128,8 +185,12 @@ export default function TurnosAbogado() {
         ).then((willDelete) => {
             if (willDelete) {
                 setCargandoDias(true);
-                dispatch(actionEliminarDia(diaId))
-                getDias();
+                dispatch(actionEliminarDia(dia.id));
+
+                setTimeout(() => {
+                    getDias(new Date(dia.fecha).getMonth());
+                }, 1000);
+
                 toast.success('El día fue eliminado');
             }
         }).catch(err => toast.error('Ocurrió un problema al eliminar el día y sus turnos'));
@@ -139,8 +200,26 @@ export default function TurnosAbogado() {
 
 
     function filtrarPorMes(e) {
-        getDias(e.target.value);
+        // setDesde(0)
+        console.log(desde);
+        if (e.target.value) {
+            setCantidadDias(0)
+            // setDesde(1);
+            getDias(e.target.value);
+        } else {
+            setDias([]);
+            setDesde(1);
+            getDias(undefined, desde);
+        }
     };
+
+    function cargarMasTurnos() {
+        setDesde(desde + 1);
+
+        console.log(desde);
+    };
+
+    
 
 
     return (<>
@@ -168,7 +247,7 @@ export default function TurnosAbogado() {
 
                                     </label>
 
-                                    <DatePicker id="fecha" value={fechasSeleccionadas} format="DD/MM" name="fechas" multiple={true} onChange={(e) => seleccionarFechas(e)} className="pointer" />
+                                    <DatePicker required id="fecha" value={fechasSeleccionadas} format="DD/MM" name="fechas" multiple={true} onChange={(e) => seleccionarFechas(e)} className="pointer" />
 
                                 </div>
                             </div>
@@ -189,7 +268,7 @@ export default function TurnosAbogado() {
                                             <label className="col-form-label"> Turno {i + 1} </label>
                                         </div>
                                         <div className="col-auto">
-                                            <input className="form-control pointer clase-turno" type="time" min="09:00" max="18:00" data-id={i} value={turnos[i].hora} onChange={handleForm}></input>
+                                            <input required className="form-control pointer clase-turno" type="time" min="09:00" max="18:00" data-id={i} value={turnos[i].hora} onChange={handleForm}></input>
                                         </div>
                                         <div className="col-auto align-middle text-center p-0">
                                             <span className="badge rounded-pill bg-light border shadow text-danger pointer fs-3 px-2 py-0 " onClick={() => quitarTurno(i)}> - </span>
@@ -228,19 +307,19 @@ export default function TurnosAbogado() {
 
                 <div className="col-auto text-right align-middle ">
                     <select className="form-control pointer shadow p-2" onChange={(e) => filtrarPorMes(e)}>
-                        <option value="">Ver todos los turnos</option>
-                        <option selected={new Date().getMonth()===0} value="0">Enero</option>
-                        <option selected={new Date().getMonth()===1} value="1">Febrero</option>
-                        <option selected={new Date().getMonth()===2} value="2">Marzo</option>
-                        <option selected={new Date().getMonth()===3} value="3">Abril</option>
-                        <option selected={new Date().getMonth()===4} value="4">Mayo</option>
-                        <option selected={new Date().getMonth()===5} value="5">Junio</option>
-                        <option selected={new Date().getMonth()===6} value="6">Julio</option>
-                        <option selected={new Date().getMonth()===7} value="7">Agosto</option>
-                        <option selected={new Date().getMonth()===8} value="8">Septiembre</option>
-                        <option selected={new Date().getMonth()===9} value="9">Octubre</option>
-                        <option selected={new Date().getMonth()===10} value="10">Noviembre</option>
-                        <option selected={new Date().getMonth()===11} value="11">Diciembre</option>
+                        <option selected={!mesActual} value="">Ver todos los turnos</option>
+                        <option selected={mesActual === 0} value="0">Enero</option>
+                        <option selected={mesActual === 1} value="1">Febrero</option>
+                        <option selected={mesActual === 2} value="2">Marzo</option>
+                        <option selected={mesActual === 3} value="3">Abril</option>
+                        <option selected={mesActual === 4} value="4">Mayo</option>
+                        <option selected={mesActual === 5} value="5">Junio</option>
+                        <option selected={mesActual === 6} value="6">Julio</option>
+                        <option selected={mesActual === 7} value="7">Agosto</option>
+                        <option selected={mesActual === 8} value="8">Septiembre</option>
+                        <option selected={mesActual === 9} value="9">Octubre</option>
+                        <option selected={mesActual === 10} value="10">Noviembre</option>
+                        <option selected={mesActual === 11} value="11">Diciembre</option>
                     </select>
                 </div>
             </div>
@@ -276,7 +355,7 @@ export default function TurnosAbogado() {
                             <tbody>
                                 {dias?.map(dia => {
                                     return (<>
-                                        <tr>
+                                        <tr className="animate__animated animate__fadeIn">
                                             <td className="text-capitalize">{new Date(dia.fecha).toLocaleDateString('es-ES', options)}</td>
                                             <td>{dia.turnos?.length}</td>
                                             <td>{dia.nota}</td>
@@ -287,26 +366,42 @@ export default function TurnosAbogado() {
                                                 <button onClick={() => modificarDia(dia.id)} type="button" class="btn btn-outline-primary btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalModificarTurnos">
                                                     Modificar
                                                 </button>
-                                                <button className="btn btn-outline-danger btn-sm" onClick={() => eliminarDia(dia.id)}>Eliminar</button>
+                                                <button className="btn btn-outline-danger btn-sm" onClick={() => eliminarDia(dia)}>Eliminar</button>
                                             </td>
                                         </tr>
                                     </>)
                                 })
                                 }
                             </tbody>
+
+
+
                         </table>
 
                         :
-                        // (dias.length === 0) &&
+
                         (!cargandoDias && dias.length === 0) &&
 
                         <div className="container my-5 text-center">
                             <h5>No hay turnos para mostrar</h5>
                         </div>
-
             }
 
-
+            {cantidadDias > 0 &&
+                <button
+                    ref={setElement}
+                    className="shadow border fs-4"
+                    disabled={dias.length >= cantidadDias-desde}
+                    style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "100px",
+                        marginBottom: "10px",
+                        display: "block",
+                        // background: "transparent",
+                    }}
+                > Cargar más... </button>
+            }
         </div>
     </>)
 };
