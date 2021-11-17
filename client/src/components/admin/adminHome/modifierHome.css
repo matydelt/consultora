@@ -20,8 +20,8 @@
     background-color: #032949;
     transition-duration: 100ms;
 }
-.textarea-items{
-    background-color: #033663;
+
+.textarea-modifierHome{
     display: block;
     width: 100%;
     padding: 0.375rem 0.75rem;
@@ -29,7 +29,8 @@
     font-weight: 400;
     line-height: 1.5;
     color: white; 
-    min-height: 15rem;
+    max-height: 3rem;
+    resize: none;
     background-clip: padding-box;
     border: 1px solid #ced4da;
     -webkit-appearance: none;
@@ -37,9 +38,4 @@
     border-radius: 0.25rem;
     box-shadow: 4px 5px rgb(228, 230, 230);
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-
-.p-item{
-    width: 100%;
-    /* margin-right: 30rem; */
 }

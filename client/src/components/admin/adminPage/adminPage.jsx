@@ -31,7 +31,7 @@ export default function AdminPage() {
   // if (adminId === undefined) return (<Redirect to="/" />)
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
-      <div style={{ display: "flex", marginTop: "20px", height: "100vh" }}>
+      <div style={{ display: "flex", marginTop: "20px" }}>
         <Sidebar />
         <Switch>
           <Route path="/admin" exact component={Dashboard} />

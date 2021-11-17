@@ -138,8 +138,8 @@ const AdminUsersPage = () => {
                 )}
                 {e.abogadoId ? (
                   usuario.eMail === e.eMail ||
-                  e.adminId !== 1 ||
-                  usuario.adminId === 1 ? (
+                    e.adminId !== 1 ||
+                    usuario.adminId === 1 ? (
                     <td>
                       <input
                         className="form-check-input"
@@ -258,15 +258,7 @@ const AdminUsersPage = () => {
         </tbody>
       </table>
       <div id="liveAlertPlaceholder">
-        <div className="alert alert-danger alert-dismissible" role="alert">
-          Cuidado una vez eliminado el estado de abogado el mismo pierde todo!
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
-        </div>
+
       </div>
     </div>
   );
