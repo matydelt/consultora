@@ -47,11 +47,8 @@ export default function TurnosAbogado() {
                     setDesde(state => state + 1)
                 }
             },
-            {
-                threshold: 1
-            }
-        )
-    );
+            { threshold: 1 }
+        ));
 
 
     useEffect(() => {
@@ -73,8 +70,10 @@ export default function TurnosAbogado() {
 
     useEffect(() => {
         // getDias();
+        // setCargandoDias(true);
         getDias(mesActual);
         // }, [usuario, dia, cargandoDias]);
+    // }, [usuario]);
     }, [usuario]);
 
 
@@ -87,10 +86,8 @@ export default function TurnosAbogado() {
     }, [dias]);
 
     useEffect(() => {
-        if (dias.length < cantidadDias-desde) {
+        if (dias.length < cantidadDias - desde) {
             getDias(undefined, desde)
-            console.log(desde);
-            console.log(dias.length, cantidadDias);
         }
     }, [desde]);
 
@@ -101,12 +98,9 @@ export default function TurnosAbogado() {
                 if (!periodoFiltrar && desde) {
                     setCantidadDias(data.count)
                     setDias(state => [...state, ...data.rows]);
-                    console.log('DESDE');
                 } else {
                     setDias([])
                     setDias(data);
-                    console.log('SIN DESDE');
-                    console.log(dias);
                 }
             }).then(() => {
                 setCargandoDias(false);
@@ -136,12 +130,14 @@ export default function TurnosAbogado() {
 
     function submitForm(e) {
         e.preventDefault();
+        setCargandoDias(true);
 
         axios.post('/dia', { form, abogadoId: usuario.abogado.id }).then(resp => {
-            setCargandoDias(true);
             setDias([])
-            getDias(undefined, desde);
             setMesActual('');
+            setForm({ fechas: [], nota: '', turnos: [{ hora: '09:00' }] });
+            setFechasSeleccionadas([]);
+            getDias(undefined, 1);
             toast.success('Día añadido')
         }).then(() => {
             setCargandoDias(false);
@@ -185,64 +181,60 @@ export default function TurnosAbogado() {
         ).then((willDelete) => {
             if (willDelete) {
                 setCargandoDias(true);
-                dispatch(actionEliminarDia(dia.id));
+                
+                let promesa = new Promise((resolve, reject) => {
+                    resolve(dispatch(actionEliminarDia(dia.id)))
+                })
 
-                setTimeout(() => {
-                    getDias(new Date(dia.fecha).getMonth());
-                }, 1000);
+                promesa.then((resp) => {
+                    setDias(dias.filter(d => d.id !== dia.id))
+                    setCargandoDias(false);
+                }).then((resp) => {
+                    // getDias(new Date(dia.fecha).getMonth())
+                }).catch(err => console.log(err))
 
                 toast.success('El día fue eliminado');
             }
         }).catch(err => toast.error('Ocurrió un problema al eliminar el día y sus turnos'));
-
-        setCargandoDias(false);
     };
 
 
     function filtrarPorMes(e) {
-        // setDesde(0)
-        console.log(desde);
+        setCargandoDias(true);
+        setDesde(1);
         if (e.target.value) {
-            setCantidadDias(0)
-            // setDesde(1);
+            setMesActual(e.target.value);
+            setCantidadDias(0);
             getDias(e.target.value);
         } else {
             setDias([]);
-            setDesde(1);
             getDias(undefined, desde);
         }
     };
 
-    function cargarMasTurnos() {
-        setDesde(desde + 1);
-
-        console.log(desde);
-    };
-
-    
 
 
     return (<>
 
         <ModalVerTurnos />
 
-        <ModalModificarTurnos getDias={getDias} />
+        <ModalModificarTurnos getDias={getDias} mesActual={mesActual}/>
 
-        <div class="modal fade" id="modalTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="modalTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <form onSubmit={(e) => submitForm(e)}>
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Agregar turnos</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Agregar turnos</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
 
                             {/* { diaModificar?.dia?.id?.length === 0 &&
                                 } */}
                             <div className="row">
                                 <div className="col align-middle text-end">
-                                    <label for="fecha" className="col-form-label pointer">Seleccionar fechas:
+                                    <label htmlFor="fecha" className="col-form-label pointer">Seleccionar fechas:
                                         <span className="col-1 mx-2">📅</span>
 
                                     </label>
@@ -263,7 +255,7 @@ export default function TurnosAbogado() {
 
                             {
                                 turnos?.map((turno, i) => {
-                                    return <div className="row my-3">
+                                    return <div key={i} className="row my-3">
                                         <div className="col">
                                             <label className="col-form-label"> Turno {i + 1} </label>
                                         </div>
@@ -280,9 +272,9 @@ export default function TurnosAbogado() {
 
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primaryNuestro" >Guardar</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" className="btn btn-primaryNuestro" data-bs-dismiss="modal">Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -297,17 +289,17 @@ export default function TurnosAbogado() {
 
             <div className="row align-middle my-3">
                 <div className="col my-1">
-                    <button type="button" class="btn btn-primaryNuestro" data-bs-toggle="modal" data-bs-target="#modalTurnos">
+                    <button type="button" className="btn btn-primaryNuestro" data-bs-toggle="modal" data-bs-target="#modalTurnos">
                         Agregar turnos
                     </button>
-                    <button type="button" class="btn btn-primaryNuestro mx-2" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={verTurnosHoy} disabled={!turnoHoy}>
+                    <button type="button" className="btn btn-primaryNuestro mx-2" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={verTurnosHoy} disabled={!turnoHoy}>
                         Ver turnos de hoy
                     </button>
                 </div>
 
                 <div className="col-auto text-right align-middle ">
                     <select className="form-control pointer shadow p-2" onChange={(e) => filtrarPorMes(e)}>
-                        <option selected={!mesActual} value="">Ver todos los turnos</option>
+                        <option selected={mesActual === ''} value="">Ver todos los turnos</option>
                         <option selected={mesActual === 0} value="0">Enero</option>
                         <option selected={mesActual === 1} value="1">Febrero</option>
                         <option selected={mesActual === 2} value="2">Marzo</option>
@@ -326,17 +318,17 @@ export default function TurnosAbogado() {
 
 
             {
-                cargandoDias ?
-                    <div className="container text-center mt-5">
+                (cargandoDias) ?
+                    <div className="container text-center" style={{padding:'250px'}}>
 
-                        <div class="spinner-grow text-muted" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                        <div className="spinner-grow text-muted" role="status">
+                            <span className="visually-hidden">Loading...</span>
                         </div>
-                        <div class="spinner-grow mx-3  text-muted" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                        <div className="spinner-grow mx-3  text-muted" role="status">
+                            <span className="visually-hidden">Loading...</span>
                         </div>
-                        <div class="spinner-grow  text-muted" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                        <div className="spinner-grow  text-muted" role="status">
+                            <span className="visually-hidden">Loading...</span>
                         </div>
                     </div>
 
@@ -354,8 +346,8 @@ export default function TurnosAbogado() {
                             </thead>
                             <tbody>
                                 {dias?.map(dia => {
-                                    return (<>
-                                        <tr className="animate__animated animate__fadeIn">
+                                    return (
+                                        <tr key={dia.id} className="animate__animated animate__fadeIn">
                                             <td className="text-capitalize">{new Date(dia.fecha).toLocaleDateString('es-ES', options)}</td>
                                             <td>{dia.turnos?.length}</td>
                                             <td>{dia.nota}</td>
@@ -363,13 +355,13 @@ export default function TurnosAbogado() {
                                                 <button className="btn btn-secondaryNuestro btn-sm" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={() => verTurnos(dia.id)}>
                                                     Ver turnos
                                                 </button>
-                                                <button onClick={() => modificarDia(dia.id)} type="button" class="btn btn-primaryNuestro btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalModificarTurnos">
+                                                <button onClick={() => modificarDia(dia.id)} type="button" className="btn btn-primaryNuestro btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalModificarTurnos">
                                                     Modificar
                                                 </button>
                                                 <button className="btn btn-dangerNuestro btn-sm" onClick={() => eliminarDia(dia)}>Eliminar</button>
                                             </td>
                                         </tr>
-                                    </>)
+                                    )
                                 })
                                 }
                             </tbody>
@@ -387,11 +379,11 @@ export default function TurnosAbogado() {
                         </div>
             }
 
-            {cantidadDias > 0 &&
+            {(cantidadDias > 0 && dias.length < cantidadDias-desde)  &&
                 <button
                     ref={setElement}
                     className="shadow border fs-4"
-                    disabled={dias.length >= cantidadDias-desde}
+                    disabled={dias.length >= cantidadDias - desde}
                     style={{
                         position: "relative",
                         width: "100%",

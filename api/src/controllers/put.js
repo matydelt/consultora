@@ -22,7 +22,7 @@ async function usuario(req, res) {
 
     const user = await Usuario.findOne({ where: { eMail } });
 
-    if (user.banned)
+    if (user?.banned)
       return res
         .status(403)
         .json({ mensaje: "Su cuenta se encuentra deshabilitada" });

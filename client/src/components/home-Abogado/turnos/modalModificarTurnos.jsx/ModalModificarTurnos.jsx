@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 import { actionCancelarTurno, getDia } from '../../../../redux/actions';
 
 
-export default function ModalModificarTurnos({ getDias }) {
+export default function ModalModificarTurnos({ getDias, mesActual }) {
 
     const { dia } = useSelector(state => state);
 
@@ -25,9 +25,10 @@ export default function ModalModificarTurnos({ getDias }) {
 
 
     useEffect(() => {
+        console.log(dia);
         // let fecha = new Date(dia?.dia?.fecha).toISOString().slice(0, 10);
-        let fecha = `${new Date(dia?.dia?.fecha).getFullYear()}-${new Date(dia?.dia?.fecha).getMonth() + 1}-${new Date(dia?.dia?.fecha).getDate()<10?'0':''}${new Date(dia?.dia?.fecha).getDate()}`
-        setForm({ fecha: fecha || '', notaModificar: dia?.dia?.nota, turnos: dia?.turnos })
+        let fecha = `${new Date(dia?.dia?.fecha).getFullYear()}-${new Date(dia?.dia?.fecha).getMonth() + 1 < 10 ?'0':''}${new Date(dia?.dia?.fecha).getMonth() + 1}-${new Date(dia?.dia?.fecha).getDate()<10?'0':''}${new Date(dia?.dia?.fecha).getDate()}`
+        setForm({ fecha: fecha, notaModificar: dia?.dia?.nota, turnos: dia?.turnos })
     }, [dia]);
     // }, []);
 
@@ -47,10 +48,16 @@ export default function ModalModificarTurnos({ getDias }) {
 
     function submitForm(e) {
         e.preventDefault();
-        axios.put('/dia', { diaId: dia?.dia?.id, form }).then(resp => {
+        axios.put('/dia', { diaId: dia?.dia?.id, form }).then(() => {
             toast.success('Día modificado')
+            console.log(mesActual);
         }).then(() => {
-            getDias(new Date(dia.dia.fecha).getMonth());
+            if(mesActual >= 0) {
+                getDias(mesActual);
+                // getDias(new Date(dia.dia.fecha).getMonth());
+            } else {
+                getDias(undefined, 1);
+            }
         }).catch(err => toast.error('Hubo un problema al modificar los turnos'));
     };
 
@@ -93,19 +100,19 @@ export default function ModalModificarTurnos({ getDias }) {
 
     return (<>
 
-        <div class="modal fade" id="modalModificarTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="modalModificarTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <form onSubmit={(e) => submitForm(e)}>
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modificar turnos {new Date(dia?.dia?.fecha).toLocaleDateString()}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Modificar turnos {new Date(dia?.dia?.fecha).toLocaleDateString()}</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
 
                             <div className="row">
                                 <div className="col">
-                                    <label for="fecha" className="col-form-label pointer">Modificar fecha:
+                                    <label htmlFor="fecha" className="col-form-label pointer">Modificar fecha:
                                         {/* <span className="col-1 mx-2">📅</span> */}
 
                                     </label>
@@ -129,7 +136,7 @@ export default function ModalModificarTurnos({ getDias }) {
 
                             {
                                 turnos?.map((turno, i) => {
-                                    return <div className="row my-3 ">
+                                    return <div key={i} className="row my-3 ">
                                         <div className="col-3">
                                             <label className="col-form-label"> Turno {i + 1} </label>
                                         </div>
@@ -155,9 +162,9 @@ export default function ModalModificarTurnos({ getDias }) {
 
                         </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primaryNuestro" data-bs-dismiss="modal">Guardar</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" className="btn btn-primaryNuestro" data-bs-dismiss="modal">Guardar</button>
                         </div>
                     </div>
                 </div>

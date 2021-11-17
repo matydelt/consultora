@@ -518,10 +518,11 @@ async function getDias(req, res) {
         where: {
           abogadoId,
         },
-        include: Turno,
+        distinct: true,
         offset: offset,
         limit: limit,
         order: [["fecha", "DESC"]],
+        include: [{model:Turno}]
       });
     } else if (abogadoFlag && periodoFiltrar && !desde) {
       console.log('ELSE IF');
