@@ -90,4 +90,4 @@ async function eliminarDia(req, res) {
 
 };
 
-module.exports = { deleteConsulta, cancelarTurno, eliminarDia };
+module.exports = { deleteConsulta, cancelarTurno, eliminarDia, items };

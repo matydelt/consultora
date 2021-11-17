@@ -136,10 +136,6 @@ const rootReducer = (state = initialState, action) => {
       return { ...state };
     case "DELETE_ITEM":
       return { ...state };
-    case "PUT_CLIENTES":
-      return {
-        ...state,
-      };
     default:
       return state;
   }
