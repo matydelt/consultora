@@ -124,7 +124,7 @@ export default function ModalModificarTurnos({ getDias }) {
                             <hr />
 
                             <div className="text-end">
-                                <button type="button" className="btn btn-xs btn-primary" onClick={añadirTurno}>+ Nuevo turno</button>
+                                <button type="button" className="btn btn-xs btn-primaryNuestro" onClick={añadirTurno}>+ Nuevo turno</button>
                             </div>
 
                             {
@@ -141,7 +141,7 @@ export default function ModalModificarTurnos({ getDias }) {
                                         </div>
 
                                         {turno.id ?
-                                            <button type="button" className="btn btn-danger btn-sm col-1" onClick={() => cancelarTurno(turno)}>X</button>
+                                            <button type="button" className="btn btn-dangerNuestro btn-sm col-1" onClick={() => cancelarTurno(turno)}>X</button>
                                             :
                                             <div className="col-auto align-middle text-center p-0">
                                                 <span className="badge rounded-pill bg-light border shadow text-danger pointer fs-3 px-2 py-0 " onClick={() => quitarTurno(i)}> - </span>
@@ -157,7 +157,7 @@ export default function ModalModificarTurnos({ getDias }) {
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+                            <button type="submit" class="btn btn-primaryNuestro" data-bs-dismiss="modal">Guardar</button>
                         </div>
                     </div>
                 </div>

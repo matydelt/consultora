@@ -258,7 +258,7 @@ export default function TurnosAbogado() {
                             <hr />
 
                             <div className="text-end">
-                                <button type="button" className="btn btn-xs btn-primary" onClick={añadirTurno}>+ Nuevo turno</button>
+                                <button type="button" className="btn btn-xs btn-primaryNuestro" onClick={añadirTurno}>+ Nuevo turno</button>
                             </div>
 
                             {
@@ -282,7 +282,7 @@ export default function TurnosAbogado() {
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-primary" >Guardar</button>
+                            <button type="submit" class="btn btn-primaryNuestro" >Guardar</button>
                         </div>
                     </div>
                 </div>
@@ -297,10 +297,10 @@ export default function TurnosAbogado() {
 
             <div className="row align-middle my-3">
                 <div className="col my-1">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTurnos">
+                    <button type="button" class="btn btn-primaryNuestro" data-bs-toggle="modal" data-bs-target="#modalTurnos">
                         Agregar turnos
                     </button>
-                    <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={verTurnosHoy} disabled={!turnoHoy}>
+                    <button type="button" class="btn btn-primaryNuestro mx-2" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={verTurnosHoy} disabled={!turnoHoy}>
                         Ver turnos de hoy
                     </button>
                 </div>
@@ -360,13 +360,13 @@ export default function TurnosAbogado() {
                                             <td>{dia.turnos?.length}</td>
                                             <td>{dia.nota}</td>
                                             <td className="text-center">
-                                                <button className="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={() => verTurnos(dia.id)}>
+                                                <button className="btn btn-secondaryNuestro btn-sm" data-bs-toggle="modal" data-bs-target="#modalVerTurnos" onClick={() => verTurnos(dia.id)}>
                                                     Ver turnos
                                                 </button>
-                                                <button onClick={() => modificarDia(dia.id)} type="button" class="btn btn-outline-primary btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalModificarTurnos">
+                                                <button onClick={() => modificarDia(dia.id)} type="button" class="btn btn-primaryNuestro btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalModificarTurnos">
                                                     Modificar
                                                 </button>
-                                                <button className="btn btn-outline-danger btn-sm" onClick={() => eliminarDia(dia)}>Eliminar</button>
+                                                <button className="btn btn-dangerNuestro btn-sm" onClick={() => eliminarDia(dia)}>Eliminar</button>
                                             </td>
                                         </tr>
                                     </>)
