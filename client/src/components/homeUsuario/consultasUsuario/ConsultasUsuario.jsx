@@ -136,7 +136,7 @@ export default function ConsultasUsuario() {
                         eliminarConsulta(consulta.id);
                       }}
                       className={`btn btn-${
-                        !consulta.abogadoId ? "danger" : "light text-muted"
+                        !consulta.abogadoId ? "dangerNuestro" : "light text-muted"
                       }`}
                     >
                       Eliminar

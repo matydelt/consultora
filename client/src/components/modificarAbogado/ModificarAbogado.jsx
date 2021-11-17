@@ -383,7 +383,7 @@ export default function ModificarAbogado() {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn btn-primary"
+                className="btn btn-primaryNuestro"
               >
                 {loading ? "Guardando..." : "Guardar cambios"}
               </button>

@@ -210,7 +210,7 @@ export default function FormCita({ history }) {
             ></textarea>
           </div>
 
-          <button className="btn btn-secondary col-12 mt-3">Enviar</button>
+          <button className="btn btn-secondaryNuestro col-12 mt-3">Enviar</button>
         </form>
       </div>
     </>

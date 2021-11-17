@@ -189,7 +189,7 @@ export default function ModalConsulta({ usuario, modalId }) {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn btn-dangerNuestro"
                     data-bs-dismiss="modal"
                     onClick={eliminarConsulta}
                   >
@@ -197,7 +197,7 @@ export default function ModalConsulta({ usuario, modalId }) {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primaryNuestro"
                     data-bs-dismiss="modal"
                     onClick={confimarConsulta}
                   >
@@ -220,7 +220,7 @@ export default function ModalConsulta({ usuario, modalId }) {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn btn-dangerNuestro"
                     data-bs-dismiss="modal"
                     onClick={eliminarConsulta}
                   >
