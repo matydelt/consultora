@@ -33,6 +33,7 @@ import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario"
 
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
 import Clients from "./components/home-Abogado/clients/clients";
+import { NewPass } from "./components/Sign/newpass";
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector((state) => state);
@@ -80,42 +81,37 @@ function App() {
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/user/panel">
-          <HomeUsuario />
+        <Route exact path="/Cambiopass" component={NewPass} />
+        <Route exact path={!(usuario?.clienteId) ?"/user/panel": "/ingreso"}>
+        {!(usuario?.clienteId) ? <HomeUsuario />:<Signin/>}
         </Route>
-        <Route exact path="/user/panel/consultas">
-          <ConsultasUsuario />
+        <Route exact path={!(usuario?.clienteId) ?"/user/panel/consultas": "/ingreso"}>
+        {!(usuario?.clienteId) ? <ConsultasUsuario/>:<Signin/>}
         </Route>
-        <Route exact path="/user/panel/turnos">
-          <TurnosUsuario />
+        <Route exact path={!(usuario?.clienteId) ? "/user/panel/turnos": "/ingreso"}>
+        {!(usuario?.clienteId) ? <TurnosUsuario />:<Signin/>}
         </Route>
         <div>
           <NavAbogado />
-          <Route exact path="/user/abogado">
-            <HomeAbogado />
+          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado" : "/ingreso"}>
+          {!(usuario?.abogadoId) ? <HomeAbogado/>:<Signin/>}
           </Route>
-          <Route exact path="/user/abogado/clientes">
-            <Clients />
+          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/clientes" : "/ingreso"}>
+          {!(usuario?.abogadoId) ? <Clients />:<Signin/>}
           </Route>
-          <Route exact path="/user/abogado/consultas">
-            <VistaConsultasAbogado />
+          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/consultas" : "/ingreso"}>
+          {!(usuario?.abogadoId) ? <VistaConsultasAbogado />:<Signin/>}
           </Route>
-          <Route exact path="/user/abogado/casos"><Clientes /></Route>
-          <Route
-            exact
-            path="/user/abogado/modificar-perfil"
-            component={ModificarAbogado}
-          ></Route>
-          <Route path="/user/abogado/gestionar-turnos">
-            <TurnosAbogado></TurnosAbogado>
+          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/casos" : "/ingreso"}>{!(usuario?.abogadoId) ? <Clientes/>:<Signin/>}</Route>
+          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/modificar-perfil": "/ingreso"}
+            component={!(usuario?.abogadoId) ? ModificarAbogado : Signin} ></Route>
+          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/gestionar-turnos": "/ingreso"}>
+          {!(usuario?.abogadoId) ?<TurnosAbogado />:<Signin/>}
           </Route>
-          <Route exact path="/user/abogado/nuevo-caso">
-            <FormCasos />
+          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/nuevo-caso": "/ingreso"}>
+          {!(usuario?.abogadoId) ?<FormCasos />:<Signin/>}
           </Route>
           <Footer />
-          <Route exact path={"/user/abogado/gestionar-turnos"}>
-            <TurnosAbogado />
-          </Route>
         </div>
       </Switch>
       <ToastContainer/>

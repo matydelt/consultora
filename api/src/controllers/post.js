@@ -62,7 +62,7 @@ const postTickets = async (req, res, next) => {
     } else {
       const consul = await Consulta.findByPk(consultaid);
 
-      consul.setTicket(tickets);
+      const tickets = await consul.setTicket(tickets);
 
       tickets.setConsultum(consul);
 
@@ -341,7 +341,6 @@ async function setAdmin(req, res) {
   }
 }
 
-async function reiniciarPassword(req, res) {}
 async function setReseña(req, res, next) {
   const { abogadoId, clienteId, titulo, mensaje, puntuacion } = req.body;
   if (abogadoId && clienteId && titulo && mensaje && puntuacion) {
@@ -430,6 +429,23 @@ async function items(req, res) {
   }
 }
 
+async function reiniciarPassword(req, res) {
+  const { eMail, password } = req.body;
+
+  try {
+    const thisUsers = await Usuario.findOne({where:{eMail:eMail}});
+    
+    if (thisUsers.eMail != undefined) {
+      thisUsers.password = password;
+
+      Promise.all([await thisUsers.save()]);
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
 module.exports = {
   setUsuarios,
   setCasos,
@@ -442,4 +458,5 @@ module.exports = {
   items,
   postPago,
   postDia,
+  reiniciarPassword
 };

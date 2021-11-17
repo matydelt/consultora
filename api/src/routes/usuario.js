@@ -43,8 +43,7 @@ router.post("/cliente", async function (req, res) {    // set client to abogado
 
 router.post("/usuario", (req, res) => post.setUsuarios(req, res))  //crea usuario
 
-router.post("/forzar-reinicio-password", (req, res) => post.reiniciarPassword(req, res))
-
+router.post("/newpass", (req, res) => post.reiniciarPassword(req, res))
 
 router.post("/persona", (req, res) => post.setPersona(req, res)); //crea persona
 

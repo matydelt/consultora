@@ -7,9 +7,7 @@ import {
   GoogleAuthProvider,
   signOut,
   setPersistence,
-  browserSessionPersistence,
-  inMemoryPersistence,
-  signInWithRedirect,
+  browserSessionPersistence
 } from "firebase/auth";
 import Logo from "../home-page/assets/img/buffet-buffet-law.png";
 import {
@@ -17,6 +15,7 @@ import {
   postUsuario,
   getPersonas,
   getUsuarios,
+  modificarClave
 } from "../../redux/actions";
 import {
   sessionERR,
@@ -130,11 +129,12 @@ export const Signin = () => {
     e.preventDefault();
     await setPersistence(auth, browserSessionPersistence)
       .then(async () => {
-        await signInWithEmailAndPassword(auth, eMail, md5(password))
+        await signInWithEmailAndPassword(auth, eMail, password)
           .then((userCredential) => {
             // Signed in
             console.log("login");
             const user = userCredential.user;
+            dispatch(modificarClave({eMail: eMail, password: md5(password)}))
             dispatch(getUsuario({ eMail: eMail }));
             sessionIN();
             setEmail("");

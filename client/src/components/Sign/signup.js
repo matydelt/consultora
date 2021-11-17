@@ -42,7 +42,7 @@ export const Signup = () => {
         ? correoNoOK()
         : dniNoOK();
     } else {
-      await createUserWithEmailAndPassword(auth, eMail, md5(password))
+      await createUserWithEmailAndPassword(auth, eMail, password)
         .then(() => {
           console.log("no rompio");
           dispatch(
