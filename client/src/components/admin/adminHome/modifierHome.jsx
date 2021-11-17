@@ -67,7 +67,10 @@ export default function ModifierHome() {
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
                 ></textarea>
-                <input type="submit" value={"enviar"} />
+                <div className="d-flex justify-content-center mt-1">
+
+                  <input type="submit" value={"enviar"} className="button-about" />
+                </div>
               </form>
               <div className="d-flex justify-content-center mt-3">
                 <button
