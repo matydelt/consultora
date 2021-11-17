@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { putItem } from "../../../redux/actions/index";
+import { useDispatch } from "react-redux";
 import "./items.css";
 
 export default function Items({ item, handleDelete }) {
   const [flag, setFlag] = useState(true);
   const [input, setInput] = useState({
-    descripcion: item.descripcion,
     id: item.id,
+    descripcion: item.descripcion,
   });
+  const dispatch = useDispatch();
+
+  console.log({ item, input });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(putItem(input));
     setFlag(true);
   };
+
+  useEffect(() => {
+    setInput({ id: item.id, descripcion: item.descripcion });
+  }, [item]);
 
   return flag ? (
     <div>
@@ -35,7 +45,7 @@ export default function Items({ item, handleDelete }) {
         <li className="list-group-item justify-content-center flex-column">
           <input
             value={input.descripcion}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => setInput({ ...item, descripcion: e.target.value })}
           ></input>
         </li>
         <button className="btn btn-warning" type="submit">

@@ -12,17 +12,13 @@ async function deleteConsulta(req, res, next) {
 }
 async function items(req, res) {
   try {
-    const { item } = JSON.parse(req.params.dataFromFrontEnd)
-    const actualItem = await Items.findByPk(item)
-    console.log(item)
-    if (items.length === 0) return res.sendStatus(404)
-    await actualItem.destroy();
-    return res.sendStatus(200)
+    const { item } = JSON.parse(req.params.dataFromFrontEnd);
+    await Items.destroy({ where: { id: item } });
+    return res.sendStatus(200);
   } catch (e) {
-    console.log(e)
-    return res.sendStatus(404)
+    console.log(e);
+    return res.sendStatus(404);
   }
 }
-
 
 module.exports = { deleteConsulta, items };

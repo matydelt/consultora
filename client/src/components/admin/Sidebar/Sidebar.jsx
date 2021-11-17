@@ -11,7 +11,7 @@ const Sidebar = () => {
   return (
     <div className="containSideBar">
       <button onClick={handleShowNav} className="Button_X">
-        X
+        {"=>"}
       </button>
       <nav className={showNav ? "SideBar active" : "SideBar"}>
         <button onClick={handleShowNav} className="Button_X">

@@ -16,19 +16,20 @@ export default function ModifierHome() {
   const [descripcion, setDescripcion] = useState("");
   const dispatch = useDispatch();
 
-  function handleDelete(e) {
+  async function handleDelete(e) {
     console.log(e.target.name);
     e.preventDefault();
-    dispatch(deleteItem({ item: e.target.name }));
+    await dispatch(deleteItem({ item: e.target.name }));
     dispatch(getItems());
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (descripcion !== "") {
-      dispatch(postItem({ descripcion }));
+      await dispatch(postItem({ descripcion }));
       dispatch(getItems());
       toast.success("item creado");
+      setDescripcion("");
     } else toast.error("debe ingresar un texto");
   }
 
@@ -52,8 +53,8 @@ export default function ModifierHome() {
       <div className="d-flex justify-content-center flex-column w-50">
         <About about={about} />
         <ul className="list-group mt-3">
-          {items.map((e) => {
-            return <Items item={e} handleDelete={handleDelete} />;
+          {items.map((e, index) => {
+            return <Items item={e} handleDelete={handleDelete} key={index} />;
           })}
         </ul>
         {flag ? (

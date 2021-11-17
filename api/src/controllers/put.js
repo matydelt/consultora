@@ -338,10 +338,10 @@ async function clienteAbogado(req, res) {
 }
 async function items(req, res) {
   try {
-    const { item } = req.body;
-    const actualAbout = await Items.findByPk({ where: { id: item.id } });
-    if (item.descripcion !== "" && item.descripcion)
-      actualAbout.descripcion = item.descripcion;
+    const { id, descripcion } = req.body;
+    const actualAbout = await Items.findByPk(id);
+    if (descripcion !== "" && descripcion)
+      actualAbout.descripcion = descripcion;
     await actualAbout.save();
     res.sendStatus(200);
   } catch (e) {
