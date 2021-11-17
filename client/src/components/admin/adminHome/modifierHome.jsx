@@ -22,6 +22,7 @@ export default function ModifierHome() {
     dispatch(deleteItem({ item: e.target.name }));
     dispatch(getItems());
   }
+
   function handleSubmit(e) {
     e.preventDefault();
     if (descripcion !== "") {
@@ -30,12 +31,14 @@ export default function ModifierHome() {
       toast.success("item creado");
     } else toast.error("debe ingresar un texto");
   }
+
   useEffect(() => {
     dispatch(getAbout());
   }, [dispatch]);
+
   useEffect(() => {
     dispatch(getItems());
-  }, [dispatch, getItems, deleteItem]);
+  }, [dispatch]);
 
   // style={{
   //   width: "90%",

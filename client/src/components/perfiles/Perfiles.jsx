@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import CardAbogado from "../cardAbogado/CardAbogado";
 import Navbar from "../home-page/Navbar/Navbar";
-import { getAbogados } from "../../redux/actions/index";
-import { useDispatch, useSelector } from "react-redux";
+// import { getAbogados } from "../../redux/actions/index";
+import { useSelector } from "react-redux";
 
 export default function Perfiles() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { abogados } = useSelector((state) => state);
 
   // useEffect(() => {

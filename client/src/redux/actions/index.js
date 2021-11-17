@@ -147,12 +147,23 @@ export function postAbogado(abogado) {
   };
 }
 
-export function getAbogado(abogado) {
+export function getAbogado(slug) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/abogado/${slug}`);
+      return dispatch({ type: "GET_ABOGADO", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function putAbogado(abogado) {
   return async function (dispatch) {
     try {
       const aux = await axios.put("/abogado", abogado);
       return dispatch({
-        type: "GET_ABOGADO",
+        type: "PUT_ABOGADO",
         payload: aux.data,
       });
     } catch (error) {

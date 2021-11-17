@@ -10,7 +10,6 @@ export default function Items({ item, handleDelete }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(input);
     setFlag(true);
   };
 

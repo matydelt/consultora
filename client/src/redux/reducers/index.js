@@ -98,6 +98,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state };
     case "GET_ABOGADO":
       return { ...state, abogado: action.payload };
+    case "PUT_ABOGADO":
+      return { ...state, abogado: action.payload };
     case "SET_ABOGADO":
       return { ...state };
     case "SET_ADMIN":
