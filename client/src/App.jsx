@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
-import { getMaterias, getProvincias, getUsuario, getAbogados } from "./redux/actions";
+import { getMaterias, getProvincias, getUsuario, getAbogados, getAbout, getItems } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
@@ -47,6 +47,8 @@ function App() {
     dispatch(getProvincias());
     dispatch(getAbogados());
     dispatch(getMaterias());
+    dispatch(getAbout())
+    dispatch(getItems())
   }, []);
 
   return (

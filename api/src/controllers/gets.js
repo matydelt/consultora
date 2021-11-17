@@ -449,7 +449,6 @@ async function getDias(req, res) {
 async function items(req, res) {
   try {
     const items = await Items.findAll({})
-    if (items.length === 0) return res.sendStatus(404)
     return res.json(items)
   } catch (e) {
     console.log(e)

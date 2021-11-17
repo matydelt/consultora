@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react"
 import About from "./about"
 import Items from "./items"
@@ -10,38 +11,43 @@ export default function ModifierHome() {
     const [flag, setFlag] = useState(false)
     const [descripcion, setDescripcion] = useState("")
     const dispatch = useDispatch()
+    const [actualsItems, setActualsItems] = useState([])
 
 
-    function handleDelete(e) {
-        console.log(e.target.name)
+    async function handleDelete(e) {
         e.preventDefault()
-        dispatch(deleteItem({ item: e.target.name }))
-        dispatch(getItems())
+        await dispatch(deleteItem({ item: e.target.name }))
+        await dispatch(getItems())
+        setActualsItems([...items])
+        toast.success(e.target.name)
+
     }
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         if (descripcion !== "") {
-            dispatch(postItem({ descripcion }))
+            await dispatch(postItem({ descripcion }))
             dispatch(getItems())
             toast.success("item creado")
         } else toast.error("debe ingresar un texto")
     }
     useEffect(() => {
         dispatch(getAbout())
-
-    }, [])
-    useEffect(() => {
+    }, [dispatch])
+    useEffect(async () => {
         dispatch(getItems())
 
-    }, [getItems, deleteItem])
-
+    }, [dispatch])
+    useEffect(() => {
+        setActualsItems([...items])
+    }, [items])
+    console.log(actualsItems)
     return (
         <div className="w-100 d-flex justify-content-center h-50">
             <div className="d-flex justify-content-center flex-column w-50" >
                 <About about={about} />
                 <ul className="list-group mt-3">
                     {
-                        items.map((e) => {
+                        actualsItems.map((e) => {
                             return (<Items item={e} handleDelete={handleDelete} />);
                         })
                     }

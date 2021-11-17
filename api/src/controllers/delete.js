@@ -15,7 +15,6 @@ async function items(req, res) {
     const { item } = JSON.parse(req.params.dataFromFrontEnd)
     const actualItem = await Items.findByPk(item)
     console.log(item)
-    if (items.length === 0) return res.sendStatus(404)
     await actualItem.destroy();
     return res.sendStatus(200)
   } catch (e) {
