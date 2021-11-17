@@ -5,11 +5,11 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  signOut,
+  // signOut,
   setPersistence,
   browserSessionPersistence,
-  inMemoryPersistence,
-  signInWithRedirect,
+  // inMemoryPersistence,
+  // signInWithRedirect,
 } from "firebase/auth";
 import Logo from "../home-page/assets/img/buffet-buffet-law.png";
 import {
@@ -21,7 +21,7 @@ import {
 import {
   sessionERR,
   sessionIN,
-  sessionOUT,
+  // sessionOUT,
   createOK,
   correoNoOK,
   dniNoOK,
@@ -75,8 +75,8 @@ export const Signin = () => {
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
       });
   };
 
@@ -113,19 +113,20 @@ export const Signin = () => {
     }
   };
 
-  const logout = async () => {
-    await signOut(auth)
-      .then(() => {
-        setEmail("");
-        setPassword("");
-        dispatch(getUsuario({}));
-        setDisplayName(null);
-        sessionOUT();
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
+  // const logout = async () => {
+  //   await signOut(auth)
+  //     .then(() => {
+  //       setEmail("");
+  //       setPassword("");
+  //       dispatch(getUsuario({}));
+  //       setDisplayName(null);
+  //       sessionOUT();
+  //     })
+  //     .catch((error) => {
+  //       // An error happened.
+  //     });
+  // };
+
   const Login = async (e) => {
     e.preventDefault();
     await setPersistence(auth, browserSessionPersistence)
@@ -134,7 +135,7 @@ export const Signin = () => {
           .then((userCredential) => {
             // Signed in
             console.log("login");
-            const user = userCredential.user;
+            // const user = userCredential.user;
             dispatch(getUsuario({ eMail: eMail }));
             sessionIN();
             setEmail("");
@@ -144,16 +145,16 @@ export const Signin = () => {
           .catch((error) => {
             console.log("error");
             sessionERR();
-            const errorCode = error.code;
-            const errorMessage = error.message;
+            // const errorCode = error.code;
+            // const errorMessage = error.message;
             setEmail("");
             setPassword("");
           });
       })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
       });
   };
 
@@ -166,38 +167,38 @@ export const Signin = () => {
       <Navbar navId={"menu"} />
       {!!usuario.firstName ? (
         <Redirect to="/user/panel" />
-        // <div className="container p-4">
-        //   <div className="row">
-        //     <div className="col-md-4 mx-auto">
-        //       <div className="card text-center">
-        //         <div className="card-header">
-        //           <h2>Bienvenido</h2>
-        //         </div>
-        //         <div className="card-header">
-        //           <h3>
-        //             {displayname
-        //               ? displayname
-        //               : `${usuario.firstName} ${usuario.lastName}`}
-        //           </h3>
-        //         </div>
-        //         <img
-        //           src={Logo}
-        //           alt="Logo Consultora"
-        //           className="card-img-top mx-auto m-2 rounded-circle w-50"
-        //         />
-        //         <div className="card-body">
-        //           <button
-        //             className="btn btn-primary btn-block"
-        //             onClick={logout}
-        //           >
-        //             Cerrar sesión
-        //           </button>
-        //         </div>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </div>
-      ) : displayname ? (
+      ) : // <div className="container p-4">
+      //   <div className="row">
+      //     <div className="col-md-4 mx-auto">
+      //       <div className="card text-center">
+      //         <div className="card-header">
+      //           <h2>Bienvenido</h2>
+      //         </div>
+      //         <div className="card-header">
+      //           <h3>
+      //             {displayname
+      //               ? displayname
+      //               : `${usuario.firstName} ${usuario.lastName}`}
+      //           </h3>
+      //         </div>
+      //         <img
+      //           src={Logo}
+      //           alt="Logo Consultora"
+      //           className="card-img-top mx-auto m-2 rounded-circle w-50"
+      //         />
+      //         <div className="card-body">
+      //           <button
+      //             className="btn btn-primary btn-block"
+      //             onClick={logout}
+      //           >
+      //             Cerrar sesión
+      //           </button>
+      //         </div>
+      //       </div>
+      //     </div>
+      //   </div>
+      // </div>
+      displayname ? (
         <div className="container p-4">
           <div className="row">
             <div className="col-md-4 mx-auto">
@@ -361,13 +362,16 @@ export const Signin = () => {
                   <div className="row">
                     <div className="col-md-12" onClick={loginGoogle}>
                       {" "}
-                      <a class="btn btn-block btn-outline-primary" href="#">
+                      <button
+                        class="btn btn-block btn-outline-primary"
+                        href="#"
+                      >
                         <img
                           src="https://img.icons8.com/color/16/000000/google-logo.png"
                           alt="Google"
                         />{" "}
                         Google
-                      </a>{" "}
+                      </button>{" "}
                     </div>
                   </div>
                 </form>

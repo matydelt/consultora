@@ -27,7 +27,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: "90%" }}>
       <div
         style={{
           display: "flex",
@@ -54,6 +54,7 @@ const Dashboard = () => {
           users={getBannedUsers()}
           color="#ea4335"
           img={bannedUser}
+          url="/admin/users/banned"
         />
       </div>
       <div className="charts">

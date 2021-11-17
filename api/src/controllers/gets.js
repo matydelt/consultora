@@ -94,6 +94,7 @@ async function getProvincias(req, res) {
     res.sendStatus(404);
   }
 }
+
 async function getMaterias(req, res) {
   try {
     let vec = [
@@ -107,10 +108,14 @@ async function getMaterias(req, res) {
       "Derecho Laboral",
       "Derecho Notarial",
     ];
-    let materias = await Materias.findAll({ where: {}, include: Abogado, Persona });
+    let materias = await Materias.findAll({
+      where: {},
+      include: Abogado,
+      Persona,
+    });
     if (materias.length === 0) {
       for (let i = 0; i < vec.length; i++) {
-        materias = await Materias.Create({ nombre: vec[i] });
+        materias = await Materias.create({ nombre: vec[i] });
       }
     }
     return res.send(materias);
@@ -167,17 +172,45 @@ async function getAbogado(req, res) {
     let { eMail } = req.body;
     let user = {};
     if (!eMail) {
-      const { slug } = req.params
-      user = await Usuario.findOne({ where: { slug } })
+      const { slug } = req.params;
+      user = await Usuario.findOne({ where: { slug } });
     } else {
       user = await Usuario.findByPk(eMail);
     }
-    const { firstName, lastName, dni, celular } = await Persona.findByPk(user.personaDni)
-    const { detalle, clientes, matricula, imagen, experiencia, estudios, materias, provincias } = await Abogado.findOne({ where: { id: user.abogadoId }, include: [Cliente, Materias, Provincias] })
-    let abogado = { ...{ eMail: user.eMail, firstName, lastName, dni, celular, slug: user.slug }, detalle, imagen, experiencia, estudios, matricula }
-    abogado.materias = []
-    abogado.clientes = []
-    abogado.provincias = []
+    const { firstName, lastName, dni, celular } = await Persona.findByPk(
+      user.personaDni
+    );
+    const {
+      detalle,
+      clientes,
+      matricula,
+      imagen,
+      experiencia,
+      estudios,
+      materias,
+      provincias,
+    } = await Abogado.findOne({
+      where: { id: user.abogadoId },
+      include: [Cliente, Materias, Provincias],
+    });
+    let abogado = {
+      ...{
+        eMail: user.eMail,
+        firstName,
+        lastName,
+        dni,
+        celular,
+        slug: user.slug,
+      },
+      detalle,
+      imagen,
+      experiencia,
+      estudios,
+      matricula,
+    };
+    abogado.materias = [];
+    abogado.clientes = [];
+    abogado.provincias = [];
     for (let i = 0; i < clientes.length; i++) {
       abogado.clientes.push(
         await Cliente.findOne({
@@ -203,14 +236,18 @@ async function getAbogado(req, res) {
       );
     }
     for (let i = 0; i < materias.length; i++) {
-      abogado.materias.push(await Materias.findOne({
-        where: { nombre: materias[i].nombre }
-      }))
+      abogado.materias.push(
+        await Materias.findOne({
+          where: { nombre: materias[i].nombre },
+        })
+      );
     }
     for (let i = 0; i < provincias.length; i++) {
-      abogado.provincias.push(await Provincias.findOne({
-        where: { nombre: provincias[i].nombre }
-      }))
+      abogado.provincias.push(
+        await Provincias.findOne({
+          where: { nombre: provincias[i].nombre },
+        })
+      );
     }
     if (user) {
       res.json(abogado);
@@ -363,11 +400,33 @@ async function getConsultas(req, res, next) {
       order: [["createdAt", "DESC"]],
       include: Ticket,
     });
-    res.json(todasConsultas);
+
+    const todasConsultasAbogado = [];
+    for (var i = 0; i < todasConsultas.length; i++) {
+      var consulta = todasConsultas[i];
+      if (!consulta.abogadoId) {
+        todasConsultasAbogado.push(consulta);
+        continue;
+      }
+      const abogado = await Usuario.findOne({
+        where: { abogadoId: consulta.abogadoId },
+      });
+      const { firstName, lastName, dni, celular } = await Persona.findByPk(
+        abogado.personaDni
+      );
+      consulta.dataValues.abogado = {
+        firstName: firstName,
+        lastName: lastName,
+        dni: dni,
+        celular: celular,
+      };
+      todasConsultasAbogado.push(consulta);
+    }
+    res.json(todasConsultasAbogado);
   } catch (error) {
+    console.log(error);
     next({ msg: "error en traer consultas de la DB" });
   }
-
 }
 
 //MP
@@ -402,18 +461,23 @@ async function getTickets(req, res, next) {
 
 async function getAllCasos(req, res, next) {
   try {
-    const cliente = await Cliente.findAll({ where: {}, include: [{ model: Abogado, include: Persona }, { model: Casos }, { model: Persona }] })
+    const cliente = await Cliente.findAll({
+      where: {},
+      include: [
+        { model: Abogado, include: Persona },
+        { model: Casos },
+        { model: Persona },
+      ],
+    });
 
-    if (cliente.length > 0)
-      return res.json(cliente)
-    else return res.sendStatus(404)
+    if (cliente.length > 0) return res.json(cliente);
+    else return res.sendStatus(404);
   } catch (e) {
-    console.log(e)
-    res.sendStatus(404)
+    console.log(e);
+    res.sendStatus(404);
   }
 }
 async function getDias(req, res) {
-
   const { abogadoId } = req.query;
   let dias = [];
   try {
@@ -421,20 +485,15 @@ async function getDias(req, res) {
       dias = await Dia.findAll({
         where: {
           fecha: { [Op.gte]: new Date().getTime() },
-          abogadoId
+          abogadoId,
         },
         include: Turno,
-        order: [
-          ['fecha', 'DESC']
-        ],
+        order: [["fecha", "DESC"]],
       });
-
     } else {
       dias = await Dia.findAll({
         include: Turno,
-        order: [
-          ['fecha', 'DESC']
-        ],
+        order: [["fecha", "DESC"]],
       });
     }
 
@@ -443,26 +502,25 @@ async function getDias(req, res) {
     console.log(error);
     return res.sendStatus(500);
   }
-
-};
+}
 
 async function items(req, res) {
   try {
-    const items = await Items.findAll({})
-    return res.json(items)
+    const items = await Items.findAll();
+    return res.json(items);
   } catch (e) {
-    console.log(e)
-    return res.sendStatus(404)
+    console.log(e);
+    return res.sendStatus(404);
   }
 }
 async function about(req, res) {
   try {
-    let about = await About.findByPk(1)
-    if (!about) about = await About.create()
-    return res.json(about)
+    let about = await About.findByPk(1);
+    if (!about) about = await About.create();
+    return res.json(about);
   } catch (e) {
-    console.log(e)
-    return res.sendStatus(404)
+    console.log(e);
+    return res.sendStatus(404);
   }
 }
 
@@ -480,5 +538,5 @@ module.exports = {
   getAllCasos,
   items,
   about,
-  getDias
+  getDias,
 };

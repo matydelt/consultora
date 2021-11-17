@@ -16,8 +16,9 @@ import Sidebar from "../Sidebar/Sidebar";
 import AdminUsersPage from "../adminUsersPage/adminUsersPage";
 import AdminNewUsersPage from "../adminNewUsersPage/adminNewUsersPage";
 import AdminClientes from "../adminClients/clientes";
+import AdminBannedUsersPage from "../adminBannedUsersPage/adminBannedUsersPage";
 import Navbar from "../../home-page/Navbar/Navbar";
-import ModifierHome from "../adminHome/modifierHome"
+import ModifierHome from "../adminHome/modifierHome";
 
 export default function AdminPage() {
   const dispatch = useDispatch();
@@ -25,19 +26,23 @@ export default function AdminPage() {
 
   useEffect(() => {
     dispatch(getUsuarios());
-    dispatch(getClientes())
+    dispatch(getClientes());
   }, []);
   // if (adminId === undefined) return (<Redirect to="/" />)
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
-      <Navbar navId={"menu"} />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", marginTop: "20px", height: "100vh" }}>
         <Sidebar />
         <Switch>
           <Route path="/admin" exact component={Dashboard} />
           <Route path="/admin/users" exact component={AdminUsersPage} />
           <Route path="/admin/users/new" exact component={AdminNewUsersPage} />
           <Route path="/admin/users/clientes" exact component={AdminClientes} />
+          <Route
+            path="/admin/users/banned"
+            exact
+            component={AdminBannedUsersPage}
+          />
           <Route path={"/admin/About"} exact component={ModifierHome} />
         </Switch>
       </div>

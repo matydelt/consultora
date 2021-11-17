@@ -3,9 +3,8 @@ import Abogado from "./Abogado/Abogado.jsx";
 import frases from "./abogados.js";
 import Carousel from "react-elastic-carousel";
 import "./AbogadosCarrusel.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAbogados } from "../../../redux/actions/index.js";
-import { useSelector } from "react-redux";
 
 const AbogadosCarrusel = () => {
   const breakPoints = [
@@ -20,7 +19,7 @@ const AbogadosCarrusel = () => {
 
   useEffect(() => {
     dispatch(getAbogados());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="container_carrusel_abogado">

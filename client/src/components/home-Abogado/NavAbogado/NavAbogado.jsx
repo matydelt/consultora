@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { getAuth, signOut } from "@firebase/auth";
 import { getUsuario } from "../../../redux/actions";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 
 export default function NavAbogado() {
-  let usuario = useSelector((state) => state.usuario);
+  // let usuario = useSelector((state) => state.usuario)
 
   const history = useHistory();
 
@@ -19,7 +19,7 @@ export default function NavAbogado() {
       .then(() => {
         dispatch(getUsuario({}));
         toast.info("La sesión fue finalizada");
-        localStorage.removeItem('username')
+        localStorage.removeItem("username");
         history.push("/");
       })
       .catch((error) => {
@@ -63,10 +63,9 @@ export default function NavAbogado() {
               </Link>
             </li>
             <li className="nav-item">
-              <a onClick={logout} className="nav-link pointer">
+              <button onClick={logout} className="nav-link pointer">
                 Salir ❌
-              </a>
-
+              </button>
             </li>
           </ul>
         </div>

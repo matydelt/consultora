@@ -3,7 +3,12 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router";
 import { toast } from "react-toastify";
-import { getUsuarios, setAbogado, setAdmin, setBann } from "../../../redux/actions/index";
+import {
+  getUsuarios,
+  setAbogado,
+  setAdmin,
+  setBann,
+} from "../../../redux/actions/index";
 
 const month = new Date().getMonth() + 1;
 const year = new Date().getFullYear();
@@ -19,8 +24,8 @@ const AdminNewUsersPage = () => {
     return usersThisMonth;
   };
   useEffect(() => {
-    dispatch(getUsuarios())
-  }, [dispatch])
+    dispatch(getUsuarios());
+  }, [dispatch]);
   const usuariosThisMonth = getUsersThisMonth();
 
   const handleChange = (e, type) => {
@@ -29,19 +34,15 @@ const AdminNewUsersPage = () => {
     let aux = usuarios.find((e) => e.eMail === eMail);
     if (type === "abogado") {
       if (aux.adminId !== 1 || usuario.adminId === 1) {
-
         let user = { eMail: e.target.value, flag: e.target.checked };
         dispatch(setAbogado(user));
         if (user.flag) {
-          toast.success('Abogado asignado');
-
+          toast.success("Abogado asignado");
         } else {
-          toast.error('Abogado eliminado');
+          toast.error("Abogado eliminado");
         }
-
       } else {
         toast.success("No tienes estos permisos");
-
       }
     } else if (type === "admin") {
       if (aux.adminId !== 1) {
@@ -52,10 +53,8 @@ const AdminNewUsersPage = () => {
         } else {
           toast.success("admin eliminado");
         }
-
       } else {
         toast.error("no puede hacer eso!");
-
       }
     } else if (type === "bann") {
       if (usuario.adminId === 1 && aux.adminId !== 1) {
@@ -66,7 +65,6 @@ const AdminNewUsersPage = () => {
         } else {
           toast.error("bann eliminado");
         }
-
       } else {
         toast.error("no puede hacer eso!");
       }
@@ -76,7 +74,7 @@ const AdminNewUsersPage = () => {
   return (
     <div
       className="ms-5 me-5 mt-3 mb-3"
-      style={{ width: "100%", paddingTop: "20px" }}
+      style={{ width: "90%", paddingTop: "20px", paddingLeft: "20px" }}
     >
       <table className="table table-striped  ">
         <thead>
@@ -152,8 +150,8 @@ const AdminNewUsersPage = () => {
                 )}
                 {e.abogadoId ? (
                   usuario.eMail === e.eMail ||
-                    e.adminId !== 1 ||
-                    usuario.adminId === 1 ? (
+                  e.adminId !== 1 ||
+                  usuario.adminId === 1 ? (
                     <td>
                       <input
                         className="form-check-input"
@@ -271,9 +269,7 @@ const AdminNewUsersPage = () => {
           })}
         </tbody>
       </table>
-      <div id="liveAlertPlaceholder">
-
-      </div>
+      <div id="liveAlertPlaceholder"></div>
     </div>
   );
 };

@@ -22,15 +22,14 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/admin/adminPage/adminPage";
 import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
-
 import "./App.css";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
-
-import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
+import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias";
 import Clients from "./components/home-Abogado/clients/clients";
+
 function App() {
   const dispatch = useDispatch();
-  const { usuario } = useSelector(state => state)
+  const { usuario } = useSelector((state) => state);
 
   useEffect(() => {
     const auth = getAuth();
@@ -42,14 +41,13 @@ function App() {
     });
   }, [dispatch]);
 
-
   useEffect(() => {
     dispatch(getProvincias());
     dispatch(getAbogados());
     dispatch(getMaterias());
     dispatch(getAbout())
     dispatch(getItems())
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App container-fluid p-0">
@@ -69,7 +67,12 @@ function App() {
         <Route exact path="/abogados">
           <Perfiles />
         </Route>
-        <Route path="/admin" render={(props) => <AdminPage props={props} adminId={usuario.adminId} />} />
+        <Route
+          path="/admin"
+          render={(props) => (
+            <AdminPage props={props} adminId={usuario.adminId} />
+          )}
+        />
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
@@ -93,7 +96,9 @@ function App() {
           <Route exact path="/user/abogado/consultas">
             <VistaConsultasAbogado />
           </Route>
-          <Route exact path="/user/abogado/casos"><Clientes /></Route>
+          <Route exact path="/user/abogado/casos">
+            <Clientes />
+          </Route>
           <Route
             exact
             path="/user/abogado/modificar-perfil"
@@ -106,7 +111,9 @@ function App() {
             <FormCasos />
           </Route>
           <Footer />
-          <Route exact path={"/user/abogado/gestionar-turnos"} ><TurnosAbogado /></Route>
+          <Route exact path={"/user/abogado/gestionar-turnos"}>
+            <TurnosAbogado />
+          </Route>
         </div>
       </Switch>
       <ToastContainer></ToastContainer>

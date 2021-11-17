@@ -17,9 +17,9 @@ export function getMaterias() {
 
 export function getSiteMateria(payload) {
   return {
-    type: 'GET_MATERIAS_SITE',
-    payload
-  }
+    type: "GET_MATERIAS_SITE",
+    payload,
+  };
 }
 
 export function getAbogados() {
@@ -147,12 +147,23 @@ export function postAbogado(abogado) {
   };
 }
 
-export function getAbogado(abogado) {
+export function getAbogado(slug) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/abogado/${slug}`);
+      return dispatch({ type: "GET_ABOGADO", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function putAbogado(abogado) {
   return async function (dispatch) {
     try {
       const aux = await axios.put("/abogado", abogado);
       return dispatch({
-        type: "GET_ABOGADO",
+        type: "PUT_ABOGADO",
         payload: aux.data,
       });
     } catch (error) {
@@ -197,6 +208,15 @@ export const mostrarConsulta = (consulta) => {
   return (dispatch) => {
     return dispatch({
       type: "SET_CONSULTA",
+      payload: consulta,
+    });
+  };
+};
+
+export const mostartDetalleConsulta = (consulta) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "SET_CONSULTA_DETALLE",
       payload: consulta,
     });
   };
@@ -345,41 +365,44 @@ export function getTickets(id) {
 }
 export function modificarTicket(Ticket) {
   return (dispatch) => {
-    axios.put("http://localhost:3001/tickets/edit", Ticket)
-      .then(response => {
+    axios
+      .put("http://localhost:3001/tickets/edit", Ticket)
+      .then((response) => {
         return dispatch({ type: "PUT_TICKET" });
       })
       .catch((err) => {
-        console.log("ruta no existe")
-      })
-  }
+        console.log("ruta no existe");
+      });
+  };
 }
 export function getClientes() {
   return (dispatch) => {
-    axios.get("http://localhost:3001/casos/all")
-      .then(response => {
+    axios
+      .get("http://localhost:3001/casos/all")
+      .then((response) => {
         return dispatch({
           type: "GET_CLIENTS",
-          payload: response.data.filter(e => e.casos.length > 0)
+          payload: response.data.filter((e) => e.casos.length > 0),
         });
       })
       .catch((err) => {
-        console.log("ruta no existe")
-      })
-  }
+        console.log("ruta no existe");
+      });
+  };
 }
 export function putClienteAbogado(cambios) {
   return (dispatch) => {
-    axios.put("http://localhost:3001/cliente/actualizar", cambios)
+    axios
+      .put("http://localhost:3001/cliente/actualizar", cambios)
       .then(() => {
         return dispatch({
           type: "PUT_CLIENTES",
         });
       })
       .catch((err) => {
-        console.log("ruta no existe")
-      })
-  }
+        console.log("ruta no existe");
+      });
+  };
 }
 
 export function putAbout(about) {
@@ -440,10 +463,12 @@ export function postItem(item) {
 }
 
 export function deleteItem(item) {
-  console.log(item)
+  console.log(item);
   return async (dispatch) => {
     try {
-      await axios.delete("/items/delete/" + JSON.stringify(item), { headers: { 'authorization': localStorage.getItem('token') } });
+      await axios.delete("/items/delete/" + JSON.stringify(item), {
+        headers: { authorization: localStorage.getItem("token") },
+      });
       return dispatch({ type: "DELETE_ITEM" });
     } catch (error) {
       console.log(error);

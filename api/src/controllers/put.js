@@ -8,7 +8,8 @@ const {
   Cliente,
   Consulta,
   Ticket,
-  Items
+  Items,
+  About,
 } = require("../db");
 const enviarEmail = require("../email/email");
 const axios = require("axios");
@@ -203,8 +204,7 @@ async function getAbogado(req, res) {
                 "vtoMedidaCautelar",
                 "vtoTrabaAfectiva",
                 "jurisdiccion",
-                "updatedAt"
-
+                "updatedAt",
               ],
               include: Materias,
             },
@@ -319,49 +319,62 @@ async function modificarTicket(req, res) {
 
 async function clienteAbogado(req, res) {
   try {
-    const { abogado, cliente, abogadoAntiguo } = req.body
-    const auxCliente = await Cliente.findByPk(cliente)
-    let auxAbogado = await Usuario.findByPk(abogado)
-    let auxAbogado1 = await Abogado.findByPk(auxAbogado.abogadoId)
+    const { abogado, cliente, abogadoAntiguo } = req.body;
+    const auxCliente = await Cliente.findByPk(cliente);
+    let auxAbogado = await Usuario.findByPk(abogado);
+    let auxAbogado1 = await Abogado.findByPk(auxAbogado.abogadoId);
     if (abogadoAntiguo !== undefined) {
-      const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo)
-      await auxCliente.removeAbogado(auxAbogadoAntiguo)
+      const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo);
+      await auxCliente.removeAbogado(auxAbogadoAntiguo);
     }
     if (auxAbogado1 && auxCliente) {
-      auxAbogado1.addClientes(auxCliente)
-      return res.sendStatus(200)
-    } else return res.sendStatus(404)
+      auxAbogado1.addClientes(auxCliente);
+      return res.sendStatus(200);
+    } else return res.sendStatus(404);
   } catch (e) {
-    console.log(e)
-    res.sendStatus(404)
+    console.log(e);
+    res.sendStatus(404);
   }
 }
 async function items(req, res) {
   try {
-    const { item } = req.body
-    const actualItem = await Items.findByPk({ where: { id: item.id } })
-    if (item.descripcion !== "" && item.descripcion) actualItem.descripcion = item.descripcion
-    await actualItem.save();
-    res.sendStatus(200)
+    const { id, descripcion } = req.body;
+    const actualAbout = await Items.findByPk(id);
+    if (descripcion !== "" && descripcion)
+      actualAbout.descripcion = descripcion;
+    await actualAbout.save();
+    res.sendStatus(200);
   } catch (e) {
-    console.log(e)
-    res.sendStatus(500)
+    console.log(e);
+    res.sendStatus(500);
   }
 }
 
 async function about(req, res) {
   try {
-    const { about } = req.body
-    const actualItem = await Items.findByPk({ where: { id: about.id } })
-    if (about.sobreNosotros !== "" && about.sobreNosotros) actualItem.sobreNosotros = about.sobreNosotros
-    if (about.NuestraFilosofia !== "" && about.NuestraFilosofia) actualItem.NuestraFilosofia = about.NuestraFilosofia
-    if (about.contacto !== "" && about.contacto) actualItem.contacto = about.contacto
-    if (about.direccion !== "" && about.direccion) actualItem.direccion = about.direccion
-    await actualItem.save();
-    res.sendStatus(200)
+    const { id, sobreNosotros, nuestraFilosofia, contacto, direccion } =
+      req.body;
+
+    const actualAbout = await About.findByPk(id);
+
+    console.log(nuestraFilosofia);
+    if (sobreNosotros !== "" && sobreNosotros) {
+      actualAbout.sobreNosotros = sobreNosotros;
+    } else {
+      throw new Error("falta sobre nosotros");
+    }
+    if (nuestraFilosofia !== "" && nuestraFilosofia) {
+      actualAbout.nuestraFilosofia = nuestraFilosofia;
+    } else {
+      throw new Error("falta nuestra filosofia");
+    }
+    if (contacto !== "" && contacto) actualAbout.contacto = contacto;
+    if (direccion !== "" && direccion) actualAbout.direccion = direccion;
+    await actualAbout.save();
+    res.sendStatus(200);
   } catch (e) {
-    console.log(e)
-    res.sendStatus(500)
+    console.log(e);
+    res.sendStatus(500);
   }
 }
 
@@ -375,5 +388,5 @@ module.exports = {
   putCaso,
   clienteAbogado,
   items,
-  about
+  about,
 };
