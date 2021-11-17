@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getItems, getMaterias } from "../../redux/actions";
+import { getMaterias } from "../../redux/actions";
 import AbogadosCarrusel from "./AbogadosCarrusel/AbogadosCarrusel";
 import Header from "./Header/Header";
 import Navbar from "./Navbar/Navbar";
@@ -11,13 +11,13 @@ import About from "./About/About";
 import Footer from "./Footer/Footer";
 
 const HomePage = () => {
-  const { materias, about, items } = useSelector(state => state)
+  const { materias, about, items } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMaterias());
   }, [dispatch]);
-  if (items.length === 0) dispatch(getItems())
+  // if (items.length === 0) dispatch(getItems());
 
   return (
     <div className="height">
@@ -25,13 +25,9 @@ const HomePage = () => {
       <Navbar navId={"menu"} />
       <About
         titleAbout="Sobre nosotros"
-        contendioAbout={
-          about.sobreNosotros
-        }
+        contendioAbout={about.sobreNosotros}
         titleFilosofia="Nuestra Filosofía"
-        contenidoFilosofia={
-          about.nuestraFilosofia
-        }
+        contenidoFilosofia={about.nuestraFilosofia}
       />
       <div className="mb-5">
         <h3 className="text-center mb-4 fs-1">Competencias</h3>

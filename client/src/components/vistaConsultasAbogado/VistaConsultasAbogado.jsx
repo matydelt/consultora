@@ -88,6 +88,7 @@ export default function VistaConsultasAbogado() {
           aria-labelledby="nav-home-tab"
         >
           <TablaVistasConsultas
+            key={1}
             consultas={consultas}
             terminoBusquedaTodas={busquedaTodas}
             usuario={usuario}
@@ -100,6 +101,7 @@ export default function VistaConsultasAbogado() {
           aria-labelledby="nav-profile-tab"
         >
           <TablaVistasConsultas
+            key={2}
             consultas={consultas}
             terminoBusquedaAceptadas={busquedaAceptadas}
             usuario={usuario}

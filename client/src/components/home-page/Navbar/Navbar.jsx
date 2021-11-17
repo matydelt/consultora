@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Logo from "../assets/img/buffet-buffet-law.png";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav";
 import { Link } from "react-router-dom";
@@ -10,7 +11,7 @@ import "./Navbar.css";
 // import { useHistory } from "react-router";
 // import { toast } from "react-toastify";
 const Navbar = ({ navId }) => {
-  let usuario = useSelector((state) => state.usuario);
+  let { usuario } = useSelector((state) => state);
   // const dispatch = useDispatch();
   // const auth = getAuth();
   // const history = useHistory();
@@ -116,6 +117,10 @@ const Navbar = ({ navId }) => {
       </ul>
     </nav>
   );
+};
+
+Navbar.propTypes = {
+  navId: PropTypes.string.isRequired,
 };
 
 export default Navbar;
