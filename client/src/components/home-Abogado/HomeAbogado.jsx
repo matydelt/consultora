@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import "./HomeAbogado.css";
@@ -7,7 +7,6 @@ import "./HomeAbogado.css";
 export default function HomeAbogado() {
   const { usuario } = useSelector((state) => state);
 
-  console.log(usuario.abogadoId);
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
@@ -27,7 +26,11 @@ export default function HomeAbogado() {
           interesadas o tus clientes.
         </p>
         <p className="lead">
-          <a className="btn btn-primary btn-lg" href="/" role="button">
+          <a
+            className="btn btn-primary btn-lg"
+            href="/user/abogado"
+            role="button"
+          >
             Home
           </a>
         </p>
@@ -37,12 +40,10 @@ export default function HomeAbogado() {
           modificar datos a tu perfil. Te recomendamos tenerlo actualizado.
         </p>
         <p className="lead">
-          <a
-            className="btn btn-primary btn-lg"
-            href="/user/abogado/modificar-perfil"
-            role="button"
-          >
-            Detalles
+          <a class="btn btn-primary btn-lg" role="button">
+            <Link to="/user/abogado/modificar-perfil" className="nav-link">
+              Detalles
+            </Link>
           </a>
         </p>
         <hr className="my-4"></hr>

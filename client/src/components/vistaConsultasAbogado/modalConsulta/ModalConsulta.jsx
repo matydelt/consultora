@@ -8,6 +8,7 @@ import {
   getConsultas,
   setConsulta,
   postTickets,
+  setCliente,
 } from "../../../redux/actions";
 
 
@@ -56,6 +57,7 @@ export default function ModalConsulta({ usuario, modalId }) {
 
         })
       }
+      dispatch(setCliente(consulta.email, usuario.abogado.id));
       setRespuesta("");
     });
   }
@@ -187,7 +189,7 @@ export default function ModalConsulta({ usuario, modalId }) {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn btn-dangerNuestro"
                     data-bs-dismiss="modal"
                     onClick={eliminarConsulta}
                   >
@@ -195,7 +197,7 @@ export default function ModalConsulta({ usuario, modalId }) {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primaryNuestro"
                     data-bs-dismiss="modal"
                     onClick={confimarConsulta}
                   >
@@ -218,7 +220,7 @@ export default function ModalConsulta({ usuario, modalId }) {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-danger"
+                    className="btn btn-dangerNuestro"
                     data-bs-dismiss="modal"
                     onClick={eliminarConsulta}
                   >

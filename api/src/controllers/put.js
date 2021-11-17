@@ -10,6 +10,8 @@ const {
   Ticket,
   Items,
   About,
+  Dia,
+  Turno,
 } = require("../db");
 const enviarEmail = require("../email/email");
 const axios = require("axios");
@@ -19,6 +21,12 @@ async function usuario(req, res) {
   try {
     const { eMail } = req.body;
     const user = await Usuario.findOne({ where: { eMail } });
+
+    if (user?.banned)
+      return res
+        .status(403)
+        .json({ mensaje: "Su cuenta se encuentra deshabilitada" });
+
     if (user) {
       const abogado = await Abogado.findByPk(user.abogadoId);
       const { firstName, lastName, dni, celular } = await Persona.findByPk(
@@ -32,6 +40,7 @@ async function usuario(req, res) {
             password: user.password,
             abogadoId: user.abogadoId,
             adminId: user.adminId,
+            clienteId: user.clienteId,
             slug: user.slug,
             firstName,
             lastName,
@@ -63,6 +72,7 @@ async function usuario(req, res) {
               password: user.password,
               abogadoId: user.abogadoId,
               adminId: user.adminId,
+              clienteId: user.clienteId,
               firstName,
               lastName,
               dni,
@@ -114,28 +124,58 @@ async function asignaConsulta(req, res, next) {
 
 async function modificarAbogado(req, res) {
   const { eMail } = req.params;
-  const { nombre, apellido, detalle, estudios, experiencia } = req.body;
+  const {
+    nombre,
+    apellido,
+    detalle,
+    matricula,
+    estudios,
+    experiencia,
+    materias,
+    provincias,
+  } = req.body;
+
+  console.log(matricula);
 
   try {
     const user = await Usuario.findByPk(eMail);
     if (!user) return res.sendStatus(404);
     const persona = await Persona.findByPk(user.personaDni);
     if (!persona) return res.sendStatus(404);
-    let abogado = await Abogado.findOne({ where: { id: user.abogadoId } });
+    let abogado = await Abogado.findOne({
+      where: { id: user.abogadoId },
+      include: [Materias, Provincias],
+    });
     if (!abogado) return res.sendStatus(404);
 
     persona.firstName = nombre;
     persona.lastName = apellido;
+    abogado.matricula = matricula;
     abogado.detalle = detalle;
     abogado.estudios = estudios;
     abogado.experiencia = experiencia;
     user.slug = `${nombre}-${apellido}`;
 
+    if (abogado.materias) {
+      abogado.materias.forEach(async (m) => {
+        await abogado.removeMateria(m);
+      });
+    }
+    if (abogado.provincias) {
+      abogado.provincias.forEach(async (p) => {
+        await abogado.removeProvincia(p);
+      });
+    }
+
     Promise.all([
       await persona.save(),
       await abogado.save(),
       await user.save(),
+      await abogado.setMaterias(materias),
+      await abogado.setProvincias(provincias),
     ]);
+
+    console.log(abogado);
 
     return res.send({
       ...{
@@ -156,7 +196,6 @@ async function modificarAbogado(req, res) {
     return res.sendStatus(500);
   }
 }
-
 async function getAbogado(req, res) {
   try {
     let { eMail } = req.body;
@@ -290,9 +329,19 @@ async function modificarTicket(req, res) {
 
     let mpApi = (
       await axios.get(
-        `https://api.mercadopago.com/v1/payments/${n_operacion}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
+        `https://api.mercadopago.com/v1/payments/search?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
       )
     ).data;
+    console.log(mpApi);
+    mpApi = mpApi.results.filter((e) => {
+      if (e.description == ticket.titulo) return e;
+    });
+    ticket.n_operacion = mpApi[0].id;
+    ticket.estatus = mpApi[0].status;
+    ticket.detalle_estatus = mpApi[0].status_detail;
+    ticket.medioDePago = mpApi[0].payment_type_id;
+    console.log("modifico?", ticket);
+    Promise.all([await ticket.save()]);
 
     if (ticket.titulo === mpApi.description) {
       ticket.n_operacion = mpApi.id;
@@ -378,6 +427,67 @@ async function about(req, res) {
   }
 }
 
+
+
+async function modificarDia(req, res) {
+  const { diaId, form } = req.body;
+
+  const { fecha, notaModificar, turnos } = form;
+
+  let cambioFecha = false;
+
+  try {
+
+    const dia = await Dia.findByPk(diaId);
+
+    dia.nota = notaModificar;
+    if (new Date(dia.fecha).toISOString().slice(0, 10) !== fecha) {
+      cambioFecha = new Date(fecha).getTime() + new Date(fecha).getTimezoneOffset() * 60000;
+
+      dia.fecha = cambioFecha;
+    }
+
+    await dia.save();
+
+    turnos.map(async turno => {
+
+      let turnoExiste = await Turno.findByPk(turno.id);
+
+      if ((cambioFecha && turnoExiste?.clienteId) || (turnoExiste?.clienteId && turnoExiste?.hora !== turno.hora)) {
+
+        // console.log(turnoExiste?.hora !== turno.hora)
+        // console.log(turnoExiste?.hora, turno.hora)
+
+        const cliente = await Cliente.findOne({ where: { id: turnoExiste.clienteId }, include: [{ model: Usuario }] });
+
+        enviarEmail.send({
+          email: cliente.usuario.eMail,
+          fecha: cambioFecha ? new Date(cambioFecha).toLocaleDateString() : new Date(dia.fecha).toLocaleDateString(),
+          hora: turno.hora,
+          subject: "Turno reprogramado",
+          htmlFile: "turno-reprogramado.html",
+        });
+      }
+
+      if (turnoExiste) {
+        return await Turno.update(turno, { where: { id: turnoExiste.id } })
+      }
+      if (!turnoExiste) {
+        return await Turno.create({ hora: turno.hora, diumId: dia.id })
+      }
+    })
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+
+
+
+
+};
+
 module.exports = {
   usuario,
   asignaConsulta,
@@ -389,4 +499,5 @@ module.exports = {
   clienteAbogado,
   items,
   about,
+  modificarDia,
 };

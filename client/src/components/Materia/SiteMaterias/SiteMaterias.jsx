@@ -1,14 +1,24 @@
 import React, { useEffect } from "react";
-// import Navbar from "../../home-page/Navbar/Navbar.jsx";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
 import { getSiteMateria } from "../../../redux/actions";
 import SiteMateria from "./SiteMateria/SiteMateria";
-import "./SiteMaterias.css";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav.jsx";
+import { Link } from "react-router-dom";
+import Carousel from "react-elastic-carousel";
+import Logo from "../../home-page/assets/img/logo-blacno-sin-fondo.png";
+import "./SiteMaterias.css";
 
 const SiteMaterias = () => {
   const { materia } = useParams();
+  const history = useHistory();
+
+  const breakPoints = [
+    { width: 1, itemsToShow: 1 },
+    { width: 500, itemsToShow: 1 },
+    { width: 768, itemsToShow: 1 },
+    { width: 1200, itemsToShow: 1 },
+  ];
 
   const dispatch = useDispatch();
 
@@ -18,8 +28,7 @@ const SiteMaterias = () => {
     dispatch(getSiteMateria(materia));
     console.log(materia);
   }, [dispatch, materia]);
-
-  // console.log(abogados);
+  console.log(abogados);
 
   if (materia === "Derecho Civil") {
     return (
