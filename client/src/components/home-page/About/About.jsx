@@ -35,9 +35,9 @@ const About = ({
 
 About.propTypes = {
   titleAbout: PropTypes.string.isRequired,
-  contendioAbout: PropTypes.string.isRequired,
+  contendioAbout: PropTypes.string,
   titleFilosofia: PropTypes.string.isRequired,
-  contenidoFilosofia: PropTypes.string.isRequired,
+  contenidoFilosofia: PropTypes.string,
 };
 
 export default About;
