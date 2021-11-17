@@ -72,45 +72,43 @@ function App() {
         <Route exact path="/abogados">
           <Perfiles />
         </Route>
-        <Route
-          path="/admin"
-          render={(props) => (
-            <AdminPage props={props} adminId={usuario.adminId} />
-          )}
-        />
+        <Route exact path={usuario?.adminId!=null ? "/admin": "/ingreso"} component={usuario?.adminId !=null ? AdminPage: Signin}></Route>
+
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/Cambiopass" component={NewPass} />
-        <Route exact path={!(usuario?.clienteId) ?"/user/panel": "/ingreso"}>
-        {!(usuario?.clienteId) ? <HomeUsuario />:<Signin/>}
+        <Route exact path={
+          (usuario) ?"/user/panel": "/ingreso"}>
+          {usuario  ? <HomeUsuario />:<Signin/>}
         </Route>
-        <Route exact path={!(usuario?.clienteId) ?"/user/panel/consultas": "/ingreso"}>
-        {!(usuario?.clienteId) ? <ConsultasUsuario/>:<Signin/>}
+        <Route exact path={usuario?.clienteId!=null ?"/user/panel/consultas": "/ingreso"}>
+        {usuario?.clienteId!=null ? <ConsultasUsuario/>:<Signin/>}
         </Route>
-        <Route exact path={!(usuario?.clienteId) ? "/user/panel/turnos": "/ingreso"}>
-        {!(usuario?.clienteId) ? <TurnosUsuario />:<Signin/>}
+        <Route exact path={usuario?.clienteId!=null ? "/user/panel/turnos": "/ingreso"}>
+        {usuario?.clienteId!=null ? <TurnosUsuario />:<Signin/>}
         </Route>
         <div>
           <NavAbogado />
-          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado" : "/ingreso"}>
-          {!(usuario?.abogadoId) ? <HomeAbogado/>:<Signin/>}
+          <Route exact path={usuario?.abogadoId!=null ? "/user/abogado" : "/ingreso"}>
+          {usuario?.abogadoId!=null ? <HomeAbogado/>:<Signin/>}
           </Route>
-          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/clientes" : "/ingreso"}>
-          {!(usuario?.abogadoId) ? <Clients />:<Signin/>}
+          <Route exact path={usuario?.abogadoId!=null ? "/user/abogado/clientes" : "/ingreso"}>
+          {usuario?.abogadoId!=null ? <Clients />:<Signin/>}
           </Route>
-          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/consultas" : "/ingreso"}>
-          {!(usuario?.abogadoId) ? <VistaConsultasAbogado />:<Signin/>}
+          <Route exact path={usuario?.abogadoId!=null ? "/user/abogado/consultas" : "/ingreso"}>
+          {usuario?.abogadoId!=null ? <VistaConsultasAbogado />:<Signin/>}
           </Route>
-          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/casos" : "/ingreso"}>{!(usuario?.abogadoId) ? <Clientes/>:<Signin/>}</Route>
-          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/modificar-perfil": "/ingreso"}
-            component={!(usuario?.abogadoId) ? ModificarAbogado : Signin} ></Route>
-          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/gestionar-turnos": "/ingreso"}>
-          {!(usuario?.abogadoId) ?<TurnosAbogado />:<Signin/>}
+          <Route exact path={usuario?.abogadoId!=null ? "/user/abogado/casos" : "/ingreso"}>{usuario?.abogadoId!=null ? <Clientes/>:<Signin/>}</Route>
+          <Route exact path={usuario?.abogadoId!=null ? "/user/abogado/modificar-perfil": "/ingreso"}
+            component={usuario?.abogadoId!=null ? ModificarAbogado : Signin} ></Route>
+          <Route exact path={usuario?.abogadoId!=null ? "/user/abogado/gestionar-turnos": "/ingreso"}>
+          {usuario?.abogadoId!=null ?<TurnosAbogado />:<Signin/>}
           </Route>
-          <Route exact path={!(usuario?.abogadoId) ? "/user/abogado/nuevo-caso": "/ingreso"}>
-          {!(usuario?.abogadoId) ?<FormCasos />:<Signin/>}
+          <Route exact path={usuario?.abogadoId!=null ? "/user/abogado/nuevo-caso": "/ingreso"}>
+          {usuario?.abogadoId!=null ?<FormCasos />:<Signin/>}
           </Route>
+          {/* <Route component={ErrorPage} path="/:rest*" /> */}
           <Footer />
         </div>
       </Switch>
