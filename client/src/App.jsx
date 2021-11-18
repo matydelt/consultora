@@ -20,6 +20,7 @@ import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
 import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
 import Signup from "./components/Sign/signup";
+import Loaded from './components/Loaded/Loaded';
 import FormCasos from "./components/FormCasos/FormCasos";
 import HomeUsuario from "./components/homeUsuario/HomeUsuario";
 import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/ConsultasUsuario";
@@ -52,7 +53,7 @@ function App() {
     dispatch(getProvincias());
     dispatch(getAbogados());
     dispatch(getMaterias());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="App container-fluid p-0">
@@ -79,7 +80,7 @@ function App() {
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/Cambiopass" component={NewPass} />
         <Route exact path={
-          (usuario) ?"/user/panel": "/ingreso"}>
+          (usuario)   ?"/user/panel": "/ingreso"}>
           {usuario  ? <HomeUsuario />:<Signin/>}
         </Route>
         <Route exact path={usuario?.clienteId!=null ?"/user/panel/consultas": "/ingreso"}>
@@ -108,7 +109,7 @@ function App() {
           <Route exact path={usuario?.abogadoId!=null ? "/user/abogado/nuevo-caso": "/ingreso"}>
           {usuario?.abogadoId!=null ?<FormCasos />:<Signin/>}
           </Route>
-          {/* <Route component={ErrorPage} path="/:rest*" /> */}
+          <Route component={Loaded} path="/:rest*" />
           <Footer />
         </div>
       </Switch>

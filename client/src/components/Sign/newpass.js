@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import {
-  getUsuarios
-} from "../../redux/actions/index.js";
-import { correoNoOK, createNOOK, createOK, dniNoOK } from "./alert.js";
+import { getUsuarios } from "../../redux/actions/index.js";
+import { correoNoOK, createOK } from "./alert.js";
+import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
-import { Redirect } from "react-router";
 import Navbar from "../home-page/Navbar/Navbar.jsx";
 
 import "./sign.css";
@@ -22,13 +20,14 @@ export const NewPass = ({history}) => {
     const { usuarios } = useSelector((state) => state);
 
     const [eMail, setEmail] = useState("");
+    const [CAPTCHA, setCAPTCHA] = useState(false);
 
     const auth = getAuth();
   
     const Cambiopass = async () => {
         // cambio.preventDefault();
         
-        if (usuarios.some((e) => e.eMail.toString() === eMail.toString())) {
+        if (CAPTCHA && usuarios.some((e) => e.eMail.toString() === eMail.toString())) {
             // 
             await sendPasswordResetEmail(auth, eMail)
             .then(()=>{
@@ -67,6 +66,11 @@ export const NewPass = ({history}) => {
                                     }}
                               />
                             </div>
+                            <ReCAPTCHA
+                                sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA}
+                                onChange={()=>{setCAPTCHA(true)}}
+                            />
+
                             <div className="form-group">
                                 <button
                                     className="btn btn-success btn-block"

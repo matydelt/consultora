@@ -136,7 +136,7 @@ export default function ConsultasUsuario() {
                       <button
                         disabled={consulta.abogadoId}
                         onClick={() => {
-                          eliminarConsulta(consulta.id);
+                          // eliminarConsulta(consulta.id);
                         }}
                         className={`btn btn-${
                           !consulta.abogadoId ? "danger" : "light text-muted"
