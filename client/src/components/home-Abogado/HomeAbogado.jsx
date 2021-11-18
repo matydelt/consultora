@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import "./HomeAbogado.css";
+import { putAbogado } from "../../redux/actions";
 
 export default function HomeAbogado() {
-  const { usuario } = useSelector((state) => state);
+  const { usuario, abogado } = useSelector((state) => state);
+  const dispatch = useDispatch()
+  const { clientes } = abogado
+  useEffect(() => {
+    dispatch(putAbogado({ eMail: usuario.eMail }));
+  }, [])
 
   return !usuario.abogadoId ? (
     <Redirect to="/" />
@@ -51,11 +57,18 @@ export default function HomeAbogado() {
           Casos: a través de esta ventana vas a poder ingresar los datos de los
           nuevos casos e ir gestionando su estado.
         </p>
-        <p className="lead">
-          <a className="btn btn-primary btn-lg" href="/" role="button">
-            Casos
-          </a>
-        </p>
+        {clientes.length < 0 ?
+          <p className="lead">
+            <a className="btn btn-primary btn-lg" href="/" role="button">
+              Casos
+            </a>
+          </p> :
+          <p className="lead">
+            <a className="btn btn-primary btn-lg" href="/" role="button" aria-disabled>
+              Casos
+            </a>
+          </p>
+        }
         <hr className="my-4"></hr>
         <p>
           Consultas: Por aquí vas a encontrar las nuevas consultas que recibe el

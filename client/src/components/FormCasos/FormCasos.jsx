@@ -199,11 +199,11 @@ const FormCasos = ({ cliente }) => {
               {
                 error.medidaCautelar !== "" || error.trabaAfectiva !== "" || error.vtoMedidaCautelar !== "" || error.vtoTrabaAfectiva !== "" || !input.detalle || !input.materia === "Seleccione una materia" || !input.estado === "Seleccione un estado" ?
                   <div className="d-flex justify-content-center">
-                    <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3" type="submit" disabled>guardar</button>
+                    <button className="button-about d-flex justify-content-center mt-3 mb-3" type="submit" disabled>guardar</button>
 
                   </div> :
                   <div className="d-flex justify-content-center">
-                    <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3" type="submit" >guardar</button>
+                    <button className="button-about d-flex justify-content-center mt-3 mb-3" type="submit" >guardar</button>
 
                   </div>
               }
