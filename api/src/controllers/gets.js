@@ -505,7 +505,7 @@ async function getDias(req, res) {
 
   let dias = [];
   try {
-    if (abogadoFlag && !periodoFiltrar || (abogadoFlag && desde && !periodoFiltrar ) ) {
+    if ((abogadoFlag && !periodoFiltrar) || (abogadoFlag && desde && !periodoFiltrar) ) {
       
       console.log('IF');
 
@@ -525,7 +525,6 @@ async function getDias(req, res) {
         include: [{model:Turno}]
       });
     } else if (abogadoFlag && periodoFiltrar && !desde) {
-      console.log('ELSE IF');
       dias = await Dia.findAll({
         where: {
           fecha: { 
@@ -558,17 +557,31 @@ async function getDias(req, res) {
 }
 
 async function getDia(req, res) {
-  const { diaId } = req.query;
+  const { diaId, fechaHoy } = req.query;
 
   try {
-    const dia = await Dia.findByPk(diaId);
+    if (fechaHoy) {
+      const dia = await Dia.findAll({ 
+        where: {
+          fecha: { 
+            [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+             [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+1)
+           }
+        }
+      })
+      return res.json(dia)
+    } 
+    
+    if (diaId) {
+      const dia = await Dia.findByPk(diaId);
 
-    const turnos = await dia.getTurnos({
-      order: [["hora", "ASC"]],
-      include: [{ model: Cliente, include: [{ model: Persona }] }],
-    });
+      const turnos = await dia.getTurnos({
+        order: [["hora", "ASC"]],
+        include: [{ model: Cliente, include: [{ model: Persona }] }],
+      }); 
+      return res.json({ dia, turnos });
+    }
 
-    return res.json({ dia, turnos });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

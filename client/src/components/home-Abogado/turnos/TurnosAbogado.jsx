@@ -15,8 +15,6 @@ export default function TurnosAbogado() {
 
     const dispatch = useDispatch();
 
-    // let mesActual = useRef(new Date().getMonth());
-
     const [mesActual, setMesActual] = useState(new Date().getMonth());
     const [turnoHoy, setTurnoHoy] = useState();
     const [dias, setDias] = useState([]);
@@ -78,34 +76,43 @@ export default function TurnosAbogado() {
 
 
     useEffect(() => {
-        let hoy = new Date().getDate() + '/' + (mesActual + 1) + '/' + new Date().getFullYear()
-        const turnoHoy = dias?.find(dia => {
-            return new Date(dia.fecha).toLocaleDateString() === hoy
-        });
-        setTurnoHoy(turnoHoy);
-    }, [dias]);
+        // let hoy = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
+        // const turnoHoy = dias?.find(dia => {
+        //     console.log(new Date(dia.fecha).toLocaleDateString(), '//', hoy);
+        //     return new Date(dia.fecha).toLocaleDateString() === hoy
+        // });
+        axios.get("/dia", { params: { undefined, fechaHoy:true } }).then(({data}) => {
+        setTurnoHoy(data[0]);
+    });
+    }, [turnoHoy]);
 
     useEffect(() => {
-        if (dias.length < cantidadDias - desde) {
+        if (dias.length < cantidadDias) {
             getDias(undefined, desde)
         }
+        console.log('DESDE', desde);
     }, [desde]);
 
 
-    function getDias(periodoFiltrar, desde) {
-        if (usuario?.abogado?.id) {
+    function getDias(periodoFiltrar, desde, cargaNueva) {
+        // if (usuario?.abogado?.id) {
             axios.get('/dias', { params: { abogadoId: usuario?.abogado?.id, abogadoFlag: true, periodoFiltrar, desde } }).then(({ data }) => {
-                if (!periodoFiltrar && desde) {
+                if (!periodoFiltrar && desde)  {
+                    if(cargaNueva) {
+                        setDias([]);
+                    } 
                     setCantidadDias(data.count)
                     setDias(state => [...state, ...data.rows]);
                 } else {
-                    setDias([])
+                    // setDias([])
                     setDias(data);
                 }
             }).then(() => {
-                setCargandoDias(false);
+                setTimeout(() => {
+                    setCargandoDias(false);
+                }, 500);
             });
-        }
+        // }
     }
 
     function seleccionarFechas(e) {
@@ -132,12 +139,13 @@ export default function TurnosAbogado() {
         e.preventDefault();
         setCargandoDias(true);
 
+        setDesde(1)
         axios.post('/dia', { form, abogadoId: usuario.abogado.id }).then(resp => {
             setDias([])
             setMesActual('');
             setForm({ fechas: [], nota: '', turnos: [{ hora: '09:00' }] });
             setFechasSeleccionadas([]);
-            getDias(undefined, 1);
+            getDias(undefined, 1, true);
             toast.success('Día añadido')
         }).then(() => {
             setCargandoDias(false);
@@ -182,7 +190,7 @@ export default function TurnosAbogado() {
             if (willDelete) {
                 setCargandoDias(true);
                 
-                let promesa = new Promise((resolve, reject) => {
+                let promesa = new Promise((resolve) => {
                     resolve(dispatch(actionEliminarDia(dia.id)))
                 })
 
@@ -207,6 +215,8 @@ export default function TurnosAbogado() {
             setCantidadDias(0);
             getDias(e.target.value);
         } else {
+            // setDesde(1);
+            setMesActual(-1)
             setDias([]);
             getDias(undefined, desde);
         }
@@ -218,7 +228,7 @@ export default function TurnosAbogado() {
 
         <ModalVerTurnos />
 
-        <ModalModificarTurnos getDias={getDias} mesActual={mesActual}/>
+        <ModalModificarTurnos getDias={getDias} mesActual={mesActual} setDesde={setDesde}/>
 
         <div className="modal fade" id="modalTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <form onSubmit={(e) => submitForm(e)}>
@@ -298,7 +308,7 @@ export default function TurnosAbogado() {
                 </div>
 
                 <div className="col-auto text-right align-middle ">
-                    <select className="form-control pointer shadow p-2" onChange={(e) => filtrarPorMes(e)}>
+                    <select className="form-control pointer shadow p-2" disabled={cargandoDias} onChange={(e) => filtrarPorMes(e)}>
                         <option selected={mesActual === ''} value="">Ver todos los turnos</option>
                         <option selected={mesActual === 0} value="0">Enero</option>
                         <option selected={mesActual === 1} value="1">Febrero</option>
@@ -379,11 +389,11 @@ export default function TurnosAbogado() {
                         </div>
             }
 
-            {(cantidadDias > 0 && dias.length < cantidadDias-desde)  &&
+            {(cantidadDias > 0 && dias.length < cantidadDias)  &&
                 <button
                     ref={setElement}
                     className="shadow border fs-4"
-                    disabled={dias.length >= cantidadDias - desde}
+                    disabled={dias.length >= cantidadDias}
                     style={{
                         position: "relative",
                         width: "100%",
