@@ -84,23 +84,27 @@ export default function TurnosAbogado() {
         axios.get("/dia", { params: { undefined, fechaHoy:true } }).then(({data}) => {
         setTurnoHoy(data[0]);
     });
-    }, [turnoHoy]);
+    }, []);
 
     useEffect(() => {
-        if (dias.length < cantidadDias) {
+        if(desde===1) {
+            getDias(undefined, desde)
+        }
+    }, []);
+
+    useEffect(() => {
+        if (dias.length < cantidadDias && desde > 1) {
             getDias(undefined, desde)
         }
         console.log('DESDE', desde);
     }, [desde]);
 
 
-    function getDias(periodoFiltrar, desde, cargaNueva) {
-        // if (usuario?.abogado?.id) {
+    function getDias(periodoFiltrar, desde) {
+        if (usuario?.abogado?.id) {
             axios.get('/dias', { params: { abogadoId: usuario?.abogado?.id, abogadoFlag: true, periodoFiltrar, desde } }).then(({ data }) => {
                 if (!periodoFiltrar && desde)  {
-                    if(cargaNueva) {
-                        setDias([]);
-                    } 
+
                     setCantidadDias(data.count)
                     setDias(state => [...state, ...data.rows]);
                 } else {
@@ -110,9 +114,10 @@ export default function TurnosAbogado() {
             }).then(() => {
                 setTimeout(() => {
                     setCargandoDias(false);
+                    console.log(dias);
                 }, 500);
             });
-        // }
+        }
     }
 
     function seleccionarFechas(e) {
@@ -140,12 +145,12 @@ export default function TurnosAbogado() {
         setCargandoDias(true);
 
         setDesde(1)
+        setDias([])
+        setMesActual(-1);
         axios.post('/dia', { form, abogadoId: usuario.abogado.id }).then(resp => {
-            setDias([])
-            setMesActual('');
             setForm({ fechas: [], nota: '', turnos: [{ hora: '09:00' }] });
             setFechasSeleccionadas([]);
-            getDias(undefined, 1, true);
+            getDias(undefined, 1);
             toast.success('Día añadido')
         }).then(() => {
             setCargandoDias(false);
@@ -228,7 +233,7 @@ export default function TurnosAbogado() {
 
         <ModalVerTurnos />
 
-        <ModalModificarTurnos getDias={getDias} mesActual={mesActual} setDesde={setDesde}/>
+        <ModalModificarTurnos getDias={getDias} mesActual={mesActual} setDesde={setDesde} setDias={setDias}/>
 
         <div className="modal fade" id="modalTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <form onSubmit={(e) => submitForm(e)}>
@@ -308,8 +313,8 @@ export default function TurnosAbogado() {
                 </div>
 
                 <div className="col-auto text-right align-middle ">
-                    <select className="form-control pointer shadow p-2" disabled={cargandoDias} onChange={(e) => filtrarPorMes(e)}>
-                        <option selected={mesActual === ''} value="">Ver todos los turnos</option>
+                    <select className="form-control pointer shadow p-2" disabled={cargandoDias} onChange={(e) => filtrarPorMes(e)} title="AASA">
+                        <option selected={mesActual === -1} value="">Ver todos los turnos</option>
                         <option selected={mesActual === 0} value="0">Enero</option>
                         <option selected={mesActual === 1} value="1">Febrero</option>
                         <option selected={mesActual === 2} value="2">Marzo</option>
@@ -389,7 +394,7 @@ export default function TurnosAbogado() {
                         </div>
             }
 
-            {(cantidadDias > 0 && dias.length < cantidadDias)  &&
+            {(dias.length < cantidadDias  )   &&
                 <button
                     ref={setElement}
                     className="shadow border fs-4"

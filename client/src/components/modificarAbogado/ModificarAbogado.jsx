@@ -69,7 +69,6 @@ export default function ModificarAbogado() {
         setProvinciasEnviar(arrProvincias);
       });
     }
-
   }, [usuario?.abogado?.id]);
 
   function modificarImagen(e) {
@@ -342,13 +341,16 @@ export default function ModificarAbogado() {
                 {materiasEnviar &&
                   materiasEnviar.map((me) => {
                     return (
-                      <span
+                      <div
                         key={me}
                         onClick={() => quitarMateriaEnviar(me)}
-                        className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer animate__animated animate__fadeIn animate__faster"
+                        className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster position-relative"
                       >
-                        {me} X
-                      </span>
+                        {me}
+                        <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">
+                          x
+                        </span>
+                      </div>
                     );
                   })}
               </div>
@@ -382,13 +384,16 @@ export default function ModificarAbogado() {
                 {provinciasEnviar &&
                   provinciasEnviar?.map((pe) => {
                     return (
-                      <span
+                      <div
                         key={pe}
                         onClick={() => quitarProvinciaEnviar(pe)}
-                        className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer animate__animated animate__fadeIn animate__faster"
+                        className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster"
                       >
-                        {pe} X
-                      </span>
+                        {pe}
+                        <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">
+                          x
+                        </span>
+                      </div>
                     );
                   })}
               </div>
@@ -457,7 +462,10 @@ export default function ModificarAbogado() {
         </div>
       ) : (
         <>
-          <div className="container text-center mt-5">
+          <div
+            className="container text-center my-5"
+            style={{ padding: "300px" }}
+          >
             <div class="spinner-grow" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
