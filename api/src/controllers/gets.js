@@ -1,3 +1,4 @@
+//const { where } = require("sequelize/types");
 const {
   Casos,
   Usuario,
@@ -13,6 +14,7 @@ const {
   Items,
   About,
   Op,
+  Resena,
 } = require("../db");
 const turno = require("../models/turno");
 
@@ -30,13 +32,13 @@ async function getUsuarios(req, res) {
     console.error(error);
     return res.sendStatus(404);
   }
-  try {
-    const user = await Usuario.findAll();
-    return res.json(user);
-  } catch (error) {
-    console.error(error);
-    return res.sendStatus(404);
-  }
+  //   try {
+  //     const user = await Usuario.findAll();
+  //     res.json(user);
+  //   } catch (error) {
+  //     console.error(error);
+  //     res.sendStatus(404);
+  //   }
 }
 
 async function getPersonas(req, res) {
@@ -124,7 +126,6 @@ async function getMaterias(req, res) {
     return res.sendStatus(404);
   }
 }
-
 async function getPersonas(req, res) {
   try {
     const users = await Persona.findAll();
@@ -256,50 +257,48 @@ async function getAbogado(req, res) {
     console.error(error);
     res.sendStatus(404);
   }
-  const user = await Usuario.findByPk(eMail);
-  const { firstName, lastName, dni, celular } = await Persona.findByPk(
-    user.personaDni
-  );
-  const { detalle, clientes, imagen, experiencia, estudios } =
-    await Abogado.findOne({
-      where: { id: user.abogadoId },
-      include: Cliente,
-    });
-  let abogado = {
-    ...{ eMail: user.eMail, firstName, lastName, dni, celular },
-    detalle,
-    imagen,
-    experiencia,
-    estudios,
-  };
-  abogado.clientes = [];
-  for (let i = 0; i < clientes.length; i++) {
-    abogado.clientes.push(
-      await Cliente.findOne({
-        where: { id: clientes[i].id },
-        attributes: ["id", "asunto"],
-        include: [
-          {
-            model: Persona,
-            attributes: ["firstName", "lastName", "dni", "celular"],
-          },
-          {
-            model: Casos,
-            attributes: [
-              "juez",
-              "numeroExpediente",
-              "juzgado",
-              "detalle",
-              "estado",
-            ],
-          },
-        ],
-      })
-    );
-  }
-  if (user) {
-    res.json(abogado);
-  } else res.sendStatus(404);
+
+  // const user = await Usuario.findByPk(eMail);
+  // const { firstName, lastName, dni, celular } = await Persona.findByPk(
+  //   user.personaDni
+  // );
+  // const { detalle, clientes, imagen, experiencia, estudios } =
+  //   await Abogado.findOne({
+  //     where: { id: user.abogadoId },
+  //     include: Cliente,
+  //   });
+  // let abogado = {
+  //   ...{ eMail: user.eMail, firstName, lastName, dni, celular },
+  //   detalle,
+  //   imagen,
+  //   experiencia,
+  //   estudios,
+  // };
+  // abogado.clientes = [];
+  // for (let i = 0; i < clientes.length; i++) {
+  //   abogado.clientes.push(
+  //     await Cliente.findOne({
+  //       where: { id: clientes[i].id },
+  //       attributes: ["id", "asunto"],
+  //       include: [
+  //         {
+  //           model: Persona,
+  //           attributes: ["firstName", "lastName", "dni", "celular"],
+  //         },
+  //         {
+  //           model: Casos,
+  //           attributes: [
+  //             "juez",
+  //             "numeroExpediente",
+  //             "juzgado",
+  //             "detalle",
+  //             "estado",
+  //           ],
+  //         },
+  //       ],
+  //     })
+  //   );
+  // }
 }
 
 async function getCasos(req, res) {
@@ -459,6 +458,15 @@ async function getTickets(req, res, next) {
   }
 }
 
+async function getreseñas(req, res, next) {
+  try {
+    const reseña = await Resena.findAll();
+    res.json(reseña);
+  } catch (error) {
+    next({ msg: "aca fallo algo en Get reseña" });
+  }
+}
+
 async function getAllCasos(req, res, next) {
   try {
     const cliente = await Cliente.findAll({
@@ -478,21 +486,53 @@ async function getAllCasos(req, res, next) {
   }
 }
 async function getDias(req, res) {
-  const { abogadoId } = req.query;
+  let { abogadoId, abogadoFlag, periodoFiltrar, desde } = req.query;
+
+  console.log(abogadoId, abogadoFlag, periodoFiltrar, desde);
+
   let dias = [];
   try {
-    if (abogadoId) {
+    if (abogadoFlag && !periodoFiltrar || (abogadoFlag && desde && !periodoFiltrar)) {
+
+      console.log('IF');
+
+      desde = parseInt(desde)
+
+      let limit = 15
+      let offset = 0 + (desde - 1) * limit
+
+      dias = await Dia.findAndCountAll({
+        where: {
+          abogadoId,
+        },
+        distinct: true,
+        offset: offset,
+        limit: limit,
+        order: [["fecha", "DESC"]],
+        include: [{ model: Turno }]
+      });
+    } else if (abogadoFlag && periodoFiltrar && !desde) {
+      console.log('ELSE IF');
       dias = await Dia.findAll({
         where: {
-          fecha: { [Op.gte]: new Date().getTime() },
+          fecha: {
+            // [Op.notBetween]: [new Date(new Date().getFullYear(), parseInt(periodoFiltrar), 1), new Date(new Date().getFullYear(), parseInt(periodoFiltrar)+1, 0)]
+            [Op.gt]: new Date(new Date().getFullYear(), periodoFiltrar, 1),
+            [Op.lte]: new Date(new Date().getFullYear(), parseInt(periodoFiltrar) + 1, 0 + 1)
+          },
           abogadoId,
         },
         include: Turno,
         order: [["fecha", "DESC"]],
       });
     } else {
+      console.log('ELSE');
       dias = await Dia.findAll({
-        include: Turno,
+        where: {
+          fecha: { [Op.gte]: new Date().getTime() },
+          abogadoId,
+        },
+        include: { model: Turno, where: { clienteId: null } },
         order: [["fecha", "DESC"]],
       });
     }
@@ -523,20 +563,79 @@ async function about(req, res) {
     return res.sendStatus(404);
   }
 }
+async function getDia(req, res) {
+  const { diaId } = req.query;
+
+  try {
+    const dia = await Dia.findByPk(diaId);
+
+    const turnos = await dia.getTurnos({
+      order: [["hora", "ASC"]],
+      include: [{ model: Cliente, include: [{ model: Persona }] }],
+    });
+
+    return res.json({ dia, turnos });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
+
+
+async function getAbogadosCliente(req, res) {
+  const { clienteId } = req.query;
+  try {
+    const cliente = await Cliente.findByPk(clienteId);
+
+    let abogados = await cliente.getAbogados({ include: [{ model: Persona }] });
+
+    return res.json(abogados);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getTurno(req, res) {
+  const { clienteId } = req.query;
+
+  try {
+    const cliente = await Cliente.findByPk(clienteId);
+
+    const turno = await cliente.getTurno({});
+
+    if (!turno)
+      return res.status(404).json({ mensaje: "No tiene un turno asignado" });
+
+    const dia = await Dia.findByPk(turno.diumId);
+
+    if (dia.fecha.toLocaleDateString() < new Date().toLocaleDateString()) {
+      await cliente.setTurno();
+      return res.sendStatus(200);
+    }
+
+    return res.json({ turno, dia });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
 
 module.exports = {
   getUsuarios,
   getPersonas,
   getCasos,
+  getDias,
+  getAbogadosCliente,
+  getTurno,
   getProvincias,
   getMaterias,
   getConsultas,
   getAbogados,
   getAbogado,
-  getPersonas,
   getTickets,
   getAllCasos,
   items,
   about,
-  getDias,
+  getreseñas,
+  getDia,
 };

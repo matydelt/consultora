@@ -1,5 +1,7 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import swal from "sweetalert";
+import { usuarioBloqueado } from "../../components/Sign/alert";
 
 export function getMaterias() {
   return async function (dispatch) {
@@ -125,7 +127,8 @@ export const getUsuario = (usuario) => {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response);
+        if (error?.response?.status === 403) usuarioBloqueado();
         return dispatch({
           type: "GET_USUARIO",
           payload: {},
@@ -375,6 +378,19 @@ export function modificarTicket(Ticket) {
       });
   };
 }
+export function setCliente(cliente, abogado) {
+  return (dispatch) => {
+    axios
+      .post("/cliente", { cliente, abogado })
+      .then((response) => {
+        // return dispatch({ type: });
+      })
+      .catch((err) => {
+        console.log("ruta no existe");
+      });
+  };
+}
+
 export function getClientes() {
   return (dispatch) => {
     axios
@@ -472,5 +488,45 @@ export function deleteItem(item) {
     } catch (error) {
       console.log(error);
     }
+  }
+}
+export function getDia(diaId) {
+  return (dispatch) => {
+    axios
+      .get("/dia", { params: { diaId } })
+      .then((resp) => {
+        return dispatch({
+          type: "GET_DIA",
+          payload: resp.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 }
+export function actionCancelarTurno(turnoId, eliminar) {
+  return (dispatch) => {
+    axios
+      .post("/cancelar-turno", { turnoId, eliminar })
+      .then(() => { })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+export function actionEliminarDia(diaId) {
+  return (dispatch) => {
+    axios
+      .post("/eliminar-dia", { diaId })
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+}
+
+
+

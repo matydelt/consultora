@@ -7,6 +7,7 @@ import Logo from "../assets/img/buffet-buffet-law.png";
 import "./Header.css";
 
 const Header = () => {
+
   return (
     <div className="carrusel bg-opacity-100 bg-blue">
       <div

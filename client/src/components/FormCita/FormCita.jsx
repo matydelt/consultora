@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Redirect } from "react-router";
 
 import { postConsulta } from "../../redux/actions/index";
 import UsuarioNavBar from "../homeUsuario/usuarioNavBar/UsuarioNavBar";
@@ -92,7 +93,9 @@ export default function FormCita({ history }) {
     }
   };
 
-  return (
+  return usuario.abogadoId ? (
+    <Redirect to="/" />
+  ) : (
     <>
       <UsuarioNavBar />
 
@@ -105,7 +108,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="nombre">
               Nombre
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -123,7 +126,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="apellido">
               Apellido
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -141,7 +144,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="dni">
               DNI
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -159,7 +162,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="telefono">
               Teléfono
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -177,7 +180,7 @@ export default function FormCita({ history }) {
             <label className="col-sm-2 col-form-label" htmlFor="email">
               Email
             </label>
-            <div class="col-sm-10">
+            <div className="col-sm-10">
               <input
                 disabled
                 className="form-control"
@@ -207,7 +210,7 @@ export default function FormCita({ history }) {
             ></textarea>
           </div>
 
-          <button className="btn btn-secondary col-12 mt-3">Enviar</button>
+          <button className="btn btn-secondaryNuestro col-12 mt-3">Enviar</button>
         </form>
       </div>
     </>

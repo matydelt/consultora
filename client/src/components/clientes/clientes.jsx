@@ -81,9 +81,9 @@ export default function Clientes() {
     let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
     AllClients.map(
       (a) =>
-        (a.casos = a.casos.filter(
-          (h) => h.materias[0].nombre === e.target.value
-        ))
+      (a.casos = a.casos.filter(
+        (h) => h.materias[0].nombre === e.target.value
+      ))
     );
     AllClients = AllClients.filter((e) => e.casos.length > 0);
     setClientes([...AllClients]);
@@ -129,13 +129,13 @@ export default function Clientes() {
     <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
       <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
         <button
-          className=" btn  btn-danger  mt-3 mb-3"
+          className=" button-about mt-3 mb-3"
           onClick={(e) => handleClick(e, 0)}
         >
-          Clientes Actuales
+          Casos Actuales
         </button>
         <button
-          className="btn  btn-danger mt-3 mb-3 "
+          className="button-about mt-3 mb-3 "
           onClick={(e) => handleClick(e, 1)}
         >
           Historial
@@ -179,26 +179,21 @@ export default function Clientes() {
                 flag={flag}
               />
               <div className="d-inline-flex flex-row justify-content-center ">
-                <Link to="/user/abogado/nuevo-caso">
-                  <div className="d-flex justify-content-center">
-                    <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3">
-                      Crear caso{" "}
-                    </button>
-                  </div>
-                </Link>
+
                 {flag ? (
                   <div className="d-flex justify-content-center">
                     <button
-                      className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3"
+                      className="button-about d-flex justify-content-center mt-3 mb-3 me-3"
                       onClick={(e) => setFlag(!flag)}
                     >
                       Terminar
                     </button>
                   </div>
                 ) : (
-                  <div className="d-flex justify-content-center">
+
+                  < div className="d-flex justify-content-center">
                     <button
-                      className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3"
+                      className="button-about d-flex justify-content-center mt-3 mb-3 me-3"
                       onClick={(e) => setFlag(!flag)}
                     >
                       modificar
@@ -210,6 +205,6 @@ export default function Clientes() {
           );
         })}
       </div>
-    </div>
+    </div >
   );
 }

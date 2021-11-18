@@ -10,6 +10,7 @@ import {
   postItem,
 } from "../../../redux/actions/index";
 import { toast } from "react-toastify";
+import "./modifierHome.css"
 
 export default function ModifierHome() {
   const { about, items } = useSelector((state) => state);
@@ -42,48 +43,52 @@ export default function ModifierHome() {
     dispatch(getItems());
   }, [dispatch]);
 
-  // style={{
-  //   width: "90%",
-  //   paddingTop: "20px",
-  //   paddingLeft: "60px",
-  //   paddingRight: "20px",
-  // }}
+
 
   return (
     <div className="w-100 d-flex justify-content-center h-50">
+
       <div className="d-flex justify-content-center flex-column w-50">
         <About about={about} />
-        <ul className="list-group mt-3">
-          {items.map((e, index) => {
-            return <Items item={e} handleDelete={handleDelete} key={index} />;
-          })}
-        </ul>
-        {flag ? (
-          <div>
-            <form onSubmit={handleSubmit}>
-              <textarea
-                placeholder="Deberia confiar en nosotros porque....."
-                value={descripcion}
-                onChange={(e) => setDescripcion(e.target.value)}
-              ></textarea>
-              <input type="submit" />
-            </form>
+        <hr />
+        <div>
+
+          <ul className="list-group mt-3">
+            {items.map((e, index) => {
+              return <Items item={e} handleDelete={handleDelete} key={index} />;
+            })}
+          </ul>
+          {flag ? (
+            <div>
+              <form onSubmit={handleSubmit}>
+                <textarea
+                  className="textarea-modifierHome"
+                  placeholder="Deberia confiar en nosotros porque....."
+                  value={descripcion}
+                  onChange={(e) => setDescripcion(e.target.value)}
+                ></textarea>
+                <div className="d-flex justify-content-center mt-1">
+
+                  <input type="submit" value={"enviar"} className="button-about" />
+                </div>
+              </form>
+              <div className="d-flex justify-content-center mt-3">
+                <button
+                  className="button-about mb-3"
+                  onClick={(e) => setFlag(!flag)}
+                >
+                  Terminar
+                </button>
+              </div>
+            </div>
+          ) : (
             <div className="d-flex justify-content-center mt-3">
-              <button
-                className="btn btn-primary"
-                onClick={(e) => setFlag(!flag)}
-              >
-                Terminar
+              <button className="button-about mb-3" onClick={(e) => setFlag(!flag)}>
+                Crear nuevo item
               </button>
             </div>
-          </div>
-        ) : (
-          <div className="d-flex justify-content-center mt-3">
-            <button className="btn btn-primary" onClick={(e) => setFlag(!flag)}>
-              Crear nuevo item
-            </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

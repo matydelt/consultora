@@ -17,7 +17,6 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(getMaterias());
   }, [dispatch]);
-  // if (items.length === 0) dispatch(getItems());
 
   return (
     <div className="height">

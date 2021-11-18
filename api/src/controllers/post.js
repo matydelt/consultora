@@ -15,8 +15,9 @@ const {
   Materias,
   Ticket,
   Items,
+  Resena,
   Dia,
-  Turno
+  Turno,
 } = require("../db");
 // let vec=["Derecho Penal", "Derecho Civil", "Derecho Corporativo", "Derecho Comercial", "Derecho Familia", "Derecho Contencioso",
 // "Derecho Administrativo", "Derecho Laboral", "Derecho Notarial"]
@@ -36,8 +37,7 @@ const postTickets = async (req, res, next) => {
     ],
   };
   try {
-
-    const response = await mercadopago.preferences.create(preference)
+    const response = await mercadopago.preferences.create(preference);
 
     let ticket = {
       titulo: title,
@@ -46,41 +46,37 @@ const postTickets = async (req, res, next) => {
       n_operacion: "",
       estatus: "pending",
       detalle_estatus: "not accredited",
-      medioDePago: "No information"
-    }
+      medioDePago: "No information",
+    };
     // Tickets.create(ticket)
     if (!!casoid) {
-      const cass = await Consulta.findByPk(casoid)
+      const cass = await Consulta.findByPk(casoid);
 
-      const tickets = await Ticket.create(ticket)
+      const tickets = await Ticket.create(ticket);
 
-
-      tickets.setCasos(cass)
-
+      tickets.setCasos(cass);
 
       res.json({
-        cass, tickets
+        cass,
+        tickets,
       });
-    }
-    else {
-      const consul = await Consulta.findByPk(consultaid)
+    } else {
+      const consul = await Consulta.findByPk(consultaid);
 
-      const tickets = await Ticket.create(ticket)
+      consul.setTicket(tickets);
 
-
-      consul.setTicket(tickets)
-
+      tickets.setConsultum(consul);
 
       res.json({
-        consul, tickets
+        consul,
+        tickets,
       });
       // res.sendStatus(200);
     }
-  }
-  catch {
+  } catch {
     (function (error) {
       console.log(error);
-    })
+    });
   }
 };
 // CLOUDINARY
@@ -202,13 +198,13 @@ async function setAbogado(req, res) {
   try {
     const { eMail, flag } = req.body;
     let user = await Usuario.findByPk(eMail);
-    console.log(user)
+    console.log(user);
     let persona = await Persona.findByPk(user.personaDni);
     if (flag) {
       const abogado = await Abogado.create({});
       if (user) {
         user.slug = `${persona.firstName}-${persona.lastName}`;
-        const cliente = await Cliente.findByPk(user.clienteId)
+        const cliente = await Cliente.findByPk(user.clienteId);
         if (cliente) await cliente.destroy();
         abogado.setUsuario(user);
         abogado.setPersona(persona);
@@ -217,8 +213,8 @@ async function setAbogado(req, res) {
       return res.sendStatus(404);
     } else {
       if (!user.adminId) {
-        const client = await Cliente.create()
-        const person = await Cliente.findByPk(user.personaDni)
+        const client = await Cliente.create();
+        const person = await Cliente.findByPk(user.personaDni);
         client.setUsuario(user);
         client.setPersona(person);
       }
@@ -249,7 +245,7 @@ async function setCasos(req, res) {
       vtoTrabaAfectiva,
       jurisdiccion,
       materia,
-      id
+      id,
     } = req.body;
 
     const caso = Casos.build({
@@ -267,13 +263,12 @@ async function setCasos(req, res) {
       vtoMedidaCautelar,
       vtoTrabaAfectiva,
       jurisdiccion,
-
     });
     const cliente = await Cliente.findByPk(id);
     if (cliente) {
       await caso.save();
-      const auxMateria = await Materias.findByPk(materia)
-      auxMateria.addCasos(caso)
+      const auxMateria = await Materias.findByPk(materia);
+      auxMateria.addCasos(caso);
       cliente.addCasos(caso);
       return res.sendStatus(200);
     } else return res.sendStatus(404);
@@ -319,7 +314,7 @@ async function setAdmin(req, res) {
     if (flag) {
       const admin = await Admin.create({ tipo: "normal" });
       if (user.clienteId) {
-        const client = await Cliente.findByPk(user.clienteId)
+        const client = await Cliente.findByPk(user.clienteId);
         await client.destroy();
       }
       if (user) {
@@ -330,7 +325,7 @@ async function setAdmin(req, res) {
     } else {
       if (!user.abogadoId) {
         const client = await Cliente.create();
-        const person = await Persona.findByPk(user.personaDni)
+        const person = await Persona.findByPk(user.personaDni);
         client.setUsuario(user);
         client.setPersona(person);
       }
@@ -346,48 +341,107 @@ async function setAdmin(req, res) {
   }
 }
 
+async function reiniciarPassword(req, res) { }
+async function setReseña(req, res, next) {
+  const { abogadoId, clienteId, titulo, mensaje, puntuacion } = req.body;
+  if (abogadoId && clienteId && titulo && mensaje && puntuacion) {
+    try {
+      let reseña = {
+        abogadoId,
+        clienteId,
+        titulo,
+        mensaje,
+        puntuacion,
+      };
+      await Resena.create(reseña);
+      res.sendStatus(200);
+    } catch (error) {
+      console.log(error);
+      next({ msg: "fallo algo en post reseña" });
+    }
+  } else {
+    sen.sendStatus(500);
+  }
+}
+
 async function postDia(req, res) {
   const { form, abogadoId } = req.body;
-  const { fecha, nota, turnos } = form;
-
+  const { fechas, nota, turnos } = form;
 
   try {
-    const dia = await Dia.create({ fecha, nota });
     const abogado = await Abogado.findByPk(abogadoId);
-    const crearTurnos = turnos.map(async turno => {
-      return await Turno.create({ hora: turno.hora, diumId: dia.id })
-    })
 
-    // Promise.all([crearTurnos, await abogado.addDia(dia)])
-    await abogado.addDia(dia)
+    fechas.map((d) => {
+      return Dia.create({ fecha: d, nota }).then((dia) => {
+        abogado.addDia(dia);
+        turnos.map((turno) => {
+          return Turno.create({ hora: turno.hora, diumId: dia.id }).then(
+            () => { }
+          );
+        });
+      });
+    });
 
-    return res.json(dia)
+    return res.json({ mensaje: "Creados con éxito" });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
+}
 
+async function confirmarTurno(req, res) {
+  const { clienteId, turnoId, fecha } = req.body;
 
-};
+  try {
+    const cliente = await Cliente.findByPk(clienteId);
+
+    const turno = await Turno.findByPk(turnoId);
+
+    if (turno.clienteId) {
+      return res.status(400).json({ mensaje: "El turno fue tomado" });
+    }
+
+    await cliente.setTurno(turno);
+
+    const { eMail } = await cliente.getUsuario();
+
+    enviarEmail.send({
+      email: eMail,
+      fecha: new Date(fecha).toLocaleDateString(),
+      hora: turno.hora,
+      subject: "Turno confirmado",
+      htmlFile: "turno-confirmado.html",
+    });
+
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+}
 
 //MP automatizado
 const postPago = async (req, res, next) => {
-  const MPInfo = req.body
+  const MPInfo = req.body;
 
   try {
-    const mpApi = (await axios.get(`https://api.mercadopago.com/v1/payments/${MPInfo.data.id}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`)).data
+    const mpApi = (
+      await axios.get(
+        `https://api.mercadopago.com/v1/payments/${MPInfo.data.id}?access_token=${process.env.MERCADOPAGO_API_PROD_ACCESS_TOKEN}`
+      )
+    ).data;
 
-    const ticket = await Ticket.findOne({ where: { titulo: mpApi.description } });
+    const ticket = await Ticket.findOne({
+      where: { titulo: mpApi.description },
+    });
 
     if (mpApi.description && ticket.titulo === mpApi.description) {
-      ticket.n_operacion = mpApi.id
-      ticket.estatus = mpApi.status
-      ticket.detalle_estatus = mpApi.status_detail
-      ticket.medioDePago = mpApi.payment_type_id
+      ticket.n_operacion = mpApi.id;
+      ticket.estatus = mpApi.status;
+      ticket.detalle_estatus = mpApi.status_detail;
+      ticket.medioDePago = mpApi.payment_type_id;
 
-      Promise.all([
-        await ticket.save(),
-      ]);
+      Promise.all([await ticket.save()]);
       res.sendStatus(200);
     }
 
@@ -396,8 +450,7 @@ const postPago = async (req, res, next) => {
     console.log(error);
     return res.sendStatus(500);
   }
-}
-
+};
 
 async function items(req, res) {
   try {
@@ -422,6 +475,9 @@ module.exports = {
   subirImagen,
   postTickets,
   items,
+  reiniciarPassword,
+  setReseña,
   postPago,
-  postDia
+  postDia,
+  confirmarTurno,
 };

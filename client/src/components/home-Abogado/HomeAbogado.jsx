@@ -1,13 +1,18 @@
-import React from "react";
-
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import "./HomeAbogado.css";
+import { putAbogado } from "../../redux/actions";
 
 export default function HomeAbogado() {
-  const { usuario } = useSelector((state) => state);
+  const { usuario, abogado } = useSelector((state) => state);
+  const dispatch = useDispatch()
+  const { clientes } = abogado
+  useEffect(() => {
+    dispatch(putAbogado({ eMail: usuario.eMail }));
+  }, [])
 
-  console.log(usuario.abogadoId);
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
@@ -27,7 +32,11 @@ export default function HomeAbogado() {
           interesadas o tus clientes.
         </p>
         <p className="lead">
-          <a className="btn btn-primary btn-lg" href="/" role="button">
+          <a
+            className="btn btn-primary btn-lg"
+            href="/user/abogado"
+            role="button"
+          >
             Home
           </a>
         </p>
@@ -37,12 +46,10 @@ export default function HomeAbogado() {
           modificar datos a tu perfil. Te recomendamos tenerlo actualizado.
         </p>
         <p className="lead">
-          <a
-            className="btn btn-primary btn-lg"
-            href="/user/abogado/modificar-perfil"
-            role="button"
-          >
-            Detalles
+          <a class="btn btn-primary btn-lg" role="button">
+            <Link to="/user/abogado/modificar-perfil" className="nav-link">
+              Detalles
+            </Link>
           </a>
         </p>
         <hr className="my-4"></hr>
@@ -50,11 +57,18 @@ export default function HomeAbogado() {
           Casos: a través de esta ventana vas a poder ingresar los datos de los
           nuevos casos e ir gestionando su estado.
         </p>
-        <p className="lead">
-          <a className="btn btn-primary btn-lg" href="/" role="button">
-            Casos
-          </a>
-        </p>
+        {clientes.length < 0 ?
+          <p className="lead">
+            <a className="btn btn-primary btn-lg" href="/" role="button">
+              Casos
+            </a>
+          </p> :
+          <p className="lead">
+            <a className="btn btn-primary btn-lg" href="/" role="button" aria-disabled>
+              Casos
+            </a>
+          </p>
+        }
         <hr className="my-4"></hr>
         <p>
           Consultas: Por aquí vas a encontrar las nuevas consultas que recibe el

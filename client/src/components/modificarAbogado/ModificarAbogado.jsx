@@ -69,7 +69,8 @@ export default function ModificarAbogado() {
         setProvinciasEnviar(arrProvincias);
       });
     }
-  }, []);
+
+  }, [usuario?.abogado?.id]);
 
   function modificarImagen(e) {
     if (!e.target.files[0]) return;
@@ -91,7 +92,7 @@ export default function ModificarAbogado() {
           .get(`/abogado/${usuario?.slug}`)
           .then(({ data }) => {
             setForm({ ...form, imagen: data.imagen });
-            toast.success("La imagen fue cambiada con éxito");
+            toast.success("La foto fue cambiada con éxito");
             setLoadingImage(false);
           })
           .catch((err) => console.log(err));
@@ -239,19 +240,6 @@ export default function ModificarAbogado() {
                 </label>
               </div>
 
-              {errores.length > 0 && (
-                <div className="alert alert-danger">
-                  {errores.map((e, i) => {
-                    return (
-                      <p key={i}>
-                        <span className="fw-bold">X </span>
-                        {e}
-                      </p>
-                    );
-                  })}
-                </div>
-              )}
-
               <div className="col">
                 <div className="mt-3">
                   <div className="col mb-5">
@@ -310,6 +298,19 @@ export default function ModificarAbogado() {
             </div>
 
             <hr className="text-muted" />
+
+            {errores.length > 0 && (
+              <div className="alert alert-danger">
+                {errores.map((e, i) => {
+                  return (
+                    <p key={i}>
+                      <span className="fw-bold">X </span>
+                      {e}
+                    </p>
+                  );
+                })}
+              </div>
+            )}
 
             <div className="row my-5">
               <div className="col">
@@ -446,7 +447,7 @@ export default function ModificarAbogado() {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn btn-primary"
+                className="btn btn-primaryNuestro"
               >
                 {loading ? "Guardando..." : "Guardar cambios"}
               </button>

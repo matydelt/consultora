@@ -8,7 +8,8 @@ function Casos({ id, casos, persona, flag }) {
 
   return (
     <>
-      <div className="card mt-3 me-3 ms-3 " key={id}>
+
+      <div className="card mt-1 me-1 ms-1 p-4 " key={id}>
         <h4 className="mt-2 d-flex justify-content-center ">
           {firstName} {lastName}
         </h4>
@@ -48,6 +49,7 @@ function Casos({ id, casos, persona, flag }) {
                 jurisdiccion={jurisdiccion}
                 fecha={updatedAt}
                 flag={flag}
+                id={id}
               />
             );
           })}
