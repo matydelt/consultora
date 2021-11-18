@@ -29,7 +29,7 @@ export default function NavAbogado() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
+      <nav className="navbar navbar-expand-sm  navbar-dark" style={{ background: "#033663" }}>
         <div className="izquierda">
           <ul className="navbar-nav">
             <li className="nav-item">

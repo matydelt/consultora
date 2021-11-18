@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getItems, getMaterias } from "../../redux/actions";
+import { getMaterias } from "../../redux/actions";
 import AbogadosCarrusel from "./AbogadosCarrusel/AbogadosCarrusel";
 import Header from "./Header/Header";
 import Navbar from "./Navbar/Navbar";

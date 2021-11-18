@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { putAbogado, getMaterias } from "../../redux/actions";
 import Casos from "../casos/casos";
 import "./clientes.css";
