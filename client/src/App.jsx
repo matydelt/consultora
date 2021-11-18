@@ -77,7 +77,6 @@ function App() {
           <Perfiles />
         </Route>
         <Route
-          exact
           path={usuario?.adminId != null ? "/admin" : "/ingreso"}
           component={usuario?.adminId != null ? AdminPage : Signin}
         ></Route>
