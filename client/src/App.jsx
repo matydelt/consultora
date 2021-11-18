@@ -32,10 +32,10 @@ import AdminPage from "./components/admin/adminPage/adminPage";
 import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 import "./App.css";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
-
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias";
 import Clients from "./components/home-Abogado/clients/clients";
 import { NewPass } from "./components/Sign/newpass";
+
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector((state) => state);
@@ -83,7 +83,7 @@ function App() {
 
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
-        <Route exact path="/signup" component={Signup} />
+        {/* <Route exact path="/signup" component={Signup} /> */}
         <Route exact path="/Cambiopass" component={NewPass} />
         <Route
           exact
