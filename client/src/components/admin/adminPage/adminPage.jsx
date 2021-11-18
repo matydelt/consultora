@@ -32,7 +32,7 @@ export default function AdminPage() {
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
       <FoldOutMenu />
-      <div style={{ display: "flex", paddingTop: "20px", height: "100vh" }}>
+      <div style={{ display: "flex", paddingTop: "20px" }}>
         <Switch>
           <Route path="/admin" exact component={Dashboard} />
           <Route path="/admin/users" exact component={AdminUsersPage} />
