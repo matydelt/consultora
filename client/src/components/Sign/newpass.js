@@ -5,7 +5,6 @@ import { getUsuarios } from "../../redux/actions/index.js";
 import { correoNoOK, createOK } from "./alert.js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
-import Navbar from "../home-page/Navbar/Navbar.jsx";
 
 import "./sign.css";
 import NavBarGeneral from "../NavBarGeneral/NavBarGeneral.jsx";
