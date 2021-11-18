@@ -59,7 +59,7 @@ export default function NavAbogado() {
             </li>
             <li className="nav-item">
               <Link to="/user/abogado/gestionar-turnos" className="nav-link">
-                Turnos
+                Turnos 📅
               </Link>
             </li>
             <li className="nav-item">
