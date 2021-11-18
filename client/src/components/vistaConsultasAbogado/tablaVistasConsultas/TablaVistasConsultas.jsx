@@ -98,7 +98,7 @@ export default function TablaVistasConsultas({ consultas, usuario, aceptadas, te
 
                                     <td className="align-middle">
 
-                                        <button onClick={() => { setConsulta(consulta) }} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#modalConsulta`}>
+                                        <button onClick={() => { setConsulta(consulta) }} type="button" className="btn btn-primaryNuestro" data-bs-toggle="modal" data-bs-target={`#modalConsulta`}>
                                             Ver detalle
                                         </button>
                                         {/* <ModalConsulta consulta={consulta} usuario={usuario} modalId={`modal${consulta.id}`} /> */}

@@ -167,7 +167,7 @@ export default function TurnosUsuario() {
                                     <span className="bdg bg-light border shadow py-1">{turnoDisp.hora}</span>
                                     {/* <label className="form-label my-2">Mensaje opcional para el abogado</label>
                                     <input type="text" className="form-control mb-2" disabled={turnoDisp.id === turnoConfirmado.turnoId} /> */}
-                                    <button className="btn btn-primary mt-3 " onClick={() => confirmarTurno(turnoDisp)} disabled={turnoDisp.id === turnoConfirmado.turnoId}>Confirmar</button>
+                                    <button className="btn btn-primaryNuestro mt-3 " onClick={() => confirmarTurno(turnoDisp)} disabled={turnoDisp.id === turnoConfirmado.turnoId}>Confirmar</button>
                                 </li>
                             })
                             }
@@ -194,7 +194,7 @@ export default function TurnosUsuario() {
                                 <p>O puede cancelarlo, sin la necesidad de tomar un nuevo turno, haciendo click en el botón <i>'cancelar'</i>.</p>
                             </div>
                             <div className="card-footer text-center bg-white">
-                                <button className="btn btn-danger" onClick={() => cancelarTurno(turnoConfirmado.turnoId)}>Cancelar</button>
+                                <button className="btn btn-dangerNuestro" onClick={() => cancelarTurno(turnoConfirmado.turnoId)}>Cancelar</button>
                             </div>
                         </div>
                     </div>

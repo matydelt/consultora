@@ -32,7 +32,6 @@ import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
 
 import "./sign.css";
-import { toast } from "react-toastify";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -51,29 +50,30 @@ export const Signin = () => {
   const [eMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayname, setDisplayName] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const auth = getAuth();
   const google = new GoogleAuthProvider();
-  const loginGoogle = () => {
-    setPersistence(auth, browserSessionPersistence)
-      .then(async () => {
-        await signInWithPopup(auth, google)
-          .then((e) => {
-            setDisplayName(e.user.displayName);
-            const aux = e.user.email;
+  const loginGoogle = async () => {
+    // setPersistence(auth, browserSessionPersistence)
+    // .then(async () => {
+      await signInWithPopup(auth, google)
+      .then((e) => {
+        const aux = e.user.email;
+        setLoading(true)
             if (usuarios.some((e) => e.eMail === aux)) {
               dispatch(getUsuario({ eMail: e.user.email }));
             } else {
+              setDisplayName(e.user.displayName);
               setEmail(aux);
               setFirstName(e.user.displayName.split(" ")[0]);
               setLastName(e.user.displayName.split(" ")[1]);
               setPassword(md5(e.user.email));
             }
-          })
-          .catch((error) => {
+          }).catch((error) => {
             console.log(error);
-          });
-      })
+          })
+      // })
       .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
@@ -129,11 +129,12 @@ export const Signin = () => {
   };
   const Login = async (e) => {
     e.preventDefault();
-    await setPersistence(auth, browserSessionPersistence)
-      .then(async () => {
+    // await setPersistence(auth, browserSessionPersistence)
+      // .then(async () => {
         await signInWithEmailAndPassword(auth, eMail, md5(password))
           .then((userCredential) => {
             // Signed in
+            setLoading(true)
             console.log("login");
             const user = userCredential.user;
             dispatch(getUsuario({ eMail: eMail }));
@@ -148,8 +149,8 @@ export const Signin = () => {
             const errorMessage = error.message;
             setEmail("");
             setPassword("");
-          });
-      })
+          })
+      // })
       .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
@@ -197,7 +198,25 @@ export const Signin = () => {
         //     </div>
         //   </div>
         // </div>
-      ) : displayname ? (
+      ) 
+        :
+      loading ?
+      <div className="container text-center mt-5" style={{padding: '300px'}}>
+
+                        <div class="spinner-grow text-muted" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="spinner-grow mx-3  text-muted" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="spinner-grow  text-muted" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+       
+      
+      
+      : displayname && !loading ? (
         <div className="container p-4">
           <div className="row">
             <div className="col-md-4 mx-auto">
@@ -309,7 +328,11 @@ export const Signin = () => {
             </div>
           </div>
         </div>
-      ) : (
+      ) 
+      
+      : !loading &&
+      
+       (
         <div className="container p-4">
           <div className="row">
             <div className="col-md-4 mx-auto">
@@ -356,18 +379,18 @@ export const Signin = () => {
                     Ingresar
                   </button>
 
-                  <p>-- O ingresar con --</p>
+                  <p>O ingresar con</p>
 
                   <div className="row">
                     <div className="col-md-12" onClick={loginGoogle}>
                       {" "}
-                      <a class="btn btn-block btn-outline-primary" href="#">
+                      <button type="button" class="btn btn-block btn-outline-primary border shadow" href="#">
                         <img
                           src="https://img.icons8.com/color/16/000000/google-logo.png"
                           alt="Google"
                         />{" "}
                         Google
-                      </a>{" "}
+                      </button>{" "}
                     </div>
                   </div>
                 </form>

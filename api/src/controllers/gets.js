@@ -291,47 +291,47 @@ async function getAbogado(req, res) {
     res.sendStatus(404);
   }
 
-  const user = await Usuario.findByPk(eMail);
-  const { firstName, lastName, dni, celular } = await Persona.findByPk(
-    user.personaDni
-  );
-  const { detalle, clientes, imagen, experiencia, estudios } =
-    await Abogado.findOne({
-      where: { id: user.abogadoId },
-      include: Cliente,
-    });
-  let abogado = {
-    ...{ eMail: user.eMail, firstName, lastName, dni, celular },
-    detalle,
-    imagen,
-    experiencia,
-    estudios,
-  };
-  abogado.clientes = [];
-  for (let i = 0; i < clientes.length; i++) {
-    abogado.clientes.push(
-      await Cliente.findOne({
-        where: { id: clientes[i].id },
-        attributes: ["id", "asunto"],
-        include: [
-          {
-            model: Persona,
-            attributes: ["firstName", "lastName", "dni", "celular"],
-          },
-          {
-            model: Casos,
-            attributes: [
-              "juez",
-              "numeroExpediente",
-              "juzgado",
-              "detalle",
-              "estado",
-            ],
-          },
-        ],
-      })
-    );
-  }
+  // const user = await Usuario.findByPk(eMail);
+  // const { firstName, lastName, dni, celular } = await Persona.findByPk(
+  //   user.personaDni
+  // );
+  // const { detalle, clientes, imagen, experiencia, estudios } =
+  //   await Abogado.findOne({
+  //     where: { id: user.abogadoId },
+  //     include: Cliente,
+  //   });
+  // let abogado = {
+  //   ...{ eMail: user.eMail, firstName, lastName, dni, celular },
+  //   detalle,
+  //   imagen,
+  //   experiencia,
+  //   estudios,
+  // };
+  // abogado.clientes = [];
+  // for (let i = 0; i < clientes.length; i++) {
+  //   abogado.clientes.push(
+  //     await Cliente.findOne({
+  //       where: { id: clientes[i].id },
+  //       attributes: ["id", "asunto"],
+  //       include: [
+  //         {
+  //           model: Persona,
+  //           attributes: ["firstName", "lastName", "dni", "celular"],
+  //         },
+  //         {
+  //           model: Casos,
+  //           attributes: [
+  //             "juez",
+  //             "numeroExpediente",
+  //             "juzgado",
+  //             "detalle",
+  //             "estado",
+  //           ],
+  //         },
+  //       ],
+  //     })
+  //   );
+  // }
 }
 
 async function getCasos(req, res) {
@@ -499,20 +499,46 @@ async function getAllCasos(req, res, next) {
   }
 }
 async function getDias(req, res) {
-  const { abogadoId, abogadoFlag } = req.query;
+  let { abogadoId, abogadoFlag, periodoFiltrar, desde } = req.query;
+
+  console.log(abogadoId, abogadoFlag, periodoFiltrar, desde);
 
   let dias = [];
   try {
-    if (abogadoFlag) {
+    if ((abogadoFlag && !periodoFiltrar) || (abogadoFlag && desde && !periodoFiltrar) ) {
+      
+      console.log('IF');
+
+      desde = parseInt(desde)
+
+      let limit = 15
+      let offset = 0 + (desde - 1) * limit
+      
+      dias = await Dia.findAndCountAll({
+        where: {
+          abogadoId,
+        },
+        distinct: true,
+        offset: offset,
+        limit: limit,
+        order: [["fecha", "DESC"]],
+        include: [{model:Turno}]
+      });
+    } else if (abogadoFlag && periodoFiltrar && !desde) {
       dias = await Dia.findAll({
         where: {
-          fecha: { [Op.gte]: new Date().getTime() },
+          fecha: { 
+            // [Op.notBetween]: [new Date(new Date().getFullYear(), parseInt(periodoFiltrar), 1), new Date(new Date().getFullYear(), parseInt(periodoFiltrar)+1, 0)]
+            [Op.gt]: new Date(new Date().getFullYear(), periodoFiltrar, 1),
+            [Op.lte]: new Date(new Date().getFullYear(), parseInt(periodoFiltrar)+1, 0+1)
+        },
           abogadoId,
         },
         include: Turno,
         order: [["fecha", "DESC"]],
       });
     } else {
+      console.log('ELSE');
       dias = await Dia.findAll({
         where: {
           fecha: { [Op.gte]: new Date().getTime() },
@@ -531,17 +557,31 @@ async function getDias(req, res) {
 }
 
 async function getDia(req, res) {
-  const { diaId } = req.query;
+  const { diaId, fechaHoy } = req.query;
 
   try {
-    const dia = await Dia.findByPk(diaId);
+    if (fechaHoy) {
+      const dia = await Dia.findAll({ 
+        where: {
+          fecha: { 
+            [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+             [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+1)
+           }
+        }
+      })
+      return res.json(dia)
+    } 
+    
+    if (diaId) {
+      const dia = await Dia.findByPk(diaId);
 
-    const turnos = await dia.getTurnos({
-      order: [["hora", "ASC"]],
-      include: [{ model: Cliente, include: [{ model: Persona }] }],
-    });
+      const turnos = await dia.getTurnos({
+        order: [["hora", "ASC"]],
+        include: [{ model: Cliente, include: [{ model: Persona }] }],
+      }); 
+      return res.json({ dia, turnos });
+    }
 
-    return res.json({ dia, turnos });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

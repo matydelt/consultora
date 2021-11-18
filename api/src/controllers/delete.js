@@ -1,4 +1,4 @@
-const { Consulta, Turno, Usuario } = require("../db");
+const { Consulta, Turno, Usuario, Dia } = require("../db");
 const enviarEmail = require('../email/email');
 
 async function deleteConsulta(req, res, next) {
@@ -13,16 +13,16 @@ async function deleteConsulta(req, res, next) {
 
 async function cancelarTurno(req, res) {
   const { turnoId, eliminar } = req.body;
-  
+
   try {
     const turno = await Turno.findByPk(turnoId);
 
-    if(eliminar) {
+    if (eliminar) {
       turno.destroy();
 
       // hacer: Notificar por mail
       if (turno.clienteId) {
-        const cliente = await turno.getCliente({ include: [{model: Usuario }]})
+        const cliente = await turno.getCliente({ include: [{ model: Usuario }] })
 
         enviarEmail.send({
           email: cliente.usuario.eMail,
@@ -37,7 +37,7 @@ async function cancelarTurno(req, res) {
       turno.clienteId = null;
       await turno.save();
     }
-    
+
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
@@ -45,4 +45,37 @@ async function cancelarTurno(req, res) {
   }
 };
 
-module.exports = { deleteConsulta, cancelarTurno };
+async function eliminarDia(req, res) {
+  const { diaId } = req.body;
+
+  try {
+    const dia = await Dia.findByPk(diaId);
+
+    const turnos = await dia.getTurnos();
+
+    turnos.map(async turno => {
+
+      if (turno.clienteId) {
+        let cliente = await turno.getCliente({ include: [{ model: Usuario }] });
+
+        enviarEmail.send({
+          email: cliente.usuario.eMail,
+          subject: "Turno cancelado",
+          htmlFile: "turno-cancelado.html",
+        });
+      }
+      return await turno.destroy();
+    });
+
+    await dia.destroy();
+
+    return res.json({ dia, turnos })
+
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+
+};
+
+module.exports = { deleteConsulta, cancelarTurno, eliminarDia };

@@ -63,6 +63,13 @@ export default function NavAbogado() {
               </Link>
             </li>
             <li className="nav-item">
+              { usuario.adminId &&
+              <Link to="/admin" className="nav-link">
+                Admin
+              </Link>
+              }
+            </li>
+            <li className="nav-item">
               <a onClick={logout} className="nav-link pointer">
                 Salir ❌
               </a>
