@@ -70,17 +70,17 @@ export const NewPass = ({ history }) => {
                     }}
                   />
                 </div>
-                {/* <ReCAPTCHA
+                <ReCAPTCHA
                   sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA}
                   onChange={() => {
                     setCAPTCHA(true);
                   }}
-                /> */}
+                />
 
                 <div className="form-group">
                   <button
                     className="btn btn-success btn-block"
-                    // onClick={(e)=>Cambiopass(e)}
+                    onClick={Cambiopass}
                     disabled={eMail === ""}
                   >
                     Cambiar
