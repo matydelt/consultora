@@ -30,6 +30,8 @@ export default function ModificarAbogado() {
   let { usuario, materias: materiasRedux, provincias } = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  console.log(materiasRedux)
+
   useEffect(() => {
 
     dispatch(getProvincias());

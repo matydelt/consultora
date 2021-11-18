@@ -76,6 +76,7 @@ async function getProvincias(req, res) {
         res.sendStatus(404);
     }
 }
+
 async function getMaterias(req, res) {
   try {
     let vec = [
@@ -83,20 +84,22 @@ async function getMaterias(req, res) {
       "Derecho Civil",
       "Derecho Corporativo",
       "Derecho Comercial",
-      "Derecho Familiar",
+      "Derecho Familia",
       "Derecho Contencioso",
       "Derecho Administrativo",
       "Derecho Laboral",
       "Derecho Notarial",
     ];
     let materias = await Materias.findAll({
-        where: {},
-        include: Abogado, Persona
+      where: {},
+      include: Abogado,
+      Persona,
     });
     if (materias.length === 0) {
       for (let i = 0; i < vec.length; i++) {
-        materias = await Materias.create({
-          where: { nombre: vec[i]}
+        materias = await Materias.findOrCreate({
+          where: { nombre: vec[i] },
+          include: Abogado,
         });
       }
     }

@@ -34,6 +34,7 @@ import "./sign.css";
 import ButtonSign from "./ButtonSign";
 import Signup from "./signup";
 import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
+import ButtonsNav from "../ButtonsNav/ButtonsNav";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -176,7 +177,7 @@ export const Signin = () => {
   ) : (
     <div className="hidden">
       <div>
-        <NavBarGeneral/>
+        <NavBarGeneral />
         {!!usuario.firstName ? (
           <Redirect to="/user/panel" />
         ) : // <div className="container p-4">
@@ -211,112 +212,117 @@ export const Signin = () => {
         //   </div>
         // </div>
         displayname ? (
-          <div className="container p-4">
-            <div className="row">
-              <div className="col-md-4 mx-auto">
-                <div className="card text-center">
-                  <div className="card-header">
-                    <h3>Register</h3>
+          <div className="body_displayname">
+            <div className="bg_blue_image_displayname">
+              <div className="overlay_displayname overlay_right_displayname">
+                <div>
+                  <img src={LogoBlanco} alt="Logo" />
+                  <h4>
+                    ¿Tienes una cuenta? <br /> Presione "Iniciar Sesión".
+                  </h4>
+                  <ButtonsNav text="Iniciar Sesion" link="/ingreso" />
+                </div>
+              </div>
+              <div className="form_container registerEmail_in_container">
+                <div className="registerEmail">
+                  <h3>Registro</h3>
+                  <div className="singn_input_login">
+                    <input
+                      type="type"
+                      value={firstName}
+                      name="firstName"
+                      autoComplete="off"
+                      placeholder=" Nombre"
+                      className=""
+                      autoFocus
+                      required
+                      onChange={(e) => {
+                        setFirstName(e.target.value);
+                      }}
+                    />
                   </div>
-                  <div className="card-body form-sign">
-                    <div className="form-group">
-                      <input
-                        type="type"
-                        value={firstName}
-                        name="firstName"
-                        autoComplete="off"
-                        placeholder=" Nombre"
-                        className="form-control"
-                        autoFocus
-                        required
-                        onChange={(e) => {
-                          setFirstName(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="type"
-                        value={lastName}
-                        name="lastName"
-                        autoComplete="off"
-                        placeholder=" Apellido"
-                        className="form-control"
-                        autoFocus
-                        required
-                        onChange={(e) => {
-                          setLastName(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        value={dni}
-                        name="DNI"
-                        autoComplete="off"
-                        placeholder="DNI : 1234567"
-                        className="form-control"
-                        required
-                        onChange={(e) => {
-                          setDni(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        value={celular}
-                        name="Number"
-                        autoComplete="off"
-                        placeholder="Teléfono : 11 1111-1111"
-                        className="form-control"
-                        required
-                        onChange={(e) => {
-                          setPhone(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="text"
-                        value={eMail}
-                        name="Mail"
-                        disabled="on"
-                        autoComplete="off"
-                        placeholder="Email: ejemplo@ejemplo.com"
-                        className="form-control"
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type="password"
-                        value={password}
-                        disabled="on"
-                        name="password"
-                        autoComplete="off"
-                        placeholder="Contraseña"
-                        className="form-control"
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <button
-                        className="btn btn-success btn-block"
-                        onClick={GoTo}
-                        disabled={
-                          firstName === "" ||
-                          lastName === "" ||
-                          dni === "" ||
-                          celular === "" ||
-                          eMail === "" ||
-                          password.length < 6
-                        }
-                      >
-                        Register
-                      </button>
-                    </div>
+                  <div className="singn_input_login">
+                    <input
+                      type="type"
+                      value={lastName}
+                      name="lastName"
+                      autoComplete="off"
+                      placeholder=" Apellido"
+                      className=""
+                      autoFocus
+                      required
+                      onChange={(e) => {
+                        setLastName(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="singn_input_login">
+                    <input
+                      type="text"
+                      value={dni}
+                      name="DNI"
+                      autoComplete="off"
+                      placeholder="DNI : 1234567"
+                      className=""
+                      required
+                      onChange={(e) => {
+                        setDni(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="singn_input_login">
+                    <input
+                      type="text"
+                      value={celular}
+                      name="Number"
+                      autoComplete="off"
+                      placeholder="Teléfono : 11 1111-1111"
+                      className=""
+                      required
+                      onChange={(e) => {
+                        setPhone(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div className="singn_input_login">
+                    <input
+                      type="text"
+                      value={eMail}
+                      name="Mail"
+                      disabled="on"
+                      autoComplete="off"
+                      placeholder="Email: ejemplo@ejemplo.com"
+                      className=""
+                      required
+                    />
+                  </div>
+                  <div className="singn_input_login">
+                    <input
+                      type="password"
+                      value={password}
+                      disabled="on"
+                      name="password"
+                      autoComplete="off"
+                      placeholder="Contraseña"
+                      className=""
+                      required
+                    />
+                  </div>
+                  <div className="divButton_register_email">
+                    <button
+                      className=""
+                      onClick={GoTo}
+                      disabled={
+                        firstName === "" ||
+                        lastName === "" ||
+                        dni === "" ||
+                        celular === "" ||
+                        eMail === "" ||
+                        password.length < 6
+                      }
+                    >
+                      Register
+                    </button>
                   </div>
                 </div>
               </div>
