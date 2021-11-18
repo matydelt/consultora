@@ -77,7 +77,7 @@
   transform: rotate(-45deg) translate(0, -1px);
 }
 
-#menu {
+#admin-menu {
   position: absolute;
   width: 300px;
   height: 100%;
@@ -93,11 +93,17 @@
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
-#menu li {
+#admin-menu li {
   padding: 10px 0;
   font-size: 22px;
+  transition: 0.4s ease;
 }
 
 #menuToggle input:checked ~ ul {
   transform: none;
+}
+
+.selected {
+  background: #3b5998;
+  border-radius: 5px;
 }

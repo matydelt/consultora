@@ -62,7 +62,7 @@ const AdminUsersPage = () => {
   return (
     <div
       className="ms-5 me-5 mt-3 mb-3"
-      style={{ width: "90%", paddingTop: "20px", paddingLeft: "20px" }}
+      style={{ width: "100%", paddingTop: "20px", paddingLeft: "20px" }}
     >
       <table className="table table-striped  ">
         <thead>
