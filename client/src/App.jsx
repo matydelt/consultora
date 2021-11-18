@@ -80,8 +80,8 @@ function App() {
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/Cambiopass" component={NewPass} />
         <Route exact path={
-          (usuario)   ?"/user/panel": "/ingreso"}>
-          {usuario  ? <HomeUsuario />:<Signin/>}
+          (usuario) && usuario?.adminId===null  ?"/user/panel": "/ingreso"}>
+          {usuario && usuario?.adminId===null ? <HomeUsuario />:<Signin/>}
         </Route>
         <Route exact path={usuario?.clienteId!=null ?"/user/panel/consultas": "/ingreso"}>
         {usuario?.clienteId!=null ? <ConsultasUsuario/>:<Signin/>}
