@@ -17,10 +17,20 @@ export function getMaterias() {
   };
 }
 
-export function getSiteMateria(payload) {
-  return {
-    type: "GET_MATERIAS_SITE",
-    payload,
+export function getSiteMateria(materia) {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("/materias");
+      const abogados = await axios.get("/abogados");
+      return dispatch({
+        type: "GET_MATERIAS_SITE",
+        payload: json.data,
+        materia,
+        abogados: abogados.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 
@@ -459,7 +469,7 @@ export function getItems() {
   return async (dispatch) => {
     try {
       const response = await axios.get("/items/find");
-      console.log(response)
+      console.log(response);
       return dispatch({ type: "GET_ITEMS", payload: response.data });
     } catch (error) {
       console.log(error);
@@ -489,7 +499,7 @@ export function deleteItem(item) {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 export function getDia(diaId) {
   return (dispatch) => {
@@ -510,7 +520,7 @@ export function actionCancelarTurno(turnoId, eliminar) {
   return (dispatch) => {
     axios
       .post("/cancelar-turno", { turnoId, eliminar })
-      .then(() => { })
+      .then(() => {})
       .catch((err) => {
         console.log(err);
       });
@@ -528,6 +538,3 @@ export function actionEliminarDia(diaId) {
       });
   };
 }
-
-
-

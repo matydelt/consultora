@@ -2,7 +2,14 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
-import { getMaterias, getProvincias, getUsuario, getAbogados, getAbout, getItems } from "./redux/actions";
+import {
+  getMaterias,
+  getProvincias,
+  getUsuario,
+  getAbogados,
+  getAbout,
+  getItems,
+} from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
@@ -45,8 +52,8 @@ function App() {
     dispatch(getProvincias());
     dispatch(getAbogados());
     dispatch(getMaterias());
-    dispatch(getAbout())
-    dispatch(getItems())
+    dispatch(getAbout());
+    dispatch(getItems());
   }, [dispatch]);
 
   return (
@@ -75,7 +82,7 @@ function App() {
         />
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
-        <Route exact path="/signup" component={Signup} />
+        {/* <Route exact path="/signup" component={Signup} /> */}
         <Route exact path="/user/panel">
           <HomeUsuario />
         </Route>

@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router";
+import { useParams } from "react-router";
 import { getSiteMateria } from "../../../redux/actions";
 import SiteMateria from "./SiteMateria/SiteMateria";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav.jsx";
 import { Link } from "react-router-dom";
 import Carousel from "react-elastic-carousel";
-import Logo from "../../home-page/assets/img/logo-blacno-sin-fondo.png";
+
 import "./SiteMaterias.css";
+import imagenMateria from "../../home-page/assets/img/justicia1.jpg";
+import NavBarMateria from "./SiteMateria/NavBarMateria/NavBarMateria";
 
 const SiteMaterias = () => {
   const { materia } = useParams();
-  const history = useHistory();
 
   const breakPoints = [
     { width: 1, itemsToShow: 1 },
@@ -21,288 +22,749 @@ const SiteMaterias = () => {
   ];
 
   const dispatch = useDispatch();
-
   let { abogados } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getSiteMateria(materia));
     console.log(materia);
   }, [dispatch, materia]);
-  console.log(abogados);
+
+  // **************************Derecho Civil
 
   if (materia === "Derecho Civil") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2 className="text-center">Derecho Civil</h2>
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h3 className="text-center">Derecho Civíl</h3>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
 
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
-          </div>
-          <div className="materia_site_text">
-            <p>
-              Nuestros expertos procuran que tu vida civíl esté alineada a las
-              leyes, por lo que garantizamos la legislación correcta en cada
-              situación civíl en que te encuentres muy perjudicado
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    );
-  } else if (materia === "Derecho Penal") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Penal</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
           </div>
-          <div className="materia_site_text">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
-              quibusdam beatae cumque tenetur consectetur culpa mollitia dolorum
-              eligendi illo minus? Blanditiis quae quis maiores ipsam dolorum
-              distinctio consequatur unde error.
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
-          </div>
-        </div>
-      </div>
-    );
-  } else if (materia === "Derecho Familia") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Familia</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
-          </div>
-          <div className="materia_site_text">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis,
-              veniam eos. Ab, aspernatur dolor eum, a alias delectus expedita
-              fuga illum id odit distinctio deleniti nihil reiciendis modi, quas
-              iusto?
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
+          <h3 className="text-center">Derecho Civíl</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    );
-  } else if (materia === "Derecho Contencioso") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Contencioso</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
-          </div>
-          <div className="materia_site_text">
-            <p>
-              Nuestros expertos procuran que tu vida civíl esté alineada a las
-              leyes, por lo que garantizamos la legislación correcta en cada
-              situación civíl en que te encuentres muy perjudicado
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
-          </div>
-        </div>
-      </div>
-    );
-  } else if (materia === "Derecho Penal") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Penal</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
-          </div>
-          <div className="materia_site_text">
-            <p>
-              Nuestros expertos procuran que tu vida civíl esté alineada a las
-              leyes, por lo que garantizamos la legislación correcta en cada
-              situación civíl en que te encuentres muy perjudicado
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
+      );
+    }
+  }
+
+  // **************************Derecho Penal
+  else if (materia === "Derecho Penal") {
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h3 className="text-center">Derecho Penal</h3>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    );
-  } else if (materia === "Derecho Notarial") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Notarial</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
           </div>
-          <div className="materia_site_text">
-            <p>
-              Nuestros expertos procuran que tu vida civíl esté alineada a las
-              leyes, por lo que garantizamos la legislación correcta en cada
-              situación civíl en que te encuentres muy perjudicado
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
-          </div>
-        </div>
-      </div>
-    );
-  } else if (materia === "Derecho Corporativo") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Corporativo</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
-          </div>
-          <div className="materia_site_text">
-            <p>
-              Nuestros expertos procuran que tu vida civíl esté alineada a las
-              leyes, por lo que garantizamos la legislación correcta en cada
-              situación civíl en que te encuentres muy perjudicado
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
+          <h3 className="text-center">Derecho Penal</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    );
-  } else if (materia === "Derecho Comercial") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Comercial</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
-          </div>
-          <div className="materia_site_text">
-            <p>
-              Nuestros expertos procuran que tu vida civíl esté alineada a las
-              leyes, por lo que garantizamos la legislación correcta en cada
-              situación civíl en que te encuentres muy perjudicado
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
-          </div>
-        </div>
-      </div>
-    );
-  } else if (materia === "Derecho Administrativo") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Administrativo</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
-          </div>
-          <div className="materia_site_text">
-            <p>
-              Nuestros expertos procuran que tu vida civíl esté alineada a las
-              leyes, por lo que garantizamos la legislación correcta en cada
-              situación civíl en que te encuentres muy perjudicado
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
+      );
+    }
+  }
+
+  // **************************Derecho Familia
+  else if (materia === "Derecho Familia") {
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h3 className="text-center">Derecho Familia</h3>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    );
-  } else if (materia === "Derecho Laboral") {
-    return (
-      <div>
-        <ButtonsNav nameClass="btn btn-primary" text="Volver" link="/" />
-        <h2>Derecho Laboral</h2>
-        <div className="flex_materia">
-          <div className="materia_site">
-            {abogados?.map((a, i) => (
-              <SiteMateria
-                key={a.dni}
-                firstName={a.firstName}
-                lastName={a.lastName}
-                img={a.abogado.imagen}
-              />
-            ))}
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
           </div>
-          <div className="materia_site_text">
-            <p>
-              Nuestros expertos procuran que tu vida civíl esté alineada a las
-              leyes, por lo que garantizamos la legislación correcta en cada
-              situación civíl en que te encuentres muy perjudicado
-            </p>
-            <ButtonsNav link="#" text="Consultanos cuando quieras." />
+          <h3 className="text-center">Derecho Familia</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+  }
+
+  // **************************Derecho Contencioso
+  else if (materia === "Derecho Contencioso") {
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h2 className="text-center">Derecho Contencioso</h2>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
+          </div>
+          <h3 className="text-center">Derecho Contencioso</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // **************************Derecho Notarial
+  else if (materia === "Derecho Notarial") {
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h3 className="text-center">Derecho Notarial</h3>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
+          </div>
+          <h3 className="text-center">Derecho Notarial</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // **************************Derecho Corporativo
+  else if (materia === "Derecho Corporativo") {
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h3 className="text-center">Derecho Corporativo</h3>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
+          </div>
+          <h3 className="text-center">Derecho Corporativo</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // **************************Derecho Comercial
+  else if (materia === "Derecho Comercial") {
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h3 className="text-center">Derecho Comercial</h3>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
+          </div>
+          <h3 className="text-center">Derecho Comercial</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  // **************************Derecho Administrativo
+  else if (materia === "Derecho Administrativo") {
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h3 className="text-center">Derecho Administrativo</h3>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
+          </div>
+          <h3 className="text-center">Derecho Administrativo</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+  // **************************Derecho Laboral
+  else if (materia === "Derecho Laboral") {
+    /**listo */
+    if (abogados.length > 0) {
+      return (
+        <div>
+          <div className="body_site_materia">
+            <div className="button_back_site_materia">
+              <NavBarMateria />
+            </div>
+            <h3 className="text-center">Derecho Laboral</h3>
+            <div className="container_flex_materias_site container container-md-12">
+              <div className="flex_materias_site">
+                <Carousel
+                  pagination={false}
+                  className="carrusel_siteMaterias"
+                  breakPoints={breakPoints}
+                >
+                  {abogados?.map((a) => {
+                    return (
+                      <Link key={a.dni} to={`/perfil/${a.slug}`}>
+                        <SiteMateria
+                          firstName={a.firstName}
+                          lastName={a.lastName}
+                          img={a.abogado.imagen}
+                          abogado={abogados}
+                        />
+                      </Link>
+                    );
+                  })}
+                </Carousel>
+              </div>
+
+              <div className="contain_text_site_materia">
+                <div>
+                  <p>
+                    Nuestros expertos procuran que tu vida civíl esté alineada a
+                    las leyes, por lo que garantizamos la legislación correcta
+                    en cada situación civíl en que te encuentres muy perjudicado
+                  </p>
+                  <div className="button_consulta_site_materia">
+                    <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={
+            abogados.length > 0 ? "body_site_materia" : "body_site_sin_carousel"
+          }
+        >
+          <div className="button_back_site_materia">
+            <NavBarMateria />
+          </div>
+          <h3 className="text-center">Derecho Laboral</h3>
+          <div className="container_flex_materias_site container container-md-12">
+            <div className="imagen_site_materias">
+              <img src={imagenMateria} alt="imagen materia" />
+            </div>
+            <div className="contain_text_site_materia container">
+              <div>
+                <p>
+                  Nuestros expertos procuran que tu vida civíl esté alineada a
+                  las leyes, por lo que garantizamos la legislación correcta en
+                  cada situación civíl en que te encuentres muy perjudicado
+                </p>
+                <div className="button_consulta_site_materia">
+                  <ButtonsNav link="#" text="Consultanos cuando quieras." />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 };
 

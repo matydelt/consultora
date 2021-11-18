@@ -18,6 +18,7 @@ const HomePage = () => {
     dispatch(getMaterias());
   }, [dispatch]);
 
+
   return (
     <div className="height">
       <Header />
