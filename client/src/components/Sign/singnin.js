@@ -34,6 +34,7 @@ import "./sign.css";
 import ButtonSign from "./ButtonSign";
 import Signup from "./signup";
 import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
+import ButtonsNav from "../ButtonsNav/ButtonsNav";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -183,20 +184,26 @@ export const Signin = () => {
         displayname ? (
           <div className="body_displayname">
             <div className="bg_blue_image_displayname">
-              <div className="overlay_displayname">
-                {/* <img src={} alt="Logo" /> */}
-                <h3>Register</h3>
+              <div className="overlay_displayname overlay_right_displayname">
+                <div>
+                  <img src={LogoBlanco} alt="Logo" />
+                  <h4>
+                    ¿Tienes una cuenta? <br /> Presione "Iniciar Sesión".
+                  </h4>
+                  <ButtonsNav text="Iniciar Sesion" link="/ingreso" />
+                </div>
               </div>
               <div className="form_container registerEmail_in_container">
-                <div>
-                  <div className="form-group">
+                <div className="registerEmail">
+                  <h3>Registro</h3>
+                  <div className="singn_input_login">
                     <input
                       type="type"
                       value={firstName}
                       name="firstName"
                       autoComplete="off"
                       placeholder=" Nombre"
-                      className="form-control"
+                      className=""
                       autoFocus
                       required
                       onChange={(e) => {
@@ -204,14 +211,14 @@ export const Signin = () => {
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="type"
                       value={lastName}
                       name="lastName"
                       autoComplete="off"
                       placeholder=" Apellido"
-                      className="form-control"
+                      className=""
                       autoFocus
                       required
                       onChange={(e) => {
@@ -219,35 +226,35 @@ export const Signin = () => {
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="text"
                       value={dni}
                       name="DNI"
                       autoComplete="off"
                       placeholder="DNI : 1234567"
-                      className="form-control"
+                      className=""
                       required
                       onChange={(e) => {
                         setDni(e.target.value);
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="text"
                       value={celular}
                       name="Number"
                       autoComplete="off"
                       placeholder="Teléfono : 11 1111-1111"
-                      className="form-control"
+                      className=""
                       required
                       onChange={(e) => {
                         setPhone(e.target.value);
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="text"
                       value={eMail}
@@ -255,11 +262,11 @@ export const Signin = () => {
                       disabled="on"
                       autoComplete="off"
                       placeholder="Email: ejemplo@ejemplo.com"
-                      className="form-control"
+                      className=""
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="password"
                       value={password}
@@ -267,13 +274,13 @@ export const Signin = () => {
                       name="password"
                       autoComplete="off"
                       placeholder="Contraseña"
-                      className="form-control"
+                      className=""
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="divButton_register_email">
                     <button
-                      className="btn btn-success btn-block"
+                      className=""
                       onClick={GoTo}
                       disabled={
                         firstName === "" ||
