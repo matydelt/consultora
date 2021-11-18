@@ -9,6 +9,7 @@ import { getUsuario } from "../../../redux/actions";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
+import ButtonScroll from "./ButtonScroll/ButtonScroll";
 const Navbar = ({ navId }) => {
   let usuario = useSelector((state) => state.usuario);
   const dispatch = useDispatch();
@@ -32,20 +33,17 @@ const Navbar = ({ navId }) => {
     <nav id={navId} className="col-12 col-xl-12">
       <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
         <li className="col-xl-1">
-          <Link to="/">Home</Link>
+        <ButtonScroll text="Materias" idScroll="#materias" />
         </li>
 
         <li className="col-xl-1">
-          <ButtonsNav link="#" text="Nosotros" />
+          <ButtonScroll text="Nosotros" idScroll="#about" />
         </li>
 
         <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
 
         <li className="col-xl-1">
-          <ButtonsNav
-            link="/abogados"
-            text="Nuestro Equipo"
-          />
+          <ButtonsNav link="/abogados" text="Nuestro Equipo" />
         </li>
 
         {localStorage.getItem("username") || usuario.firstName ? (
@@ -55,61 +53,10 @@ const Navbar = ({ navId }) => {
                 link="/user/panel"
                 text={localStorage.getItem("username") || usuario.firstName}
               />
-
-              // <div class="dropdown">
-              //   <a
-              //     class="btn dropdown-toggle"
-              //     type="button"
-              //     id="dropdownMenuButton1"
-              //     data-bs-toggle="dropdown"
-              //     aria-expanded="false"
-              //   >
-              //     {localStorage.getItem('username') || usuario.firstName}
-              //   </a>
-
-              //   <ul
-              //     class="dropdown-menu bg-light shadow border-0"
-              //     aria-labelledby="dropdownMenuButton1"
-              //   >
-              //     <ButtonsNav link={"/user/panel"} text="Gestiones" />
-              //     <span onClick={logout} class="dropdown-item pointer">
-              //       Cerrar sesión
-              //     </span>
-              //   </ul>
-              // </div>
             )}
-
 
             {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
               <ButtonsNav link="/user/abogado" text={usuario.firstName} />
-              // <div class="dropdown">
-              //   <a
-              //     class="btn dropdown-toggle"
-              //     type="button"
-              //     id="dropdownMenuButton1"
-              //     data-bs-toggle="dropdown"
-              //     aria-expanded="false"
-              //   >
-              //     {usuario.firstName}
-              //   </a>
-
-              //   <ul
-              //     class="dropdown-menu bg-light shadow border-0"
-              //     aria-labelledby="dropdownMenuButton1"
-              //   >
-
-              //     <Link to="/user/abogado">
-              //       <span class="dropdown-item pointer">Panel</span>
-              //     </Link>
-              //     <Link to="/modificar-perfil">
-              //       <span class="dropdown-item pointer">Perfil</span>
-              //     </Link>
-
-              //     <span onClick={logout} class="dropdown-item pointer">
-              //       Cerrar sesión
-              //     </span>
-              //   </ul>
-              // </div>
             )}
           </li>
         ) : (

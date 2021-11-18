@@ -7,12 +7,10 @@ import {
   postUsuario,
 } from "../../redux/actions/index.js";
 import { correoNoOK, createNOOK, createOK, dniNoOK } from "./alert.js";
-import { Link } from "react-router-dom";
 import md5 from "md5";
-import Navbar from "../home-page/Navbar/Navbar.jsx";
-
 import "./sign.css";
-import ButtonSign from "./ButtonSign.js";
+
+
 
 export const Signup = () => {
   const { usuarios, personas } = useSelector((state) => state);
@@ -72,10 +70,7 @@ export const Signup = () => {
     }
   };
   return (
-    
     <>
-    {/* div className="form_container sign_up_container" */}
-    {/* className="container_signup_login" */}
       <div className="form_container sign_up_container">
         <div className="div_sign_up_container">
           <h3>Creación de Cuenta</h3>
@@ -181,11 +176,6 @@ export const Signup = () => {
             </button>
           </div>
         </div>
-        {/* <div className="card-footer">
-          <Link to="/ingreso">
-            <label className="pointer">Ya tengo una cuenta. INGRESAR</label>
-          </Link>
-        </div> */}
       </div>
     </>
   );

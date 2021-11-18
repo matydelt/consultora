@@ -12,6 +12,55 @@
     /* margin         : -20px 0 50px; */
 }
 
+.divButton {
+    display         : flex;
+    justify-content : space-around;
+    background-color: #033663;
+    padding         : 12px 12px;
+}
+.divButton,
+.divButton button {
+    color: #fff;
+}
+
+.divButton div {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    object-fit: contain;
+    width: 40%;
+}
+
+.divButton img {
+    position: relative;
+    left: -18%;
+    display   : inline-block;
+    object-fit: cover;
+    width     : 7%;
+    height    : 40px;
+}
+.divButton p {
+    position: absolute;
+    right: 12%;
+    bottom: -37%;
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: 25px;
+}
+
+.buttonBack_login {
+    transition: all .4s ease-in-out;
+}
+
+.buttonBack_login:hover {
+    color: rgb(158, 157, 157);
+}
+
+
+
+/* Formulario de registro */
+
 .bg_blue_image button {
     border          : 1px solid #033663;
     background-color: #033663;
@@ -178,6 +227,41 @@
     background-color: #033663;
 }
 
+.form_container div.div_sign_in_container .forgot_login {
+    margin-top: 10px;
+}
+.form_container div.div_sign_in_container .forgot_login a,
+.form_container div.div_sign_in_container .forgot_login p {
+    display: inline-block;
+    font-size: 13px;
+    margin-bottom: 0px;
+}
+
+.form_container div.div_sign_in_container .forgot_login a {
+    position: relative;
+    color: #fff;
+    text-transform: capitalize;
+    background-color: #033663;
+    padding: 3px 6px;
+    border: solid 1px transparent;
+    transition: all .4s ease-in-out;
+}
+
+.form_container div.div_sign_in_container .forgot_login a:hover {
+    color: #033663;
+    text-transform: capitalize;
+    background-color: transparent;
+    border: solid 1px #033663;
+    /* z-index: 10; */
+    /* transform: translateZ(0); */
+}
+
+.form_container div.div_sign_in_container .forgot_login a:active {
+    transform: scale(.80);
+}
+
+
+
 
 
 .sign_in_container {
@@ -190,6 +274,8 @@
     transform: translateX(100%);
     opacity  : 0;
 }
+
+
 
 
 .sign_up_container {
@@ -283,6 +369,7 @@ si esto no se mueve solo s mueve el texto */
 .bg_blue_image.right-panel-active .overlay_left {
     transform: translateX(0);
 }
+
 .overlay_left div {
     width: 80%;
 }

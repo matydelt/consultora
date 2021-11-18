@@ -28,12 +28,12 @@ import {
 } from "./alert";
 import { Link } from "react-router-dom";
 import md5 from "md5";
-import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
 import LogoBlanco from "../home-page/assets/img/logo-blacno-sin-fondo.png";
 import "./sign.css";
 import ButtonSign from "./ButtonSign";
 import Signup from "./signup";
+import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -176,7 +176,7 @@ export const Signin = () => {
   ) : (
     <div className="hidden">
       <div>
-        {/* <Navbar navId={"menu"} /> */}
+        <NavBarGeneral/>
         {!!usuario.firstName ? (
           <Redirect to="/user/panel" />
         ) : // <div className="container p-4">
@@ -405,13 +405,10 @@ export const Signin = () => {
                       <p>Inicia Sesión con Google</p>
                     </button>{" "}
                   </div>
-                  {/* <div className="">
-                      <Link to="/signup">
-                        <label className="pointer p-1">
-                          Crear una cuenta nueva
-                        </label>
-                      </Link>
-                    </div> */}
+                  <div className="forgot_login">
+                    <p>¿Olvidaste tu contraseña?</p>
+                    <Link to="/Cambiopass">Presiona aquí</Link>
+                  </div>
                 </div>
               </div>
               <Signup />

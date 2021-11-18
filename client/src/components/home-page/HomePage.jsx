@@ -35,7 +35,7 @@ const HomePage = () => {
           "Las leyes estan por encima de todo, esto es lo que hace cumplir la verdadera justicia en cada juridicción. Esto es nuestro lema y nuestro éxito ante cada caso que solucionamos de manera objetiva día tras día. <br/> Creeemos que la ley es el principio de la verdadera libertad a partir de los poderes estatales hasta cada ciudadano."
         }
       />
-      <div className="mb-5">
+      <div id="materias" className="mb-5">
         <h3 className="text-center mb-4 fs-1">Competencias</h3>
         <div className="flex-materias">
           {
