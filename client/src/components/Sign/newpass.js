@@ -5,8 +5,7 @@ import { getUsuarios } from "../../redux/actions/index.js";
 import { correoNoOK, createOK } from "./alert.js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
-import Navbar from "../home-page/Navbar/Navbar.jsx";
-
+import NavBarGeneral from "../NavBarGeneral/NavBarGeneral.jsx";
 import "./sign.css";
 
 export const NewPass = ({history}) => {
@@ -43,7 +42,7 @@ export const NewPass = ({history}) => {
     }
     return (
         <>
-        <Navbar navId={"menu"} ></Navbar>
+        <NavBarGeneral />
         <div className="container p-4">
             <div className="row">
                 <div className="col-lg-4 col-md-6 col-sm-8 mx-auto">

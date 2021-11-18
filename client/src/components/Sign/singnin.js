@@ -27,13 +27,13 @@ import {
 } from "./alert";
 import { Link } from "react-router-dom";
 import md5 from "md5";
-import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
 import LogoBlanco from "../home-page/assets/img/logo-blacno-sin-fondo.png";
 import Logologueo from "../home-page/assets/img/buffet-buffet-law.png";
 import "./sign.css";
 import ButtonSign from "./ButtonSign";
 import Signup from "./signup";
+import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -180,155 +180,43 @@ export const Signin = () => {
   ) : usuario?.abogadoId ? (
     <Redirect to="/user/abogado" />
   ) : (
-    <div>
-      <Navbar navId={"menu"} />
-      {!!usuario.firstName ? (
-        <Redirect to="/user/panel" />
-      ) : // <div className="container p-4">
-      //   <div className="row">
-      //     <div className="col-md-4 mx-auto">
-      //       <div className="card text-center">
-      //         <div className="card-header">
-      //           <h2>Bienvenido</h2>
-      //         </div>
-      //         <div className="card-header">
-      //           <h3>
-      //             {displayname
-      //               ? displayname
-      //               : `${usuario.firstName} ${usuario.lastName}`}
-      //           </h3>
-      //         </div>
-      //         <img
-      //           src={Logo}
-      //           alt="Logo Consultora"
-      //           className="card-img-top mx-auto m-2 rounded-circle w-50"
-      //         />
-      //         <div className="card-body">
-      //           <button
-      //             className="btn btn-primary btn-block"
-      //             onClick={logout}
-      //           >
-      //             Cerrar sesión
-      //           </button>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </div>
-      // </div>
-      displayname ? (
-        <div className="container p-4">
-          <div className="row">
-            <div className="col-md-4 mx-auto">
-              <div className="card text-center">
-                <div className="card-header">
-                  <h3>Register</h3>
-                </div>
-                <div className="card-body form-sign">
-                  <div className="form-group">
-                    <input
-                      type="type"
-                      value={firstName}
-                      name="firstName"
-                      autoComplete="off"
-                      placeholder=" Nombre"
-                      className="form-control"
-                      autoFocus
-                      required
-                      onChange={(e) => {
-                        setFirstName(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="type"
-                      value={lastName}
-                      name="lastName"
-                      autoComplete="off"
-                      placeholder=" Apellido"
-                      className="form-control"
-                      autoFocus
-                      required
-                      onChange={(e) => {
-                        setLastName(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      value={dni}
-                      name="DNI"
-                      autoComplete="off"
-                      placeholder="DNI : 1234567"
-                      className="form-control"
-                      required
-                      onChange={(e) => {
-                        setDni(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      value={celular}
-                      name="Number"
-                      autoComplete="off"
-                      placeholder="Teléfono : 11 1111-1111"
-                      className="form-control"
-                      required
-                      onChange={(e) => {
-                        setPhone(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      value={eMail}
-                      name="Mail"
-                      disabled="on"
-                      autoComplete="off"
-                      placeholder="Email: ejemplo@ejemplo.com"
-                      className="form-control"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      value={password}
-                      disabled="on"
-                      name="password"
-                      autoComplete="off"
-                      placeholder="Contraseña"
-                      className="form-control"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <button
-                      className="btn btn-success btn-block"
-                      onClick={GoTo}
-                      disabled={
-                        firstName === "" ||
-                        lastName === "" ||
-                        dni === "" ||
-                        celular === "" ||
-                        eMail === "" ||
-                        password.length < 6
-                      }
-                    >
-                      Register
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        !loading && (
+    <div className="hidden">
+      <div>
+        <NavBarGeneral/>
+        {!!usuario.firstName ? (
+          <Redirect to="/user/panel" />
+        ) : // <div className="container p-4">
+        //   <div className="row">
+        //     <div className="col-md-4 mx-auto">
+        //       <div className="card text-center">
+        //         <div className="card-header">
+        //           <h2>Bienvenido</h2>
+        //         </div>
+        //         <div className="card-header">
+        //           <h3>
+        //             {displayname
+        //               ? displayname
+        //               : `${usuario.firstName} ${usuario.lastName}`}
+        //           </h3>
+        //         </div>
+        //         <img
+        //           src={Logo}
+        //           alt="Logo Consultora"
+        //           className="card-img-top mx-auto m-2 rounded-circle w-50"
+        //         />
+        //         <div className="card-body">
+        //           <button
+        //             className="btn btn-primary btn-block"
+        //             onClick={logout}
+        //           >
+        //             Cerrar sesión
+        //           </button>
+        //         </div>
+        //       </div>
+        //     </div>
+        //   </div>
+        // </div>
+        displayname ? (
           <div className="container p-4">
             <div className="row">
               <div className="col-md-4 mx-auto">
@@ -403,6 +291,10 @@ export const Signin = () => {
                         Crear una cuenta nueva
                       </label>
                     </Link>
+                  </div>
+                  <div className="forgot_login">
+                    <p>¿Olvidaste tu contraseña?</p>
+                    <Link to="/Cambiopass">Presiona aquí</Link>
                   </div>
                 </div>
               </div>

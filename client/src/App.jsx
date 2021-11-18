@@ -21,8 +21,6 @@ import HomeAbogado from "./components/home-Abogado/HomeAbogado";
 import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
 import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
-import Signup from "./components/Sign/signup";
-import Loaded from "./components/Loaded/Loaded";
 import FormCasos from "./components/FormCasos/FormCasos";
 import HomeUsuario from "./components/homeUsuario/HomeUsuario";
 import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/ConsultasUsuario";
@@ -31,11 +29,10 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/admin/adminPage/adminPage";
 import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 import "./App.css";
-import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
+import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
+import NewPass from "./components/Sign/NewPass.js";
+import Signup from "./components/Sign/signup";
 
-import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias";
-import Clients from "./components/home-Abogado/clients/clients";
-import { NewPass } from "./components/Sign/newpass";
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector((state) => state);
@@ -85,23 +82,9 @@ function App() {
 
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
-        <Route exact path="/signup" component={Signup} />
         <Route exact path="/Cambiopass" component={NewPass} />
-        <Route
-          exact
-          path={
-            usuario && usuario?.adminId === null ? "/user/panel" : "/ingreso"
-          }
-        >
-          {usuario && usuario?.adminId === null ? <HomeUsuario /> : <Signin />}
-        </Route>
-        <Route
-          exact
-          path={
-            usuario?.clienteId != null ? "/user/panel/consultas" : "/ingreso"
-          }
-        >
-          {usuario?.clienteId != null ? <ConsultasUsuario /> : <Signin />}
+        <Route exact path="/user/panel">
+          <HomeUsuario />
         </Route>
         <Route
           exact
