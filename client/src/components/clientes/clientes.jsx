@@ -132,7 +132,7 @@ export default function Clientes() {
           className=" button-about mt-3 mb-3"
           onClick={(e) => handleClick(e, 0)}
         >
-          Clientes Actuales
+          Casos Actuales
         </button>
         <button
           className="button-about mt-3 mb-3 "
