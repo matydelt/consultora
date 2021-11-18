@@ -284,17 +284,17 @@ export default function ModificarAbogado() {
             <hr className="text-muted" />
 
             {errores.length > 0 && (
-                <div className="alert alert-danger">
-                  {errores.map((e, i) => {
-                    return (
-                      <p key={i}>
-                        <span className="fw-bold">X </span>
-                        {e}
-                      </p>
-                    );
-                  })}
-                </div>
-              )}
+              <div className="alert alert-danger">
+                {errores.map((e, i) => {
+                  return (
+                    <p key={i}>
+                      <span className="fw-bold">X </span>
+                      {e}
+                    </p>
+                  );
+                })}
+              </div>
+            )}
 
             <div className="row my-5">
 
@@ -311,7 +311,10 @@ export default function ModificarAbogado() {
                 </select>
                 {materiasEnviar &&
                   materiasEnviar.map(me => {
-                    return <span key={me} onClick={() => quitarMateriaEnviar(me)} className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer animate__animated animate__fadeIn animate__faster">{me} X</span>
+                    return <div key={me} onClick={() => quitarMateriaEnviar(me)} className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster position-relative">
+                      {me}
+                      <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">x</span>
+                    </div>
                   })
                 }
               </div>
@@ -329,7 +332,10 @@ export default function ModificarAbogado() {
                 </select>
                 {provinciasEnviar &&
                   provinciasEnviar?.map(pe => {
-                    return <span key={pe} onClick={() => quitarProvinciaEnviar(pe)} className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer animate__animated animate__fadeIn animate__faster">{pe} X</span>
+                    return <div key={pe} onClick={() => quitarProvinciaEnviar(pe)} className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster">
+                      {pe}
+                      <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">x</span>
+                    </div>
                   })
                 }
 
@@ -393,7 +399,7 @@ export default function ModificarAbogado() {
         </div>
         :
         <>
-          <div className="container text-center my-5" style={ {padding: '300px'}}>
+          <div className="container text-center my-5" style={{ padding: '300px' }}>
 
             <div class="spinner-grow" role="status">
               <span class="visually-hidden">Loading...</span>

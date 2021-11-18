@@ -7,7 +7,7 @@ import swal from 'sweetalert';
 import { actionCancelarTurno, getDia } from '../../../../redux/actions';
 
 
-export default function ModalModificarTurnos({ getDias, mesActual, setDesde }) {
+export default function ModalModificarTurnos({ getDias, mesActual, setDesde, setDias }) {
 
     const { dia } = useSelector(state => state);
 
@@ -21,15 +21,13 @@ export default function ModalModificarTurnos({ getDias, mesActual, setDesde }) {
         ]
     });
 
-    const { fecha, notaModificar } = form;
+    const { fecha, notaModificar, turnos } = form;
 
 
     useEffect(() => {
-        // let fecha = new Date(dia?.dia?.fecha).toISOString().slice(0, 10);
         let fecha = `${new Date(dia?.dia?.fecha).getFullYear()}-${new Date(dia?.dia?.fecha).getMonth() + 1 < 10 ? '0' : ''}${new Date(dia?.dia?.fecha).getMonth() + 1}-${new Date(dia?.dia?.fecha).getDate() < 10 ? '0' : ''}${new Date(dia?.dia?.fecha).getDate()}`
         setForm({ fecha: fecha, notaModificar: dia?.dia?.nota, turnos: dia?.turnos })
     }, [dia]);
-    // }, []);
 
 
     function handleForm(e) {
@@ -40,30 +38,25 @@ export default function ModalModificarTurnos({ getDias, mesActual, setDesde }) {
         } else {
             setForm({ ...form, [e.target.name]: e.target.value })
         }
-
     }
-
 
 
     function submitForm(e) {
         e.preventDefault();
+        setDesde(1)
+        setDias([])
         axios.put('/dia', { diaId: dia?.dia?.id, form }).then(() => {
-            toast.success('Día modificado')
-            console.log(mesActual);
+            toast.success('Día modificado');
         }).then(() => {
             if (mesActual >= 0) {
-                console.log('con mes');
                 getDias(mesActual);
-                // getDias(new Date(dia.dia.fecha).getMonth());
             } else {
-                console.log('sin mes');
-                getDias(undefined, 1, true);
+                console.log('CARGA CON SINNNNN ACTUAL');
+                getDias(undefined, 1);
             }
-            setDesde(1)
         }).catch(err => toast.error('Hubo un problema al modificar los turnos'));
     };
 
-    const { fechas, nota, turnos } = form;
     function añadirTurno() {
         turnos.push({ hora: '' })
         setForm({ ...form }, turnos);
