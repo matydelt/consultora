@@ -20,7 +20,7 @@ export default function TurnosAbogado() {
     const [dias, setDias] = useState([]);
     const [fechasSeleccionadas, setFechasSeleccionadas] = useState();
     const [cargandoDias, setCargandoDias] = useState(true);
-    const [desde, setDesde] = useState(1);
+    const [desde, setDesde] = useState(null);
     const [cantidadDias, setCantidadDias] = useState(0);
     const [element, setElement] = useState(null);
 
@@ -69,10 +69,13 @@ export default function TurnosAbogado() {
     useEffect(() => {
         // getDias();
         // setCargandoDias(true);
+        // getDias(new Date().getMonth(), undefined);
         getDias(mesActual);
         // }, [usuario, dia, cargandoDias]);
     // }, [usuario]);
-    }, [usuario]);
+    console.log(mesActual);
+    console.log(mesActual);
+    }, [usuario?.abogado?.id]);
 
 
     useEffect(() => {
@@ -93,7 +96,8 @@ export default function TurnosAbogado() {
     }, []);
 
     useEffect(() => {
-        if (dias.length < cantidadDias && desde > 1) {
+        if (dias.length < cantidadDias && desde > 1 && mesActual < 0) {
+            console.log(desde);
             getDias(undefined, desde)
         }
         console.log('DESDE', desde);
@@ -214,16 +218,16 @@ export default function TurnosAbogado() {
 
     function filtrarPorMes(e) {
         setCargandoDias(true);
-        setDesde(1);
+        // setDesde(1);
         if (e.target.value) {
             setMesActual(e.target.value);
             setCantidadDias(0);
             getDias(e.target.value);
         } else {
-            // setDesde(1);
+            setDesde(1);
             setMesActual(-1)
             setDias([]);
-            getDias(undefined, desde);
+            getDias(undefined, 1);
         }
     };
 
@@ -313,7 +317,7 @@ export default function TurnosAbogado() {
                 </div>
 
                 <div className="col-auto text-right align-middle ">
-                    <select className="form-control pointer shadow p-2" disabled={cargandoDias} onChange={(e) => filtrarPorMes(e)} title="AASA">
+                    <select className="form-control pointer shadow p-2" disabled={cargandoDias} onChange={(e) => filtrarPorMes(e)} title={"Los meses corresponden al año corriente. \nLos turnos de otros años se encuentran en 'Ver todos los turnos'."}>
                         <option selected={mesActual === -1} value="">Ver todos los turnos</option>
                         <option selected={mesActual === 0} value="0">Enero</option>
                         <option selected={mesActual === 1} value="1">Febrero</option>
