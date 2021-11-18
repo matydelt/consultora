@@ -11,7 +11,7 @@ import {
   inMemoryPersistence,
   signInWithRedirect,
 } from "firebase/auth";
-import Logo from "../home-page/assets/img/buffet-buffet-law.png";
+import LogoGoogle from "../home-page/assets/img/google-logo-9812.png";
 import {
   getUsuario,
   postUsuario,
@@ -30,8 +30,10 @@ import { Link } from "react-router-dom";
 import md5 from "md5";
 import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
-
+import LogoBlanco from "../home-page/assets/img/logo-blacno-sin-fondo.png";
 import "./sign.css";
+import ButtonSign from "./ButtonSign";
+import Signup from "./signup";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -102,7 +104,7 @@ export const Signin = () => {
         .then(() => {
           dispatch(getUsuario({ eMail: eMail }));
         })
-        .catch((error) => { });
+        .catch((error) => {});
       createOK();
       setFirstName("");
       setLastName("");
@@ -156,16 +158,28 @@ export const Signin = () => {
       });
   };
 
+  const handleShwoSignup = (e) => {
+    const container = document.getElementById("container");
+    container.classList.add("right-panel-active");
+  };
+
+  const handleShwoSignin = () => {
+    const container = document.getElementById("container");
+    container.classList.remove("right-panel-active");
+    console.log(container.classList);
+  };
+
   return usuario?.adminId ? (
     <Redirect to="/admin" />
   ) : usuario?.abogadoId ? (
     <Redirect to="/user/abogado" />
   ) : (
-    <div>
-      <Navbar navId={"menu"} />
-      {!!usuario.firstName ? (
-        <Redirect to="/user/panel" />
-        // <div className="container p-4">
+    <div className="hidden">
+      <div>
+        {/* <Navbar navId={"menu"} /> */}
+        {!!usuario.firstName ? (
+          <Redirect to="/user/panel" />
+        ) : // <div className="container p-4">
         //   <div className="row">
         //     <div className="col-md-4 mx-auto">
         //       <div className="card text-center">
@@ -196,133 +210,161 @@ export const Signin = () => {
         //     </div>
         //   </div>
         // </div>
-      ) : displayname ? (
-        <div className="container p-4">
-          <div className="row">
-            <div className="col-md-4 mx-auto">
-              <div className="card text-center">
-                <div className="card-header">
-                  <h3>Register</h3>
-                </div>
-                <div className="card-body form-sign">
-                  <div className="form-group">
-                    <input
-                      type="type"
-                      value={firstName}
-                      name="firstName"
-                      autoComplete="off"
-                      placeholder=" Nombre"
-                      className="form-control"
-                      autoFocus
-                      required
-                      onChange={(e) => {
-                        setFirstName(e.target.value);
-                      }}
-                    />
+        displayname ? (
+          <div className="container p-4">
+            <div className="row">
+              <div className="col-md-4 mx-auto">
+                <div className="card text-center">
+                  <div className="card-header">
+                    <h3>Register</h3>
                   </div>
-                  <div className="form-group">
-                    <input
-                      type="type"
-                      value={lastName}
-                      name="lastName"
-                      autoComplete="off"
-                      placeholder=" Apellido"
-                      className="form-control"
-                      autoFocus
-                      required
-                      onChange={(e) => {
-                        setLastName(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      value={dni}
-                      name="DNI"
-                      autoComplete="off"
-                      placeholder="DNI : 1234567"
-                      className="form-control"
-                      required
-                      onChange={(e) => {
-                        setDni(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      value={celular}
-                      name="Number"
-                      autoComplete="off"
-                      placeholder="Teléfono : 11 1111-1111"
-                      className="form-control"
-                      required
-                      onChange={(e) => {
-                        setPhone(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      value={eMail}
-                      name="Mail"
-                      disabled="on"
-                      autoComplete="off"
-                      placeholder="Email: ejemplo@ejemplo.com"
-                      className="form-control"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      value={password}
-                      disabled="on"
-                      name="password"
-                      autoComplete="off"
-                      placeholder="Contraseña"
-                      className="form-control"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <button
-                      className="btn btn-success btn-block"
-                      onClick={GoTo}
-                      disabled={
-                        firstName === "" ||
-                        lastName === "" ||
-                        dni === "" ||
-                        celular === "" ||
-                        eMail === "" ||
-                        password.length < 6
-                      }
-                    >
-                      Register
-                    </button>
+                  <div className="card-body form-sign">
+                    <div className="form-group">
+                      <input
+                        type="type"
+                        value={firstName}
+                        name="firstName"
+                        autoComplete="off"
+                        placeholder=" Nombre"
+                        className="form-control"
+                        autoFocus
+                        required
+                        onChange={(e) => {
+                          setFirstName(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="type"
+                        value={lastName}
+                        name="lastName"
+                        autoComplete="off"
+                        placeholder=" Apellido"
+                        className="form-control"
+                        autoFocus
+                        required
+                        onChange={(e) => {
+                          setLastName(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        value={dni}
+                        name="DNI"
+                        autoComplete="off"
+                        placeholder="DNI : 1234567"
+                        className="form-control"
+                        required
+                        onChange={(e) => {
+                          setDni(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        value={celular}
+                        name="Number"
+                        autoComplete="off"
+                        placeholder="Teléfono : 11 1111-1111"
+                        className="form-control"
+                        required
+                        onChange={(e) => {
+                          setPhone(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        value={eMail}
+                        name="Mail"
+                        disabled="on"
+                        autoComplete="off"
+                        placeholder="Email: ejemplo@ejemplo.com"
+                        className="form-control"
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="password"
+                        value={password}
+                        disabled="on"
+                        name="password"
+                        autoComplete="off"
+                        placeholder="Contraseña"
+                        className="form-control"
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <button
+                        className="btn btn-success btn-block"
+                        onClick={GoTo}
+                        disabled={
+                          firstName === "" ||
+                          lastName === "" ||
+                          dni === "" ||
+                          celular === "" ||
+                          eMail === "" ||
+                          password.length < 6
+                        }
+                      >
+                        Register
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="container p-4">
-          <div className="row">
-            <div className="col-md-4 mx-auto">
-              <div className="card text-center">
-                <div className="card-header">
-                  <h3>Iniciar Sesión</h3>
+        ) : (
+          <div className="body_login">
+            <div id="container" className="bg_blue_image pt-4">
+              <div className="overlay_container">
+                <div className="overlay">
+                  <div className="overlay_panel overlay_left">
+                    <div>
+                      <h4>
+                        ¿Tienes una cuenta? <br /> Presione "Iniciar Sesión".
+                      </h4>
+                      <ButtonSign
+                        handle={handleShwoSignin}
+                        text="Iniciar Sesión"
+                      />
+                    </div>
+                  </div>
+                  <div className="overlay_panel overlay_right">
+                    <div>
+                      <img
+                        src={LogoBlanco}
+                        alt="Logo Consultora"
+                        className="card-img-top mx-auto m-2 rounded-circle w-50"
+                      />
+                      <h3>Bienvenido a Buffet Law</h3>
+                      <div className="caption_button_overlay_right">
+                        <h4>
+                          ¿No tiene una cuenta? <br /> Presione "Crear Cuenta" e
+                          ingrese sus datos.
+                        </h4>
+                        <ButtonSign
+                          handle={handleShwoSignup}
+                          text="Crear Cuenta"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <img
-                  src={Logo}
-                  alt="Logo Consultora"
-                  className="card-img-top mx-auto m-2 rounded-circle w-50"
-                />
-                <div className="card-body form-sign">
-                  <div className="form-group">
+              </div>
+
+              <div className="form_container sign_in_container">
+                <div className="div_sign_in_container">
+                  <h3>Iniciar Sesión</h3>
+                  <div className="singn_input_login">
                     <input
                       type="text"
                       value={eMail}
@@ -337,7 +379,7 @@ export const Signin = () => {
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="password"
                       value={password}
@@ -351,35 +393,32 @@ export const Signin = () => {
                       }}
                     />
                   </div>
-                  <button className="btn btn-primary btn-block" onClick={Login}>
+                  <button className="button_login_signin" onClick={Login}>
                     Ingresar
                   </button>
 
-                  <p>-- O ingresar con --</p>
-
-                  <div className="row">
-                    <div className="col-md-12" onClick={loginGoogle}>
-                      {" "}
-                      <a class="btn btn-block btn-outline-primary" href="#">
-                        <img src="https://img.icons8.com/color/16/000000/google-logo.png" />{" "}
-                        Google
-                      </a>{" "}
-                    </div>
+                  <div className="contain_other_signin">
+                    {" "}
+                    <p className="text-center">O</p>
+                    <button onClick={loginGoogle}>
+                      <img src={LogoGoogle} alt="google" />{" "}
+                      <p>Inicia Sesión con Google</p>
+                    </button>{" "}
                   </div>
-                </div>
-
-                <div className="card-footer">
-                  <Link to="/signup">
-                    <label className="pointer p-1">
-                      Crear una cuenta nueva
-                    </label>
-                  </Link>
+                  {/* <div className="">
+                      <Link to="/signup">
+                        <label className="pointer p-1">
+                          Crear una cuenta nueva
+                        </label>
+                      </Link>
+                    </div> */}
                 </div>
               </div>
+              <Signup />
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
