@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
 import {
@@ -61,6 +61,7 @@ function App() {
   return (
     <div className="App container-fluid p-0">
       <Switch>
+      <Suspense fallback={Loaded}>
         <Route exact path="/">
           <HomePage />
         </Route>
@@ -109,6 +110,7 @@ function App() {
           {usuario?.clienteId != null ? <TurnosUsuario /> : <Signin />}
         </Route>
         <Route component={Loaded} path="/:rest*" />
+        </Suspense>
         <div>
           <NavAbogado />
           <Route

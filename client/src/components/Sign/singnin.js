@@ -133,26 +133,6 @@ export const Signin = () => {
 
   const Login = async (e) => {
     e.preventDefault();
-    // await setPersistence(auth, browserSessionPersistence)
-    // .then(async () => {
-    await signInWithEmailAndPassword(auth, eMail, md5(password))
-      .then((userCredential) => {
-        // Signed in
-        setLoading(true);
-        console.log("login");
-        // const user = userCredential.user;
-        dispatch(getUsuario({ eMail: eMail }));
-        // sessionIN();
-        setEmail("");
-        setPassword("");
-        // ...
-      })
-      .catch((error) => {
-        console.log(error, "error en Singnin");
-      });
-  };
-  const Login = async (e) => {
-    e.preventDefault();
     await setPersistence(auth, browserSessionPersistence)
       .then(async () => {
         await signInWithEmailAndPassword(auth, eMail, password)

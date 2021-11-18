@@ -20,9 +20,9 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-          <Suspense fallback={Loaded}>
+          
             <App />
-          </Suspense>
+          
         </FirebaseAppProvider>
       </Router>
     </Provider>
