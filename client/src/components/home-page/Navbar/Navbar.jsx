@@ -11,7 +11,7 @@ const Navbar = ({ navId }) => {
   return (
     <nav id={navId} className="col-12 col-xl-12">
 
-{console.log(usuario)}      
+      {console.log(usuario)}
       <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
         <li className="col-xl-1">
           <Link to="/">Home</Link>

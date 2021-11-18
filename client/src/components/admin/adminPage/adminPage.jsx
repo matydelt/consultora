@@ -18,6 +18,7 @@ import AdminNewUsersPage from "../adminNewUsersPage/adminNewUsersPage";
 import AdminClientes from "../adminClients/clientes";
 import AdminBannedUsersPage from "../adminBannedUsersPage/adminBannedUsersPage";
 import Navbar from "../../home-page/Navbar/Navbar";
+import ModifierHome from "../adminHome/modifierHome";
 
 export default function AdminPage() {
   const dispatch = useDispatch();
@@ -25,13 +26,12 @@ export default function AdminPage() {
 
   useEffect(() => {
     dispatch(getUsuarios());
-    dispatch(getClientes())
+    dispatch(getClientes());
   }, []);
   // if (adminId === undefined) return (<Redirect to="/" />)
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
-      <Navbar navId={"menu"} />
-      <div style={{ display: "flex", marginTop: "-20px" }}>
+      <div style={{ display: "flex", marginTop: "20px" }}>
         <Sidebar />
         <Switch>
           <Route path="/admin" exact component={Dashboard} />
@@ -43,6 +43,7 @@ export default function AdminPage() {
             exact
             component={AdminBannedUsersPage}
           />
+          <Route path={"/admin/About"} exact component={ModifierHome} />
         </Switch>
       </div>
     </div>

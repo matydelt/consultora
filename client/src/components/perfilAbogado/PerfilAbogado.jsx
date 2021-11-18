@@ -1,28 +1,22 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useHistory, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import Footer from "../home-page/Footer/Footer";
 import Navbar from "../home-page/Navbar/Navbar";
-
 import "./PerfilAbogado.css";
-import Resenas from "./Resenas/Resenas";
+import { getAbogado } from "../../redux/actions/index";
 
 export default function PerfilAbogado() {
-  const [abogado, setAbogado] = useState({});
+  const { abogado } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   const history = useHistory();
 
   const { slug } = useParams();
 
   useEffect(() => {
-    getAbogado();
-  }, []);
-
-  const getAbogado = () => {
-    return axios.get(`abogado/${slug}`).then(({ data }) => {
-      setAbogado(data);
-    });
-  };
+    dispatch(getAbogado(slug));
+  }, [dispatch, slug]);
 
   return (
     <>
@@ -74,56 +68,39 @@ export default function PerfilAbogado() {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="container">
-        <div className="row mt-4">
-          <div className="mx-5 col">
-            <p className="fs-4 text-muted">FormaciÃ³n y experiencia</p>
-            <ul>
-              <li className="text-muted my-1">{abogado.estudios}</li>
-              <li className="text-muted my-1">{abogado.detalle}</li>
-              <li className="text-muted my-1">{abogado.experiencia}</li>
-            </ul>
-          </div>
+        <div className="container">
+          <div className="row mt-4">
+            <div className="mx-5 col">
+              <p className="fs-4 text-muted">FormaciÃ³n y experiencia</p>
+              <ul>
+                <li className="text-muted my-1">{abogado.estudios}</li>
+                <li className="text-muted my-1">{abogado.detalle}</li>
+                <li className="text-muted my-1">{abogado.experiencia}</li>
+              </ul>
+            </div>
 
-          <div className="col">
-            <p className="fs-4 text-muted">Especialidades</p>
-            {/* <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p> */}
-            <hr className="w-25 text-black"></hr>
+            <div className="col">
+              <p className="fs-4 text-muted">Especialidades</p>
+              {/* <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p> */}
+              <hr className="w-25 text-black"></hr>
 
-            <div className="container">
-              <div className="row mt-4">
-                <div className="mx-5 col">
-                  <p className="fs-4 text-muted">Formación y experiencia</p>
-                  <ul>
-                    <li className="text-muted my-1">{abogado.estudios}</li>
-                    <li className="text-muted my-1">{abogado.detalle}</li>
-                    <li className="text-muted my-1">{abogado.experiencia}</li>
-                  </ul>
-                </div>
-                <div className="col">
-                  <p className="fs-4 text-muted">Especialidades</p>
-                  {/* <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p> */}
-                  <hr className="w-25 text-black"></hr>
-                  {abogado.materias?.map((materia) => {
-                    return (
-                      <p
-                        key={materia.nombre}
-                        className="fs-6  fw-bold text-secondary"
-                      >
-                        {materia.nombre}
-                      </p>
-                    );
-                  })}
-                </div>
-              </div>
+              {abogado.materias?.map((materia) => {
+                return (
+                  <p
+                    key={materia.nombre}
+                    className="fs-6  fw-bold text-secondary"
+                  >
+                    {materia.nombre}
+                  </p>
+                );
+              })}
             </div>
           </div>
         </div>
       </div>
-      <Resenas abogado={abogado} />
-      <Footer />
+
+      <Footer></Footer>
     </>
   );
 }

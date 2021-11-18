@@ -27,7 +27,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div style={{ width: "90%" }}>
       <div
         style={{
           display: "flex",

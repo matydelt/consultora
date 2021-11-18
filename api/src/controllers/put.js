@@ -8,6 +8,8 @@ const {
   Cliente,
   Consulta,
   Ticket,
+  Items,
+  About,
   Dia,
   Turno,
 } = require("../db");
@@ -17,9 +19,7 @@ const mercadopago = require("../config/MercadoPago");
 
 async function usuario(req, res) {
   try {
-    // console.log(req.body, req.params, req.query)
     const { eMail } = req.body;
-
     const user = await Usuario.findOne({ where: { eMail } });
 
     if (user?.banned)
@@ -28,15 +28,13 @@ async function usuario(req, res) {
         .json({ mensaje: "Su cuenta se encuentra deshabilitada" });
 
     if (user) {
-      console.log(user);
       const abogado = await Abogado.findByPk(user.abogadoId);
       const { firstName, lastName, dni, celular } = await Persona.findByPk(
         user.personaDni
       );
       const personas = await Persona.findAll();
       if (personas.length < 2) {
-        console.log("admin");
-        res.send({
+        return res.json({
           ...{
             eMail: user.eMail,
             password: user.password,
@@ -53,7 +51,7 @@ async function usuario(req, res) {
         });
       } else {
         if (abogado) {
-          res.send({
+          return res.json({
             ...{
               eMail: user.eMail,
               password: user.password,
@@ -68,7 +66,7 @@ async function usuario(req, res) {
             abogado,
           });
         } else
-          res.send({
+          return res.json({
             ...{
               eMail: user.eMail,
               password: user.password,
@@ -82,12 +80,10 @@ async function usuario(req, res) {
             },
           });
       }
-    } else {
-      res.sendStatus(404);
-    }
+    } else return res.sendStatus(404);
   } catch (error) {
     console.error(error);
-    res.sendStatus(500);
+    return res.sendStatus(404);
   }
 }
 
@@ -375,7 +371,6 @@ async function clienteAbogado(req, res) {
     const { abogado, cliente, abogadoAntiguo } = req.body;
     const auxCliente = await Cliente.findByPk(cliente);
     let auxAbogado = await Usuario.findByPk(abogado);
-    console.log(req.body);
     let auxAbogado1 = await Abogado.findByPk(auxAbogado.abogadoId);
     if (abogadoAntiguo !== undefined) {
       const auxAbogadoAntiguo = await Abogado.findByPk(abogadoAntiguo);
@@ -390,6 +385,49 @@ async function clienteAbogado(req, res) {
     res.sendStatus(404);
   }
 }
+async function items(req, res) {
+  try {
+    const { id, descripcion } = req.body;
+    const actualAbout = await Items.findByPk(id);
+    if (descripcion !== "" && descripcion)
+      actualAbout.descripcion = descripcion;
+    await actualAbout.save();
+    res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+}
+
+async function about(req, res) {
+  try {
+    const { id, sobreNosotros, nuestraFilosofia, contacto, direccion } =
+      req.body;
+
+    const actualAbout = await About.findByPk(id);
+
+    console.log(nuestraFilosofia);
+    if (sobreNosotros !== "" && sobreNosotros) {
+      actualAbout.sobreNosotros = sobreNosotros;
+    } else {
+      throw new Error("falta sobre nosotros");
+    }
+    if (nuestraFilosofia !== "" && nuestraFilosofia) {
+      actualAbout.nuestraFilosofia = nuestraFilosofia;
+    } else {
+      throw new Error("falta nuestra filosofia");
+    }
+    if (contacto !== "" && contacto) actualAbout.contacto = contacto;
+    if (direccion !== "" && direccion) actualAbout.direccion = direccion;
+    await actualAbout.save();
+    res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+}
+
+
 
 async function modificarDia(req, res) {
   const { diaId, form } = req.body;
@@ -405,7 +443,7 @@ async function modificarDia(req, res) {
     dia.nota = notaModificar;
     if (new Date(dia.fecha).toISOString().slice(0, 10) !== fecha) {
       cambioFecha = new Date(fecha).getTime() + new Date(fecha).getTimezoneOffset() * 60000;
-     
+
       dia.fecha = cambioFecha;
     }
 
@@ -459,5 +497,7 @@ module.exports = {
   modificarTicket,
   putCaso,
   clienteAbogado,
+  items,
+  about,
   modificarDia,
 };

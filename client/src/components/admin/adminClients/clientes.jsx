@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientes, putClienteAbogado } from "../../../redux/actions";
+import { toast } from "react-toastify";
 
 export default function AdminClientes() {
   const dispatch = useDispatch();
@@ -24,11 +25,16 @@ export default function AdminClientes() {
       cambios.cliente !== undefined
     ) {
       dispatch(putClienteAbogado(cambios));
-    }
+      toast.success("Abogado asignado");
+    } else toast.error("Ocurrio un error");
   };
+
   const abogados = allUsers.filter((e) => e.abogadoId !== null);
   return (
-    <div className="ms-2 me-2 mt-2 mb-3 p-2 bd-highlight w-100">
+    <div
+      className="ms-5 me-5 mt-3 mb-3"
+      style={{ width: "90%", paddingTop: "20px", paddingLeft: "20px" }}
+    >
       <table className="table table-striped ">
         <thead>
           <tr>
@@ -62,20 +68,20 @@ export default function AdminClientes() {
                       <option value={null}>ninguno</option>
                       {e.abogados.length !== 0
                         ? abogados.map((e) => {
-                            if (personaAbogado.dni === e.personaDni) {
-                              return (
-                                <option value={e.eMail} selected>
-                                  {e.slug}
-                                </option>
-                              );
-                            } else
-                              return <option value={e.eMail}>{e.slug} </option>;
-                          })
-                        : abogados.map((e, i) => {
-                            if (i === 0)
-                              return <option value={e.eMail}>{e.slug} </option>;
+                          if (personaAbogado.dni === e.personaDni) {
+                            return (
+                              <option value={e.eMail} selected>
+                                {e.slug}
+                              </option>
+                            );
+                          } else
                             return <option value={e.eMail}>{e.slug} </option>;
-                          })}
+                        })
+                        : abogados.map((e, i) => {
+                          if (i === 0)
+                            return <option value={e.eMail}>{e.slug} </option>;
+                          return <option value={e.eMail}>{e.slug} </option>;
+                        })}
                     </select>
                   </td>
                   <td>{aux.length > 0 ? aux.length : "no tiene"}</td>

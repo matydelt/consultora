@@ -14,6 +14,7 @@ const {
   Admin,
   Materias,
   Ticket,
+  Items,
   Resena,
   Dia,
   Turno,
@@ -25,7 +26,6 @@ const {
 const postTickets = async (req, res, next) => {
   const { title, unit_price, casoid, consultaid } = req.body;
 
-  console.log(title, unit_price, casoid, consultaid);
 
   let preference = {
     items: [
@@ -39,7 +39,6 @@ const postTickets = async (req, res, next) => {
   try {
     const response = await mercadopago.preferences.create(preference);
 
-    // console.log(response.body.init_point);
     let ticket = {
       titulo: title,
       precio: unit_price,
@@ -84,7 +83,6 @@ const postTickets = async (req, res, next) => {
 async function subirImagen(req, res) {
   const { email } = req.body;
 
-  console.log(req.files);
 
   try {
     let result = await cloudinary.uploader.upload(
@@ -343,7 +341,7 @@ async function setAdmin(req, res) {
   }
 }
 
-async function reiniciarPassword(req, res) {}
+async function reiniciarPassword(req, res) { }
 async function setReseña(req, res, next) {
   const { abogadoId, clienteId, titulo, mensaje, puntuacion } = req.body;
   if (abogadoId && clienteId && titulo && mensaje && puntuacion) {
@@ -378,7 +376,7 @@ async function postDia(req, res) {
         abogado.addDia(dia);
         turnos.map((turno) => {
           return Turno.create({ hora: turno.hora, diumId: dia.id }).then(
-            () => {}
+            () => { }
           );
         });
       });
@@ -454,6 +452,19 @@ const postPago = async (req, res, next) => {
   }
 };
 
+async function items(req, res) {
+  try {
+    const { descripcion } = req.body
+    // const { descripcion } = item
+    const item = await Items.create({ descripcion: descripcion })
+    console.log(item)
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(500)
+  }
+}
+
 module.exports = {
   setUsuarios,
   setCasos,
@@ -463,6 +474,7 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
+  items,
   reiniciarPassword,
   setReseña,
   postPago,

@@ -1,4 +1,4 @@
-const { Consulta, Turno, Usuario, Dia } = require("../db");
+const { Consulta, Turno, Usuario, Dia, Items } = require("../db");
 const enviarEmail = require('../email/email');
 
 async function deleteConsulta(req, res, next) {
@@ -10,6 +10,18 @@ async function deleteConsulta(req, res, next) {
     next({ msg: "no se encontro la consulta" });
   }
 }
+async function items(req, res) {
+  try {
+    const { item } = JSON.parse(req.params.dataFromFrontEnd);
+    await Items.destroy({ where: { id: item } });
+    return res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    return res.sendStatus(404);
+  }
+}
+
+module.exports = { deleteConsulta, items };
 
 async function cancelarTurno(req, res) {
   const { turnoId, eliminar } = req.body;
@@ -78,4 +90,4 @@ async function eliminarDia(req, res) {
 
 };
 
-module.exports = { deleteConsulta, cancelarTurno, eliminarDia };
+module.exports = { deleteConsulta, cancelarTurno, eliminarDia, items };

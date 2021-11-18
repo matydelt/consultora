@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 
 export default function NavAbogado() {
-  let usuario = useSelector((state) => state.usuario);
+  let usuario = useSelector((state) => state.usuario)
 
   const history = useHistory();
 
@@ -63,10 +63,10 @@ export default function NavAbogado() {
               </Link>
             </li>
             <li className="nav-item">
-              { usuario.adminId &&
-              <Link to="/admin" className="nav-link">
-                Admin
-              </Link>
+              {usuario.adminId &&
+                <Link to="/admin" className="nav-link">
+                  Admin
+                </Link>
               }
             </li>
             <li className="nav-item">

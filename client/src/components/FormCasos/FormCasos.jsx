@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { postCasos } from "../../redux/actions";
 import "./FormCasos.css";
 
-const FormCasos = ({ label, cliente }) => {
+const FormCasos = ({ cliente }) => {
   const dispatch = useDispatch()
   const { materias } = useSelector(state => state)
   console.log(cliente)
@@ -135,8 +135,15 @@ const FormCasos = ({ label, cliente }) => {
     <div className="container">
       <div className="accordion accordion-flush ancho" id="accordionFlushExample">
         <div className="accordion-item">
-          <h2 className="accordion-header" id={'a' + cliente}>
-            <button className="accordion-button collapsed mb-3" type="button" data-bs-toggle="collapse" data-bs-target={'#e' + cliente} aria-expanded="false" aria-controls={'e' + { cliente }}>
+          <h2 className="accordion-header" id={"a" + cliente}>
+            <button
+              className="accordion-button collapsed mb-3"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target={"#e" + cliente}
+              aria-expanded="false"
+              aria-controls={"e" + { cliente }}
+            >
               <b>Crear Caso</b>
             </button>
           </h2>
@@ -154,10 +161,10 @@ const FormCasos = ({ label, cliente }) => {
                 </select>
               </li>
 
-              <li>Juzgado:<input type={"number"} className="list-group-item w-25" value={input.juzgado} onChange={e => setInput({ ...input, juzgado: e.target.value })} /></li>
-              Detalles:<input type={"text"} className="list-group-item w-100 w-25" value={input.detalle} onChange={e => setInput({ ...input, detalle: e.target.value })} />
+              <li>Juzgado:<input type="number" className="list-group-item w-25" value={input.juzgado} onChange={e => setInput({ ...input, juzgado: e.target.value })} /></li>
+              Detalles:<input className="list-group-item w-100 w-25" value={input.detalle} onChange={e => setInput({ ...input, detalle: e.target.value })} />
               <p className="text-danger"> {error.detalle}</p>
-              <li>N° Expediente:<input className="list-group-item w-25" value={input.numeroExpediente} onChange={e => setInput({ ...input, numeroExpediente: e.target.value })} /></li>
+              <li>N° Expediente:<input type={"number"} className="list-group-item w-25" value={input.numeroExpediente} onChange={e => setInput({ ...input, numeroExpediente: e.target.value })} /></li>
               {/* <li>N° Liquidacion:<input className="list-group-item w-25" value={input.numeroLiquidacion} disabled onChange={e => setInput({ ...input, numeroLiquidacion: e.target.value })} /></li> */}
               <li>Medida Cautelar: <br />
                 <select name="medidaCautelar" className="custom-select form-select custom-select-lg mb-3 w-25" onChange={e => handleChange(e)}>
@@ -190,7 +197,7 @@ const FormCasos = ({ label, cliente }) => {
               }
               <p className="text-danger">{error.materia}</p>
               {
-                error.medidaCautelar !== "" || error.trabaAfectiva !== "" || error.vtoMedidaCautelar !== "" || error.vtoTrabaAfectiva !== "" || !input.detalle || !input.materia === "Seleccione un estado" || !input.estado === "Seleccione un estado" ?
+                error.medidaCautelar !== "" || error.trabaAfectiva !== "" || error.vtoMedidaCautelar !== "" || error.vtoTrabaAfectiva !== "" || !input.detalle || !input.materia === "Seleccione una materia" || !input.estado === "Seleccione un estado" ?
                   <div className="d-flex justify-content-center">
                     <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3" type="submit" disabled>guardar</button>
 

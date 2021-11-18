@@ -2,33 +2,35 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { getUsuarios, setAbogado, setAdmin, setBann } from "../../../redux/actions/index";
+import {
+  getUsuarios,
+  setAbogado,
+  setAdmin,
+  setBann,
+} from "../../../redux/actions/index";
 
 const AdminUsersPage = () => {
   const { usuarios, usuario } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getUsuarios())
-  }, [dispatch])
+    dispatch(getUsuarios());
+  }, [dispatch]);
   const handleChange = (e, type) => {
     e.preventDefault();
     let eMail = e.target.value;
     let aux = usuarios.find((e) => e.eMail === eMail);
     if (type === "abogado") {
       if (aux.adminId !== 1 || usuario.adminId === 1) {
-
         let user = { eMail: e.target.value, flag: e.target.checked };
-        console.log(user)
+        console.log(user);
         dispatch(setAbogado(user));
         if (user.flag) {
-          toast.success('Abogado asignado');
+          toast.success("Abogado asignado");
         } else {
-          toast.error('Abogado eliminado');
+          toast.error("Abogado eliminado");
         }
-
       } else {
         toast.success("No tienes estos permisos");
-
       }
     } else if (type === "admin") {
       if (aux.adminId !== 1) {
@@ -39,10 +41,8 @@ const AdminUsersPage = () => {
         } else {
           toast.success("admin eliminado");
         }
-
       } else {
         toast.error("no puede hacer eso!");
-
       }
     } else if (type === "bann") {
       if (usuario.adminId === 1 && aux.adminId !== 1) {
@@ -53,10 +53,8 @@ const AdminUsersPage = () => {
         } else {
           toast.error("bann eliminado");
         }
-
       } else {
         toast.error("no puede hacer eso!");
-
       }
     }
   };
@@ -64,7 +62,7 @@ const AdminUsersPage = () => {
   return (
     <div
       className="ms-5 me-5 mt-3 mb-3"
-      style={{ width: "100%", paddingTop: "20px" }}
+      style={{ width: "90%", paddingTop: "20px", paddingLeft: "20px" }}
     >
       <table className="table table-striped  ">
         <thead>
@@ -140,8 +138,8 @@ const AdminUsersPage = () => {
                 )}
                 {e.abogadoId ? (
                   usuario.eMail === e.eMail ||
-                  e.adminId !== 1 ||
-                  usuario.adminId === 1 ? (
+                    e.adminId !== 1 ||
+                    usuario.adminId === 1 ? (
                     <td>
                       <input
                         className="form-check-input"
@@ -260,15 +258,7 @@ const AdminUsersPage = () => {
         </tbody>
       </table>
       <div id="liveAlertPlaceholder">
-        <div className="alert alert-danger alert-dismissible" role="alert">
-          Cuidado una vez eliminado el estado de abogado el mismo pierde todo!
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
-        </div>
+
       </div>
     </div>
   );

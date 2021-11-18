@@ -48,6 +48,7 @@ function Casos({ id, casos, persona, flag }) {
                 jurisdiccion={jurisdiccion}
                 fecha={updatedAt}
                 flag={flag}
+                id={id}
               />
             );
           })}

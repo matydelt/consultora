@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Redirect } from "react-router";
-import { getConsultas, getTickets } from "../../redux/actions";
+import { getConsultas } from "../../redux/actions";
 import ModalConsulta from "./modalConsulta/ModalConsulta";
 import TablaVistasConsultas from "./tablaVistasConsultas/TablaVistasConsultas";
 import "./VistaConsultasAbogados.css";

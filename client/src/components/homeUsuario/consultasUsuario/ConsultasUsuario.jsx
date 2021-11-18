@@ -135,9 +135,8 @@ export default function ConsultasUsuario() {
                       onClick={() => {
                         eliminarConsulta(consulta.id);
                       }}
-                      className={`btn btn-${
-                        !consulta.abogadoId ? "dangerNuestro" : "light text-muted"
-                      }`}
+                      className={`btn btn-${!consulta.abogadoId ? "dangerNuestro" : "light text-muted"
+                        }`}
                     >
                       Eliminar
                     </button>

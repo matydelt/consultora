@@ -3,13 +3,12 @@ import Abogado from "./Abogado/Abogado.jsx";
 import frases from "./abogados.js";
 import Carousel from "react-elastic-carousel";
 import "./AbogadosCarrusel.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAbogados } from "../../../redux/actions/index.js";
-import { useSelector } from "react-redux";
 import { breakPoints } from '../../controller/breackpoints'
 
 const AbogadosCarrusel = () => {
-  
+
 
   const dispatch = useDispatch();
   const abogados = useSelector((state) => state.abogados);

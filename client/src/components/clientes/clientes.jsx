@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAbogado, getMaterias } from "../../redux/actions";
+import { putAbogado, getMaterias } from "../../redux/actions";
 import Casos from "../casos/casos";
 import "./clientes.css";
 
@@ -14,25 +14,19 @@ export default function Clientes() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAbogado({ eMail: usuario.eMail }));
+    dispatch(putAbogado({ eMail: usuario.eMail }));
     dispatch(getMaterias());
   }, [dispatch, usuario]);
 
-  // if (!abogado) {
-  //     dispatch(getAbogado({ "eMail": usuario.eMail }))
-  //     return (<p>Loading...</p>)
-  // }
   useEffect(() => {
-    dispatch(getAbogado({ eMail: usuario.eMail }));
-  }, [dispatch, usuario]);
-  useEffect(() => {
-    if (abogado.clientes === 0) return <h1>No hay clientes</h1>;
-    let AllClients = JSON.parse(JSON.stringify(abogado.clientes || []));
-    AllClients.map(
-      (e) => (e.casos = e.casos.filter((e) => e.estado !== "cerrado"))
-    );
-    AllClients = AllClients.filter((e) => e.casos.length > 0);
-    setClientes([...AllClients]);
+    if (abogado.clientes) {
+      let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+      AllClients.map(
+        (e) => (e.casos = e.casos.filter((e) => e.estado !== "cerrado"))
+      );
+      AllClients = AllClients.filter((e) => e.casos.length > 0);
+      setClientes([...AllClients]);
+    }
   }, [abogado.clientes]);
 
   const handleClick = function (e, flag) {
@@ -47,13 +41,6 @@ export default function Clientes() {
     } else if (flag === 1) {
       AllClients.map(
         (e) => (e.casos = e.casos.filter((e) => e.estado === "cerrado"))
-      );
-      AllClients = AllClients.filter((e) => e.casos.length > 0);
-      setClientes([...AllClients]);
-    } else {
-      let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
-      AllClients.map(
-        (e) => (e.casos = e.casos.filter((e) => e.estado !== "cerrado"))
       );
       AllClients = AllClients.filter((e) => e.casos.length > 0);
       setClientes([...AllClients]);
@@ -94,9 +81,9 @@ export default function Clientes() {
     let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
     AllClients.map(
       (a) =>
-        (a.casos = a.casos.filter(
-          (h) => h.materias[0].nombre === e.target.value
-        ))
+      (a.casos = a.casos.filter(
+        (h) => h.materias[0].nombre === e.target.value
+      ))
     );
     AllClients = AllClients.filter((e) => e.casos.length > 0);
     setClientes([...AllClients]);
@@ -192,13 +179,7 @@ export default function Clientes() {
                 flag={flag}
               />
               <div className="d-inline-flex flex-row justify-content-center ">
-                <Link to="/user/abogado/nuevo-caso">
-                  <div className="d-flex justify-content-center">
-                    <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3">
-                      Crear caso{" "}
-                    </button>
-                  </div>
-                </Link>
+
                 {flag ? (
                   <div className="d-flex justify-content-center">
                     <button

@@ -2,12 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
-import {
-  getMaterias,
-  getProvincias,
-  getUsuario,
-  getAbogados,
-} from "./redux/actions";
+import { getMaterias, getProvincias, getUsuario, getAbogados, getAbout, getItems } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
@@ -27,12 +22,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/admin/adminPage/adminPage";
 import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
-
 import "./App.css";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
-
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias";
 import Clients from "./components/home-Abogado/clients/clients";
+
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector((state) => state);
@@ -51,7 +45,9 @@ function App() {
     dispatch(getProvincias());
     dispatch(getAbogados());
     dispatch(getMaterias());
-  }, []);
+    dispatch(getAbout())
+    dispatch(getItems())
+  }, [dispatch]);
 
   return (
     <div className="App container-fluid p-0">
