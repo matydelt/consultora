@@ -8,8 +8,6 @@ import {
   // signOut,
   setPersistence,
   browserSessionPersistence,
-  // inMemoryPersistence,
-  // signInWithRedirect,
 } from "firebase/auth";
 import LogoGoogle from "../home-page/assets/img/google-logo-9812.png";
 import {
@@ -17,6 +15,7 @@ import {
   postUsuario,
   getPersonas,
   getUsuarios,
+  modificarClave,
 } from "../../redux/actions";
 import {
   sessionERR,
@@ -149,11 +148,33 @@ export const Signin = () => {
         // ...
       })
       .catch((error) => {
-        sessionERR();
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
-        setEmail("");
-        setPassword("");
+        console.log(error, "error en Singnin");
+      });
+  };
+  const Login = async (e) => {
+    e.preventDefault();
+    await setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        await signInWithEmailAndPassword(auth, eMail, password)
+          .then((userCredential) => {
+            // Signed in
+            console.log("login");
+            const user = userCredential.user;
+            dispatch(modificarClave({ eMail: eMail, password: md5(password) }));
+            dispatch(getUsuario({ eMail: eMail }));
+            sessionIN();
+            setEmail("");
+            setPassword("");
+            // ...
+          })
+          .catch((error) => {
+            console.log("error");
+            sessionERR();
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setEmail("");
+            setPassword("");
+          });
       })
       // })
       .catch((error) => {

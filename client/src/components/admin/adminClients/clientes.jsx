@@ -68,20 +68,20 @@ export default function AdminClientes() {
                       <option value={null}>ninguno</option>
                       {e.abogados.length !== 0
                         ? abogados.map((e) => {
-                          if (personaAbogado.dni === e.personaDni) {
-                            return (
-                              <option value={e.eMail} selected>
-                                {e.slug}
-                              </option>
-                            );
-                          } else
-                            return <option value={e.eMail}>{e.slug} </option>;
-                        })
+                            if (personaAbogado.dni === e.personaDni) {
+                              return (
+                                <option value={e.eMail} selected>
+                                  {e.slug}
+                                </option>
+                              );
+                            } else
+                              return <option value={e.eMail}>{e.slug} </option>;
+                          })
                         : abogados.map((e, i) => {
-                          if (i === 0)
+                            if (i === 0)
+                              return <option value={e.eMail}>{e.slug} </option>;
                             return <option value={e.eMail}>{e.slug} </option>;
-                          return <option value={e.eMail}>{e.slug} </option>;
-                        })}
+                          })}
                     </select>
                   </td>
                   <td>{aux.length > 0 ? aux.length : "no tiene"}</td>

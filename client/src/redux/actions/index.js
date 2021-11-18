@@ -400,6 +400,18 @@ export function setCliente(cliente, abogado) {
       });
   };
 }
+export function modificarClave(Usuario) {
+  return (dispatch) => {
+    axios
+      .put("http://localhost:3001/newpass", Usuario)
+      .then((response) => {
+        return dispatch({ type: "POST_CLAVE" });
+      })
+      .catch((err) => {
+        console.log("ruta no existe");
+      });
+  };
+}
 
 export function getClientes() {
   return (dispatch) => {

@@ -26,7 +26,6 @@ const {
 const postTickets = async (req, res, next) => {
   const { title, unit_price, casoid, consultaid } = req.body;
 
-
   let preference = {
     items: [
       {
@@ -63,7 +62,7 @@ const postTickets = async (req, res, next) => {
     } else {
       const consul = await Consulta.findByPk(consultaid);
 
-      consul.setTicket(tickets);
+      const tickets = await consul.setTicket(tickets);
 
       tickets.setConsultum(consul);
 
@@ -82,7 +81,6 @@ const postTickets = async (req, res, next) => {
 // CLOUDINARY
 async function subirImagen(req, res) {
   const { email } = req.body;
-
 
   try {
     let result = await cloudinary.uploader.upload(
@@ -341,7 +339,7 @@ async function setAdmin(req, res) {
   }
 }
 
-async function reiniciarPassword(req, res) { }
+async function reiniciarPassword(req, res) {}
 async function setReseña(req, res, next) {
   const { abogadoId, clienteId, titulo, mensaje, puntuacion } = req.body;
   if (abogadoId && clienteId && titulo && mensaje && puntuacion) {
@@ -376,7 +374,7 @@ async function postDia(req, res) {
         abogado.addDia(dia);
         turnos.map((turno) => {
           return Turno.create({ hora: turno.hora, diumId: dia.id }).then(
-            () => { }
+            () => {}
           );
         });
       });
@@ -454,17 +452,52 @@ const postPago = async (req, res, next) => {
 
 async function items(req, res) {
   try {
-    const { descripcion } = req.body
+    const { descripcion } = req.body;
     // const { descripcion } = item
-    const item = await Items.create({ descripcion: descripcion })
-    console.log(item)
-    res.sendStatus(200)
+    const item = await Items.create({ descripcion: descripcion });
+    console.log(item);
+    res.sendStatus(200);
   } catch (e) {
-    console.log(e)
-    res.sendStatus(500)
+    console.log(e);
+    res.sendStatus(500);
   }
 }
 
+async function reiniciarPassword(req, res) {
+  const { eMail, password } = req.body;
+
+  try {
+    const thisUsers = await Usuario.findOne({ where: { eMail: eMail } });
+
+    if (thisUsers.eMail != undefined) {
+      thisUsers.password = password;
+
+      Promise.all([await thisUsers.save()]);
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
+async function reiniciarPassword(req, res) {
+  const { eMail, password } = req.body;
+
+  try {
+    const thisUsers = await Usuario.findOne({ where: { eMail: eMail } });
+
+    if (thisUsers.eMail != undefined) {
+      thisUsers.password = password;
+
+      Promise.all([await thisUsers.save()]);
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
 module.exports = {
   setUsuarios,
   setCasos,

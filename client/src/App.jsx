@@ -22,6 +22,7 @@ import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
 import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
 import Signup from "./components/Sign/signup";
+import Loaded from "./components/Loaded/Loaded";
 import FormCasos from "./components/FormCasos/FormCasos";
 import HomeUsuario from "./components/homeUsuario/HomeUsuario";
 import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/ConsultasUsuario";
@@ -31,9 +32,10 @@ import AdminPage from "./components/admin/adminPage/adminPage";
 import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 import "./App.css";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
+
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias";
 import Clients from "./components/home-Abogado/clients/clients";
-
+import { NewPass } from "./components/Sign/newpass";
 function App() {
   const dispatch = useDispatch();
   const { usuario } = useSelector((state) => state);
@@ -75,55 +77,109 @@ function App() {
           <Perfiles />
         </Route>
         <Route
-          path="/admin"
-          render={(props) => (
-            <AdminPage props={props} adminId={usuario.adminId} />
-          )}
-        />
+          exact
+          path={usuario?.adminId != null ? "/admin" : "/ingreso"}
+          component={usuario?.adminId != null ? AdminPage : Signin}
+        ></Route>
+
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/user/panel">
-          <HomeUsuario />
+        <Route exact path="/Cambiopass" component={NewPass} />
+        <Route
+          exact
+          path={
+            usuario && usuario?.adminId === null ? "/user/panel" : "/ingreso"
+          }
+        >
+          {usuario && usuario?.adminId === null ? <HomeUsuario /> : <Signin />}
         </Route>
-        <Route exact path="/user/panel/consultas">
-          <ConsultasUsuario />
+        <Route
+          exact
+          path={
+            usuario?.clienteId != null ? "/user/panel/consultas" : "/ingreso"
+          }
+        >
+          {usuario?.clienteId != null ? <ConsultasUsuario /> : <Signin />}
         </Route>
-        <Route exact path="/user/panel/turnos">
-          <TurnosUsuario />
+        <Route
+          exact
+          path={usuario?.clienteId != null ? "/user/panel/turnos" : "/ingreso"}
+        >
+          {usuario?.clienteId != null ? <TurnosUsuario /> : <Signin />}
         </Route>
+        <Route component={Loaded} path="/:rest*" />
         <div>
           <NavAbogado />
-          <Route exact path="/user/abogado">
-            <HomeAbogado />
-          </Route>
-          <Route exact path="/user/abogado/clientes">
-            <Clients />
-          </Route>
-          <Route exact path="/user/abogado/consultas">
-            <VistaConsultasAbogado />
-          </Route>
-          <Route exact path="/user/abogado/casos">
-            <Clientes />
+          <Route
+            exact
+            path={usuario?.abogadoId != null ? "/user/abogado" : "/ingreso"}
+          >
+            {usuario?.abogadoId != null ? <HomeAbogado /> : <Signin />}
           </Route>
           <Route
             exact
-            path="/user/abogado/modificar-perfil"
-            component={ModificarAbogado}
-          ></Route>
-          <Route path="/user/abogado/gestionar-turnos">
-            <TurnosAbogado></TurnosAbogado>
+            path={
+              usuario?.abogadoId != null ? "/user/abogado/clientes" : "/ingreso"
+            }
+          >
+            {usuario?.abogadoId != null ? <Clients /> : <Signin />}
           </Route>
-          <Route exact path="/user/abogado/nuevo-caso">
-            <FormCasos />
+          <Route
+            exact
+            path={
+              usuario?.abogadoId != null
+                ? "/user/abogado/consultas"
+                : "/ingreso"
+            }
+          >
+            {usuario?.abogadoId != null ? (
+              <VistaConsultasAbogado />
+            ) : (
+              <Signin />
+            )}
+          </Route>
+          <Route
+            exact
+            path={
+              usuario?.abogadoId != null ? "/user/abogado/casos" : "/ingreso"
+            }
+          >
+            {usuario?.abogadoId != null ? <Clientes /> : <Signin />}
+          </Route>
+          <Route
+            exact
+            path={
+              usuario?.abogadoId != null
+                ? "/user/abogado/modificar-perfil"
+                : "/ingreso"
+            }
+            component={usuario?.abogadoId != null ? ModificarAbogado : Signin}
+          ></Route>
+          <Route
+            exact
+            path={
+              usuario?.abogadoId != null
+                ? "/user/abogado/gestionar-turnos"
+                : "/ingreso"
+            }
+          >
+            {usuario?.abogadoId != null ? <TurnosAbogado /> : <Signin />}
+          </Route>
+          <Route
+            exact
+            path={
+              usuario?.abogadoId != null
+                ? "/user/abogado/nuevo-caso"
+                : "/ingreso"
+            }
+          >
+            {usuario?.abogadoId != null ? <FormCasos /> : <Signin />}
           </Route>
           <Footer />
         </div>
       </Switch>
-      {/* <Route exact path="/form-resena">
-        <CrearResena></CrearResena>{" "}
-      </Route> */}
-      <ToastContainer></ToastContainer>
+      <ToastContainer />
     </div>
   );
 }
