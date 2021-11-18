@@ -31,6 +31,7 @@ import md5 from "md5";
 import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
 import LogoBlanco from "../home-page/assets/img/logo-blacno-sin-fondo.png";
+import Logologueo from "../home-page/assets/img/buffet-buffet-law.png";
 import "./sign.css";
 import ButtonSign from "./ButtonSign";
 import Signup from "./signup";
@@ -335,7 +336,7 @@ export const Signin = () => {
                     <h3>Iniciar Sesión</h3>
                   </div>
                   <img
-                    src={Logo}
+                    src={Logologueo}
                     alt="Logo Consultora"
                     className="card-img-top mx-auto m-2 rounded-circle w-50"
                   />

@@ -82,7 +82,7 @@ function App() {
         />
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
-        {/* <Route exact path="/signup" component={Signup} /> */}
+        <Route exact path="/signup" component={Signup} />
         <Route exact path="/user/panel">
           <HomeUsuario />
         </Route>
