@@ -27,7 +27,7 @@ const Header = () => {
           <div className="bg_two_caption height_image carousel-item col-md-5">
             <div className="carousel-caption d-none d-md-block m_top_header caption_two">
               <h5>¿Quieres una Consulta rápida?</h5>
-              <ButtonsNav nameClass="btn textDecoration" link="#" text="Presiona aquí  " />
+              <ButtonsNav nameClass="btn textDecoration" link="/ingreso" text="Presiona aquí  " />
             </div>
           </div>
 
