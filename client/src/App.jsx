@@ -34,9 +34,7 @@ import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 import "./App.css";
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias";
 import Clients from "./components/home-Abogado/clients/clients";
-import NewPass from "./components/Sign/newpass.js";
-import ErrorPag from "./components/Error404/ErrorPag";
-import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
+import NewPass from "./components/Sign/newpass";
 
 function App() {
   const dispatch = useDispatch();
