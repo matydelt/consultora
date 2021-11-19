@@ -24,8 +24,6 @@ import AdminPage from "./components/adminPage/adminPage";
 import "./App.css";
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
 import NewPass from "./components/Sign/NewPass.js";
-import Signup from "./components/Sign/signup";
-import RegistroGoogle from "./components/Sign/RegistroGoogle";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,7 +60,6 @@ function App() {
         <Route exact path={"/admin"} component={AdminPage}></Route>
 
         <Route exact path="/ingreso" component={Signin} />
-        <Route exact path="/registroGoogle" component={RegistroGoogle} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/Cambiopass" component={NewPass} />
         <Route exact path="/user/panel">
