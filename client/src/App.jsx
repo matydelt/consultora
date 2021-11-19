@@ -34,7 +34,8 @@ import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
 import Clients from "./components/home-Abogado/clients/clients";
 import NewPass from "./components/Sign/newpass.js";
 import Signup from "./components/Sign/signup";
-import Loaded from "./components/Loaded/Loaded";
+import ErrorPag from "./components/Error404/ErrorPag";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -87,20 +88,20 @@ function App() {
           exact
           path={usuario?.clienteId != null ? "/user/panel/turnos" : "/"}
         >
-          {usuario?.clienteId != null ? <TurnosUsuarios/>: <Loaded/>}
+          {usuario?.clienteId != null ? <TurnosUsuarios/>: <ErrorPag/>}
         </Route>
         <Route
           path={usuario?.adminId != null ? "/admin" : "/"}
-          component={usuario?.adminId != null ? AdminPage : Loaded}
+          component={usuario?.adminId != null ? AdminPage : ErrorPag}
         ></Route>
-        <Route component={Loaded} path="/:rest*" />
+        <Route component={ErrorPag} path="/:rest*" />
         <div>
           <NavAbogado />
           <Route
             exact
             path={usuario?.abogadoId != null ? "/user/abogado" : "/"}
           >
-            {usuario?.abogadoId != null ? <HomeAbogado /> : <Loaded />}
+            {usuario?.abogadoId != null ? <HomeAbogado /> : <ErrorPag />}
           </Route>
           <Route
             exact
@@ -108,7 +109,7 @@ function App() {
               usuario?.abogadoId != null ? "/user/abogado/clientes" : "/"
             }
           >
-            {usuario?.abogadoId != null ? <Clients /> : <Loaded />}
+            {usuario?.abogadoId != null ? <Clients /> : <ErrorPag />}
           </Route>
           <Route
             exact
@@ -121,7 +122,7 @@ function App() {
             {usuario?.abogadoId != null ? (
               <VistaConsultasAbogado />
             ) : (
-              <Loaded/>
+              <ErrorPag/>
             )}
           </Route>
           <Route
@@ -130,7 +131,7 @@ function App() {
               usuario?.abogadoId != null ? "/user/abogado/casos" : "/"
             }
           >
-            {usuario?.abogadoId != null ? <Clientes /> : <Loaded/>}
+            {usuario?.abogadoId != null ? <Clientes /> : <ErrorPag/>}
           </Route>
           <Route
             exact
@@ -139,7 +140,7 @@ function App() {
                 ? "/user/abogado/modificar-perfil"
                 : "/"
             }
-            component={usuario?.abogadoId != null ? ModificarAbogado : Loaded}
+            component={usuario?.abogadoId != null ? ModificarAbogado : ErrorPag}
           ></Route>
           <Route
             exact
@@ -149,7 +150,7 @@ function App() {
                 : "/"
             }
           >
-            {usuario?.abogadoId != null ? <TurnosAbogado /> : <Loaded />}
+            {usuario?.abogadoId != null ? <TurnosAbogado /> : <ErrorPag />}
           </Route>
           <Route
             exact
@@ -159,7 +160,7 @@ function App() {
                 : "/"
             }
           >
-            {usuario?.abogadoId != null ? <FormCasos /> : <Loaded />}
+            {usuario?.abogadoId != null ? <FormCasos /> : <ErrorPag />}
           </Route>
           <Footer />
         </div>
