@@ -6,7 +6,7 @@
   height: 80px;
 }
 
-#menuToggle {
+#menuToggleAdmin {
   display: block;
   position: absolute;
   top: 30%;
@@ -17,17 +17,17 @@
   min-height: 100vh;
 }
 
-#menuToggle a {
+#menuToggleAdmin a {
   text-decoration: none;
   color: #cdcdcd;
   transition: color 0.3s ease;
 }
 
-#menuToggle a:hover {
+#menuToggleAdmin a:hover {
   color: tomato;
 }
 
-#menuToggle input {
+#menuToggleAdmin input {
   display: block;
   width: 40px;
   height: 32px;
@@ -40,7 +40,7 @@
   -webkit-touch-callout: none;
 }
 
-#menuToggle span {
+#menuToggleAdmin span {
   display: block;
   width: 33px;
   height: 4px;
@@ -54,26 +54,26 @@
     background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
 }
 
-#menuToggle span:first-child {
+#menuToggleAdmin span:first-child {
   transform-origin: 0% 0%;
 }
 
-#menuToggle span:nth-last-child(2) {
+#menuToggleAdmin span:nth-last-child(2) {
   transform-origin: 0% 100%;
 }
 
-#menuToggle input:checked ~ span {
+#menuToggleAdmin input:checked ~ span {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
   background: #cdcdcd;
 }
 
-#menuToggle input:checked ~ span:nth-last-child(3) {
+#menuToggleAdmin input:checked ~ span:nth-last-child(3) {
   opacity: 0;
   transform: rotate(0deg) scale(0.2, 0.2);
 }
 
-#menuToggle input:checked ~ span:nth-last-child(2) {
+#menuToggleAdmin input:checked ~ span:nth-last-child(2) {
   transform: rotate(-45deg) translate(0, -1px);
 }
 
@@ -99,11 +99,35 @@
   transition: 0.4s ease;
 }
 
-#menuToggle input:checked ~ ul {
+#menuToggleAdmin input:checked ~ ul {
   transform: none;
 }
 
 .selected {
   background: #3b5998;
   border-radius: 5px;
+}
+.btn-dangerAdmin {
+  background-color: #bf2231 !important;
+  border: #bf2231 solid 1px !important;
+  outline: none !important;
+  color: white !important;
+  transition: 0.4s ease-out all !important;
+  padding: 8px;
+  position: relative;
+  left: 90%;
+  top: 20px;
+  border-radius: 5px;
+}
+.btn-dangerAdmin:focus,
+.btn-dangerAdmin:link,
+.btn-dangerAdmin:visited {
+  outline: #bf2231 !important;
+  box-shadow: none !important;
+  border: #bf2231 solid 1px !important;
+}
+.btn-dangerAdmin:hover {
+  color: white !important;
+  /* opacity: 0.85; */
+  background-color: #bf2232c9 !important;
 }

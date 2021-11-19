@@ -15,13 +15,10 @@ const Footer = ({ direccion, contacto }) => {
             <h4>Solucionaremos tus inquitudes</h4>
             <p>
               Nuestra meta es solucionar tus problemas jurídicos para que tu
-              vida civíl o jurídica sea prospera, sin inquietudes. Si deseas
-              contactarnos de manera rápida hazlo aquí:
+              vida civíl o jurídica sea prospera, sin inquietudes.
             </p>
           </div>
-          <div className="button_footer">
-            <ButtonsNav text="Presiona Aquí" link="#" />
-          </div>
+
           <div className="iconos">
             <Instagram />
             <Facebook />

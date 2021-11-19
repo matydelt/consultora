@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getUsuario } from "../../../redux/actions";
+import "./UsuarioNavBar.css";
 
 export default function UsuarioNavBar() {
   const history = useHistory();
@@ -27,7 +28,7 @@ export default function UsuarioNavBar() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav className="navbar navbar-expand-lg navbar-dark navbaPanel_usuraio">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -43,24 +44,24 @@ export default function UsuarioNavBar() {
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
               <Link to="/">
-                <div className="nav-item nav-link mx-2">
+                <span className="nav-item nav-link mx-2">
                   {" "}
                   {"< "}Volver al sitio
-                </div>
+                </span>
               </Link>
               <Link to="/cita">
-                <div className="nav-item nav-link mx-2">Nueva consulta</div>
+                <span className="nav-item nav-link mx-2">Nueva consulta</span>
               </Link>
               <Link to="/user/panel/consultas">
-                <div className="nav-item nav-link mx-2">
+                <span className="nav-item nav-link mx-2">
                   Consultas realizadas
-                </div>
+                </span>
               </Link>
-              <div className="nav-item nav-link mx-2" href="#">
+              <span className="nav-item nav-link mx-2" href="#">
                 Casos
-              </div>
+              </span>
               <Link to="/user/panel/turnos">
-                <div className="nav-item nav-link mx-2">Turnos</div>
+                <span className="nav-item nav-link mx-2">Turnos</span>
               </Link>
               <span className="nav-item nav-link mx-2 pointer" onClick={logout}>
                 Salir

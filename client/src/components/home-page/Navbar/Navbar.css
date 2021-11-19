@@ -26,7 +26,7 @@ nav ul .imgLogo {
 }
 
 .widht_li li {
-    width: calc(770px / 4);
+    width: calc(1255px / 5);
 }
 
 .widht_li li:nth-child(4) {
@@ -70,7 +70,7 @@ nav ul .imgLogo {
 #menu ul li:last-of-type a {
     display                   : block;
     position                  : relative;
-    width                     : 122%;
+    width                     : 80%;
     font-size                 : 20px;
     border                    : solid 1px #033663;
     border-top-left-radius    : 7px;

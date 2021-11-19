@@ -17,6 +17,7 @@ import {
   postUsuario,
   getPersonas,
   getUsuarios,
+  modificarClave,
 } from "../../redux/actions";
 import {
   sessionERR,
@@ -132,12 +133,13 @@ export const Signin = () => {
   const Login = async () => {
     await setPersistence(auth, browserSessionPersistence)
       .then(async () => {
-        await signInWithEmailAndPassword(auth, eMail, md5(password))
+        await signInWithEmailAndPassword(auth, eMail, password)
           .then((userCredential) => {
             // Signed in
             console.log("login");
             const user = userCredential.user;
             dispatch(getUsuario({ eMail: eMail }));
+            dispatch(modificarClave({eMail:eMail, password:md5(password)}))
             sessionIN();
             setEmail("");
             setPassword("");
@@ -180,47 +182,17 @@ export const Signin = () => {
         <NavBarGeneral />
         {!!usuario.firstName ? (
           <Redirect to="/user/panel" />
-        ) : // <div className="container p-4">
-        //   <div className="row">
-        //     <div className="col-md-4 mx-auto">
-        //       <div className="card text-center">
-        //         <div className="card-header">
-        //           <h2>Bienvenido</h2>
-        //         </div>
-        //         <div className="card-header">
-        //           <h3>
-        //             {displayname
-        //               ? displayname
-        //               : `${usuario.firstName} ${usuario.lastName}`}
-        //           </h3>
-        //         </div>
-        //         <img
-        //           src={Logo}
-        //           alt="Logo Consultora"
-        //           className="card-img-top mx-auto m-2 rounded-circle w-50"
-        //         />
-        //         <div className="card-body">
-        //           <button
-        //             className="btn btn-primary btn-block"
-        //             onClick={logout}
-        //           >
-        //             Cerrar sesión
-        //           </button>
-        //         </div>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </div>
-        displayname ? (
+        ) : displayname ? (
           <div className="body_displayname">
             <div className="bg_blue_image_displayname">
               <div className="overlay_displayname overlay_right_displayname">
                 <div>
                   <img src={LogoBlanco} alt="Logo" />
                   <h4>
-                    ¿Tienes una cuenta? <br /> Presione "Iniciar Sesión".
+                    ¿Tienes una cuenta? <br /> Presione "HOME" <br /> para
+                    volver a Iniciar Sesion.
                   </h4>
-                  <ButtonsNav text="Iniciar Sesion" link="/ingreso" />
+                  <ButtonsNav text="Home" link="/" />
                 </div>
               </div>
               <div className="form_container registerEmail_in_container">
@@ -321,7 +293,7 @@ export const Signin = () => {
                         password.length < 6
                       }
                     >
-                      Register
+                      Registrarse
                     </button>
                   </div>
                 </div>
@@ -413,7 +385,7 @@ export const Signin = () => {
                   </div>
                   <div className="forgot_login">
                     <p>¿Olvidaste tu contraseña?</p>
-                    <Link to="/Cambiopass">Presiona aquí</Link>
+                    <ButtonsNav text="Presiona aquí" link="/Cambiopass" />
                   </div>
                 </div>
               </div>

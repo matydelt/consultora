@@ -9,11 +9,13 @@ import {
 import { correoNoOK, createNOOK, createOK, dniNoOK } from "./alert.js";
 import md5 from "md5";
 import "./sign.css";
+import { useHistory } from "react-router";
 
-export const Signup = ({ history }) => {
+export const Signup = () => {
   const { usuarios, personas } = useSelector((state) => state);
 
   const dispatch = useDispatch();
+  let history = useHistory();
 
   useEffect(() => {
     dispatch(getPersonas());
@@ -29,8 +31,7 @@ export const Signup = ({ history }) => {
 
   const auth = getAuth();
 
-  const GoTo = async (e) => {
-    e.preventDefault();
+  async function GoTo() {
     if (
       usuarios.some((e) => e.eMail.toString() === eMail.toString()) ||
       personas.some((e) => e.dni.toString() === dni.toString())
@@ -67,7 +68,7 @@ export const Signup = ({ history }) => {
       setEmail("");
       setPassword("");
     }
-  };
+  }
   return (
     <>
       <div className="form_container sign_up_container">
