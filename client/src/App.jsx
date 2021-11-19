@@ -83,7 +83,7 @@ function App() {
 
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
-        {/* <Route exact path="/signup" component={Signup} /> */}
+
         <Route exact path="/Cambiopass" component={NewPass} />
         <Route
           exact
@@ -107,7 +107,7 @@ function App() {
         >
           {usuario?.clienteId != null ? <TurnosUsuario /> : <Signin />}
         </Route>
-        <Route component={Loaded} path="/:rest*" />
+        {/* <Route component={Loaded} path="/:rest*" /> */}
         <div>
           <NavAbogado />
           <Route

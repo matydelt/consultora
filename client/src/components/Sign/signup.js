@@ -9,11 +9,13 @@ import {
 import { correoNoOK, createNOOK, createOK, dniNoOK } from "./alert.js";
 import md5 from "md5";
 import "./sign.css";
+import { useHistory } from "react-router";
 
-export const Signup = ({ history }) => {
+export const Signup = () => {
   const { usuarios, personas } = useSelector((state) => state);
 
   const dispatch = useDispatch();
+  let history = useHistory();
 
   useEffect(() => {
     dispatch(getPersonas());
