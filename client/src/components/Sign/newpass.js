@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import { getUsuarios } from "../../redux/actions/index.js";
-import { correoNoOK, createOK } from "./alert.js";
+import { correoNo, linkOK } from "./alert.js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
 
@@ -33,15 +33,15 @@ export const NewPass = ({ history }) => {
       //
       await sendPasswordResetEmail(auth, eMail).then(
         () => {
-          createOK();
+          linkOK();
           setTimeout(history.push("/ingreso"), 5000);
         },
         function (error) {
-          correoNoOK();
+          correoNo();
         }
       );
     } else {
-      correoNoOK();
+      correoNo();
     }
   };
   return (
@@ -69,17 +69,17 @@ export const NewPass = ({ history }) => {
                     }}
                   />
                 </div>
-                {/* <ReCAPTCHA
+                <ReCAPTCHA
                   sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA}
                   onChange={() => {
                     setCAPTCHA(true);
                   }}
-                /> */}
+                />
 
                 <div className="form-group">
                   <button
                     className="btn btn-success btn-block"
-                    // onClick={(e)=>Cambiopass(e)}
+                    onClick={Cambiopass}
                     disabled={eMail === ""}
                   >
                     Cambiar
