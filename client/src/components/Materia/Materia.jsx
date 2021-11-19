@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import "./Materia.css";
 
 const Materia = ({ nombre }) => {
@@ -18,6 +19,10 @@ const Materia = ({ nombre }) => {
       </div>
     </div>
   );
+};
+
+Materia.propTypes = {
+  nombre: PropTypes.string.isRequired,
 };
 
 export default Materia;

@@ -45,7 +45,7 @@ export default function ModificarAbogado() {
   } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  console.log(materiasRedux)
+  console.log(materiasRedux);
 
   useEffect(() => {
     if (usuario?.slug?.length > 0) {
@@ -218,7 +218,7 @@ export default function ModificarAbogado() {
                   )}
 
                   <input
-                  name="imagen"
+                    name="imagen"
                     hidden
                     accept="image/*"
                     disabled={loadingImage}
@@ -473,11 +473,11 @@ export default function ModificarAbogado() {
             <div class="spinner-grow" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <div class="spinner-grow mx-3" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-grow mx-3" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
-            <div class="spinner-grow" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-grow" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         </>

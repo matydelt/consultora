@@ -11,7 +11,7 @@ const AbogadosCarrusel = () => {
 
 
   const dispatch = useDispatch();
-  const abogados = useSelector((state) => state.abogados);
+  const { abogados } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getAbogados());

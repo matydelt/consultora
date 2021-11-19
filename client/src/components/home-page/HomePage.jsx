@@ -11,7 +11,7 @@ import About from "./About/About";
 import Footer from "./Footer/Footer";
 
 const HomePage = () => {
-  const { materias, about, items } = useSelector(state => state)
+  const { materias, about, items } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,13 +25,9 @@ const HomePage = () => {
       <Navbar navId={"menu"} />
       <About
         titleAbout="Sobre nosotros"
-        contendioAbout={
-          about.sobreNosotros
-        }
+        contendioAbout={about.sobreNosotros}
         titleFilosofia="Nuestra Filosofía"
-        contenidoFilosofia={
-          about.nuestraFilosofia
-        }
+        contenidoFilosofia={about.nuestraFilosofia}
       />
       <div id="materias" className="mb-5">
         <h3 className="text-center mb-4 fs-1">Competencias</h3>

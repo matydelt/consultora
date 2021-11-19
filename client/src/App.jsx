@@ -59,7 +59,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App container-fluid p-0">
+    <div>
       <Switch>
         <Route exact path="/">
           <HomePage />

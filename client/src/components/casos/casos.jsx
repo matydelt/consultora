@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import CardCasos from "./cardCasos/cardCasos";
 import "./casos.css";
 
@@ -30,8 +31,7 @@ function Casos({ id, casos, persona, flag }) {
               vtoTrabaAfectiva,
               jurisdiccion,
               materias,
-              updatedAt
-
+              updatedAt,
             } = e;
             return (
               <CardCasos
@@ -59,4 +59,15 @@ function Casos({ id, casos, persona, flag }) {
   );
 }
 
+Casos.propTypes = {
+  id: PropTypes.any,
+  casos: PropTypes.array.isRequired,
+  persona: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    dni: PropTypes.number.isRequired,
+    celular: PropTypes.number.isRequired,
+  }).isRequired,
+  flag: PropTypes.bool,
+};
 export default Casos;
