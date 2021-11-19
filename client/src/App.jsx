@@ -61,7 +61,6 @@ function App() {
   return (
     <div className="App container-fluid p-0">
       <Switch>
-      <Suspense fallback={Loaded}>
         <Route exact path="/">
           <HomePage />
         </Route>
@@ -80,10 +79,6 @@ function App() {
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/Cambiopass" component={NewPass} />
-        <Route
-          path={usuario?.adminId != null ? "/admin" : "/"}
-          component={usuario?.adminId != null ? AdminPage : Loaded}
-        ></Route>
 
         <Route exact path="/user/panel">
           <HomeUsuario />
@@ -94,8 +89,11 @@ function App() {
         >
           {usuario?.clienteId != null ? <TurnosUsuarios/>: <Loaded/>}
         </Route>
+        <Route
+          path={usuario?.adminId != null ? "/admin" : "/"}
+          component={usuario?.adminId != null ? AdminPage : Loaded}
+        ></Route>
         <Route component={Loaded} path="/:rest*" />
-        </Suspense>
         <div>
           <NavAbogado />
           <Route
