@@ -7,10 +7,13 @@ import {
   postUsuario,
 } from "../../redux/actions/index.js";
 import { correoNoOK, createNOOK, createOK, dniNoOK } from "./alert.js";
+import { Link } from "react-router-dom";
 import md5 from "md5";
+import Navbar from "../home-page/Navbar/Navbar.jsx";
+
 import "./sign.css";
 
-export const Signup = ({ history }) => {
+export const Signup = ({history}) => {
   const { usuarios, personas } = useSelector((state) => state);
 
   const dispatch = useDispatch();
@@ -52,7 +55,7 @@ export const Signup = ({ history }) => {
               password: md5(password),
             })
           );
-          history.push("/ingreso");
+          history.push('/ingreso')
           createOK();
         })
         .catch((error) => {

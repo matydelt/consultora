@@ -17,7 +17,6 @@ import AdminUsersPage from "../adminUsersPage/adminUsersPage";
 import AdminNewUsersPage from "../adminNewUsersPage/adminNewUsersPage";
 import AdminClientes from "../adminClients/clientes";
 import AdminBannedUsersPage from "../adminBannedUsersPage/adminBannedUsersPage";
-import Navbar from "../../home-page/Navbar/Navbar";
 import ModifierHome from "../adminHome/modifierHome";
 
 export default function AdminPage() {
@@ -28,7 +27,7 @@ export default function AdminPage() {
     dispatch(getUsuarios());
     dispatch(getClientes());
   }, []);
-  // if (adminId === undefined) return (<Redirect to="/" />)
+  if (usuario.adminId === undefined) return (<Redirect to="/" />)
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
       <div style={{ display: "flex", marginTop: "20px" }}>

@@ -2,14 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
-import {
-  getMaterias,
-  getProvincias,
-  getUsuario,
-  getAbogados,
-  getAbout,
-  getItems,
-} from "./redux/actions";
+import { getMaterias, getProvincias, getUsuario, getAbogados, getAbout, getItems } from "./redux/actions";
 import HomePage from "./components/home-page/HomePage";
 import FormCita from "./components/FormCita/FormCita";
 import Perfiles from "./components/perfiles/Perfiles";
@@ -33,9 +26,7 @@ import "./App.css";
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
 import Clients from "./components/home-Abogado/clients/clients";
 import NewPass from "./components/Sign/newpass.js";
-import Signup from "./components/Sign/signup";
 import ErrorPag from "./components/Error404/ErrorPag";
-
 
 function App() {
   const dispatch = useDispatch();

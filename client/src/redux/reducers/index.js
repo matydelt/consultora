@@ -22,23 +22,17 @@ const rootReducer = (state = initialState, action) => {
     case "GET_MATERIAS":
       return {
         ...state,
-        materias: action.payload,
-      };
-    case "GET_MATERIAS_SITE":
-      const materias = action.payload;
-      const abogados = action.abogados;
-      let materiaId =
-        materias.length > 0 &&
-        materias
-          ?.find((m) => m.nombre === action.materia)
-          .abogados.map((a) => a.abogadomateria.abogadoId);
-      let abogadoMateria = abogados.filter((m) =>
-        materiaId.includes(m.abogado.id)
-      );
-      return {
-        ...state,
         abogados: abogadoMateria,
       };
+      case 'GET_MATERIAS_SITE':
+        const materias = action.payload;
+        const abogados = action.abogados
+        let materiaId = materias.length > 0 && materias?.find((m) => m.nombre  === action.materia).abogados.map((a) => a.abogadomateria.abogadoId);
+        let abogadoMateria = abogados.filter((m) => materiaId.includes(m.abogado.id));
+        return {
+          ...state,
+          abogados: abogadoMateria
+        }
     case "GET_ABOGADOS":
       return { ...state, abogados: action.payload };
     case "GET_PROVINCIAS":

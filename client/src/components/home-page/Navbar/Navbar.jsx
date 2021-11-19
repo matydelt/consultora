@@ -15,18 +15,25 @@ const Navbar = ({ navId }) => {
 
   return (
     <nav id={navId} className="col-12 col-xl-12">
-
       {console.log(usuario)}
       <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
+        <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
+        
         <li className="col-xl-1">
-        <ButtonScroll text="Materias" idScroll="#materias" />
+          <ButtonScroll text="Materias" idScroll="#materias" />
+        </li>
+
+        <li>
+          {usuario.adminId ? (
+            <Link to="/admin">Admin Page</Link>
+          ) : (
+            <Link to="/">Home</Link>
+          )}
         </li>
 
         <li className="col-xl-1">
           <ButtonScroll text="Nosotros" idScroll="#about" />
         </li>
-
-        <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
 
         <li className="col-xl-1">
           <ButtonsNav link="/abogados" text="Nuestro Equipo" />

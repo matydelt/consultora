@@ -180,17 +180,17 @@ export const Signin = () => {
         <NavBarGeneral />
         {!!usuario.firstName ? (
           <Redirect to="/user/panel" />
-        ) : 
-        displayname ? (
+        ) : displayname ? (
           <div className="body_displayname">
             <div className="bg_blue_image_displayname">
               <div className="overlay_displayname overlay_right_displayname">
                 <div>
                   <img src={LogoBlanco} alt="Logo" />
                   <h4>
-                    ¿Tienes una cuenta? <br /> Presione "Iniciar Sesión".
+                    ¿Tienes una cuenta? <br /> Presione "HOME" <br /> para
+                    volver a Iniciar Sesion.
                   </h4>
-                  <ButtonsNav text="Iniciar Sesion" link="/ingreso" />
+                  <ButtonsNav text="Home" link="/" />
                 </div>
               </div>
               <div className="form_container registerEmail_in_container">
@@ -291,7 +291,7 @@ export const Signin = () => {
                         password.length < 6
                       }
                     >
-                      Register
+                      Registrarse
                     </button>
                   </div>
                 </div>
@@ -383,7 +383,7 @@ export const Signin = () => {
                   </div>
                   <div className="forgot_login">
                     <p>¿Olvidaste tu contraseña?</p>
-                    <Link to="/Cambiopass">Presiona aquí</Link>
+                    <ButtonsNav text="Presiona aquí" link="/Cambiopass" />
                   </div>
                 </div>
               </div>

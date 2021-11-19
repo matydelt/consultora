@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
 
 import "./PerfilAbogado.css";
@@ -8,7 +8,6 @@ import "./PerfilAbogado.css";
 export default function PerfilAbogado() {
   const [abogado, setAbogado] = useState({});
 
-  const history = useHistory();
 
   const { slug } = useParams();
 
@@ -42,6 +41,25 @@ export default function PerfilAbogado() {
           </div>
         </div>
 
+        <div className="text-center">
+          {abogado.provincias?.map((provincia) => {
+            return (
+              <span key={provincia.nombre} className="text-muted">
+                {provincia.nombre}{" "}
+                <span
+                  hidden={
+                    abogado.provincias.length - 1 ===
+                    abogado.provincias.indexOf(provincia)
+                  }
+                >
+                  {" "}
+                  |{" "}
+                </span>{" "}
+              </span>
+            );
+          })}
+        </div>
+
         <div>
           <h5 className="color-titulo text-center p-4">Abogado</h5>
           <p className="fs-4 text-muted">Formación y experiencia</p>
@@ -54,12 +72,16 @@ export default function PerfilAbogado() {
 
         <div className="col">
           <p className="fs-4 text-muted">Especialidades</p>
-          <p className="fs-6  fw-bold text-secondary">
-            Especialista en Derecho Laboral.
-          </p>
+          {/* <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p> */}
           <hr className="w-25 text-black"></hr>
-          <i className="bi bi-telephone"></i>
-          <p></p>
+
+          {abogado.materias?.map((materia) => {
+            return (
+              <p key={materia.nombre} className="fs-6  fw-bold text-secondary">
+                {materia.nombre}
+              </p>
+            );
+          })}
         </div>
       </div>
     </>

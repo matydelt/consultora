@@ -1,11 +1,12 @@
-import React, { Suspense } from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router } from 'react-router-dom';
+/* eslint-disable no-unused-vars */
+import React, { Suspense } from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import * as bootstrap from 'bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store/store";
 import { FirebaseAppProvider } from "reactfire";
@@ -20,9 +21,9 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-          
+          <Suspense fallback={<Loaded/>}>
             <App />
-          
+          </Suspense>
         </FirebaseAppProvider>
       </Router>
     </Provider>
