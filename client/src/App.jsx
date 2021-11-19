@@ -61,14 +61,10 @@ function App() {
   return (
     <div>
       <Switch>
-        <Route component={ErrorPag} path="/:rest*" />
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route
-          path={usuario?.adminId != null ? "/admin" : "/"}
-          component={usuario?.adminId != null ? AdminPage : ErrorPag}
-        ></Route>
+        <Route path="/admin" component={AdminPage}></Route>
         <Route exact path="/materias/:materia">
           <SiteMateria />
         </Route>
@@ -87,86 +83,39 @@ function App() {
         <div className="abosoluteDiv">
           <Route exact path="/cita" component={FormCita} />
 
-          <Route
-            exact
-            path={
-              usuario && usuario?.adminId === null ? "/user/panel" : "/ingreso"
-            }
-          >
-            {usuario && usuario?.adminId === null ? (
-              <HomeUsuario />
-            ) : (
-              <Signin />
-            )}
+          <Route exact path="/user/panel">
+            <HomeUsuario />
           </Route>
-          <Route
-            exact
-            path={
-              usuario?.clienteId != null ? "/user/panel/consultas" : "/ingreso"
-            }
-          >
-            {usuario?.clienteId != null ? <ConsultasUsuario /> : <Signin />}
+          <Route exact path="/user/panel/consultas">
+            <ConsultasUsuario />
           </Route>
-          <Route
-            exact
-            path={usuario?.clienteId != null ? "/user/panel/turnos" : "/"}
-          >
-            {usuario?.clienteId != null ? <TurnosUsuarios /> : <ErrorPag />}
+          <Route exact path="/user/panel/turnos">
+            <TurnosUsuarios />
           </Route>
         </div>
         <div className="abosoluteDiv">
-          <Route
-            exact
-            path={usuario?.abogadoId != null ? "/user/abogado" : "/"}
-          >
-            {usuario?.abogadoId != null ? <HomeAbogado /> : <ErrorPag />}
+          <Route exact path="/user/abogado">
+            <HomeAbogado />
+          </Route>
+          <Route exact path="/user/abogado/clientes">
+            <Clients />
+          </Route>
+          <Route exact path="/user/abogado/consultas">
+            <VistaConsultasAbogado />
+          </Route>
+          <Route exact path="/user/abogado/casos">
+            <Clientes />
           </Route>
           <Route
             exact
-            path={usuario?.abogadoId != null ? "/user/abogado/clientes" : "/"}
-          >
-            {usuario?.abogadoId != null ? <Clients /> : <ErrorPag />}
-          </Route>
-          <Route
-            exact
-            path={usuario?.abogadoId != null ? "/user/abogado/consultas" : "/"}
-          >
-            {usuario?.abogadoId != null ? (
-              <VistaConsultasAbogado />
-            ) : (
-              <ErrorPag />
-            )}
-          </Route>
-          <Route
-            exact
-            path={usuario?.abogadoId != null ? "/user/abogado/casos" : "/"}
-          >
-            {usuario?.abogadoId != null ? <Clientes /> : <ErrorPag />}
-          </Route>
-          <Route
-            exact
-            path={
-              usuario?.abogadoId != null
-                ? "/user/abogado/modificar-perfil"
-                : "/"
-            }
-            component={usuario?.abogadoId != null ? ModificarAbogado : ErrorPag}
+            path="/user/abogado/modificar-perfil"
+            component={ModificarAbogado}
           ></Route>
-          <Route
-            exact
-            path={
-              usuario?.abogadoId != null
-                ? "/user/abogado/gestionar-turnos"
-                : "/"
-            }
-          >
-            {usuario?.abogadoId != null ? <TurnosAbogado /> : <ErrorPag />}
+          <Route exact path="/user/abogado/gestionar-turnos">
+            <TurnosAbogado />
           </Route>
-          <Route
-            exact
-            path={usuario?.abogadoId != null ? "/user/abogado/nuevo-caso" : "/"}
-          >
-            {usuario?.abogadoId != null ? <FormCasos /> : <ErrorPag />}
+          <Route exact path="/user/abogado/nuevo-caso">
+            <FormCasos />
           </Route>
           <Footer />
         </div>
