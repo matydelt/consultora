@@ -132,7 +132,7 @@ export const Signin = () => {
   const Login = async () => {
     await setPersistence(auth, browserSessionPersistence)
       .then(async () => {
-        await signInWithEmailAndPassword(auth, eMail, md5(password))
+        await signInWithEmailAndPassword(auth, eMail, password)
           .then((userCredential) => {
             // Signed in
             console.log("login");

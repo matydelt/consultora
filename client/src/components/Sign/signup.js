@@ -31,8 +31,7 @@ export const Signup = () => {
 
   const auth = getAuth();
 
-  const GoTo = async (e) => {
-    e.preventDefault();
+  async function GoTo() {
     if (
       usuarios.some((e) => e.eMail.toString() === eMail.toString()) ||
       personas.some((e) => e.dni.toString() === dni.toString())
@@ -69,7 +68,7 @@ export const Signup = () => {
       setEmail("");
       setPassword("");
     }
-  };
+  }
   return (
     <>
       <div className="form_container sign_up_container">
