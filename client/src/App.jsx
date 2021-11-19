@@ -80,45 +80,46 @@ function App() {
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/Cambiopass" component={NewPass} />
 
-        <div className="abosoluteDiv">
-          <Route exact path="/cita" component={FormCita} />
+        {/* <div> */}
+        <Route exact path="/cita" component={FormCita} />
 
-          <Route exact path="/user/panel">
-            <HomeUsuario />
-          </Route>
-          <Route exact path="/user/panel/consultas">
-            <ConsultasUsuario />
-          </Route>
-          <Route exact path="/user/panel/turnos">
-            <TurnosUsuarios />
-          </Route>
-        </div>
-        <div className="abosoluteDiv">
-          <Route exact path="/user/abogado">
-            <HomeAbogado />
-          </Route>
-          <Route exact path="/user/abogado/clientes">
-            <Clients />
-          </Route>
-          <Route exact path="/user/abogado/consultas">
-            <VistaConsultasAbogado />
-          </Route>
-          <Route exact path="/user/abogado/casos">
-            <Clientes />
-          </Route>
-          <Route
-            exact
-            path="/user/abogado/modificar-perfil"
-            component={ModificarAbogado}
-          ></Route>
-          <Route exact path="/user/abogado/gestionar-turnos">
-            <TurnosAbogado />
-          </Route>
-          <Route exact path="/user/abogado/nuevo-caso">
-            <FormCasos />
-          </Route>
-          <Footer />
-        </div>
+        <Route exact path="/user/panel">
+          <HomeUsuario />
+        </Route>
+        <Route exact path="/user/panel/consultas">
+          <ConsultasUsuario />
+        </Route>
+        <Route exact path="/user/panel/turnos">
+          <TurnosUsuarios />
+        </Route>
+        {/* </div> */}
+        {/* <div> */}
+        {/* <NavAbogado /> */}
+        <Route exact path="/user/abogado">
+          <HomeAbogado />
+        </Route>
+        <Route exact path="/user/abogado/clientes">
+          <Clients />
+        </Route>
+        <Route exact path="/user/abogado/consultas">
+          <VistaConsultasAbogado />
+        </Route>
+        <Route exact path="/user/abogado/casos">
+          <Clientes />
+        </Route>
+        <Route
+          exact
+          path="/user/abogado/modificar-perfil"
+          component={ModificarAbogado}
+        ></Route>
+        <Route exact path="/user/abogado/gestionar-turnos">
+          <TurnosAbogado />
+        </Route>
+        <Route exact path="/user/abogado/nuevo-caso">
+          <FormCasos />
+        </Route>
+        <Footer />
+        {/* </div> */}
       </Switch>
       <ToastContainer />
     </div>
