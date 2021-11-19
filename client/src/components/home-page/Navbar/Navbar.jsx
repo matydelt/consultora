@@ -12,35 +12,28 @@ import { toast } from "react-toastify";
 import ButtonScroll from "./ButtonScroll/ButtonScroll";
 const Navbar = ({ navId }) => {
   let usuario = useSelector((state) => state.usuario);
-  const dispatch = useDispatch();
-  const auth = getAuth();
-  const history = useHistory();
-
-  const logout = () => {
-    signOut(auth)
-      .then(() => {
-        dispatch(getUsuario({}));
-        history.push("/");
-        toast.info("La sesión fue finalizada");
-        localStorage.removeItem("username");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
 
   return (
     <nav id={navId} className="col-12 col-xl-12">
+      {console.log(usuario)}
       <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
+        <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
+        
         <li className="col-xl-1">
-        <ButtonScroll text="Materias" idScroll="#materias" />
+          <ButtonScroll text="Materias" idScroll="#materias" />
+        </li>
+
+        <li>
+          {usuario.adminId ? (
+            <Link to="/admin">Admin Page</Link>
+          ) : (
+            <Link to="/">Home</Link>
+          )}
         </li>
 
         <li className="col-xl-1">
           <ButtonScroll text="Nosotros" idScroll="#about" />
         </li>
-
-        <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
 
         <li className="col-xl-1">
           <ButtonsNav link="/abogados" text="Nuestro Equipo" />
@@ -48,14 +41,14 @@ const Navbar = ({ navId }) => {
 
         {localStorage.getItem("username") || usuario.firstName ? (
           <li>
-            {!usuario.abogadoId && !usuario.dataValues && (
+            {usuario && !usuario.abogadoId && (
               <ButtonsNav
                 link="/user/panel"
                 text={localStorage.getItem("username") || usuario.firstName}
               />
             )}
 
-            {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
+            {usuario?.abogadoId && (
               <ButtonsNav link="/user/abogado" text={usuario.firstName} />
             )}
           </li>

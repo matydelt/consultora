@@ -5,11 +5,11 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  signOut,
+  // signOut,
   setPersistence,
   browserSessionPersistence,
-  inMemoryPersistence,
-  signInWithRedirect,
+  // inMemoryPersistence,
+  // signInWithRedirect,
 } from "firebase/auth";
 import LogoGoogle from "../home-page/assets/img/google-logo-9812.png";
 import {
@@ -21,7 +21,7 @@ import {
 import {
   sessionERR,
   sessionIN,
-  sessionOUT,
+  // sessionOUT,
   createOK,
   correoNoOK,
   dniNoOK,
@@ -53,6 +53,7 @@ export const Signin = () => {
   const [eMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayname, setDisplayName] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const auth = getAuth();
   const google = new GoogleAuthProvider();
@@ -77,10 +78,11 @@ export const Signin = () => {
             console.log(error);
           });
       })
+      // })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
       });
   };
 
@@ -117,46 +119,48 @@ export const Signin = () => {
     }
   };
 
-  const logout = async () => {
-    await signOut(auth)
-      .then(() => {
+  // const logout = async () => {
+  //   await signOut(auth)
+  //     .then(() => {
+  //       setEmail("");
+  //       setPassword("");
+  //       dispatch(getUsuario({}));
+  //       setDisplayName(null);
+  //       sessionOUT();
+  //     })
+  //     .catch((error) => {
+  //       // An error happened.
+  //     });
+  // };
+
+  const Login = async (e) => {
+    e.preventDefault();
+    // await setPersistence(auth, browserSessionPersistence)
+    // .then(async () => {
+    await signInWithEmailAndPassword(auth, eMail, md5(password))
+      .then((userCredential) => {
+        // Signed in
+        setLoading(true)
+        console.log("login");
+        // const user = userCredential.user;
+        dispatch(getUsuario({ eMail: eMail }));
+        // sessionIN();
         setEmail("");
         setPassword("");
-        dispatch(getUsuario({}));
-        setDisplayName(null);
-        sessionOUT();
+        // ...
       })
       .catch((error) => {
-        // An error happened.
-      });
-  };
-  const Login = async () => {
-    await setPersistence(auth, browserSessionPersistence)
-      .then(async () => {
-        await signInWithEmailAndPassword(auth, eMail, md5(password))
-          .then((userCredential) => {
-            // Signed in
-            console.log("login");
-            const user = userCredential.user;
-            dispatch(getUsuario({ eMail: eMail }));
-            sessionIN();
-            setEmail("");
-            setPassword("");
-            // ...
-          })
-          .catch((error) => {
-            console.log("error");
-            sessionERR();
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            setEmail("");
-            setPassword("");
-          });
+        sessionERR();
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        setEmail("");
+        setPassword("");
       })
+      // })
       .catch((error) => {
         // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
       });
   };
 

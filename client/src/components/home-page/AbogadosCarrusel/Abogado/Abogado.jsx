@@ -7,7 +7,7 @@ const Abogado = ({ abogado, frase }) => {
         <>
             <div>
                 <div className="img_abogado">
-                    <img className="card-img-top" src={abogado.abogado.imagen} alt={'sad'} />
+                    <img className="card-img-top" src={abogado.abogado.imagen} alt={'imagen'} />
                 </div>
                 <div className="text_equipo">
                     <p>{abogado.firstName} {abogado.lastName}</p>
