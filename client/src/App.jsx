@@ -32,7 +32,7 @@ import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 import "./App.css";
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
 import Clients from "./components/home-Abogado/clients/clients";
-import NewPass from "./components/Sign/NewPass.js";
+import NewPass from "./components/Sign/newpass.js";
 import Signup from "./components/Sign/signup";
 import Loaded from "./components/Loaded/Loaded";
 
@@ -77,22 +77,22 @@ function App() {
         <Route exact path="/abogados">
           <Perfiles />
         </Route>
-        <Route
-          path={usuario?.adminId != null ? "/admin" : "/ingreso"}
-          component={usuario?.adminId != null ? AdminPage : Signin}
-        ></Route>
-
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/Cambiopass" component={NewPass} />
+        <Route
+          path={usuario?.adminId != null ? "/admin" : "/"}
+          component={usuario?.adminId != null ? AdminPage : Loaded}
+        ></Route>
+
         <Route exact path="/user/panel">
           <HomeUsuario />
         </Route>
         <Route
           exact
-          path={usuario?.clienteId != null ? "/user/panel/turnos" : "/ingreso"}
+          path={usuario?.clienteId != null ? "/user/panel/turnos" : "/"}
         >
-          {usuario?.clienteId != null ? <TurnosUsuarios/> : <Signin />}
+          {usuario?.clienteId != null ? <TurnosUsuarios/>: <Loaded/>}
         </Route>
         <Route component={Loaded} path="/:rest*" />
         </Suspense>
@@ -100,68 +100,68 @@ function App() {
           <NavAbogado />
           <Route
             exact
-            path={usuario?.abogadoId != null ? "/user/abogado" : "/ingreso"}
+            path={usuario?.abogadoId != null ? "/user/abogado" : "/"}
           >
-            {usuario?.abogadoId != null ? <HomeAbogado /> : <Signin />}
+            {usuario?.abogadoId != null ? <HomeAbogado /> : <Loaded />}
           </Route>
           <Route
             exact
             path={
-              usuario?.abogadoId != null ? "/user/abogado/clientes" : "/ingreso"
+              usuario?.abogadoId != null ? "/user/abogado/clientes" : "/"
             }
           >
-            {usuario?.abogadoId != null ? <Clients /> : <Signin />}
+            {usuario?.abogadoId != null ? <Clients /> : <Loaded />}
           </Route>
           <Route
             exact
             path={
               usuario?.abogadoId != null
                 ? "/user/abogado/consultas"
-                : "/ingreso"
+                : "/"
             }
           >
             {usuario?.abogadoId != null ? (
               <VistaConsultasAbogado />
             ) : (
-              <Signin />
+              <Loaded/>
             )}
           </Route>
           <Route
             exact
             path={
-              usuario?.abogadoId != null ? "/user/abogado/casos" : "/ingreso"
+              usuario?.abogadoId != null ? "/user/abogado/casos" : "/"
             }
           >
-            {usuario?.abogadoId != null ? <Clientes /> : <Signin />}
+            {usuario?.abogadoId != null ? <Clientes /> : <Loaded/>}
           </Route>
           <Route
             exact
             path={
               usuario?.abogadoId != null
                 ? "/user/abogado/modificar-perfil"
-                : "/ingreso"
+                : "/"
             }
-            component={usuario?.abogadoId != null ? ModificarAbogado : Signin}
+            component={usuario?.abogadoId != null ? ModificarAbogado : Loaded}
           ></Route>
           <Route
             exact
             path={
               usuario?.abogadoId != null
                 ? "/user/abogado/gestionar-turnos"
-                : "/ingreso"
+                : "/"
             }
           >
-            {usuario?.abogadoId != null ? <TurnosAbogado /> : <Signin />}
+            {usuario?.abogadoId != null ? <TurnosAbogado /> : <Loaded />}
           </Route>
           <Route
             exact
             path={
               usuario?.abogadoId != null
                 ? "/user/abogado/nuevo-caso"
-                : "/ingreso"
+                : "/"
             }
           >
-            {usuario?.abogadoId != null ? <FormCasos /> : <Signin />}
+            {usuario?.abogadoId != null ? <FormCasos /> : <Loaded />}
           </Route>
           <Footer />
         </div>
