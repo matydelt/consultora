@@ -1,9 +1,10 @@
 /* NavBar  */
 .divButton {
     display         : flex;
-    justify-content : space-around;
+    justify-content : space-evenly;
     background-color: #033663;
     padding         : 12px 12px;
+    margin: auto;
 }
 
 .divButton,
@@ -103,15 +104,16 @@
 }
 
 .overlay_right_displayname a {
-    position  : relative;
-    display   : block;
-    text-align: center;
-    width     : 50%;
-    padding   : 5px;
-    border    : solid 1px #fff !important;
-    color     : #fff;
-    z-index   : 1;
-    transition: all .4s ease-in-out;
+    position      : relative;
+    display       : block;
+    text-align    : center;
+    width         : 50%;
+    padding       : 5px;
+    border        : solid 1px #fff !important;
+    color         : #fff;
+    z-index       : 1;
+    transition    : all .4s ease-in-out;
+    text-transform: uppercase;
 }
 
 .overlay_right_displayname a:hover {
@@ -170,18 +172,18 @@
 
 .registerEmail button {
     /* background-color: #033663; */
-    border: #033663 solid 1px !important;
-    display         : block;
-    text-transform  : uppercase;
-    padding         : 7px;
-    width           : 100%;
-    color           : #033663;
-    transition      : all .4s ease-in-out;
+    border        : #033663 solid 1px !important;
+    display       : block;
+    text-transform: uppercase;
+    padding       : 7px;
+    width         : 100%;
+    color         : #033663;
+    transition    : all .4s ease-in-out;
 }
 
 .registerEmail button:hover {
     background-color: #033663;
-    color: #fff;
+    color           : #fff;
 }
 
 
@@ -196,6 +198,7 @@
 
 
 /* Formulario de registro */
+
 .body_login {
     background     : #fff;
     display        : flex;
@@ -594,4 +597,49 @@ si esto no se mueve solo s mueve el texto */
 
 .overlay_right h4 {
     font-size: 13px;
+}
+
+
+
+
+/* New Pass */
+
+
+.newPass_in_container {
+    left           : 0;
+    width          : 50%;
+    height         : 100%;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    flex-direction : column;
+    text-align     : center;
+}
+
+.newPass_in_container div {
+    background-color: #fff;
+}
+
+.newPass_in_container div.newPass h3 {
+    transform: translateY(-150%);
+    color: #033663;
+}
+
+.newPass .newPass_button {
+    width: 100%;
+}
+
+.newPass .newPass_button button {
+    display   : block;
+    width     : 100%;
+    border    : #033663 solid 1px;
+    margin-top: 15px;
+    padding   : 6px;
+    color     : #033663;
+    transition: all .4s ease-in-out;
+}
+
+.newPass .newPass_button button:hover {
+    background-color: #033663;
+    color           : #fff;
 }
