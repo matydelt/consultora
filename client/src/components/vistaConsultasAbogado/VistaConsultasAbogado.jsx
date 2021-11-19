@@ -6,7 +6,7 @@ import { getConsultas } from "../../redux/actions";
 import ModalConsulta from "./modalConsulta/ModalConsulta";
 import TablaVistasConsultas from "./tablaVistasConsultas/TablaVistasConsultas";
 import "./VistaConsultasAbogados.css";
-import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
 export default function VistaConsultasAbogado() {
   let [busquedaTodas, setBusquedaTodas] = useState("");
@@ -36,8 +36,8 @@ export default function VistaConsultasAbogado() {
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
-    <div className="body_vistas_consultas">
-      <NavBarGeneral />
+    <div className="body_vistas_consultas hidden">
+      <SideBarAbogado />
       <ModalConsulta usuario={usuario} modalId={`modalConsulta`} />
 
       <nav className="text-center mt-5">

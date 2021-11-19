@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { putAbogado } from "../../../redux/actions";
 import FormCasos from "../../FormCasos/FormCasos";
-import NavBarGeneral from "../../NavBarGeneral/NavBarGeneral";
+import SideBarAbogado from "../SideBarAbogado/SideBarAbogado";
 import CardClients from "./cardClients";
-import './client.css'
+import "./client.css";
 
 export default function Clients() {
   //muestra cards de cada cliente con sus casos
@@ -23,8 +23,8 @@ export default function Clients() {
   }, [abogado.clientes]);
 
   return (
-    <div className="Abogado_Clientes">
-      <NavBarGeneral />
+    <div className="Abogado_Clientes hidden">
+      <SideBarAbogado />
       <div className="d-flex justify-content-center">
         <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column conteiner justify-content-center">
           {clientes.map((e) => {

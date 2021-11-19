@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { putAbogado, getMaterias } from "../../redux/actions";
 import Casos from "../casos/casos";
-import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 import "./clientes.css";
 
 export default function Clientes() {
@@ -126,8 +126,8 @@ export default function Clientes() {
   };
 
   return (
-    <div className="body_cliente">
-    <NavBarGeneral />
+    <div className="body_cliente hidden">
+      <SideBarAbogado />
       <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
         <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
           <button

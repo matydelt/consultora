@@ -67,6 +67,34 @@
     min-height: 480px;
 }
 
+.bg_blue_image_displayname input[type='text'],
+.bg_blue_image_displayname input[type='password'],
+.bg_blue_image_displayname input[type='type'] {
+    width           : 100%;
+    margin-bottom: 0px;
+    background      : none;
+    color           : #033663;
+    font-size       : 15px;
+    font-family     : sans-serif;
+    outline         : 0 !important;
+    border          : 0 !important;
+}
+
+.bg_blue_image_displayname input[type='text']:focus,
+.bg_blue_image_displayname input[type='password']:focus,
+.bg_blue_image_displayname input[type='type']:focus,
+.bg_blue_image_displayname input[type='text']:link,
+.bg_blue_image_displayname input[type='password']:link,
+.bg_blue_image_displayname input[type='type']:link,
+.bg_blue_image_displayname input[type='text']:visited,
+.bg_blue_image_displayname input[type='type']:visited,
+.bg_blue_image_displayname input[type='password']:visited {
+    outline   : 0 !important;
+    border    : 0 !important;
+    box-shadow: none !important;
+    border    : none !important;
+}
+
 .overlay_displayname {
     position: absolute;
 }
@@ -242,18 +270,17 @@
 
 
 
-
 .bg_blue_image input[type='text'],
 .bg_blue_image input[type='password'],
 .bg_blue_image input[type='type'] {
     width           : 100%;
-    outline         : 0;
-    border          : 0 !important;
-    /* margin-bottom: 9px; */
+    margin-bottom: 0px;
     background      : none;
     color           : #033663;
     font-size       : 15px;
     font-family     : sans-serif;
+    outline         : 0 !important;
+    border          : 0 !important;
 }
 
 .bg_blue_image input[type='text']:focus,
@@ -265,8 +292,10 @@
 .bg_blue_image input[type='text']:visited,
 .bg_blue_image input[type='type']:visited,
 .bg_blue_image input[type='password']:visited {
+    outline   : 0 !important;
+    border    : 0 !important;
     box-shadow: none !important;
-    border    : none;
+    border    : none !important;
 }
 
 

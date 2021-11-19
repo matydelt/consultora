@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUsuario } from "../../redux/actions";
-import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
 import "./ModificarAbogado.css";
 
@@ -46,7 +46,7 @@ export default function ModificarAbogado() {
   } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  console.log(materiasRedux)
+  console.log(materiasRedux);
 
   useEffect(() => {
     if (usuario?.slug?.length > 0) {
@@ -72,7 +72,6 @@ export default function ModificarAbogado() {
         setProvinciasEnviar(arrProvincias);
       });
     }
-
   }, [usuario?.abogado?.id]);
 
   function modificarImagen(e) {
@@ -179,7 +178,7 @@ export default function ModificarAbogado() {
 
   return (
     <>
-    <NavBarGeneral /> 
+      <SideBarAbogado />
       {usuario?.abogado?.id ? (
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
           <h2 className="">Modificar perfil</h2>
