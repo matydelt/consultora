@@ -29,7 +29,7 @@ const FoldOutMenu = () => {
   return (
     <>
       <nav role="navigation" className="nav-admin">
-        <div id="menuToggle">
+        <div id="menuToggleAdmin">
           <input type="checkbox" />
           <span></span>
           <span></span>
@@ -90,13 +90,14 @@ const FoldOutMenu = () => {
               </li>
             </Link>
             <Link to="/admin/About">
-              <li>About</li>
+              <li
+                className={
+                  location?.pathname === "/admin/About" ? "selected" : undefined
+                }
+              >
+                About
+              </li>
             </Link>
-            {/* <Link onClick={logout}>
-            <li>
-              Exit
-            </li>
-          </Link> */}
           </ul>
         </div>
         <input
