@@ -56,6 +56,7 @@ export const Signin = () => {
 
   const auth = getAuth();
   const google = new GoogleAuthProvider();
+
   const loginGoogle = () => {
     setPersistence(auth, browserSessionPersistence)
       .then(async () => {
@@ -82,39 +83,6 @@ export const Signin = () => {
         const errorMessage = error.message;
       });
   };
-
-  // const GoTo = async () => {
-  //   if (
-  //     usuarios.some((e) => e.eMail.toString() === eMail.toString()) ||
-  //     personas.some((e) => e.dni.toString() === dni.toString())
-  //   ) {
-  //     usuarios.some((e) => e.eMail.toString() === eMail.toString())
-  //       ? correoNoOK()
-  //       : dniNoOK();
-  //   } else {
-  //     dispatch(
-  //       postUsuario({
-  //         eMail: eMail,
-  //         firstName: firstName,
-  //         dni: dni,
-  //         lastName: lastName,
-  //         celular: celular,
-  //         password: md5(password),
-  //       })
-  //     )
-  //       .then(() => {
-  //         dispatch(getUsuario({ eMail: eMail }));
-  //       })
-  //       .catch((error) => {});
-  //     createOK();
-  //     setFirstName("");
-  //     setLastName("");
-  //     setPhone("");
-  //     setDni("");
-  //     setEmail("");
-  //     setPassword("");
-  //   }
-  // };
 
   const logout = async () => {
     await signOut(auth)
@@ -181,7 +149,18 @@ export const Signin = () => {
         {!!usuario.firstName ? (
           <Redirect to="/user/panel" />
         ) : displayname ? (
-          <Redirect to="/registroGoogle" />
+          <Redirect
+            to={{
+              pathname: "/registroGoogle",
+              // search: "?utm=your+face",
+              state: {
+                firstNameLocation: firstName,
+                lastNameLocation: lastName,
+                eMailLocation: eMail,
+                passwordLocation: password,
+              },
+            }}
+          />
         ) : (
           <div className="body_login">
             <div id="container" className="bg_blue_image pt-4">

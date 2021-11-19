@@ -4,7 +4,7 @@
     justify-content : space-evenly;
     background-color: #033663;
     padding         : 12px 12px;
-    margin: auto;
+    margin          : auto;
 }
 
 .divButton,
@@ -241,14 +241,14 @@
 .bg_blue_image input[type='text'],
 .bg_blue_image input[type='password'],
 .bg_blue_image input[type='type'] {
-    width        : 100%;
-    outline      : 0;
-    border       : 0 !important;
-    margin-bottom: 9px;
-    background   : none;
-    color        : #033663;
-    font-size    : 15px;
-    font-family  : sans-serif;
+    width           : 100%;
+    outline         : 0;
+    border          : 0 !important;
+    /* margin-bottom: 9px; */
+    background      : none;
+    color           : #033663;
+    font-size       : 15px;
+    font-family     : sans-serif;
 }
 
 .bg_blue_image input[type='text']:focus,
@@ -287,6 +287,10 @@
     width    : 80%;
 }
 
+.form_container div.div_sign_in_container h3 {
+    transform: translateY(-100%);
+}
+
 
 .form_container div.div_sign_in_container .contain_other_signin {
     width: 100%;
@@ -317,6 +321,10 @@
     width    : 80%;
 }
 
+.form_container div.div_sign_up_container h3 {
+    transform: translateY(-50%);
+}
+
 .form_container div.div_sign_up_container .button_registro,
 .form_container div.div_sign_up_container .button_registro button {
     width: 100%;
@@ -325,7 +333,7 @@
 
 .form_container .singn_input_login {
     border-bottom: solid 1px #033663;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     width        : 100%;
 }
 
@@ -577,17 +585,20 @@ si esto no se mueve solo s mueve el texto */
 .overlay_right .caption_button_overlay_right {
     width    : 100%;
     transform: translateY(14%);
-
+    
 }
 
 .overlay_right button {
     transition: all .4s ease-in-out;
     width     : 100%;
+    margin-top: 10px;
+    box-shadow : -5px 5px 7px rgba(0, 0, 0, 0.445);
 }
 
 .overlay_right button:hover {
     background-color: #fff;
     color           : #033663;
+    box-shadow      : -5px 5px 7px rgba(0, 0, 0, 0.637);
 }
 
 .overlay_right button:active {
@@ -622,7 +633,7 @@ si esto no se mueve solo s mueve el texto */
 
 .newPass_in_container div.newPass h3 {
     transform: translateY(-150%);
-    color: #033663;
+    color    : #033663;
 }
 
 .newPass .newPass_button {

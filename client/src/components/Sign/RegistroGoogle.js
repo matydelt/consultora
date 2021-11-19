@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getUsuario, postUsuario } from "../../redux/actions";
 import { createOK, correoNoOK, dniNoOK } from "./alert";
@@ -7,16 +7,24 @@ import LogoBlanco from "../home-page/assets/img/logo-blacno-sin-fondo.png";
 import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
 import ButtonsNav from "../ButtonsNav/ButtonsNav";
 
-const RegistroGoogle = () => {
+const RegistroGoogle = (props) => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  useEffect(() => {
+      console.log(props)
+      
+  }, [props])
+
+
+  const { firstNameLocation, lastNameLocation, eMailLocation, passwordLocation } = props.location.state;
+
+  const [firstName, setFirstName] = useState(firstNameLocation);
+  const [lastName, setLastName] = useState(lastNameLocation);
   const [celular, setPhone] = useState("");
   const [dni, setDni] = useState("");
-  const [eMail, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [eMail, setEmail] = useState(eMailLocation);
+  const [password, setPassword] = useState(passwordLocation);
 
   const GoTo = async () => {
     if (
@@ -140,7 +148,7 @@ const RegistroGoogle = () => {
               <div className="singn_input_login">
                 <input
                   type="password"
-                  value={password}
+                  value={passwordLocation}
                   disabled="on"
                   name="password"
                   autoComplete="off"
