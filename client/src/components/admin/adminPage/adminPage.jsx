@@ -27,10 +27,11 @@ export default function AdminPage() {
     dispatch(getUsuarios());
     dispatch(getClientes());
   }, []);
-  if (usuario.adminId === undefined) return (<Redirect to="/" />)
+  if (usuario.adminId === undefined) return <Redirect to="/" />;
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
       <FoldOutMenu />
+
       <div style={{ display: "flex", paddingTop: "20px" }}>
         <Switch>
           <Route path="/admin" exact component={Dashboard} />

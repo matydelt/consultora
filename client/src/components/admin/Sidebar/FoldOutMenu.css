@@ -107,3 +107,27 @@
   background: #3b5998;
   border-radius: 5px;
 }
+.btn-dangerAdmin {
+  background-color: #bf2231 !important;
+  border: #bf2231 solid 1px !important;
+  outline: none !important;
+  color: white !important;
+  transition: 0.4s ease-out all !important;
+  padding: 8px;
+  position: relative;
+  left: 90%;
+  top: 20px;
+  border-radius: 5px;
+}
+.btn-dangerAdmin:focus,
+.btn-dangerAdmin:link,
+.btn-dangerAdmin:visited {
+  outline: #bf2231 !important;
+  box-shadow: none !important;
+  border: #bf2231 solid 1px !important;
+}
+.btn-dangerAdmin:hover {
+  color: white !important;
+  /* opacity: 0.85; */
+  background-color: #bf2232c9 !important;
+}

@@ -41,9 +41,6 @@ export default function PerfilAbogado() {
             />
           </div>
         </div>
-        <h1 className="text-secondary text-center mt-4">
-          {abogado.firstName} {abogado.lastName}
-        </h1>
         <h5 className="color-titulo text-center p-4">Abogado</h5>
 
         <div className="text-center">
@@ -64,28 +61,35 @@ export default function PerfilAbogado() {
             );
           })}
         </div>
-        <div>
-          <h5 className="color-titulo text-center p-4">Abogado</h5>
-          <p className="fs-4 text-muted">Formación y experiencia</p>
-          <ul>
-            <li className="text-muted my-1">{abogado.estudios}</li>
-            <li className="text-muted my-1">{abogado.detalle}</li>
-            <li className="text-muted my-1">{abogado.experiencia}</li>
-          </ul>
-        </div>
 
-        <div className="col">
-          <p className="fs-4 text-muted">Especialidades</p>
-          {/* <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p> */}
-          <hr className="w-25 text-black"></hr>
+        <div className="container">
+          <div className="row mt-4">
+            <div className="mx-5 col">
+              <p className="fs-4 text-muted">Formación y experiencia</p>
+              <ul>
+                <li className="text-muted my-1">{abogado.estudios}</li>
+                <li className="text-muted my-1">{abogado.detalle}</li>
+                <li className="text-muted my-1">{abogado.experiencia}</li>
+              </ul>
+            </div>
 
-          {abogado.materias?.map((materia) => {
-            return (
-              <p key={materia.nombre} className="fs-6  fw-bold text-secondary">
-                {materia.nombre}
-              </p>
-            );
-          })}
+            <div className="col">
+              <p className="fs-4 text-muted">Especialidades</p>
+              {/* <p className="fs-6  fw-bold text-secondary">Especialista en Derecho Laboral.</p> */}
+              <hr className="w-25 text-black"></hr>
+
+              {abogado.materias?.map((materia) => {
+                return (
+                  <p
+                    key={materia.nombre}
+                    className="fs-6  fw-bold text-secondary"
+                  >
+                    {materia.nombre}
+                  </p>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </>

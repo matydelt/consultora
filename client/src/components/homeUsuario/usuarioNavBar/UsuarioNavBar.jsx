@@ -27,7 +27,10 @@ export default function UsuarioNavBar() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav
+        style={{ background: "#033663" }}
+        className="navbar navbar-expand-lg navbar-dark"
+      >
         <div className="container-fluid">
           <button
             className="navbar-toggler"

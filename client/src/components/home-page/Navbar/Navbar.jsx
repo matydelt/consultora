@@ -60,9 +60,9 @@ const Navbar = ({ navId }) => {
 
         {localStorage.getItem("username") || usuario.firstName ? (
           <li>
-            {usuario && !usuario.abogadoId && (
+            {usuario && usuario.adminId && usuario.abogadoId === null && (
               <ButtonsNav
-                link="/user/panel"
+                link="/admin"
                 text={localStorage.getItem("username") || usuario.firstName}
               />
             )}
@@ -70,6 +70,11 @@ const Navbar = ({ navId }) => {
             {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
               <ButtonsNav link="/user/abogado" text={usuario.firstName} />
             )}
+            {usuario &&
+              usuario.adminId === null &&
+              usuario.abogadoId === null && (
+                <ButtonsNav link="/user/panel" text={usuario.firstName} />
+              )}
           </li>
         ) : (
           <li className="col-xl-1">
