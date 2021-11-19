@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getUsuario } from "../../../redux/actions";
+import "./UsuarioNavBar.css";
 
 export default function UsuarioNavBar() {
   const history = useHistory();
@@ -27,10 +28,7 @@ export default function UsuarioNavBar() {
 
   return (
     <>
-      <nav
-        style={{ background: "#033663" }}
-        className="navbar navbar-expand-lg navbar-dark"
-      >
+      <nav className="navbar navbar-expand-lg navbar-dark navbaPanel_usuraio">
         <div className="container-fluid">
           <button
             className="navbar-toggler"

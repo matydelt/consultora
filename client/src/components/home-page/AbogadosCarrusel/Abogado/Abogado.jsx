@@ -9,8 +9,11 @@ const Abogado = ({ abogado, frase }) => {
         <div className="img_abogado">
           <img
             className="card-img-top"
-            src={abogado.abogado.imagen}
-            alt={"sad"}
+            src={
+              abogado.abogado.imagen ||
+              "https://www.caracteristicas.co/wp-content/uploads/2017/03/Derecho-e1564875517201.jpg"
+            }
+            alt={"imagen"}
           />
         </div>
         <div className="text_equipo">

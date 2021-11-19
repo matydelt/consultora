@@ -41,14 +41,10 @@ const Navbar = ({ navId }) => {
             <Link to="/">Home</Link>
           )}
         </li>
-        <li className="col-xl-1">
-          <ButtonScroll
-            text="Materias"
-            idScroll="#materias"
-            style={{ marginLeft: "-5px", marginRigth: "5px" }}
-          />
-        </li>
 
+        <li className="col-xl-1">
+          <ButtonScroll text="Materias" idScroll="#materias" />
+        </li>
         <li className="col-xl-1">
           <ButtonScroll text="Nosotros" idScroll="#about" />
         </li>
