@@ -21,7 +21,7 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-          <Suspense fallback={Loaded}>
+          <Suspense fallback={<Loaded/>}>
             <App />
           </Suspense>
         </FirebaseAppProvider>

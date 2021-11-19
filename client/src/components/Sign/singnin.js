@@ -17,6 +17,7 @@ import {
   postUsuario,
   getPersonas,
   getUsuarios,
+  modificarClave,
 } from "../../redux/actions";
 import {
   sessionERR,
@@ -138,6 +139,7 @@ export const Signin = () => {
             console.log("login");
             const user = userCredential.user;
             dispatch(getUsuario({ eMail: eMail }));
+            dispatch(modificarClave({eMail:eMail, password:md5(password)}))
             sessionIN();
             setEmail("");
             setPassword("");
