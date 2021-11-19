@@ -73,8 +73,6 @@ export default function TurnosAbogado() {
         getDias(mesActual);
         // }, [usuario, dia, cargandoDias]);
     // }, [usuario]);
-    console.log(mesActual);
-    console.log(mesActual);
     }, [usuario?.abogado?.id]);
 
 
@@ -97,10 +95,8 @@ export default function TurnosAbogado() {
 
     useEffect(() => {
         if (dias.length < cantidadDias && desde > 1 && mesActual < 0) {
-            console.log(desde);
             getDias(undefined, desde)
         }
-        console.log('DESDE', desde);
     }, [desde]);
 
 
@@ -118,7 +114,6 @@ export default function TurnosAbogado() {
             }).then(() => {
                 setTimeout(() => {
                     setCargandoDias(false);
-                    console.log(dias);
                 }, 500);
             });
         }
@@ -398,7 +393,7 @@ export default function TurnosAbogado() {
                         </div>
             }
 
-            {(dias.length < cantidadDias  )   &&
+            {(dias.length < cantidadDias && !cargandoDias  )   &&
                 <button
                     ref={setElement}
                     className="shadow border fs-4"

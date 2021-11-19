@@ -51,7 +51,6 @@ export default function ModalModificarTurnos({ getDias, mesActual, setDesde, set
             if (mesActual >= 0) {
                 getDias(mesActual);
             } else {
-                console.log('CARGA CON SINNNNN ACTUAL');
                 getDias(undefined, 1);
             }
         }).catch(err => toast.error('Hubo un problema al modificar los turnos'));
