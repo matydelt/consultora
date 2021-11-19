@@ -14,11 +14,8 @@ import HomeAbogado from "./components/home-Abogado/HomeAbogado";
 import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
 import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
-<<<<<<< HEAD
-=======
 import Signup from "./components/Sign/signup";
 import Loaded from "./components/Loaded/Loaded";
->>>>>>> a01e253e7f93d4e50b4f1a6d33cf7baf61a0f596
 import FormCasos from "./components/FormCasos/FormCasos";
 import HomeUsuario from "./components/homeUsuario/HomeUsuario";
 import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/ConsultasUsuario";
@@ -28,17 +25,11 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/admin/adminPage/adminPage";
 import TurnosAbogado from "./components/home-Abogado/turnos/TurnosAbogado";
 import "./App.css";
-<<<<<<< HEAD
 import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias"
 import Clients from "./components/home-Abogado/clients/clients";
 import NewPass from "./components/Sign/newpass.js";
 import ErrorPag from "./components/Error404/ErrorPag";
-=======
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
-import SiteMateria from "./components/Materia/SiteMaterias/SiteMaterias";
-import Clients from "./components/home-Abogado/clients/clients";
-import NewPass from "./components/Sign/NewPass";
->>>>>>> a01e253e7f93d4e50b4f1a6d33cf7baf61a0f596
 
 function App() {
   const dispatch = useDispatch();
@@ -80,39 +71,12 @@ function App() {
         <Route exact path="/abogados">
           <Perfiles />
         </Route>
-<<<<<<< HEAD
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/cita" component={FormCita} />
         <Route exact path="/Cambiopass" component={NewPass} />
 
         <Route exact path="/user/panel">
           <HomeUsuario />
-=======
-        <Route
-          path={usuario?.adminId != null ? "/admin" : "/ingreso"}
-          component={usuario?.adminId != null ? AdminPage : Signin}
-        ></Route>
-
-        <Route exact path="/ingreso" component={Signin} />
-        <Route exact path="/cita" component={FormCita} />
-        {/* <Route exact path="/signup" component={Signup} /> */}
-        <Route exact path="/Cambiopass" component={NewPass} />
-        <Route
-          exact
-          path={
-            usuario && usuario?.adminId === null ? "/user/panel" : "/ingreso"
-          }
-        >
-          {usuario && usuario?.adminId === null ? <HomeUsuario /> : <Signin />}
-        </Route>
-        <Route
-          exact
-          path={
-            usuario?.clienteId != null ? "/user/panel/consultas" : "/ingreso"
-          }
-        >
-          {usuario?.clienteId != null ? <ConsultasUsuario /> : <Signin />}
->>>>>>> a01e253e7f93d4e50b4f1a6d33cf7baf61a0f596
         </Route>
         <Route
           exact
