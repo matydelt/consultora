@@ -22,8 +22,12 @@ export default function HomeAbogado() {
           En este panel podrá realizar las siguientes gestiones:
         </h4>
         <ul>
-          <li>O Generar una nueva consultas</li>
-          <li>O Ver el estado de sus consultas y casos</li>
+          <li>- Generar una nueva consultas</li>
+          <li>- Ver el estado de sus consultas y casos</li>
+          <li>- Abonar sus consultas</li>
+          <li>
+            - Gestionar turnos una vez un abogado haya aceptado su consulta
+          </li>
         </ul>
 
         {/* <ConsultasUsuario></ConsultasUsuario> */}

@@ -122,7 +122,6 @@ async function getMaterias(req, res) {
           where: { nombre: vec[i] },
           include: Abogado,
         });
-        materias = await Materias.create({ nombre: vec[i] });
       }
     }
     return res.send(materias);

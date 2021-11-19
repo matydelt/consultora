@@ -40,6 +40,10 @@ export default function PerfilAbogado() {
             />
           </div>
         </div>
+        <h1 className="text-secondary text-center mt-4">
+          {abogado.firstName} {abogado.lastName}
+        </h1>
+        <h5 className="color-titulo text-center p-4">Abogado</h5>
 
         <div className="text-center">
           {abogado.provincias?.map((provincia) => {
@@ -59,7 +63,6 @@ export default function PerfilAbogado() {
             );
           })}
         </div>
-
         <div>
           <h5 className="color-titulo text-center p-4">Abogado</h5>
           <p className="fs-4 text-muted">Formación y experiencia</p>

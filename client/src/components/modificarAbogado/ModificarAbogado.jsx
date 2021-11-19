@@ -45,7 +45,7 @@ export default function ModificarAbogado() {
   } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  console.log(materiasRedux)
+  console.log(materiasRedux);
 
   useEffect(() => {
     if (usuario?.slug?.length > 0) {
@@ -71,7 +71,6 @@ export default function ModificarAbogado() {
         setProvinciasEnviar(arrProvincias);
       });
     }
-
   }, [usuario?.abogado?.id]);
 
   function modificarImagen(e) {
@@ -160,10 +159,11 @@ export default function ModificarAbogado() {
     if (!estudios) {
       setErrores((errores) => [...errores, "Los estudios son requeridos"]);
     }
+    if (!matricula) {
+      setErrores((errores) => [...errores, "La matrícula es requerida"]);
+    }
 
-    if (!nombre || !apellido || !detalle || !estudios) return;
-
-    console.log(form);
+    if (!nombre || !apellido || !detalle || !estudios || !matricula) return;
 
     setLoading(true);
     axios
@@ -218,6 +218,7 @@ export default function ModificarAbogado() {
                   )}
 
                   <input
+                    name="imagen"
                     hidden
                     accept="image/*"
                     disabled={loadingImage}
@@ -344,13 +345,16 @@ export default function ModificarAbogado() {
                 {materiasEnviar &&
                   materiasEnviar.map((me) => {
                     return (
-                      <span
+                      <div
                         key={me}
                         onClick={() => quitarMateriaEnviar(me)}
-                        className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer animate__animated animate__fadeIn animate__faster"
+                        className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster position-relative"
                       >
-                        {me} X
-                      </span>
+                        {me}
+                        <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">
+                          x
+                        </span>
+                      </div>
                     );
                   })}
               </div>
@@ -384,13 +388,16 @@ export default function ModificarAbogado() {
                 {provinciasEnviar &&
                   provinciasEnviar?.map((pe) => {
                     return (
-                      <span
+                      <div
                         key={pe}
                         onClick={() => quitarProvinciaEnviar(pe)}
-                        className="badge bg-light border text-muted mx-1 p-2 shadow mt-2 pointer animate__animated animate__fadeIn animate__faster"
+                        className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster"
                       >
-                        {pe} X
-                      </span>
+                        {pe}
+                        <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">
+                          x
+                        </span>
+                      </div>
                     );
                   })}
               </div>
@@ -459,15 +466,18 @@ export default function ModificarAbogado() {
         </div>
       ) : (
         <>
-          <div className="container text-center mt-5">
+          <div
+            className="container text-center my-5"
+            style={{ padding: "300px" }}
+          >
             <div class="spinner-grow" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <div class="spinner-grow mx-3" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-grow mx-3" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
-            <div class="spinner-grow" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-grow" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         </>

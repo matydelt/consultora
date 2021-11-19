@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav";
 import "./About.css";
 
@@ -30,6 +31,13 @@ const About = ({
       </div>
     </div>
   );
+};
+
+About.propTypes = {
+  titleAbout: PropTypes.string.isRequired,
+  contendioAbout: PropTypes.string,
+  titleFilosofia: PropTypes.string.isRequired,
+  contenidoFilosofia: PropTypes.string,
 };
 
 export default About;

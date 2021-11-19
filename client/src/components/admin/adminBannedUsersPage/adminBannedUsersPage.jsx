@@ -35,6 +35,12 @@ const AdminBannedUsersPage = () => {
     alertPlaceholder.append(wrapper);
   };
 
+  if (!bannedUsers.length) {
+    return (
+      <h1 style={{ margin: "auto" }}>Actualmente no hay usuarios banneados</h1>
+    );
+  }
+
   return (
     <div id="adminBannedUsersPage">
       <table className="table table-striped">
@@ -68,7 +74,7 @@ const AdminBannedUsersPage = () => {
           })}
         </tbody>
       </table>
-      <div id="liveAlertPlaceholder">
+      {/* <div id="liveAlertPlaceholder">
         <div className="alert alert-danger alert-dismissible" role="alert">
           <button
             type="button"
@@ -76,8 +82,9 @@ const AdminBannedUsersPage = () => {
             data-bs-dismiss="alert"
             aria-label="Close"
           ></button>
+          a
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

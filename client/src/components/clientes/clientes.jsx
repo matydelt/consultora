@@ -144,7 +144,7 @@ export default function Clientes() {
           aria-label="Default select example"
           onChange={(e) => handleChangeByEstado(e)}
         >
-          <option selected>Seleccion por estado</option>
+          <option defaultValue>Seleccion por estado</option>
           <option value="inicio">inicio</option>
           <option value="prueba">prueba</option>
           <option value="sentencia">sentencia</option>

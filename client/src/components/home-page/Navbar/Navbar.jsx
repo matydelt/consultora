@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Logo from "../assets/img/buffet-buffet-law.png";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav";
 import { Link } from "react-router-dom";
@@ -11,7 +12,23 @@ import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import ButtonScroll from "./ButtonScroll/ButtonScroll";
 const Navbar = ({ navId }) => {
-  let usuario = useSelector((state) => state.usuario);
+  let { usuario } = useSelector((state) => state);
+  // const dispatch = useDispatch();
+  // const auth = getAuth();
+  // const history = useHistory();
+
+  // const logout = () => {
+  //   signOut(auth)
+  //     .then(() => {
+  //       dispatch(getUsuario({}));
+  //       history.push("/");
+  //       toast.info("La sesión fue finalizada");
+  //       localStorage.removeItem("username");
+  //     })
+  //     .catch((error) => {
+  //       // An error happened.
+  //     });
+  // };
 
   return (
     <nav id={navId} className="col-12 col-xl-12">
@@ -30,6 +47,13 @@ const Navbar = ({ navId }) => {
             <Link to="/">Home</Link>
           )}
         </li>
+        <li className="col-xl-1">
+          <ButtonScroll
+            text="Materias"
+            idScroll="#materias"
+            style={{ marginLeft: "-5px", marginRigth: "5px" }}
+          />
+        </li>
 
         <li className="col-xl-1">
           <ButtonScroll text="Nosotros" idScroll="#about" />
@@ -38,6 +62,7 @@ const Navbar = ({ navId }) => {
         <li className="col-xl-1">
           <ButtonsNav link="/abogados" text="Nuestro Equipo" />
         </li>
+        <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
 
         {localStorage.getItem("username") || usuario.firstName ? (
           <li>
@@ -60,6 +85,10 @@ const Navbar = ({ navId }) => {
       </ul>
     </nav>
   );
+};
+
+Navbar.propTypes = {
+  navId: PropTypes.string.isRequired,
 };
 
 export default Navbar;
