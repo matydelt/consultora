@@ -1,19 +1,26 @@
-import React from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import "./HomeAbogado.css";
+import { putAbogado } from "../../redux/actions";
 
 export default function HomeAbogado() {
-  const { usuario } = useSelector((state) => state);
+  const { usuario, abogado } = useSelector((state) => state);
+  const dispatch = useDispatch()
+  const { clientes } = abogado
+  useEffect(() => {
+    dispatch(putAbogado({ eMail: usuario.eMail }));
+  }, [dispatch, usuario.eMail])
 
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
     <div>
-      <div className="jumbotron  jumbotron-fluid">
+      <div className="jumbotron  jumbotron-fluid body-home">
         <h1 className="display-4">¡Bienvenido!</h1>
-        <p className="lead">
+        <p className="lead ">
           En este sitio podrás encontrar todo lo necesario para poder gestionar
           tus casos, consultas y clientes, Para poder navegar puedes utilizar
           los botones que se encuentran en la navegación de la parte superior.
@@ -27,7 +34,7 @@ export default function HomeAbogado() {
         </p>
         <p className="lead">
           <a
-            className="btn btn-primary btn-lg"
+            className="button-home btn-lg"
             href="/user/abogado"
             role="button"
           >
@@ -35,24 +42,27 @@ export default function HomeAbogado() {
           </a>
         </p>
         <hr className="my-4"></hr>
-        <p>
+        <p className="">
           Detalles: a través de esta ventana vas a poder ver, ingresar o
           modificar datos a tu perfil. Te recomendamos tenerlo actualizado.
         </p>
         <p className="lead">
-          <a class="btn btn-primary btn-lg" role="button">
-            <Link to="/user/abogado/modificar-perfil" className="nav-link">
-              Detalles
-            </Link>
+
+          <a class="button-home btn-lg btn-m"
+            role="button"
+            href="/user/abogado/modificar-perfil">
+            Detalles
           </a>
+
         </p>
         <hr className="my-4"></hr>
         <p>
           Casos: a través de esta ventana vas a poder ingresar los datos de los
           nuevos casos e ir gestionando su estado.
         </p>
+
         <p className="lead">
-          <a className="btn btn-primary btn-lg" href="/" role="button">
+          <a className="button-home btn-lg" href="/" role="button">
             Casos
           </a>
         </p>
@@ -65,7 +75,7 @@ export default function HomeAbogado() {
         </p>
         <p className="lead">
           <a
-            className="btn btn-primary btn-lg"
+            className="button-home btn-lg"
             href="/user/abogado/consultas"
             role="button"
           >
@@ -79,7 +89,7 @@ export default function HomeAbogado() {
         </p>
         <p className="lead">
           <a
-            className="btn btn-primary btn-lg"
+            className="button-home btn-lg"
             href="/user/abogado/clientes"
             role="button"
           >

@@ -19,6 +19,11 @@ const Navbar = ({ navId }) => {
       <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
         <li className="col-xl-1">
           <ButtonScroll text="Materias" idScroll="#materias" />
+          {usuario.adminId ? (
+            <Link to="/admin">Admin Page</Link>
+          ) : (
+            <Link to="/">Home</Link>
+          )}
         </li>
 
         <li className="col-xl-1">
