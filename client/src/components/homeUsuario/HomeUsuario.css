@@ -1,0 +1,17 @@
+.homeUsuario {
+    height: 100% !important;
+}
+
+.homePanel {
+    width: 70%;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.homePanel h1 {
+    text-decoration: underline;
+}
+
+.homePanel ul li {
+    list-style: outside;
+}

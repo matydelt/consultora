@@ -1,14 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
 
 import "./PerfilAbogado.css";
 
 export default function PerfilAbogado() {
   const [abogado, setAbogado] = useState({});
-
-  const history = useHistory();
 
   const { slug } = useParams();
 

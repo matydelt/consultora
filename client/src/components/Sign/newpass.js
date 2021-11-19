@@ -5,10 +5,10 @@ import { getUsuarios } from "../../redux/actions/index.js";
 import { correoNoOK, createOK } from "./alert.js";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Link } from "react-router-dom";
-import Navbar from "../home-page/Navbar/Navbar.jsx";
-
+import LogoBlanco from "../home-page/assets/img/logo-blacno-sin-fondo.png";
 import "./sign.css";
 import NavBarGeneral from "../NavBarGeneral/NavBarGeneral.jsx";
+import ButtonsNav from "../ButtonsNav/ButtonsNav.jsx";
 
 export const NewPass = ({ history }) => {
   const dispatch = useDispatch();
@@ -48,38 +48,50 @@ export const NewPass = ({ history }) => {
   return (
     <>
       <NavBarGeneral />
-      <div className="container p-4">
-        <div className="row">
-          <div className="col-lg-4 col-md-6 col-sm-8 mx-auto">
-            <div className="card text-center">
-              <div className="card-header">
-                <h3>Nueva clave</h3>
+      <div className="body_displayname">
+        <div className="bg_blue_image_displayname">
+          <div className="overlay_displayname overlay_right_displayname">
+            <div>
+              <img src={LogoBlanco} alt="Logo" />
+              <h4>
+                Si ya tienes una cuenta presiona en <br />
+                "YA TENGO UNA CUENTA"
+              </h4>
+              <ButtonsNav text="Ya tengo una cuenta" link="/ingreso" />
+            </div>
+          </div>
+          <div className="form_container newPass_in_container">
+            <div className="newPass">
+              <div className="">
+                <h3>Introduce tu correo</h3>
               </div>
-              <form className="card-body form-sign" onSubmit={Cambiopass}>
-                <div className="form-group">
+              <form onSubmit={Cambiopass}>
+                <div className="singn_input_login">
                   <input
                     type="text"
                     value={eMail}
                     name="Mail"
                     autoComplete="off"
                     placeholder="Email : Ejemplo@ejemplo.com"
-                    className="form-control"
+                    className=""
                     required
                     onChange={(e) => {
                       setEmail(e.target.value);
                     }}
                   />
                 </div>
-                {/* <ReCAPTCHA
-                  sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA}
-                  onChange={() => {
-                    setCAPTCHA(true);
-                  }}
-                /> */}
 
-                <div className="form-group">
+                <div>
+                  <ReCAPTCHA
+                    sitekey={process.env.REACT_APP_GOOGLE_RECAPTCHA}
+                    onChange={() => {
+                      setCAPTCHA(true);
+                    }}
+                  />
+                </div>
+
+                <div className="newPass_button">
                   <button
-                    className="btn btn-success btn-block"
                     // onClick={(e)=>Cambiopass(e)}
                     disabled={eMail === ""}
                   >
@@ -87,13 +99,6 @@ export const NewPass = ({ history }) => {
                   </button>
                 </div>
               </form>
-              <div className="card-footer">
-                <Link to="/ingreso">
-                  <label className="pointer">
-                    Ya tengo una cuenta. INGRESAR
-                  </label>
-                </Link>
-              </div>
             </div>
           </div>
         </div>

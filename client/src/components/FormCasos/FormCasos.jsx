@@ -132,6 +132,7 @@ const FormCasos = ({ cliente }) => {
   }
   console.log(input)
   return (
+    <>
     <div className="container">
       <div className="accordion accordion-flush ancho" id="accordionFlushExample">
         <div className="accordion-item">
@@ -212,6 +213,7 @@ const FormCasos = ({ cliente }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

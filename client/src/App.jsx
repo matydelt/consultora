@@ -82,34 +82,43 @@ function App() {
         ></Route>
 
         <Route exact path="/ingreso" component={Signin} />
-        <Route exact path="/cita" component={FormCita} />
-
         <Route exact path="/Cambiopass" component={NewPass} />
-        <Route
-          exact
-          path={
-            usuario && usuario?.adminId === null ? "/user/panel" : "/ingreso"
-          }
-        >
-          {usuario && usuario?.adminId === null ? <HomeUsuario /> : <Signin />}
-        </Route>
-        <Route
-          exact
-          path={
-            usuario?.clienteId != null ? "/user/panel/consultas" : "/ingreso"
-          }
-        >
-          {usuario?.clienteId != null ? <ConsultasUsuario /> : <Signin />}
-        </Route>
-        <Route
-          exact
-          path={usuario?.clienteId != null ? "/user/panel/turnos" : "/ingreso"}
-        >
-          {usuario?.clienteId != null ? <TurnosUsuario /> : <Signin />}
-        </Route>
+
+        <div className="abosoluteDiv">
+          <Route exact path="/cita" component={FormCita} />
+
+          <Route
+            exact
+            path={
+              usuario && usuario?.adminId === null ? "/user/panel" : "/ingreso"
+            }
+          >
+            {usuario && usuario?.adminId === null ? (
+              <HomeUsuario />
+            ) : (
+              <Signin />
+            )}
+          </Route>
+          <Route
+            exact
+            path={
+              usuario?.clienteId != null ? "/user/panel/consultas" : "/ingreso"
+            }
+          >
+            {usuario?.clienteId != null ? <ConsultasUsuario /> : <Signin />}
+          </Route>
+          <Route
+            exact
+            path={
+              usuario?.clienteId != null ? "/user/panel/turnos" : "/ingreso"
+            }
+          >
+            {usuario?.clienteId != null ? <TurnosUsuario /> : <Signin />}
+          </Route>
+        </div>
         {/* <Route component={Loaded} path="/:rest*" /> */}
-        <div>
-          <NavAbogado />
+        <div className="abosoluteDiv">
+          {/* <NavAbogado /> */}
           <Route
             exact
             path={usuario?.abogadoId != null ? "/user/abogado" : "/ingreso"}
