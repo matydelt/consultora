@@ -159,10 +159,11 @@ export default function ModificarAbogado() {
     if (!estudios) {
       setErrores((errores) => [...errores, "Los estudios son requeridos"]);
     }
+    if (!matricula) {
+      setErrores((errores) => [...errores, "La matrícula es requerida"]);
+    }
 
-    if (!nombre || !apellido || !detalle || !estudios) return;
-
-    console.log(form);
+    if (!nombre || !apellido || !detalle || !estudios || !matricula) return;
 
     setLoading(true);
     axios
@@ -217,6 +218,7 @@ export default function ModificarAbogado() {
                   )}
 
                   <input
+                  name="imagen"
                     hidden
                     accept="image/*"
                     disabled={loadingImage}
