@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import "./HomeAbogado.css";
 import { putAbogado } from "../../redux/actions";
+import SideBarAbogado from "./SideBarAbogado/SideBarAbogado";
 
 export default function HomeAbogado() {
   const { usuario, abogado } = useSelector((state) => state);
@@ -14,16 +15,19 @@ export default function HomeAbogado() {
     dispatch(putAbogado({ eMail: usuario.eMail }));
   }, [dispatch, usuario.eMail])
 
+  console.log(abogado  )
+
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
-    <div>
+    <div className="hidden">
+      <SideBarAbogado imagenAbogado={abogado.imagen} />
       <div className="jumbotron  jumbotron-fluid body-home">
-        <h1 className="display-4">¡Bienvenido!</h1>
+        <h1 className="display-4">Bienvenido, {abogado.firstName}</h1>
         <p className="lead ">
           En este sitio podrás encontrar todo lo necesario para poder gestionar
           tus casos, consultas y clientes, Para poder navegar puedes utilizar
-          los botones que se encuentran en la navegación de la parte superior.
+          el boton que se encuentran en la parte superior izquierda.
           Ahora te daremos una pequeña descripción de lo que hace cada botón:
         </p>
         <hr className="my-4"></hr>

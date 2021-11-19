@@ -8,6 +8,8 @@ import { actionEliminarDia, getDia } from '../../../redux/actions';
 import ModalVerTurnos from './modalVerTurnos/ModalVerTurnos';
 import ModalModificarTurnos from './modalModificarTurnos.jsx/ModalModificarTurnos';
 import swal from 'sweetalert';
+import NavBarGeneral from '../../NavBarGeneral/NavBarGeneral';
+import './TurnosAbogado.css'
 
 const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
 
@@ -214,8 +216,10 @@ export default function TurnosAbogado() {
 
 
 
-    return (<>
+    return (
+    <div className="bodyTurnosAbogados">
 
+        <NavBarGeneral />
         <ModalVerTurnos />
 
         <ModalModificarTurnos getDias={getDias} mesActual={mesActual}/>
@@ -395,5 +399,5 @@ export default function TurnosAbogado() {
                 > Cargar más... </button>
             }
         </div>
-    </>)
+    </div>)
 };

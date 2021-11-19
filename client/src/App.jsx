@@ -85,8 +85,7 @@ function App() {
         <Route exact path="/user/panel/turnos">
           <TurnosUsuario />
         </Route>
-        <div>
-          <NavAbogado />
+        <div className="abosoluteDiv">
           <Route exact path="/user/abogado">
             <HomeAbogado />
           </Route>

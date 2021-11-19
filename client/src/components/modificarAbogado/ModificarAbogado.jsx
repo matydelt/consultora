@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUsuario } from "../../redux/actions";
+import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
 
 import "./ModificarAbogado.css";
 
@@ -178,6 +179,7 @@ export default function ModificarAbogado() {
 
   return (
     <>
+    <NavBarGeneral /> 
       {usuario?.abogado?.id ? (
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
           <h2 className="">Modificar perfil</h2>

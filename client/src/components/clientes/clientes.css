@@ -1,3 +1,8 @@
+.body_cliente {
+    position: relative;
+    height: 100%;
+}
+
 .boton-caso{ 
     background-color: #033663;
     color: #FFFFFF;
