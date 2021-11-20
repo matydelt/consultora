@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientes, putClienteAbogado } from "../../../redux/actions";
+import { toast } from "react-toastify";
 
 export default function AdminClientes() {
   const dispatch = useDispatch();
@@ -24,11 +25,16 @@ export default function AdminClientes() {
       cambios.cliente !== undefined
     ) {
       dispatch(putClienteAbogado(cambios));
-    }
+      toast.success("Abogado asignado");
+    } else toast.error("Ocurrio un error");
   };
+
   const abogados = allUsers.filter((e) => e.abogadoId !== null);
   return (
-    <div className="ms-2 me-2 mt-2 mb-3 p-2 bd-highlight w-100">
+    <div
+      className="ms-5 me-5 mt-3 mb-3"
+      style={{ width: "100%", paddingTop: "20px", paddingLeft: "20px" }}
+    >
       <table className="table table-striped ">
         <thead>
           <tr>

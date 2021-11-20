@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav";
 import "./About.css";
 
@@ -9,7 +10,7 @@ const About = ({
   contenidoFilosofia,
 }) => {
   return (
-    <div className="hidden_contenedor">
+    <div id="about" className="hidden_contenedor">
       <div className="contenedor_about">
         <div className="About_container">
           <div className="row col-md-12 row-cols-md-6 justify-content-evenly">
@@ -30,6 +31,13 @@ const About = ({
       </div>
     </div>
   );
+};
+
+About.propTypes = {
+  titleAbout: PropTypes.string.isRequired,
+  contendioAbout: PropTypes.string,
+  titleFilosofia: PropTypes.string.isRequired,
+  contenidoFilosofia: PropTypes.string,
 };
 
 export default About;

@@ -8,6 +8,7 @@ import { actionEliminarDia, getDia } from '../../../redux/actions';
 import ModalVerTurnos from './modalVerTurnos/ModalVerTurnos';
 import ModalModificarTurnos from './modalModificarTurnos.jsx/ModalModificarTurnos';
 import swal from 'sweetalert';
+import SideBarAbogado from '../SideBarAbogado/SideBarAbogado';
 
 const options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric' };
 
@@ -233,6 +234,8 @@ export default function TurnosAbogado() {
         <ModalVerTurnos />
 
         <ModalModificarTurnos getDias={getDias} mesActual={mesActual} setDesde={setDesde} setDias={setDias}/>
+
+        <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} />
 
         <div className="modal fade" id="modalTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <form onSubmit={(e) => submitForm(e)}>

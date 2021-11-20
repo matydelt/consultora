@@ -25,8 +25,12 @@ const Header = () => {
 
           <div className="bg_two_caption height_image carousel-item col-md-5">
             <div className="carousel-caption d-none d-md-block m_top_header caption_two">
-              <h5>¿Quieres una Consulta rápida?</h5>
-              <ButtonsNav nameClass="btn textDecoration" link="#" text="Presiona aquí  " />
+              <h5>¿Quieres una Consulta?</h5>
+              <ButtonsNav
+                nameClass="btn textDecoration"
+                link="/ingreso"
+                text="Presiona aquí  "
+              />
             </div>
           </div>
 
@@ -37,7 +41,11 @@ const Header = () => {
                 tu
               </h5>
               <h5>SOLUCIÓN</h5>
-              <ButtonsNav nameClass="btn textDecoration" link="/abogados" text="Ver el Equipo" />
+              <ButtonsNav
+                nameClass="btn textDecoration"
+                link="/abogados"
+                text="Ver el Equipo"
+              />
             </div>
           </div>
         </div>

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 import swal from "sweetalert";
 import { usuarioBloqueado } from "../../components/Sign/alert";
 
@@ -17,10 +16,20 @@ export function getMaterias() {
   };
 }
 
-export function getSiteMateria(payload) {
-  return {
-    type: "GET_MATERIAS_SITE",
-    payload,
+export function getSiteMateria(materia) {
+  return async function (dispatch) {
+    try {
+      const json = await axios.get("/materias");
+      const abogados = await axios.get("/abogados");
+      return dispatch({
+        type: "GET_MATERIAS_SITE",
+        payload: json.data,
+        materia,
+        abogados: abogados.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 
@@ -150,12 +159,23 @@ export function postAbogado(abogado) {
   };
 }
 
-export function getAbogado(abogado) {
+export function getAbogado(slug) {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`/abogado/${slug}`);
+      return dispatch({ type: "GET_ABOGADO", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function putAbogado(abogado) {
   return async function (dispatch) {
     try {
       const aux = await axios.put("/abogado", abogado);
       return dispatch({
-        type: "GET_ABOGADO",
+        type: "PUT_ABOGADO",
         payload: aux.data,
       });
     } catch (error) {
@@ -200,6 +220,15 @@ export const mostrarConsulta = (consulta) => {
   return (dispatch) => {
     return dispatch({
       type: "SET_CONSULTA",
+      payload: consulta,
+    });
+  };
+};
+
+export const mostartDetalleConsulta = (consulta) => {
+  return (dispatch) => {
+    return dispatch({
+      type: "SET_CONSULTA_DETALLE",
       payload: consulta,
     });
   };
@@ -370,6 +399,18 @@ export function setCliente(cliente, abogado) {
       });
   };
 }
+export function modificarClave(Usuario) {
+  return (dispatch) => {
+    axios
+      .put("http://localhost:3001/newpass", Usuario)
+      .then((response) => {
+        return dispatch({ type: "POST_CLAVE" });
+      })
+      .catch((err) => {
+        console.log("ruta no existe");
+      });
+  };
+}
 
 export function getClientes() {
   return (dispatch) => {
@@ -400,6 +441,76 @@ export function putClienteAbogado(cambios) {
       });
   };
 }
+
+export function putAbout(about) {
+  console.log(about);
+  return async (dispatch) => {
+    try {
+      await axios.put("/about/modify", about);
+      return dispatch({ type: "PUT_ABOUT" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getAbout() {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/about/find");
+      return dispatch({ type: "GET_ABOUT", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function putItem(item) {
+  return async (dispatch) => {
+    try {
+      await axios.put("/items/modify", item);
+      return dispatch({ type: "PUT_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getItems() {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("/items/find");
+      return dispatch({ type: "GET_ITEMS", payload: response.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function postItem(item) {
+  return async (dispatch) => {
+    try {
+      await axios.post("/items/create", item);
+      return dispatch({ type: "POST_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function deleteItem(item) {
+  console.log(item);
+  return async (dispatch) => {
+    try {
+      await axios.delete("/items/delete/" + JSON.stringify(item), {
+        headers: { authorization: localStorage.getItem("token") },
+      });
+      return dispatch({ type: "DELETE_ITEM" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 export function getDia(diaId) {
   return (dispatch) => {
     axios
@@ -428,7 +539,7 @@ export function actionCancelarTurno(turnoId, eliminar) {
 export function actionEliminarDia(diaId) {
   return (dispatch) => {
     axios
-      .post("/eliminar-dia", {diaId})
+      .post("/eliminar-dia", { diaId })
       .then((resp) => {
         console.log(resp);
       })
@@ -437,6 +548,3 @@ export function actionEliminarDia(diaId) {
       });
   };
 }
-
-
-

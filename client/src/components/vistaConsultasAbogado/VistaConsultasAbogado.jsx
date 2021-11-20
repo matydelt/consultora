@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Redirect } from "react-router";
-import { getConsultas, getTickets } from "../../redux/actions";
+import { getConsultas } from "../../redux/actions";
 import ModalConsulta from "./modalConsulta/ModalConsulta";
 import TablaVistasConsultas from "./tablaVistasConsultas/TablaVistasConsultas";
 import "./VistaConsultasAbogados.css";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
 export default function VistaConsultasAbogado() {
   let [busquedaTodas, setBusquedaTodas] = useState("");
@@ -24,20 +25,19 @@ export default function VistaConsultasAbogado() {
     dispatch(getConsultas());
 
     setActualizando(true);
-    
+
     setTimeout(() => {
       setActualizando(false);
     }, 4000);
-    
+
     toast.success("Las consultas fueron actualizadas");
   }
-
-  
 
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
-    <>
+    <div className="body_vistas_consultas hidden">
+      <SideBarAbogado />
       <ModalConsulta usuario={usuario} modalId={`modalConsulta`} />
 
       <nav className="text-center mt-5">
@@ -88,7 +88,7 @@ export default function VistaConsultasAbogado() {
             className="mx-5 btn btn-light border"
             disabled={actualizando}
           >
-            { actualizando ? '🔁 Actualizando' : '🔁 Actualizar' }
+            {actualizando ? "🔁 Actualizando" : "🔁 Actualizar"}
           </button>
         </div>
       </nav>
@@ -100,6 +100,7 @@ export default function VistaConsultasAbogado() {
           aria-labelledby="nav-home-tab"
         >
           <TablaVistasConsultas
+            key={1}
             consultas={consultas}
             terminoBusquedaTodas={busquedaTodas}
             usuario={usuario}
@@ -112,6 +113,7 @@ export default function VistaConsultasAbogado() {
           aria-labelledby="nav-profile-tab"
         >
           <TablaVistasConsultas
+            key={2}
             consultas={consultas}
             terminoBusquedaAceptadas={busquedaAceptadas}
             usuario={usuario}
@@ -120,6 +122,6 @@ export default function VistaConsultasAbogado() {
         </div>
         {/* <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> */}
       </div>
-    </>
+    </div>
   );
 }

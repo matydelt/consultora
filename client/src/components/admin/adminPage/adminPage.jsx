@@ -12,12 +12,12 @@ import {
   updatePassword,
 } from "@firebase/auth";
 import Dashboard from "../../Dashboard/Dashboard";
-import Sidebar from "../Sidebar/Sidebar";
+import FoldOutMenu from "../Sidebar/FoldOutMenu";
 import AdminUsersPage from "../adminUsersPage/adminUsersPage";
 import AdminNewUsersPage from "../adminNewUsersPage/adminNewUsersPage";
 import AdminClientes from "../adminClients/clientes";
 import AdminBannedUsersPage from "../adminBannedUsersPage/adminBannedUsersPage";
-import Navbar from "../../home-page/Navbar/Navbar";
+import ModifierHome from "../adminHome/modifierHome";
 
 export default function AdminPage() {
   const dispatch = useDispatch();
@@ -25,14 +25,14 @@ export default function AdminPage() {
 
   useEffect(() => {
     dispatch(getUsuarios());
-    dispatch(getClientes())
+    dispatch(getClientes());
   }, []);
-  // if (adminId === undefined) return (<Redirect to="/" />)
+  if (usuario.adminId === undefined) return <Redirect to="/" />;
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
-      <Navbar navId={"menu"} />
-      <div style={{ display: "flex", marginTop: "-20px" }}>
-        <Sidebar />
+      <FoldOutMenu />
+
+      <div style={{ display: "flex", paddingTop: "20px" }}>
         <Switch>
           <Route path="/admin" exact component={Dashboard} />
           <Route path="/admin/users" exact component={AdminUsersPage} />
@@ -43,6 +43,7 @@ export default function AdminPage() {
             exact
             component={AdminBannedUsersPage}
           />
+          <Route path={"/admin/About"} exact component={ModifierHome} />
         </Switch>
       </div>
     </div>

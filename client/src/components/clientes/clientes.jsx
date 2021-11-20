@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { getAbogado, getMaterias } from "../../redux/actions";
+import { putAbogado, getMaterias } from "../../redux/actions";
 import Casos from "../casos/casos";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 import "./clientes.css";
 
 export default function Clientes() {
@@ -14,25 +14,19 @@ export default function Clientes() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAbogado({ eMail: usuario.eMail }));
+    dispatch(putAbogado({ eMail: usuario.eMail }));
     dispatch(getMaterias());
   }, [dispatch, usuario]);
 
-  // if (!abogado) {
-  //     dispatch(getAbogado({ "eMail": usuario.eMail }))
-  //     return (<p>Loading...</p>)
-  // }
   useEffect(() => {
-    dispatch(getAbogado({ eMail: usuario.eMail }));
-  }, [dispatch, usuario]);
-  useEffect(() => {
-    if (abogado.clientes === 0) return <h1>No hay clientes</h1>;
-    let AllClients = JSON.parse(JSON.stringify(abogado.clientes || []));
-    AllClients.map(
-      (e) => (e.casos = e.casos.filter((e) => e.estado !== "cerrado"))
-    );
-    AllClients = AllClients.filter((e) => e.casos.length > 0);
-    setClientes([...AllClients]);
+    if (abogado.clientes) {
+      let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
+      AllClients.map(
+        (e) => (e.casos = e.casos.filter((e) => e.estado !== "cerrado"))
+      );
+      AllClients = AllClients.filter((e) => e.casos.length > 0);
+      setClientes([...AllClients]);
+    }
   }, [abogado.clientes]);
 
   const handleClick = function (e, flag) {
@@ -47,13 +41,6 @@ export default function Clientes() {
     } else if (flag === 1) {
       AllClients.map(
         (e) => (e.casos = e.casos.filter((e) => e.estado === "cerrado"))
-      );
-      AllClients = AllClients.filter((e) => e.casos.length > 0);
-      setClientes([...AllClients]);
-    } else {
-      let AllClients = JSON.parse(JSON.stringify(abogado.clientes));
-      AllClients.map(
-        (e) => (e.casos = e.casos.filter((e) => e.estado !== "cerrado"))
       );
       AllClients = AllClients.filter((e) => e.casos.length > 0);
       setClientes([...AllClients]);
@@ -139,89 +126,85 @@ export default function Clientes() {
   };
 
   return (
-    <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
-      <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
-        <button
-          className=" btn  btn-danger  mt-3 mb-3"
-          onClick={(e) => handleClick(e, 0)}
-        >
-          Clientes Actuales
-        </button>
-        <button
-          className="btn  btn-danger mt-3 mb-3 "
-          onClick={(e) => handleClick(e, 1)}
-        >
-          Historial
-        </button>
-        <select
-          className="form-select"
-          aria-label="Default select example"
-          onChange={(e) => handleChangeByEstado(e)}
-        >
-          <option selected>Seleccion por estado</option>
-          <option value="inicio">inicio</option>
-          <option value="prueba">prueba</option>
-          <option value="sentencia">sentencia</option>
-        </select>
-        <select
-          className="mt-3 form-select"
-          onChange={(e) => handleChangeByMateria(e)}
-        >
-          <option value={null}>Seleccion por materia</option>
-          {materias.map((e) => (
-            <option value={e.nombre}>{e.nombre}</option>
-          ))}
-        </select>
-        <select className="mt-3 form-select" onChange={handleChangeByFecha}>
-          <option value={null}>Ordenar por fecha</option>
-          <option value="Ascendente">Ascendente</option>
-          <option value={"Descendente"}>Descendente</option>
-        </select>
-      </div>
+    <div className="body_cliente hidden">
+      <SideBarAbogado />
+      <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
+        <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
+          <button
+            className=" button-about mt-3 mb-3"
+            onClick={(e) => handleClick(e, 0)}
+          >
+            Casos Actuales
+          </button>
+          <button
+            className="button-about mt-3 mb-3 "
+            onClick={(e) => handleClick(e, 1)}
+          >
+            Historial
+          </button>
+          <select
+            className="form-select"
+            aria-label="Default select example"
+            onChange={(e) => handleChangeByEstado(e)}
+          >
+            <option selected>Seleccion por estado</option>
+            <option value="inicio">inicio</option>
+            <option value="prueba">prueba</option>
+            <option value="sentencia">sentencia</option>
+          </select>
+          <select
+            className="mt-3 form-select"
+            onChange={(e) => handleChangeByMateria(e)}
+          >
+            <option value={null}>Seleccion por materia</option>
+            {materias.map((e) => (
+              <option value={e.nombre}>{e.nombre}</option>
+            ))}
+          </select>
+          <select className="mt-3 form-select" onChange={handleChangeByFecha}>
+            <option value={null}>Ordenar por fecha</option>
+            <option value="Ascendente">Ascendente</option>
+            <option value={"Descendente"}>Descendente</option>
+          </select>
+        </div>
 
-      <div className="conteiner card mt-3 me-3 ms-3  flex-column">
-        {clientes.map((e) => {
-          const { id, casos, persona } = e;
-          return (
-            <div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
-              <Casos
-                key={id}
-                id={id}
-                casos={casos}
-                persona={persona}
-                flag={flag}
-              />
-              <div className="d-inline-flex flex-row justify-content-center ">
-                <Link to="/user/abogado/nuevo-caso">
-                  <div className="d-flex justify-content-center">
-                    <button className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3">
-                      Crear caso{" "}
-                    </button>
-                  </div>
-                </Link>
-                {flag ? (
-                  <div className="d-flex justify-content-center">
-                    <button
-                      className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3"
-                      onClick={(e) => setFlag(!flag)}
-                    >
-                      Terminar
-                    </button>
-                  </div>
-                ) : (
-                  <div className="d-flex justify-content-center">
-                    <button
-                      className="btn btn-primary d-flex justify-content-center mt-3 mb-3 me-3"
-                      onClick={(e) => setFlag(!flag)}
-                    >
-                      modificar
-                    </button>
-                  </div>
-                )}
+        <div className="conteiner card mt-3 me-3 ms-3  flex-column">
+          {clientes.map((e) => {
+            const { id, casos, persona } = e;
+            return (
+              <div className="conteiner card mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column">
+                <Casos
+                  key={id}
+                  id={id}
+                  casos={casos}
+                  persona={persona}
+                  flag={flag}
+                />
+                <div className="d-inline-flex flex-row justify-content-center ">
+                  {flag ? (
+                    <div className="d-flex justify-content-center">
+                      <button
+                        className="button-about d-flex justify-content-center mt-3 mb-3 me-3"
+                        onClick={(e) => setFlag(!flag)}
+                      >
+                        Terminar
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="d-flex justify-content-center">
+                      <button
+                        className="button-about d-flex justify-content-center mt-3 mb-3 me-3"
+                        onClick={(e) => setFlag(!flag)}
+                      >
+                        modificar
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

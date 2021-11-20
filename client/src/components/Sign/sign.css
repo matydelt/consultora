@@ -1,3 +1,690 @@
-.form-sign > * {
-    margin: 8px;
+/* NavBar  */
+.divButton {
+    display         : flex;
+    justify-content : space-evenly;
+    background-color: #033663;
+    padding         : 12px 12px;
+    margin          : auto;
+}
+
+.divButton,
+.divButton button {
+    color: #fff;
+}
+
+.divButton div {
+    position       : relative;
+    display        : flex;
+    justify-content: flex-end;
+    align-items    : center;
+    object-fit     : contain;
+    width          : 40%;
+}
+
+.divButton img {
+    position  : relative;
+    left      : -18%;
+    display   : inline-block;
+    object-fit: cover;
+    width     : 7%;
+    height    : 40px;
+}
+
+.divButton p {
+    position      : absolute;
+    right         : 12%;
+    bottom        : -37%;
+    display       : inline-block;
+    text-transform: capitalize;
+    font-size     : 25px;
+}
+
+.buttonBack_login {
+    transition: all .4s ease-in-out;
+}
+
+.buttonBack_login:hover {
+    color: rgb(158, 157, 157);
+}
+
+
+/* Displayname */
+.body_displayname {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    min-height     : 90vh;
+}
+
+.bg_blue_image_displayname {
+    background-color: #fff;
+    box-shadow      : 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    position  : relative;
+    overflow  : hidden;
+    width     : 968px;
+    max-width : 100%;
+    min-height: 480px;
+}
+
+.bg_blue_image_displayname input[type='text'],
+.bg_blue_image_displayname input[type='password'],
+.bg_blue_image_displayname input[type='type'] {
+    width           : 100%;
+    margin-bottom: 0px;
+    background      : none;
+    color           : #033663;
+    font-size       : 15px;
+    font-family     : sans-serif;
+    outline         : 0 !important;
+    border          : 0 !important;
+}
+
+.bg_blue_image_displayname input[type='text']:focus,
+.bg_blue_image_displayname input[type='password']:focus,
+.bg_blue_image_displayname input[type='type']:focus,
+.bg_blue_image_displayname input[type='text']:link,
+.bg_blue_image_displayname input[type='password']:link,
+.bg_blue_image_displayname input[type='type']:link,
+.bg_blue_image_displayname input[type='text']:visited,
+.bg_blue_image_displayname input[type='type']:visited,
+.bg_blue_image_displayname input[type='password']:visited {
+    outline   : 0 !important;
+    border    : 0 !important;
+    box-shadow: none !important;
+    border    : none !important;
+}
+
+.overlay_displayname {
+    position: absolute;
+}
+
+.overlay_right_displayname {
+    background-color: #033663;
+    position        : absolute;
+    right           : 0;
+    height          : 100%;
+    width           : 50%;
+}
+
+
+.overlay_right_displayname div {
+    width          : 90%;
+    height         : 100%;
+    display        : flex;
+    flex-direction : column;
+    justify-content: center;
+    align-items    : center;
+    transform      : translateY(-10%);
+    margin         : auto;
+    color          : #fff;
+}
+
+.overlay_right_displayname img {
+    display : block;
+    position: relative;
+    top     : 19px;
+    width   : 50%;
+}
+
+.overlay_right_displayname h4 {
+    max-width        : 90%;
+    font-size        : 14px;
+    letter-spacing   : 1px;
+    text-align       : center;
+    /* margin-top    : 10px; */
+    line-height      : 20px;
+}
+
+.overlay_right_displayname a {
+    position      : relative;
+    display       : block;
+    text-align    : center;
+    width         : 50%;
+    padding       : 5px;
+    border        : solid 1px #fff !important;
+    color         : #fff;
+    z-index       : 1;
+    transition    : all .4s ease-in-out;
+    text-transform: uppercase;
+}
+
+.overlay_right_displayname a:hover {
+    border: solid 1px #fff !important;
+    color : #033663;
+}
+
+.overlay_right_displayname a::before {
+    content         : "";
+    position        : absolute;
+    left            : 0;
+    bottom          : 0;
+    width           : 100%;
+    height          : 100%;
+    transform-origin: left 0;
+    transform       : scaleX(0);
+    background-color: #fff;
+    border          : solid 1px #fff;
+    transition      : all .4s ease-in-out;
+    z-index         : -1;
+}
+
+.overlay_right_displayname a:hover::before {
+    transform: scaleX(1);
+}
+
+
+.registerEmail_in_container {
+    left   : 0;
+    width  : 50%;
+    z-index: 2;
+}
+
+.registerEmail_in_container div {
+    background-color: #fff;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    flex-direction  : column;
+    text-align      : center;
+}
+
+.registerEmail_in_container div.registerEmail h3 {
+    transform: translateY(-50%);
+}
+
+.registerEmail_in_container div.registerEmail {
+    margin   : auto;
+    transform: translateY(10%);
+    width    : 80%;
+}
+
+.registerEmail .divButton_register_email {
+    width: 100%;
+}
+
+.registerEmail button {
+    /* background-color: #033663; */
+    border        : #033663 solid 1px !important;
+    display       : block;
+    text-transform: uppercase;
+    padding       : 7px;
+    width         : 100%;
+    color         : #033663;
+    transition    : all .4s ease-in-out;
+}
+
+.registerEmail button:hover {
+    background-color: #033663;
+    color           : #fff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Formulario de registro */
+
+.body_login {
+    background     : #fff;
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    flex-direction : column;
+    min-height     : 100vh;
+}
+
+.bg_blue_image {
+    background-color: #fff;
+    box-shadow      : 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    position  : relative;
+    overflow  : hidden;
+    width     : 968px;
+    max-width : 100%;
+    min-height: 480px;
+}
+
+.bg_blue_image button {
+    border          : 1px solid #033663;
+    background-color: #033663;
+    color           : #FFFFFF;
+    font-size       : 14px;
+    font-weight     : bold;
+    padding         : 12px;
+    letter-spacing  : 1px;
+    text-transform  : uppercase;
+    transition      : transform 80ms ease-in;
+}
+
+.bg_blue_image button:focus {
+    outline: none;
+}
+
+
+
+.bg_blue_image input[type='text'],
+.bg_blue_image input[type='password'],
+.bg_blue_image input[type='type'] {
+    width           : 100%;
+    margin-bottom: 0px;
+    background      : none;
+    color           : #033663;
+    font-size       : 15px;
+    font-family     : sans-serif;
+    outline         : 0 !important;
+    border          : 0 !important;
+}
+
+.bg_blue_image input[type='text']:focus,
+.bg_blue_image input[type='password']:focus,
+.bg_blue_image input[type='type']:focus,
+.bg_blue_image input[type='text']:link,
+.bg_blue_image input[type='password']:link,
+.bg_blue_image input[type='type']:link,
+.bg_blue_image input[type='text']:visited,
+.bg_blue_image input[type='type']:visited,
+.bg_blue_image input[type='password']:visited {
+    outline   : 0 !important;
+    border    : 0 !important;
+    box-shadow: none !important;
+    border    : none !important;
+}
+
+
+.form_container {
+    position  : absolute;
+    top       : 0;
+    height    : 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.form_container div {
+    background-color: #FFFFFF;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    flex-direction  : column;
+    text-align      : center;
+}
+
+.form_container div.div_sign_in_container {
+    margin   : auto;
+    transform: translateY(20%);
+    width    : 80%;
+}
+
+.form_container div.div_sign_in_container h3 {
+    transform: translateY(-100%);
+}
+
+
+.form_container div.div_sign_in_container .contain_other_signin {
+    width: 100%;
+}
+
+.form_container div.div_sign_in_container .contain_other_signin img {
+    position  : absolute;
+    top       : 0%;
+    left      : 2%;
+    width     : 10%;
+    object-fit: cover;
+    height    : 46px;
+}
+
+.form_container div.div_sign_in_container .contain_other_signin p:nth-child(1) {
+    margin-top: 10px;
+}
+
+.form_container div.div_sign_in_container .contain_other_signin p:nth-child(2) {
+    display: inline;
+}
+
+
+
+.form_container div.div_sign_up_container {
+    margin   : auto;
+    transform: translateY(9%);
+    width    : 80%;
+}
+
+.form_container div.div_sign_up_container h3 {
+    transform: translateY(-50%);
+}
+
+.form_container div.div_sign_up_container .button_registro,
+.form_container div.div_sign_up_container .button_registro button {
+    width: 100%;
+}
+
+
+.form_container .singn_input_login {
+    border-bottom: solid 1px #033663;
+    margin-bottom: 30px;
+    width        : 100%;
+}
+
+.bg_blue_image .button_login_signin,
+.form_container div.div_sign_up_container .button_registro button {
+    width     : 100%;
+    transition: all .4s ease-out;
+}
+
+.bg_blue_image .button_login_signin:hover,
+.form_container div.div_sign_up_container .button_registro button:hover {
+    background-color: #fff;
+    color           : #033663;
+}
+
+.bg_blue_image .button_login_signin:active {
+    transform: scale(0.89);
+}
+
+
+.form_container div.div_sign_in_container .contain_other_signin button {
+    position        : relative;
+    overflow        : hidden;
+    display         : block;
+    width           : 100%;
+    background-color: hsl(7, 71%, 55%);
+    height          : 100%;
+    border          : hsl(7, 71%, 55%);
+    transition      : all .4s ease-out;
+}
+
+.form_container div.div_sign_in_container .contain_other_signin button::before {
+    content         : '';
+    position        : absolute;
+    top             : 0;
+    left            : 0;
+    width           : 13%;
+    height          : 100%;
+    background-color: hsl(7, 71%, 55%);
+}
+
+.form_container div.div_sign_in_container .contain_other_signin button:hover {
+    color           : #fff;
+    background-color: #033663;
+}
+
+.form_container div.div_sign_in_container .forgot_login {
+    margin-top: 10px;
+}
+
+.form_container div.div_sign_in_container .forgot_login a,
+.form_container div.div_sign_in_container .forgot_login p {
+    display      : inline-block;
+    font-size    : 13px;
+    margin-bottom: 0px;
+}
+
+.form_container div.div_sign_in_container .forgot_login a {
+    position        : relative;
+    color           : #fff;
+    text-transform  : capitalize;
+    background-color: #033663;
+    padding         : 3px 6px;
+    border          : solid 1px transparent;
+    transition      : all .4s ease-in-out;
+}
+
+.form_container div.div_sign_in_container .forgot_login a:hover {
+    color           : #033663;
+    text-transform  : capitalize;
+    background-color: transparent;
+    border          : solid 1px #033663;
+    /* z-index      : 10; */
+    /* transform    : translateZ(0); */
+}
+
+.form_container div.div_sign_in_container .forgot_login a:active {
+    transform: scale(.80);
+}
+
+
+
+
+
+.sign_in_container {
+    left   : 0;
+    width  : 50%;
+    z-index: 2;
+}
+
+.bg_blue_image.right-panel-active .sign_in_container {
+    transform: translateX(100%);
+    opacity  : 0;
+}
+
+
+
+
+.sign_up_container {
+    left   : 0;
+    width  : 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.bg_blue_image.right-panel-active .sign_up_container {
+    transform: translateX(100%);
+    opacity  : 1;
+    z-index  : 5;
+    animation: show 0.6s;
+}
+
+/* @keyframes show {
+	0%, 49.99% {
+		opacity: 0;
+		z-index: 1;
+	}
+	
+	50%, 100% {
+		opacity: 1;
+		z-index: 5;
+	}
+} */
+
+/* Este containe esteblece desde que posicion se va a mostrar el contenido */
+.overlay_container {
+    position  : absolute;
+    top       : 0;
+    left      : 50%;
+    width     : 50%;
+    height    : 100%;
+    overflow  : hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index   : 100;
+}
+
+/* Se mueve hacia la izquierda para mostrar el formulario de la derecha, 
+se mueve como contenedor mas no mueve de manera interna
+si esto no se mueve solo s mueve el texto */
+.bg_blue_image.right-panel-active .overlay_container {
+    transform: translateX(-100%);
+}
+
+/* Este establece desde que posicion se movera cada overlay (left o right) es importante las medidas para que se vea mejor */
+.overlay {
+    background         : #033663;
+    background-image   : -webkit-linear-gradient(to right, #157cd6, #106ab8, #0b589b, #06477e, #033663);
+    background-image   : linear-gradient(to right, #157cd6, #106ab8, #0b589b, #06477e, #033663);
+    background-repeat  : no-repeat;
+    background-size    : cover;
+    background-position: 0 0;
+    color              : #FFFFFF;
+    position           : relative;
+    left               : -100%;
+    height             : 100%;
+    width              : 200%;
+    transform          : translateX(0);
+    transition         : transform 0.6s ease-in-out;
+}
+
+/* Este apuntaría al otro texto  */
+.bg_blue_image.right-panel-active .overlay {
+    transform: translateX(50%);
+}
+
+/* Este establece la maquetación del texto  */
+.overlay_panel {
+    position       : absolute;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    flex-direction : column;
+    padding        : 0 40px;
+    text-align     : center;
+    top            : 0;
+    height         : 100%;
+    width          : 50%;
+    transform      : translateX(0);
+    transition     : transform 0.6s ease-in-out;
+}
+
+.overlay_left {
+    transform: translateX(-20%);
+}
+
+/* Este causa el efecto de que se mueve a la izquierda   */
+.bg_blue_image.right-panel-active .overlay_left {
+    transform: translateX(0);
+}
+
+.overlay_left div {
+    width: 80%;
+}
+
+.overlay_left div * {
+    line-height: 40px;
+}
+
+.overlay_left div button {
+    box-shadow : 5px 5px 7px rgba(0, 0, 0, 0.445);
+    width      : 100%;
+    padding    : 20px !important;
+    line-height: 0px;
+    transition : all .4s ease-in-out;
+}
+
+.overlay_left div button:hover {
+    background-color: #fff;
+    color           : #033663;
+    box-shadow      : 5px 5px 7px rgba(0, 0, 0, 0.637);
+}
+
+.overlay_left div button:active {
+    transform: scale(0.80);
+}
+
+
+.overlay_right {
+    right    : 0;
+    transform: translateX(0);
+}
+
+/* Este causa el efecto de que se mueve a la derecha  */
+.bg_blue_image.right-panel-active .overlay_right {
+    transform: translateX(20%);
+}
+
+
+.overlay_right div {
+    width    : 80%;
+    transform: translateY(-16%);
+}
+
+.overlay_right div img {
+    display: block;
+    width  : 50% !important;
+    margin : auto !important;
+}
+
+.overlay_right h3 {
+    transform: translateY(-50%);
+    margin   : auto !important;
+}
+
+/* .overlay_right h4,
+.overlay_right button {
+} */
+
+.overlay_right .caption_button_overlay_right {
+    width    : 100%;
+    transform: translateY(14%);
+
+}
+
+.overlay_right button {
+    transition: all .4s ease-in-out;
+    width     : 100%;
+    margin-top: 10px;
+    box-shadow: -5px 5px 7px rgba(0, 0, 0, 0.445);
+}
+
+.overlay_right button:hover {
+    background-color: #fff;
+    color           : #033663;
+    box-shadow      : -5px 5px 7px rgba(0, 0, 0, 0.637);
+}
+
+.overlay_right button:active {
+    transform: scale(0.80)
+}
+
+
+.overlay_right h4 {
+    font-size: 13px;
+}
+
+
+
+
+/* New Pass */
+
+
+.newPass_in_container {
+    left           : 0;
+    width          : 50%;
+    height         : 100%;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    flex-direction : column;
+    text-align     : center;
+}
+
+.newPass_in_container div {
+    background-color: #fff;
+}
+
+.newPass_in_container div.newPass h3 {
+    transform: translateY(-150%);
+    color    : #033663;
+}
+
+.newPass .newPass_button {
+    width: 100%;
+}
+
+.newPass .newPass_button button {
+    display   : block;
+    width     : 100%;
+    border    : #033663 solid 1px;
+    margin-top: 15px;
+    padding   : 6px;
+    color     : #033663;
+    transition: all .4s ease-in-out;
+}
+
+.newPass .newPass_button button:hover {
+    background-color: #033663;
+    color           : #fff;
 }

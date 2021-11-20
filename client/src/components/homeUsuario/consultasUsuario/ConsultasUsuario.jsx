@@ -10,6 +10,7 @@ import {
 } from "../../../redux/actions";
 import UsuarioNavBar from "../usuarioNavBar/UsuarioNavBar";
 
+
 export default function ConsultasUsuario() {
   const dispatch = useDispatch();
 
@@ -59,7 +60,7 @@ export default function ConsultasUsuario() {
   }
 
   return (
-    <>
+    <div className="homeUsuario">
       <UsuarioNavBar></UsuarioNavBar>
 
       <div className="container mt-5">
@@ -136,7 +137,9 @@ export default function ConsultasUsuario() {
                         eliminarConsulta(consulta.id);
                       }}
                       className={`btn btn-${
-                        !consulta.abogadoId ? "dangerNuestro" : "light text-muted"
+                        !consulta.abogadoId
+                          ? "dangerNuestro"
+                          : "light text-muted"
                       }`}
                     >
                       Eliminar
@@ -147,6 +150,6 @@ export default function ConsultasUsuario() {
             })}
         </tbody>
       </table>
-    </>
+    </div>
   );
 }

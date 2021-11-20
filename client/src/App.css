@@ -15,9 +15,7 @@ a:link {
   border    : none;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+
 
 body {
   width: 100%;
@@ -27,6 +25,75 @@ button {
   border    : none;
   background: none;
   cursor    : pointer;
+}
+
+/* input[type='text'],
+input[type='password'],
+input[type='type'] {
+  width           : 100%;
+   outline         : 0; 
+  border          : 0 !important;
+  margin-bottom: 9px;
+  background      : none;
+  color           : #033663;
+  font-size       : 15px;
+  font-family     : sans-serif;
+}
+
+input[type='text']:focus,
+input[type='password']:focus,
+input[type='type']:focus,
+input[type='text']:link,
+input[type='password']:link,
+input[type='type']:link,
+input[type='text']:visited,
+input[type='type']:visited,
+input[type='password']:visited {
+  box-shadow: none !important;
+  border    : none;
+} */
+
+
+input[type='text'],
+input[type='password'],
+input[type='type'],
+input[type='time'],
+input[type='date'],
+input[type='textarea'] {
+  width           : 100%;
+  /* outline      : 0; /
+   / border       : 0 !important; */
+  margin-bottom   : 9px;
+  background      : white;
+  color           : #033663;
+  font-size       : 15px;
+  font-family     : sans-serif;
+}
+
+input[type='text']:focus,
+input[type='select']:focus,
+input[type='textarea']:focus,
+input[type='password']:focus,
+input[type='date']:focus,
+input[type='type']:focus,
+input[type='text']:link,
+input[type='password']:link,
+input[type='type']:link,
+input[type='text']:visited,
+input[type='type']:visited,
+input[type='password']:visited {
+  box-shadow: none !important;
+  border    : none !important;
+}
+
+input[type='text']:focus,
+textarea:focus,
+select:focus,
+input[type='time']:focus,
+input[type='date']:focus {
+  outline   : none !important;
+  box-shadow: none !important;
+  border    : #033663 1px solid !important;
 }
 
 
@@ -44,8 +111,13 @@ button {
   border : none;
 } */
 
+html {
+  scroll-behavior: smooth;
+}
+
+
 .hidden {
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .textDecoration {
@@ -54,7 +126,20 @@ button {
 }
 
 .App {
-  padding: 0px;
+  padding : 0px;
+  position: absolute;
+  top     : 0;
+  bottom  : 0;
+  left    : 0;
+  right   : 0;
+}
+
+.abosoluteDiv {
+  position: absolute;
+  top     : 0;
+  bottom  : 0;
+  left    : 0;
+  right   : 0;
 }
 
 .btn-primaryNuestro {
@@ -63,57 +148,63 @@ button {
 
 .btn-primaryNuestro {
   background-color: #033663 !important;
-  border: #033663 solid 1px !important;
-  outline: none !important;
-  color: white !important;
-  transition: .4s ease-out all !important;
+  border          : #033663 solid 1px !important;
+  outline         : none !important;
+  color           : white !important;
+  transition      : .4s ease-out all !important;
 }
-.btn-primaryNuestro:focus, 
+
+.btn-primaryNuestro:focus,
 .btn-primaryNuestro:link,
 .btn-primaryNuestro:visited {
-  outline: #033663 !important;
+  outline   : #033663 !important;
   box-shadow: none !important;
-  border: #033663 solid 1px !important;
+  border    : #033663 solid 1px !important;
 }
+
 .btn-primaryNuestro:hover {
-  color: white !important;
+  color           : white !important;
   background-color: #033663cb !important;
 }
 
 .btn-secondaryNuestro {
   background-color: #333 !important;
-  border: #333 solid 1px !important;
-  outline: none !important;
-  color: white !important;
-  transition: .4s ease-out all !important;
+  border          : #333 solid 1px !important;
+  outline         : none !important;
+  color           : white !important;
+  transition      : .4s ease-out all !important;
 }
-.btn-secondaryNuestro:focus, 
+
+.btn-secondaryNuestro:focus,
 .btn-secondaryNuestro:link,
 .btn-secondaryNuestro:visited {
-  outline: #333 !important;
+  outline   : #333 !important;
   box-shadow: none !important;
-  border: #333 solid 1px !important;
+  border    : #333 solid 1px !important;
 }
+
 .btn-secondaryNuestro:hover {
-  color: white !important;
+  color           : white !important;
   background-color: rgba(51, 51, 51, 0.842) !important;
 }
 
 .btn-dangerNuestro {
   background-color: #bf2231 !important;
-  border: #bf2231 solid 1px !important;
-  outline: none !important;
-  color: white !important;
-  transition: .4s ease-out all !important;
+  border          : #bf2231 solid 1px !important;
+  outline         : none !important;
+  color           : white !important;
+  transition      : .4s ease-out all !important;
 }
-.btn-dangerNuestro:focus, 
+
+.btn-dangerNuestro:focus,
 .btn-dangerNuestro:link,
 .btn-dangerNuestro:visited {
-  outline: #bf2231 !important;
+  outline   : #bf2231 !important;
   box-shadow: none !important;
-  border: #bf2231 solid 1px !important;
+  border    : #bf2231 solid 1px !important;
 }
+
 .btn-dangerNuestro:hover {
-  color: white !important;
+  color           : white !important;
   background-color: #bf2232c9 !important;
 }

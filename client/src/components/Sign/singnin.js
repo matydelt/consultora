@@ -11,12 +11,13 @@ import {
   inMemoryPersistence,
   signInWithRedirect,
 } from "firebase/auth";
-import Logo from "../home-page/assets/img/buffet-buffet-law.png";
+import LogoGoogle from "../home-page/assets/img/google-logo-9812.png";
 import {
   getUsuario,
   postUsuario,
   getPersonas,
   getUsuarios,
+  modificarClave,
 } from "../../redux/actions";
 import {
   sessionERR,
@@ -28,10 +29,13 @@ import {
 } from "./alert";
 import { Link } from "react-router-dom";
 import md5 from "md5";
-import Navbar from "../home-page/Navbar/Navbar";
 import { Redirect } from "react-router";
-
+import LogoBlanco from "../home-page/assets/img/logo-blacno-sin-fondo.png";
 import "./sign.css";
+import ButtonSign from "./ButtonSign";
+import Signup from "./signup";
+import NavBarGeneral from "../NavBarGeneral/NavBarGeneral";
+import ButtonsNav from "../ButtonsNav/ButtonsNav";
 
 export const Signin = () => {
   const { usuarios, personas, usuario } = useSelector((state) => state);
@@ -50,30 +54,29 @@ export const Signin = () => {
   const [eMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayname, setDisplayName] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const auth = getAuth();
   const google = new GoogleAuthProvider();
-  const loginGoogle = async () => {
-    // setPersistence(auth, browserSessionPersistence)
-    // .then(async () => {
-      await signInWithPopup(auth, google)
-      .then((e) => {
-        const aux = e.user.email;
-        setLoading(true)
-            if (usuarios.some((e) => e.eMail === aux)) {
+  const loginGoogle = () => {
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        await signInWithPopup(auth, google)
+          .then((e) => {
+            setDisplayName(e.user.displayName);
+            const aux = e.user.email;
+            if (usuarios.some((e) => e.eMail == aux)) {
               dispatch(getUsuario({ eMail: e.user.email }));
             } else {
-              setDisplayName(e.user.displayName);
               setEmail(aux);
               setFirstName(e.user.displayName.split(" ")[0]);
               setLastName(e.user.displayName.split(" ")[1]);
               setPassword(md5(e.user.email));
             }
-          }).catch((error) => {
-            console.log(error);
           })
-      // })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
       .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
@@ -127,30 +130,30 @@ export const Signin = () => {
         // An error happened.
       });
   };
-  const Login = async (e) => {
-    e.preventDefault();
-    // await setPersistence(auth, browserSessionPersistence)
-      // .then(async () => {
-        await signInWithEmailAndPassword(auth, eMail, md5(password))
+  const Login = async () => {
+    await setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        await signInWithEmailAndPassword(auth, eMail, password)
           .then((userCredential) => {
             // Signed in
-            setLoading(true)
             console.log("login");
             const user = userCredential.user;
             dispatch(getUsuario({ eMail: eMail }));
-            // sessionIN();
+            dispatch(modificarClave({eMail:eMail, password:md5(password)}))
+            sessionIN();
             setEmail("");
             setPassword("");
             // ...
           })
           .catch((error) => {
+            console.log("error");
             sessionERR();
             const errorCode = error.code;
             const errorMessage = error.message;
             setEmail("");
             setPassword("");
-          })
-      // })
+          });
+      })
       .catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;
@@ -158,81 +161,51 @@ export const Signin = () => {
       });
   };
 
+  const handleShwoSignup = (e) => {
+    const container = document.getElementById("container");
+    container.classList.add("right-panel-active");
+  };
+
+  const handleShwoSignin = () => {
+    const container = document.getElementById("container");
+    container.classList.remove("right-panel-active");
+    console.log(container.classList);
+  };
+
   return usuario?.adminId ? (
     <Redirect to="/admin" />
   ) : usuario?.abogadoId ? (
     <Redirect to="/user/abogado" />
   ) : (
-    <div>
-      <Navbar navId={"menu"} />
-      {!!usuario.firstName ? (
-        <Redirect to="/user/panel" />
-        // <div className="container p-4">
-        //   <div className="row">
-        //     <div className="col-md-4 mx-auto">
-        //       <div className="card text-center">
-        //         <div className="card-header">
-        //           <h2>Bienvenido</h2>
-        //         </div>
-        //         <div className="card-header">
-        //           <h3>
-        //             {displayname
-        //               ? displayname
-        //               : `${usuario.firstName} ${usuario.lastName}`}
-        //           </h3>
-        //         </div>
-        //         <img
-        //           src={Logo}
-        //           alt="Logo Consultora"
-        //           className="card-img-top mx-auto m-2 rounded-circle w-50"
-        //         />
-        //         <div className="card-body">
-        //           <button
-        //             className="btn btn-primary btn-block"
-        //             onClick={logout}
-        //           >
-        //             Cerrar sesión
-        //           </button>
-        //         </div>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </div>
-      ) 
-        :
-      loading ?
-      <div className="container text-center mt-5" style={{padding: '300px'}}>
-
-                        <div class="spinner-grow text-muted" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div class="spinner-grow mx-3  text-muted" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div class="spinner-grow  text-muted" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-       
-      
-      
-      : displayname && !loading ? (
-        <div className="container p-4">
-          <div className="row">
-            <div className="col-md-4 mx-auto">
-              <div className="card text-center">
-                <div className="card-header">
-                  <h3>Register</h3>
+    <div className="hidden">
+      <div>
+        <NavBarGeneral />
+        {!!usuario.firstName ? (
+          <Redirect to="/user/panel" />
+        ) : displayname ? (
+          <div className="body_displayname">
+            <div className="bg_blue_image_displayname">
+              <div className="overlay_displayname overlay_right_displayname">
+                <div>
+                  <img src={LogoBlanco} alt="Logo" />
+                  <h4>
+                    ¿Tienes una cuenta? <br /> Presione "HOME" <br /> para
+                    volver a Iniciar Sesion.
+                  </h4>
+                  <ButtonsNav text="Home" link="/" />
                 </div>
-                <div className="card-body form-sign">
-                  <div className="form-group">
+              </div>
+              <div className="form_container registerEmail_in_container">
+                <div className="registerEmail">
+                  <h3>Registro</h3>
+                  <div className="singn_input_login">
                     <input
                       type="type"
                       value={firstName}
                       name="firstName"
                       autoComplete="off"
                       placeholder=" Nombre"
-                      className="form-control"
+                      className=""
                       autoFocus
                       required
                       onChange={(e) => {
@@ -240,14 +213,14 @@ export const Signin = () => {
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="type"
                       value={lastName}
                       name="lastName"
                       autoComplete="off"
                       placeholder=" Apellido"
-                      className="form-control"
+                      className=""
                       autoFocus
                       required
                       onChange={(e) => {
@@ -255,35 +228,35 @@ export const Signin = () => {
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="text"
                       value={dni}
                       name="DNI"
                       autoComplete="off"
                       placeholder="DNI : 1234567"
-                      className="form-control"
+                      className=""
                       required
                       onChange={(e) => {
                         setDni(e.target.value);
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="text"
                       value={celular}
                       name="Number"
                       autoComplete="off"
                       placeholder="Teléfono : 11 1111-1111"
-                      className="form-control"
+                      className=""
                       required
                       onChange={(e) => {
                         setPhone(e.target.value);
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="text"
                       value={eMail}
@@ -291,11 +264,11 @@ export const Signin = () => {
                       disabled="on"
                       autoComplete="off"
                       placeholder="Email: ejemplo@ejemplo.com"
-                      className="form-control"
+                      className=""
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="password"
                       value={password}
@@ -303,13 +276,13 @@ export const Signin = () => {
                       name="password"
                       autoComplete="off"
                       placeholder="Contraseña"
-                      className="form-control"
+                      className=""
                       required
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="divButton_register_email">
                     <button
-                      className="btn btn-success btn-block"
+                      className=""
                       onClick={GoTo}
                       disabled={
                         firstName === "" ||
@@ -320,33 +293,56 @@ export const Signin = () => {
                         password.length < 6
                       }
                     >
-                      Register
+                      Registrarse
                     </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ) 
-      
-      : !loading &&
-      
-       (
-        <div className="container p-4">
-          <div className="row">
-            <div className="col-md-4 mx-auto">
-              <div className="card text-center">
-                <div className="card-header">
-                  <h3>Iniciar Sesión</h3>
+        ) : (
+          <div className="body_login">
+            <div id="container" className="bg_blue_image pt-4">
+              <div className="overlay_container">
+                <div className="overlay">
+                  <div className="overlay_panel overlay_left">
+                    <div>
+                      <h4>
+                        ¿Tienes una cuenta? <br /> Presione "Iniciar Sesión".
+                      </h4>
+                      <ButtonSign
+                        handle={handleShwoSignin}
+                        text="Iniciar Sesión"
+                      />
+                    </div>
+                  </div>
+                  <div className="overlay_panel overlay_right">
+                    <div>
+                      <img
+                        src={LogoBlanco}
+                        alt="Logo Consultora"
+                        className="card-img-top mx-auto m-2 rounded-circle w-50"
+                      />
+                      <h3>Bienvenido a Buffet Law</h3>
+                      <div className="caption_button_overlay_right">
+                        <h4>
+                          ¿No tiene una cuenta? <br /> Presione "Crear Cuenta" e
+                          ingrese sus datos.
+                        </h4>
+                        <ButtonSign
+                          handle={handleShwoSignup}
+                          text="Crear Cuenta"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <img
-                  src={Logo}
-                  alt="Logo Consultora"
-                  className="card-img-top mx-auto m-2 rounded-circle w-50"
-                />
-                <form className="card-body form-sign" onSubmit={Login}>
-                  <div className="form-group">
+              </div>
+
+              <div className="form_container sign_in_container">
+                <div className="div_sign_in_container">
+                  <h3>Iniciar Sesión</h3>
+                  <div className="singn_input_login">
                     <input
                       type="text"
                       value={eMail}
@@ -361,7 +357,7 @@ export const Signin = () => {
                       }}
                     />
                   </div>
-                  <div className="form-group">
+                  <div className="singn_input_login">
                     <input
                       type="password"
                       value={password}
@@ -375,38 +371,29 @@ export const Signin = () => {
                       }}
                     />
                   </div>
-                  <button className="btn btn-primary btn-block" onClick={Login}>
+                  <button className="button_login_signin" onClick={Login}>
                     Ingresar
                   </button>
 
-                  <p>O ingresar con</p>
-
-                  <div className="row">
-                    <div className="col-md-12" onClick={loginGoogle}>
-                      {" "}
-                      <button type="button" class="btn btn-block btn-outline-primary border shadow" href="#">
-                        <img
-                          src="https://img.icons8.com/color/16/000000/google-logo.png"
-                          alt="Google"
-                        />{" "}
-                        Google
-                      </button>{" "}
-                    </div>
+                  <div className="contain_other_signin">
+                    {" "}
+                    <p className="text-center">O</p>
+                    <button onClick={loginGoogle}>
+                      <img src={LogoGoogle} alt="google" />{" "}
+                      <p>Inicia Sesión con Google</p>
+                    </button>{" "}
                   </div>
-                </form>
-
-                <div className="card-footer">
-                  <Link to="/signup">
-                    <label className="pointer p-1">
-                      Crear una cuenta nueva
-                    </label>
-                  </Link>
+                  <div className="forgot_login">
+                    <p>¿Olvidaste tu contraseña?</p>
+                    <ButtonsNav text="Presiona aquí" link="/Cambiopass" />
+                  </div>
                 </div>
               </div>
+              <Signup />
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

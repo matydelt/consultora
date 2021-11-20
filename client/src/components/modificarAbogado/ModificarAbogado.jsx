@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUsuario } from "../../redux/actions";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
 import "./ModificarAbogado.css";
-
 
 export default function ModificarAbogado() {
   let [form, setForm] = useState({
@@ -27,45 +27,52 @@ export default function ModificarAbogado() {
   let [loading, setLoading] = useState(false);
   let [loadingImage, setLoadingImage] = useState(false);
 
-  let { nombre, apellido, matricula, detalle, experiencia, estudios, imagen, materias, provincias } = form;
+  let {
+    nombre,
+    apellido,
+    matricula,
+    detalle,
+    experiencia,
+    estudios,
+    imagen,
+    // materias,
+    // provincias,
+  } = form;
 
-  let { usuario, materias: materiasRedux, provincias: provinciasRedux } = useSelector((state) => state);
+  let {
+    usuario,
+    materias: materiasRedux,
+    provincias: provinciasRedux,
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  console.log(materiasRedux);
 
   useEffect(() => {
     if (usuario?.slug?.length > 0) {
-      let arrMaterias = []
-      let arrProvincias = []
-      axios
-        .get(`/abogado/${usuario?.slug}`)
-        .then(({ data }) => {
-          setForm({
-            nombre: data.firstName,
-            apellido: data.lastName,
-            matricula: data.matricula || "",
-            detalle: data.detalle || "",
-            experiencia: data.experiencia || "",
-            estudios: data.estudios || "",
-            imagen: data.imagen,
-            materias: arrMaterias || [],
-            provincias: arrProvincias || []
-          });
-          data.materias.forEach(materia =>
-            arrMaterias.push(materia.nombre)
-          );
-          data.provincias.forEach(provincia =>
-            arrProvincias.push(provincia.nombre)
-          );
-          setMateriasEnviar(arrMaterias);
-          setProvinciasEnviar(arrProvincias);
+      let arrMaterias = [];
+      let arrProvincias = [];
+      axios.get(`/abogado/${usuario?.slug}`).then(({ data }) => {
+        setForm({
+          nombre: data.firstName,
+          apellido: data.lastName,
+          matricula: data.matricula || "",
+          detalle: data.detalle || "",
+          experiencia: data.experiencia || "",
+          estudios: data.estudios || "",
+          imagen: data.imagen,
+          materias: arrMaterias || [],
+          provincias: arrProvincias || [],
         });
+        data.materias.forEach((materia) => arrMaterias.push(materia.nombre));
+        data.provincias.forEach((provincia) =>
+          arrProvincias.push(provincia.nombre)
+        );
+        setMateriasEnviar(arrMaterias);
+        setProvinciasEnviar(arrProvincias);
+      });
     }
-
   }, [usuario?.abogado?.id]);
-
-
-
-
 
   function modificarImagen(e) {
     if (!e.target.files[0]) return;
@@ -94,25 +101,30 @@ export default function ModificarAbogado() {
       });
   }
 
-
   function seleccionarMaterias(e) {
     setMateriasEnviar([...materiasEnviar, e.target.value]);
     setForm({ ...form, materias: [...materiasEnviar, e.target.value] });
-  };
+  }
   function seleccionarProvincias(e) {
     setProvinciasEnviar([...provinciasEnviar, e.target.value]);
     setForm({ ...form, provincias: [...provinciasEnviar, e.target.value] });
-  };
+  }
 
   function quitarMateriaEnviar(materia) {
-    setMateriasEnviar(materiasEnviar.filter(me => me !== materia))
-    setForm({ ...form, materias: (materiasEnviar.filter(me => me !== materia)) });
-  };
+    setMateriasEnviar(materiasEnviar.filter((me) => me !== materia));
+    setForm({
+      ...form,
+      materias: materiasEnviar.filter((me) => me !== materia),
+    });
+  }
 
   function quitarProvinciaEnviar(provincia) {
-    setProvinciasEnviar(provinciasEnviar.filter(pe => pe !== provincia))
-    setForm({ ...form, provincias: (provinciasEnviar.filter(pe => pe !== provincia)) });
-  };
+    setProvinciasEnviar(provinciasEnviar.filter((pe) => pe !== provincia));
+    setForm({
+      ...form,
+      provincias: provinciasEnviar.filter((pe) => pe !== provincia),
+    });
+  }
 
   function eliminarImagen() {
     axios
@@ -136,7 +148,6 @@ export default function ModificarAbogado() {
 
     setErrores([]);
 
-
     if (!nombre) {
       setErrores((errores) => [...errores, "El nombre es requerido"]);
     }
@@ -155,7 +166,6 @@ export default function ModificarAbogado() {
 
     if (!nombre || !apellido || !detalle || !estudios || !matricula) return;
 
-
     setLoading(true);
     axios
       .put(`/abogado/${usuario.eMail}`, form)
@@ -169,7 +179,8 @@ export default function ModificarAbogado() {
 
   return (
     <>
-      {usuario?.abogado?.id && !loading ?
+      <SideBarAbogado />
+      {usuario?.abogado?.id ? (
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
           <h2 className="">Modificar perfil</h2>
 
@@ -209,7 +220,7 @@ export default function ModificarAbogado() {
                   )}
 
                   <input
-                  name="imagen"
+                    name="imagen"
                     hidden
                     accept="image/*"
                     disabled={loadingImage}
@@ -235,10 +246,12 @@ export default function ModificarAbogado() {
               </div>
 
               <div className="col">
-
                 <div className="mt-3">
                   <div className="col mb-5">
-                    <label htmlFor="exampleFormControlInput1" className="form-label">
+                    <label
+                      htmlFor="exampleFormControlInput1"
+                      className="form-label"
+                    >
                       Nombre
                     </label>
                     <input
@@ -252,7 +265,10 @@ export default function ModificarAbogado() {
                     ></input>
                   </div>
                   <div className="col mb-5">
-                    <label htmlFor="exampleFormControlInput1" className="form-label">
+                    <label
+                      htmlFor="exampleFormControlInput1"
+                      className="form-label"
+                    >
                       Apellido
                     </label>
                     <input
@@ -266,7 +282,10 @@ export default function ModificarAbogado() {
                     ></input>
                   </div>
                   <div className="col">
-                    <label htmlFor="exampleFormControlInput1" className="form-label">
+                    <label
+                      htmlFor="exampleFormControlInput1"
+                      className="form-label"
+                    >
                       Matrícula
                     </label>
                     <input
@@ -299,54 +318,98 @@ export default function ModificarAbogado() {
             )}
 
             <div className="row my-5">
-
               <div className="col">
-                <label htmlFor="selectMaterias" className="form-label">Seleccionar materias</label>
-                <select className="form-select pointer" id="selectMaterias" onChange={(e) => seleccionarMaterias(e)}>
+                <label htmlFor="selectMaterias" className="form-label">
+                  Seleccionar materias
+                </label>
+                <select
+                  className="form-select pointer"
+                  id="selectMaterias"
+                  onChange={(e) => seleccionarMaterias(e)}
+                >
                   <option>Seleccionar materias</option>
-                  {materiasRedux?.map(materia => {
-                    if (!materiasEnviar.includes(materia.nombre)) {
-                      return <option key={materia.nombre} value={materia.nombre}>{materia.nombre}</option>
-                    }
-                  })
-                  }
+                  {materiasRedux?.map(
+                    (materia) =>
+                      !materiasEnviar.includes(materia.nombre) && (
+                        <option key={materia.nombre} value={materia.nombre}>
+                          {materia.nombre}
+                        </option>
+                      )
+                    // if (!materiasEnviar.includes(materia.nombre)) {
+                    //   return (
+                    //     <option key={materia.nombre} value={materia.nombre}>
+                    //       {materia.nombre}
+                    //     </option>
+                    //   );
+                    //
+                  )}
                 </select>
                 {materiasEnviar &&
-                  materiasEnviar.map(me => {
-                    return <div key={me} onClick={() => quitarMateriaEnviar(me)} className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster position-relative">
-                      {me}
-                      <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">x</span>
-                    </div>
-                  })
-                }
+                  materiasEnviar.map((me) => {
+                    return (
+                      <div
+                        key={me}
+                        onClick={() => quitarMateriaEnviar(me)}
+                        className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster position-relative"
+                      >
+                        {me}
+                        <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">
+                          x
+                        </span>
+                      </div>
+                    );
+                  })}
               </div>
 
               <div className="col">
-                <label htmlFor="selectProvincias" className="form-label">Seleccionar provincias</label>
-                <select className="form-select pointer" id="selectProvincias" onChange={(e) => seleccionarProvincias(e)}>
+                <label htmlFor="selectProvincias" className="form-label">
+                  Seleccionar provincias
+                </label>
+                <select
+                  className="form-select pointer"
+                  id="selectProvincias"
+                  onChange={(e) => seleccionarProvincias(e)}
+                >
                   <option>Seleccionar provincias</option>
-                  {provinciasRedux?.map(provincia => {
-                    if (!provinciasEnviar.includes(provincia.nombre)) {
-                      return <option key={provincia.nombre}>{provincia.nombre}</option>
-                    }
-                  })
-                  }
+                  {provinciasRedux?.map(
+                    (provincia) =>
+                      !provinciasEnviar.includes(provincia.nombre) && (
+                        <option key={provincia.nombre}>
+                          {provincia.nombre}
+                        </option>
+                      )
+                    // if (!provinciasEnviar.includes(provincia.nombre)) {
+                    //   return (
+                    //     <option key={provincia.nombre}>
+                    //       {provincia.nombre}
+                    //     </option>
+                    //   );
+                    // }
+                  )}
                 </select>
                 {provinciasEnviar &&
-                  provinciasEnviar?.map(pe => {
-                    return <div key={pe} onClick={() => quitarProvinciaEnviar(pe)} className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster">
-                      {pe}
-                      <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">x</span>
-                    </div>
-                  })
-                }
-
+                  provinciasEnviar?.map((pe) => {
+                    return (
+                      <div
+                        key={pe}
+                        onClick={() => quitarProvinciaEnviar(pe)}
+                        className="medalla-hover badge bg-light border text-muted mx-1 p-2 shadow mt-3 pointer animate__animated animate__fadeIn animate__faster"
+                      >
+                        {pe}
+                        <span className="badge btn-bdg-eliminar border border-rounded rounded-circle text-white mx-1">
+                          x
+                        </span>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
 
-
             <div className="mb-3">
-              <label htmlFor="exampleFormControlTextarea1" className="form-label">
+              <label
+                htmlFor="exampleFormControlTextarea1"
+                className="form-label"
+              >
                 Detalle
               </label>
               <textarea
@@ -359,7 +422,10 @@ export default function ModificarAbogado() {
               ></textarea>
             </div>
             <div className="mb-3">
-              <label htmlFor="exampleFormControlTextarea1" className="form-label">
+              <label
+                htmlFor="exampleFormControlTextarea1"
+                className="form-label"
+              >
                 Experiencia
               </label>
               <textarea
@@ -372,7 +438,10 @@ export default function ModificarAbogado() {
               ></textarea>
             </div>
             <div className="mb-3">
-              <label htmlFor="exampleFormControlTextarea1" className="form-label">
+              <label
+                htmlFor="exampleFormControlTextarea1"
+                className="form-label"
+              >
                 Estudios
               </label>
               <textarea
@@ -384,8 +453,6 @@ export default function ModificarAbogado() {
                 rows="3"
               ></textarea>
             </div>
-
-
 
             <div className="text-end mb-5">
               <button
@@ -399,22 +466,24 @@ export default function ModificarAbogado() {
             </div>
           </form>
         </div>
-        :
+      ) : (
         <>
-          <div className="container text-center my-5" style={{ padding: '300px' }}>
-
+          <div
+            className="container text-center my-5"
+            style={{ padding: "300px" }}
+          >
             <div class="spinner-grow" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-            <div class="spinner-grow mx-3" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-grow mx-3" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
-            <div class="spinner-grow" role="status">
-              <span class="visually-hidden">Loading...</span>
+            <div className="spinner-grow" role="status">
+              <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         </>
-      }
-
-    </>);
+      )}
+    </>
+  );
 }

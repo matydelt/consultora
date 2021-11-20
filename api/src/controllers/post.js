@@ -14,6 +14,7 @@ const {
   Admin,
   Materias,
   Ticket,
+  Items,
   Resena,
   Dia,
   Turno,
@@ -24,8 +25,6 @@ const {
 //MP
 const postTickets = async (req, res, next) => {
   const { title, unit_price, casoid, consultaid } = req.body;
-
-  console.log(title, unit_price, casoid, consultaid);
 
   let preference = {
     items: [
@@ -39,7 +38,6 @@ const postTickets = async (req, res, next) => {
   try {
     const response = await mercadopago.preferences.create(preference);
 
-    // console.log(response.body.init_point);
     let ticket = {
       titulo: title,
       precio: unit_price,
@@ -64,7 +62,7 @@ const postTickets = async (req, res, next) => {
     } else {
       const consul = await Consulta.findByPk(consultaid);
 
-      consul.setTicket(tickets);
+      const tickets = await consul.setTicket(tickets);
 
       tickets.setConsultum(consul);
 
@@ -83,8 +81,6 @@ const postTickets = async (req, res, next) => {
 // CLOUDINARY
 async function subirImagen(req, res) {
   const { email } = req.body;
-
-  console.log(req.files);
 
   try {
     let result = await cloudinary.uploader.upload(
@@ -454,6 +450,54 @@ const postPago = async (req, res, next) => {
   }
 };
 
+async function items(req, res) {
+  try {
+    const { descripcion } = req.body;
+    // const { descripcion } = item
+    const item = await Items.create({ descripcion: descripcion });
+    console.log(item);
+    res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+}
+
+async function reiniciarPassword(req, res) {
+  const { eMail, password } = req.body;
+
+  try {
+    const thisUsers = await Usuario.findOne({ where: { eMail: eMail } });
+
+    if (thisUsers.eMail != undefined) {
+      thisUsers.password = password;
+
+      Promise.all([await thisUsers.save()]);
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
+
+async function reiniciarPassword(req, res) {
+  const { eMail, password } = req.body;
+
+  try {
+    const thisUsers = await Usuario.findOne({ where: { eMail: eMail } });
+
+    if (thisUsers.eMail != undefined) {
+      thisUsers.password = password;
+
+      Promise.all([await thisUsers.save()]);
+      res.sendStatus(200);
+    }
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+}
 module.exports = {
   setUsuarios,
   setCasos,
@@ -463,6 +507,7 @@ module.exports = {
   eliminarImagen,
   subirImagen,
   postTickets,
+  items,
   reiniciarPassword,
   setReseña,
   postPago,

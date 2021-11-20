@@ -6,6 +6,7 @@ import { Redirect } from "react-router";
 import { postConsulta } from "../../redux/actions/index";
 import UsuarioNavBar from "../homeUsuario/usuarioNavBar/UsuarioNavBar";
 import "./FormCita.css";
+import Footer from '../home-Abogado/Footer/Footer'
 
 export function validate(input) {
   let errors = {};
@@ -60,11 +61,11 @@ export default function FormCita({ history }) {
   useEffect(() => {
     console.log(usuario);
     setInput({
-      nombre: usuario.firstName,
-      apellido: usuario.lastName,
-      dni: usuario.dni,
-      telefono: usuario.celular,
-      email: usuario.eMail,
+      nombre: usuario?.firstName,
+      apellido: usuario?.lastName,
+      dni: usuario?.dni,
+      telefono: usuario?.celular,
+      email: usuario?.eMail,
     });
   }, [usuario]);
 
@@ -213,6 +214,7 @@ export default function FormCita({ history }) {
           <button className="btn btn-secondaryNuestro col-12 mt-3">Enviar</button>
         </form>
       </div>
+      <Footer/>
     </>
   );
 }

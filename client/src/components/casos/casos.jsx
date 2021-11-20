@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import CardCasos from "./cardCasos/cardCasos";
 import "./casos.css";
 
@@ -7,7 +8,8 @@ function Casos({ id, casos, persona, flag }) {
 
   return (
     <>
-      <div className="card mt-3 me-3 ms-3 " key={id}>
+
+      <div className="card mt-1 me-1 ms-1 p-4 " key={id}>
         <h4 className="mt-2 d-flex justify-content-center ">
           {firstName} {lastName}
         </h4>
@@ -29,8 +31,7 @@ function Casos({ id, casos, persona, flag }) {
               vtoTrabaAfectiva,
               jurisdiccion,
               materias,
-              updatedAt
-
+              updatedAt,
             } = e;
             return (
               <CardCasos
@@ -48,6 +49,7 @@ function Casos({ id, casos, persona, flag }) {
                 jurisdiccion={jurisdiccion}
                 fecha={updatedAt}
                 flag={flag}
+                id={id}
               />
             );
           })}
@@ -57,4 +59,15 @@ function Casos({ id, casos, persona, flag }) {
   );
 }
 
+Casos.propTypes = {
+  id: PropTypes.any,
+  casos: PropTypes.array.isRequired,
+  persona: PropTypes.shape({
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    dni: PropTypes.number.isRequired,
+    celular: PropTypes.number.isRequired,
+  }).isRequired,
+  flag: PropTypes.bool,
+};
 export default Casos;

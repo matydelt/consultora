@@ -1,0 +1,33 @@
+.Footer_homeAbogado {
+    position        : relative;
+    background-color: #033663;
+    height          : 100px;
+    color           : #fff;
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+    margin-top      : 10px;
+    width           : 100%;
+}
+
+.Footer_homeAbogado .p_img_footer img {
+    width: 10%;
+}
+
+.Footer_homeAbogado .p_img_footer {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+}
+
+.Footer_homeAbogado .p_img_footer div {
+    position : absolute;
+    display: flex;
+    align-items: center;
+    transform: translate(-20%, -15%);
+}
+
+.Footer_homeAbogado .p_img_footer div p {
+    font-size: 30px;
+    transform: translate(-15%, 15%);
+}
