@@ -32,8 +32,7 @@ export const Signup = ({history}) => {
 
   const auth = getAuth();
 
-  const GoTo = async (e) => {
-    e.preventDefault();
+  const GoTo = async () => {
     if (
       usuarios.some((e) => e.eMail.toString() === eMail.toString()) ||
       personas.some((e) => e.dni.toString() === dni.toString())
@@ -43,7 +42,7 @@ export const Signup = ({history}) => {
         : dniNoOK();
     } else {
       await createUserWithEmailAndPassword(auth, eMail, password)
-        .then(() => {
+        .then( () => {
           console.log("no rompio");
           dispatch(
             postUsuario({

@@ -26,7 +26,6 @@ export const NewPass = ({ history }) => {
 
   const Cambiopass = async () => {
     // cambio.preventDefault();
-
     if (
       CAPTCHA &&
       usuarios.some((e) => e.eMail.toString() === eMail.toString())

@@ -30,6 +30,10 @@ import Clients from "./components/home-Abogado/clients/clients";
 import NewPass from "./components/Sign/newpass.js";
 import ErrorPag from "./components/Error404/ErrorPag";
 import TurnosUsuario from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
+import AdminUsersPage from "./components/admin/adminUsersPage/adminUsersPage";
+import AdminNewUsersPage from "./components/admin/adminNewUsersPage/adminNewUsersPage";
+import AdminClientes from "./components/admin/adminClients/clientes";
+import AdminBannedUsersPage from "./components/admin/adminBannedUsersPage/adminBannedUsersPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -82,20 +86,27 @@ function App() {
           exact
           path={usuario?.clienteId != null ? "/user/panel/turnos" : "/"}
         >
-          {usuario?.clienteId != null ? <TurnosUsuarios/>: <ErrorPag/>}
+          {<TurnosUsuarios/>}
         </Route>
-        <Route
+        <Route exact
           path={usuario?.adminId != null ? "/admin" : "/"}
-          component={usuario?.adminId != null ? AdminPage : ErrorPag}
+          component={AdminPage}
         ></Route>
-        <Route component={ErrorPag} path="/:rest*" />
-        <div>
+        <Route exact path={usuario?.adminId != null ?"/admin/users" : "/"} component={AdminUsersPage} />
+          <Route exact path={usuario?.adminId != null ? "/admin/users/new" : "/"} component={AdminNewUsersPage} />
+          <Route exact path={usuario?.adminId != null ? "/admin/users/clientes" : "/"}  component={AdminClientes} />
+          <Route exact 
+            path={usuario?.adminId != null ? "/admin/users/banned" : "/"}  
+            
+            component={AdminBannedUsersPage}
+          />
+        <div >
           <NavAbogado />
           <Route
             exact
             path={usuario?.abogadoId != null ? "/user/abogado" : "/"}
           >
-            {usuario?.abogadoId != null ? <HomeAbogado /> : <ErrorPag />}
+            {<HomeAbogado />}
           </Route>
           <Route
             exact
@@ -103,7 +114,7 @@ function App() {
               usuario?.abogadoId != null ? "/user/abogado/clientes" : "/"
             }
           >
-            {usuario?.abogadoId != null ? <Clients /> : <ErrorPag />}
+            {<Clients /> }
           </Route>
           <Route
             exact
@@ -113,11 +124,7 @@ function App() {
                 : "/"
             }
           >
-            {usuario?.abogadoId != null ? (
-              <VistaConsultasAbogado />
-            ) : (
-              <ErrorPag/>
-            )}
+            {<VistaConsultasAbogado />}
           </Route>
           <Route
             exact
@@ -125,7 +132,7 @@ function App() {
               usuario?.abogadoId != null ? "/user/abogado/casos" : "/"
             }
           >
-            {usuario?.abogadoId != null ? <Clientes /> : <ErrorPag/>}
+            {<Clientes />}
           </Route>
           <Route
             exact
@@ -134,7 +141,7 @@ function App() {
                 ? "/user/abogado/modificar-perfil"
                 : "/"
             }
-            component={usuario?.abogadoId != null ? ModificarAbogado : ErrorPag}
+            component={ModificarAbogado}
           ></Route>
           <Route
             exact
@@ -144,7 +151,7 @@ function App() {
                 : "/"
             }
           >
-            {usuario?.abogadoId != null ? <TurnosAbogado /> : <ErrorPag />}
+            {<TurnosAbogado />}
           </Route>
           <Route
             exact
@@ -154,10 +161,11 @@ function App() {
                 : "/"
             }
           >
-            {usuario?.abogadoId != null ? <FormCasos /> : <ErrorPag />}
+            {<FormCasos />}
           </Route>
           <Footer />
         </div>
+        <Route component={ErrorPag} path="/:rest*" />
       </Switch>
       <ToastContainer />
     </div>
