@@ -11,6 +11,7 @@ import {
 } from "../../../redux/actions/index";
 import { toast } from "react-toastify";
 import "./modifierHome.css"
+import FoldOutMenu from "../Sidebar/FoldOutMenu";
 
 export default function ModifierHome() {
   const { about, items } = useSelector((state) => state);
@@ -46,6 +47,11 @@ export default function ModifierHome() {
 
 
   return (
+    <div style={{ backgroundColor: "#EEEEEE" }}>
+
+    <FoldOutMenu />
+
+    <div style={{ display: "flex", paddingTop: "20px" }}>
     <div className="w-100 d-flex justify-content-center h-50">
 
       <div className="d-flex justify-content-center flex-column w-50">
@@ -89,6 +95,8 @@ export default function ModifierHome() {
             </div>
           )}
         </div>
+      </div>
+    </div>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import {
   setAdmin,
   setBann,
 } from "../../../redux/actions/index";
+import FoldOutMenu from "../Sidebar/FoldOutMenu";
 
 const AdminUsersPage = () => {
   const { usuarios, usuario } = useSelector((state) => state);
@@ -60,6 +61,12 @@ const AdminUsersPage = () => {
   };
 
   return (
+    <div style={{ backgroundColor: "#EEEEEE" }}>
+
+    <FoldOutMenu />
+
+    <div style={{ display: "flex", paddingTop: "20px" }}>
+
     <div
       className="ms-5 me-5 mt-3 mb-3"
       style={{ width: "100%", paddingTop: "20px", paddingLeft: "20px" }}
@@ -258,7 +265,8 @@ const AdminUsersPage = () => {
         </tbody>
       </table>
       <div id="liveAlertPlaceholder">
-
+      </div>
+        </div>
       </div>
     </div>
   );

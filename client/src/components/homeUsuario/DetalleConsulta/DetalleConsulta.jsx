@@ -35,18 +35,6 @@ export default function DetalleConsulta (props) {
                     Nombre: {consulta?.nombre} {consulta?.apellido}{" "}
                   </span>
                 </li>
-                {/*<li className="list-group-item ">
-                  <span>DNI: </span>
-                  {consulta?.dni}
-                </li> 
-                <li className="list-group-item ">
-                  <span>Teléfono: </span>
-                  {consulta?.telefono}
-                </li>
-                <li className="list-group-item ">
-                  <span>Email: </span>
-                  {consulta?.email}
-                </li>*/}
 
 
                 <li className="list-group-item ">

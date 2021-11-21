@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { postCasos } from "../../redux/actions";
+import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
+import Footer from "../home-Abogado/Footer/Footer";
 import "./FormCasos.css";
 
 const FormCasos = ({ cliente }) => {
@@ -132,6 +134,8 @@ const FormCasos = ({ cliente }) => {
   }
   console.log(input)
   return (
+    <div >
+      <NavAbogado/>
     <div className="container">
       <div className="accordion accordion-flush ancho" id="accordionFlushExample">
         <div className="accordion-item">
@@ -211,6 +215,8 @@ const FormCasos = ({ cliente }) => {
           </div>
         </div>
       </div>
+    </div>
+      <Footer />
     </div>
   );
 };

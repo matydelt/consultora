@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import "./HomeAbogado.css";
 import { putAbogado } from "../../redux/actions";
+import Footer from "./Footer/Footer";
+import NavAbogado from "./NavAbogado/NavAbogado";
 
 export default function HomeAbogado() {
   const { usuario, abogado } = useSelector((state) => state);
@@ -17,6 +19,8 @@ export default function HomeAbogado() {
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
+    <div >
+      <NavAbogado />
     <div>
       <div className="jumbotron  jumbotron-fluid body-home">
         <h1 className="display-4">¡Bienvenido!</h1>
@@ -34,11 +38,12 @@ export default function HomeAbogado() {
         </p>
         <p className="lead">
           <a
-            className="button-home btn-lg"
-            href="/user/abogado"
             role="button"
           >
+          <Link to="/user/abogado" 
+            className="button-home btn-lg" >
             Home
+          </Link>
           </a>
         </p>
         <hr className="my-4"></hr>
@@ -48,10 +53,11 @@ export default function HomeAbogado() {
         </p>
         <p className="lead">
 
-          <a class="button-home btn-lg btn-m"
-            role="button"
-            href="/user/abogado/modificar-perfil">
-            Detalles
+          <a role="button">
+            <Link to="/user/abogado/modificar-perfil"
+              className="button-home btn-lg btn-m">
+              Detalles
+            </Link>
           </a>
 
         </p>
@@ -62,8 +68,11 @@ export default function HomeAbogado() {
         </p>
 
         <p className="lead">
-          <a className="button-home btn-lg" href="/" role="button">
-            Casos
+          <a role="button">
+            <Link to="/user/abogado/casos"
+              className="button-home btn-lg">
+              Casos
+            </Link>
           </a>
         </p>
         <hr className="my-4"></hr>
@@ -74,12 +83,11 @@ export default function HomeAbogado() {
           estudio.
         </p>
         <p className="lead">
-          <a
-            className="button-home btn-lg"
-            href="/user/abogado/consultas"
-            role="button"
-          >
+          <a role="button" >
+          <Link to="/user/abogado/consultas"
+            className="button-home btn-lg">
             Consultas
+          </Link>
           </a>
         </p>
         <hr className="my-4"></hr>
@@ -89,14 +97,17 @@ export default function HomeAbogado() {
         </p>
         <p className="lead">
           <a
-            className="button-home btn-lg"
-            href="/user/abogado/clientes"
             role="button"
           >
+          <Link to="/user/abogado/clientes"
+            className="button-home btn-lg">
             Clientes
+            </Link>
           </a>
         </p>
       </div>
     </div>
+          <Footer />
+        </div>
   );
 }

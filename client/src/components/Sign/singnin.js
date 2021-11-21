@@ -8,8 +8,6 @@ import {
   signOut,
   setPersistence,
   browserSessionPersistence,
-  inMemoryPersistence,
-  signInWithRedirect,
 } from "firebase/auth";
 import LogoGoogle from "../home-page/assets/img/google-logo-9812.png";
 import {
@@ -27,7 +25,6 @@ import {
   correoNoOK,
   dniNoOK,
 } from "./alert";
-import { Link } from "react-router-dom";
 import md5 from "md5";
 import { Redirect } from "react-router";
 import LogoBlanco from "../home-page/assets/img/logo-blacno-sin-fondo.png";
@@ -117,20 +114,8 @@ export const Signin = () => {
     }
   };
 
-  const logout = async () => {
-    await signOut(auth)
-      .then(() => {
-        setEmail("");
-        setPassword("");
-        dispatch(getUsuario({}));
-        setDisplayName(null);
-        sessionOUT();
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-  };
-  const Login = async () => {
+  const Login = async (e) => {
+    e.preventDefault();
     await setPersistence(auth, browserSessionPersistence)
       .then(async () => {
         await signInWithEmailAndPassword(auth, eMail, password)

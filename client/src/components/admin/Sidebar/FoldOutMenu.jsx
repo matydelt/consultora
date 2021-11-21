@@ -1,9 +1,31 @@
 import "./FoldOutMenu.css";
 import { Link, useLocation } from "react-router-dom";
+import { getAuth, signOut } from "@firebase/auth";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { toast } from "react-toastify";
+import { getUsuario } from "../../../redux/actions";
 
 const FoldOutMenu = () => {
   const location = useLocation();
+  
+  const history = useHistory();
 
+  const dispatch = useDispatch();
+  const auth = getAuth();
+  const logout = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(getUsuario({}));
+        history.push("/");
+        toast.info("La sesión fue finalizada");
+        localStorage.removeItem("username");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
   return (
     <nav role="navigation" className="nav-admin">
       <div id="menuToggle">
@@ -73,6 +95,15 @@ const FoldOutMenu = () => {
               }
             >
               About
+            </li>
+          </Link>
+          <Link to="/" onClick={logout}>
+            <li
+              className={
+                location.pathname === "/" ? "btn-dangerAdmin" : undefined
+              }
+            >
+              Salir👋
             </li>
           </Link>
         </ul>

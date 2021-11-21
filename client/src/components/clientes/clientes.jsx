@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { putAbogado, getMaterias } from "../../redux/actions";
 import Casos from "../casos/casos";
+import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
+import Footer from "../home-Abogado/Footer/Footer";
 import "./clientes.css";
 
 export default function Clientes() {
@@ -125,6 +127,8 @@ export default function Clientes() {
   };
 
   return (
+    <div >
+      <NavAbogado/>
     <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
       <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
         <button
@@ -205,5 +209,7 @@ export default function Clientes() {
         })}
       </div>
     </div >
+      <Footer />
+    </div>
   );
 }

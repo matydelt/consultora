@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUsuario } from "../../redux/actions";
+import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
+import Footer from "../home-Abogado/Footer/Footer";
 
 import "./ModificarAbogado.css";
 
@@ -178,6 +180,8 @@ export default function ModificarAbogado() {
 
   return (
     <>
+    <div >
+      <NavAbogado />
       {usuario?.abogado?.id ? (
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
           <h2 className="">Modificar perfil</h2>
@@ -333,13 +337,6 @@ export default function ModificarAbogado() {
                           {materia.nombre}
                         </option>
                       )
-                    // if (!materiasEnviar.includes(materia.nombre)) {
-                    //   return (
-                    //     <option key={materia.nombre} value={materia.nombre}>
-                    //       {materia.nombre}
-                    //     </option>
-                    //   );
-                    //
                   )}
                 </select>
                 {materiasEnviar &&
@@ -376,13 +373,6 @@ export default function ModificarAbogado() {
                           {provincia.nombre}
                         </option>
                       )
-                    // if (!provinciasEnviar.includes(provincia.nombre)) {
-                    //   return (
-                    //     <option key={provincia.nombre}>
-                    //       {provincia.nombre}
-                    //     </option>
-                    //   );
-                    // }
                   )}
                 </select>
                 {provinciasEnviar &&
@@ -460,7 +450,6 @@ export default function ModificarAbogado() {
               >
                 {loading ? "Guardando..." : "Guardar cambios"}
               </button>
-              {/* <button type="button" className="btn btn-secondary">Cancelar</button> */}
             </div>
           </form>
         </div>
@@ -482,6 +471,8 @@ export default function ModificarAbogado() {
           </div>
         </>
       )}
+      <Footer />
+    </div>
     </>
   );
 }

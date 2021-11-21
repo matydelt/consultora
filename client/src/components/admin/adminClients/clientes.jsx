@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getClientes, putClienteAbogado } from "../../../redux/actions";
 import { toast } from "react-toastify";
+import FoldOutMenu from "../Sidebar/FoldOutMenu";
 
 export default function AdminClientes() {
   const dispatch = useDispatch();
@@ -31,6 +32,12 @@ export default function AdminClientes() {
 
   const abogados = allUsers.filter((e) => e.abogadoId !== null);
   return (
+    
+    <div style={{ backgroundColor: "#EEEEEE" }}>
+
+    <FoldOutMenu />
+
+    <div style={{ display: "flex", paddingTop: "20px" }}>
     <div
       className="ms-5 me-5 mt-3 mb-3"
       style={{ width: "100%", paddingTop: "20px", paddingLeft: "20px" }}
@@ -91,6 +98,8 @@ export default function AdminClientes() {
           })}
         </tbody>
       </table>
+    </div>
+    </div>
     </div>
   );
 }

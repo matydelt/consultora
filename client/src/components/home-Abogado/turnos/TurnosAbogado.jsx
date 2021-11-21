@@ -8,6 +8,8 @@ import { actionEliminarDia, getDia } from "../../../redux/actions";
 import ModalVerTurnos from "./modalVerTurnos/ModalVerTurnos";
 import ModalModificarTurnos from "./modalModificarTurnos.jsx/ModalModificarTurnos";
 import swal from "sweetalert";
+import NavAbogado from "../NavAbogado/NavAbogado";
+import Footer from "../Footer/Footer";
 
 const options = {
   weekday: "long",
@@ -65,21 +67,11 @@ export default function TurnosAbogado() {
     };
   }, [element]);
 
-  useEffect(() => {
-    // getDias();
-    // setCargandoDias(true);
-    // getDias(new Date().getMonth(), undefined);
+  useEffect(() => {;
     getDias(mesActual);
-    // }, [usuario, dia, cargandoDias]);
-    // }, [usuario]);
   }, [usuario?.abogado?.id]);
 
   useEffect(() => {
-    // let hoy = new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear()
-    // const turnoHoy = dias?.find(dia => {
-    //     console.log(new Date(dia.fecha).toLocaleDateString(), '//', hoy);
-    //     return new Date(dia.fecha).toLocaleDateString() === hoy
-    // });
     axios
       .get("/dia", { params: { undefined, fechaHoy: true } })
       .then(({ data }) => {
@@ -115,7 +107,6 @@ export default function TurnosAbogado() {
             setCantidadDias(data.count);
             setDias((state) => [...state, ...data.rows]);
           } else {
-            // setDias([])
             setDias(data);
           }
         })
@@ -239,6 +230,8 @@ export default function TurnosAbogado() {
 
   return (
     <>
+    <div >
+      <NavAbogado/>
       <ModalVerTurnos />
 
       <ModalModificarTurnos
@@ -270,8 +263,6 @@ export default function TurnosAbogado() {
                 ></button>
               </div>
               <div className="modal-body">
-                {/* { diaModificar?.dia?.id?.length === 0 &&
-                                } */}
                 <div className="row">
                   <div className="col align-middle text-end">
                     <label htmlFor="fecha" className="col-form-label pointer">
@@ -540,6 +531,8 @@ export default function TurnosAbogado() {
           </button>
         )}
       </div>
+      <Footer />
+    </div>
     </>
   );
 }

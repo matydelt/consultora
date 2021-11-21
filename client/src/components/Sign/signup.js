@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import {
   getPersonas,
+  getUsuario,
   getUsuarios,
   postUsuario,
 } from "../../redux/actions/index.js";
-import { correoNoOK, createNOOK, createOK, dniNoOK } from "./alert.js";
-import { Link } from "react-router-dom";
+import { correoNoOK, createNOOK, createOK, dniNoOK, sessionOUT } from "./alert.js";
 import md5 from "md5";
-import Navbar from "../home-page/Navbar/Navbar.jsx";
 
 import "./sign.css";
 
-export const Signup = ({history}) => {
+export const Signup = () => {
   const { usuarios, personas } = useSelector((state) => state);
 
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getPersonas());
     dispatch(getUsuarios());
@@ -32,7 +30,19 @@ export const Signup = ({history}) => {
 
   const auth = getAuth();
 
-  const GoTo = async () => {
+  const logout = async () => {
+    await signOut(auth)
+      .then(() => {
+        dispatch(getUsuario({}));
+        // sessionOUT();
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
+  const GoTo = async (e) => {
+    e.preventDefault();
     if (
       usuarios.some((e) => e.eMail.toString() === eMail.toString()) ||
       personas.some((e) => e.dni.toString() === dni.toString())
@@ -41,8 +51,8 @@ export const Signup = ({history}) => {
         ? correoNoOK()
         : dniNoOK();
     } else {
-      await createUserWithEmailAndPassword(auth, eMail, password)
-        .then( () => {
+      createUserWithEmailAndPassword(auth, eMail, password)
+        try{
           console.log("no rompio");
           dispatch(
             postUsuario({
@@ -53,21 +63,28 @@ export const Signup = ({history}) => {
               celular: celular,
               password: md5(password),
             })
-          );
-          history.push('/ingreso')
+          )
+          setFirstName("");
+          setLastName("");
+          setPhone("");
+          setDni("");
+          setEmail("");
+          setPassword("");
+          // history.push('/ingreso')
           createOK();
-        })
-        .catch((error) => {
+          logout()
+        }
+        catch (error){
           console.log("que paso?");
           createNOOK();
           console.log(error);
-        });
-      setFirstName("");
-      setLastName("");
-      setPhone("");
-      setDni("");
-      setEmail("");
-      setPassword("");
+          setFirstName("");
+          setLastName("");
+          setPhone("");
+          setDni("");
+          setEmail("");
+          setPassword("");
+        };
     }
   };
   return (

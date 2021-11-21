@@ -6,6 +6,8 @@ import { getConsultas } from "../../redux/actions";
 import ModalConsulta from "./modalConsulta/ModalConsulta";
 import TablaVistasConsultas from "./tablaVistasConsultas/TablaVistasConsultas";
 import "./VistaConsultasAbogados.css";
+import Footer from "../home-Abogado/Footer/Footer";
+import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
 
 export default function VistaConsultasAbogado() {
   let [busquedaTodas, setBusquedaTodas] = useState("");
@@ -38,6 +40,8 @@ export default function VistaConsultasAbogado() {
     <Redirect to="/" />
   ) : (
     <>
+    <div >
+      <NavAbogado />
       <ModalConsulta usuario={usuario} modalId={`modalConsulta`} />
 
       <nav className="text-center mt-5">
@@ -122,6 +126,8 @@ export default function VistaConsultasAbogado() {
         </div>
         {/* <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> */}
       </div>
+          <Footer />
+        </div>
     </>
   );
 }

@@ -9,6 +9,7 @@ import {
   setAdmin,
   setBann,
 } from "../../../redux/actions/index";
+import FoldOutMenu from "../Sidebar/FoldOutMenu";
 
 const month = new Date().getMonth() + 1;
 const year = new Date().getFullYear();
@@ -72,6 +73,13 @@ const AdminNewUsersPage = () => {
   };
 
   return (
+    
+    <div style={{ backgroundColor: "#EEEEEE" }}>
+
+    <FoldOutMenu />
+
+    <div style={{ display: "flex", paddingTop: "20px" }}>
+
     <div
       className="ms-5 me-5 mt-3 mb-3"
       style={{ width: "100%", paddingTop: "20px", paddingLeft: "20px" }}
@@ -270,6 +278,7 @@ const AdminNewUsersPage = () => {
         </tbody>
       </table>
       <div id="liveAlertPlaceholder"></div>
+    </div></div>
     </div>
   );
 };

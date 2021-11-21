@@ -5,6 +5,7 @@
   padding: 20px;
 }
 .button-home{
+  text-decoration: "none";
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
@@ -23,14 +24,17 @@
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .button-about:hover{
+  text-decoration: "none";
   background-color: #032949;
   transition-duration: 100ms;
 }
 .p-home{
+  text-decoration: "none";
   /* color: #033663; */
   font-family:monospace;
 }
 .body-home{
+  text-decoration: "none";
   border-radius: 10px;
   background-color: #e6e4e4;
 }
