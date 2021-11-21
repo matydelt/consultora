@@ -66,6 +66,8 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, usuarios: action.payload };
     case "GET_PERSONAS":
       return { ...state, personas: action.payload };
+    case "GET_DIA":
+      return { ...state, dia: action.payload };   
     case "GET_CASOS":
       return { ...state, casos: action.payload };
     case "POST_USUARIO": //for login
