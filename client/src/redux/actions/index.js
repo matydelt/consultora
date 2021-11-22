@@ -306,7 +306,6 @@ export function getPersonas() {
   return async function (dispatch) {
     try {
       const json = await axios.get("/personas");
-      console.log("???????",json.data);
       return dispatch({
         type: "GET_PERSONAS",
         payload: json.data,

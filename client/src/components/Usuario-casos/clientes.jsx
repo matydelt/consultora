@@ -19,19 +19,19 @@ export default function UsuCaso() {
 }, [dispatch]);
   const { usuario, casos, personas } = useSelector(state => state);
 
-  // const [abogadosCasos, setAbogados] = useState('');
-  const [usrCasosInicio, setUsrCasosInicio] = useState('');
-  const [usrCasosPruebas, setUsrCasosPruebas] = useState('');
-  const [usrCasosSentencia, setUsrCasosSentencia] = useState('');
-  const [usrCasosCerrado, setUsrCasosCerrado] = useState('');
+//   const [abogadosCasos, setAbogados] = useState('');
+//   const [usrCasosInicio, setUsrCasosInicio] = useState('');
+//   const [usrCasosPruebas, setUsrCasosPruebas] = useState('');
+//   const [usrCasosSentencia, setUsrCasosSentencia] = useState('');
+//   const [usrCasosCerrado, setUsrCasosCerrado] = useState('');
 
-function Filtros(){
-  // setAbogados(CasosUsr)
-  setUsrCasosInicio(casos.result.map(e=>e.estado).filter(e=>e=='inicio'))
-  setUsrCasosPruebas(casos.result.map(e=>e.estado).filter(e=>e=='prueba'))
-  setUsrCasosSentencia(casos.result.map(e=>e.estado).filter(e=>e=='sentencia'))
-  setUsrCasosCerrado(casos.result.map(e=>e.estado).filter(e=>e=='cerrado'))
-}
+// function Filtros(){
+//   setAbogados(CasosUsr)
+//   setUsrCasosInicio(casos.result.map(e=>e.estado).filter(e=>e=='inicio'))
+//   setUsrCasosPruebas(casos.result.map(e=>e.estado).filter(e=>e=='prueba'))
+//   setUsrCasosSentencia(casos.result.map(e=>e.estado).filter(e=>e=='sentencia'))
+//   setUsrCasosCerrado(casos.result.map(e=>e.estado).filter(e=>e=='cerrado'))
+// }
   return (
     <>
       <UsuarioNavBar/>
