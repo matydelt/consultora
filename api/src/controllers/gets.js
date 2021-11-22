@@ -33,22 +33,15 @@ async function getUsuarios(req, res) {
     console.error(error);
     return res.sendStatus(404);
   }
-  //   try {
-  //     const user = await Usuario.findAll();
-  //     res.json(user);
-  //   } catch (error) {
-  //     console.error(error);
-  //     res.sendStatus(404);
-  //   }
 }
 
 async function getPersonas(req, res) {
   try {
-    const user = await Persona.findAll();
-    return res.json(user);
+    const persons = await Persona.findAll();
+    res.json({result:persons})
   } catch (error) {
     console.error(error);
-    return res.sendStatus(404);
+    res.sendStatus(404);
   }
 }
 
@@ -81,7 +74,6 @@ async function getProvincias(req, res) {
       "Tucumán",
     ];
     let provs = await Provincias.findAll({ where: {} });
-    // let provs = await Provincias.findAll({ where: {}, include: Abogado });
     if (provs.length === 0) {
       for (let i = 0; i < vec.length; i++) {
         provs.push(
@@ -130,19 +122,19 @@ async function getMaterias(req, res) {
     return res.sendStatus(404);
   }
 }
-async function getPersonas(req, res) {
-  try {
-    const users = await Persona.findAll();
-    const usersData = users.map((user) => {
-      const { createdAt, updatedAt, ...usersData } = user.dataValues;
-      return usersData;
-    });
-    res.json(usersData);
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(404);
-  }
-}
+// async function getPersonas(req, res) {
+//   try {
+//     const users = await Persona.findAll();
+//     const usersData = users.map((user) => {
+//       const { createdAt, updatedAt, ...usersData } = user.dataValues;
+//       return usersData;
+//     });
+//     res.json(usersData);
+//   } catch (error) {
+//     console.log(error);
+//     res.sendStatus(404);
+//   }
+// }
 
 async function getAbogados(req, res) {
   try {

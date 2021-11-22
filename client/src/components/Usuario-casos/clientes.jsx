@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios';
-import { getAbogados, getCasos, getMaterias } from "../../redux/actions";
+import { getCasos, getPersonas } from "../../redux/actions";
 import swal from 'sweetalert';
 import { toast } from 'react-toastify';
 import Footer from "../home-Abogado/Footer/Footer";
@@ -15,8 +15,9 @@ export default function UsuCaso() {
 
   useEffect(() => {
     dispatch(getCasos({clienteId:usuario.clienteId}))
+    dispatch(getPersonas())
 }, [dispatch]);
-  const { usuario, casos, abogados } = useSelector(state => state);
+  const { usuario, casos, personas } = useSelector(state => state);
 
   // const [abogadosCasos, setAbogados] = useState('');
   const [usrCasosInicio, setUsrCasosInicio] = useState('');
@@ -55,9 +56,9 @@ function Filtros(){
         <tbody>
           {casos?.result
             ?.map((c) => {
-              console.log(abogados.filter(f=>f.id==c.abogadoId));
-              console.log(c.abogadoId);
-              console.log(abogados[0].id);
+              let abogado=''
+              const abo= personas.result.forEach(e=>{if(e.abogadoId==c.abogadoId){return abogado=e}})
+
               return (
                 <tr key={c.id} className="w-25">
                   <td> {c.juez.toUpperCase()} </td>
@@ -66,8 +67,8 @@ function Filtros(){
                   <td>{c.juzgado}</td>
                   <td>{c.estado.toUpperCase()}</td>
                   <td>{c.jurisdiccion}</td>
-                  <td>{abogados.filter(f=>f.id==c.abogadoId)}</td>
-                  {/* array.filter(e=>e.a==obj.a) */}
+                  <td>{`${abogado.firstName} ${abogado.lastName}`}</td>
+
                 </tr>
               );
             })}
