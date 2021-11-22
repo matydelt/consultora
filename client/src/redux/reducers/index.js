@@ -15,6 +15,7 @@ const initialState = {
   clients: [],
   ticket: {},
   dia: {},
+  casos: []
 };
 
 const rootReducer = (state = initialState, action) => {

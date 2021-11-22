@@ -289,7 +289,7 @@ export function getConsultas() {
 export function asignarConsulta(consultaId, abogadoId) {
   return async function (dispatch) {
     try {
-      await axios.put("http://localhost:3001/consultas", {
+      await axios.put("/consultas", {
         consultaId,
         abogadoId,
       });
@@ -380,7 +380,7 @@ export function getTickets(id) {
 export function modificarTicket(Ticket) {
   return (dispatch) => {
     axios
-      .put("http://localhost:3001/tickets/edit", Ticket)
+      .put("/tickets/edit", Ticket)
       .then((response) => {
         return dispatch({ type: "PUT_TICKET" });
       })
@@ -404,7 +404,7 @@ export function setCliente(cliente, abogado) {
 export function modificarClave(Usuario) {
   return (dispatch) => {
     axios
-      .put("http://localhost:3001/newpass", Usuario)
+      .put("/newpass", Usuario)
       .then((response) => {
         return dispatch({ type: "POST_CLAVE" });
       })
@@ -417,7 +417,7 @@ export function modificarClave(Usuario) {
 export function getClientes() {
   return (dispatch) => {
     axios
-      .get("http://localhost:3001/casos/all")
+      .get("/casos/all")
       .then((response) => {
         return dispatch({
           type: "GET_CLIENTS",
@@ -432,7 +432,7 @@ export function getClientes() {
 export function putClienteAbogado(cambios) {
   return (dispatch) => {
     axios
-      .put("http://localhost:3001/cliente/actualizar", cambios)
+      .put("/cliente/actualizar", cambios)
       .then(() => {
         return dispatch({
           type: "PUT_CLIENTES",

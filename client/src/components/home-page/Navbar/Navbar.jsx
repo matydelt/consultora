@@ -13,22 +13,6 @@ import { toast } from "react-toastify";
 import ButtonScroll from "./ButtonScroll/ButtonScroll";
 const Navbar = ({ navId }) => {
   let { usuario } = useSelector((state) => state);
-  // const dispatch = useDispatch();
-  // const auth = getAuth();
-  // const history = useHistory();
-
-  // const logout = () => {
-  //   signOut(auth)
-  //     .then(() => {
-  //       dispatch(getUsuario({}));
-  //       history.push("/");
-  //       toast.info("La sesión fue finalizada");
-  //       localStorage.removeItem("username");
-  //     })
-  //     .catch((error) => {
-  //       // An error happened.
-  //     });
-  // };
 
   return (
     <nav id={navId} className="col-12 col-xl-12">
@@ -66,7 +50,7 @@ const Navbar = ({ navId }) => {
 
         {localStorage.getItem("username") || usuario.firstName ? (
           <li>
-            {usuario && !usuario.abogadoId && (
+            {usuario && !usuario.abogadoId && !usuario.adminId && (
               <ButtonsNav
                 link="/user/panel"
                 text={localStorage.getItem("username") || usuario.firstName}
@@ -75,6 +59,10 @@ const Navbar = ({ navId }) => {
 
             {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
               <ButtonsNav link="/user/abogado" text={usuario.firstName} />
+            )}
+
+            {(usuario?.adminId && usuario?.abogadoId == null) && (
+              <ButtonsNav link="/admin" text={usuario.firstName} />
             )}
           </li>
         ) : (

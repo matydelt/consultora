@@ -262,56 +262,16 @@ async function getAbogado(req, res) {
     res.sendStatus(404);
   }
 
-  // const user = await Usuario.findByPk(eMail);
-  // const { firstName, lastName, dni, celular } = await Persona.findByPk(
-  //   user.personaDni
-  // );
-  // const { detalle, clientes, imagen, experiencia, estudios } =
-  //   await Abogado.findOne({
-  //     where: { id: user.abogadoId },
-  //     include: Cliente,
-  //   });
-  // let abogado = {
-  //   ...{ eMail: user.eMail, firstName, lastName, dni, celular },
-  //   detalle,
-  //   imagen,
-  //   experiencia,
-  //   estudios,
-  // };
-  // abogado.clientes = [];
-  // for (let i = 0; i < clientes.length; i++) {
-  //   abogado.clientes.push(
-  //     await Cliente.findOne({
-  //       where: { id: clientes[i].id },
-  //       attributes: ["id", "asunto"],
-  //       include: [
-  //         {
-  //           model: Persona,
-  //           attributes: ["firstName", "lastName", "dni", "celular"],
-  //         },
-  //         {
-  //           model: Casos,
-  //           attributes: [
-  //             "juez",
-  //             "numeroExpediente",
-  //             "juzgado",
-  //             "detalle",
-  //             "estado",
-  //           ],
-  //         },
-  //       ],
-  //     })
-  //   );
-  // }
 }
 
 async function getCasos(req, res) {
   const { numeroExpediente, estado, juez, clienteId } = req.body;
   try {
     if (clienteId) {
-      const casos = Casos.findAll({
+      const casos = await Casos.findAll({
         where: { clienteId },
       });
+      console.log(casos);
       res.json({
         result: casos,
         count: casos.length,
@@ -330,7 +290,7 @@ async function getCasos(req, res) {
     }
 
     if (estado != "" && estado != null) {
-      Cases = Cases.filter((c) => {
+      Cases = await Cases.filter((c) => {
         if (c.estado == `${estado}`) {
           return c;
         }
@@ -338,7 +298,7 @@ async function getCasos(req, res) {
     }
 
     if (juez != "" && juez != null) {
-      Cases = Cases.filter((c) => {
+      Cases = await Cases.filter((c) => {
         if (c.juez == `${juez}`) {
           return c;
         }

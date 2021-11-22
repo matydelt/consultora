@@ -6,8 +6,9 @@ import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
 import "./FormCasos.css";
 
 const FormCasos = ({ cliente }) => {
+
   const dispatch = useDispatch()
-  const { materias } = useSelector(state => state)
+  const { materias, usuario } = useSelector(state => state)
   console.log(cliente)
   const [input, setInput] = useState({
     detalle: null,
@@ -21,7 +22,8 @@ const FormCasos = ({ cliente }) => {
     vtoTrabaAfectiva: null,
     jurisdiccion: null,
     materia: null,
-    id: cliente
+    id: cliente,
+    abogadoID: usuario.abogadoId
 
   })
   const [error, setError] = useState({
@@ -162,10 +164,10 @@ const FormCasos = ({ cliente }) => {
                 </select>
               </li>
 
-              <li>Juzgado:<input type="number" className="list-group-item w-25" value={input.juzgado} onChange={e => setInput({ ...input, juzgado: e.target.value })} /></li>
+              <li>Juzgado:<input type="number" min="0" className="list-group-item w-25" value={input.juzgado} onChange={e => setInput({ ...input, juzgado: e.target.value })} /></li>
               Detalles:<input className="list-group-item w-100 w-25" value={input.detalle} onChange={e => setInput({ ...input, detalle: e.target.value })} />
               <p className="text-danger"> {error.detalle}</p>
-              <li>N° Expediente:<input type={"number"} className="list-group-item w-25" value={input.numeroExpediente} onChange={e => setInput({ ...input, numeroExpediente: e.target.value })} /></li>
+              <li>N° Expediente:<input min="0" type={"number"} className="list-group-item w-25" value={input.numeroExpediente} onChange={e => setInput({ ...input, numeroExpediente: e.target.value })} /></li>
               {/* <li>N° Liquidacion:<input className="list-group-item w-25" value={input.numeroLiquidacion} disabled onChange={e => setInput({ ...input, numeroLiquidacion: e.target.value })} /></li> */}
               <li>Medida Cautelar: <br />
                 <select name="medidaCautelar" className="custom-select form-select custom-select-lg mb-3 w-25" onChange={e => handleChange(e)}>

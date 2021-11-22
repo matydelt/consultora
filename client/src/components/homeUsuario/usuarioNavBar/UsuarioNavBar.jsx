@@ -56,9 +56,11 @@ export default function UsuarioNavBar() {
                   Consultas realizadas
                 </div>
               </Link>
-              <div className="nav-item nav-link mx-2" href="#">
+              <Link to="/user/panel/casos">
+              <div className="nav-item nav-link mx-2">
                 Casos
               </div>
+              </Link>
               <Link to="/user/panel/turnos">
                 <div className="nav-item nav-link mx-2">Turnos</div>
               </Link>

@@ -76,7 +76,6 @@ export default function ConsultasUsuario() {
             <th>Respuesta</th>
             <th>Estado</th>
             <th>Link de pago</th>
-            {/* <th>Notificar pago</th> */}
             <th>Opciones</th>
           </tr>
         </thead>

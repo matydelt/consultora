@@ -123,6 +123,7 @@ Materias.belongsToMany(Casos, { through: "casosmateria" });
 Casos.belongsToMany(Materias, { through: "casosmateria" });
 
 Cliente.hasMany(Casos);
+Abogado.hasMany(Casos);
 
 Abogado.belongsToMany(Cliente, { through: "abogadocliente" });
 Cliente.belongsToMany(Abogado, { through: "abogadocliente" });

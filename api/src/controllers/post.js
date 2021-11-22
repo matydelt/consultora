@@ -248,8 +248,9 @@ async function setCasos(req, res) {
       jurisdiccion,
       materia,
       id,
+      abogadoID
     } = req.body;
-
+console.log("Cliente???",id);
     const caso = Casos.build({
       trabaAfectiva,
       medidaCautelar,
@@ -267,11 +268,13 @@ async function setCasos(req, res) {
       jurisdiccion,
     });
     const cliente = await Cliente.findByPk(id);
+    const abogado = await Abogado.findByPk(abogadoID);
     if (cliente) {
       await caso.save();
       const auxMateria = await Materias.findByPk(materia);
       auxMateria.addCasos(caso);
       cliente.addCasos(caso);
+      abogado.addCasos(caso);
       return res.sendStatus(200);
     } else return res.sendStatus(404);
   } catch (error) {
