@@ -45,7 +45,7 @@ export const Signup = () => {
     e.preventDefault();
     if (
       usuarios.some((e) => e.eMail.toString() === eMail.toString()) ||
-      personas.some((e) => e.dni.toString() === dni.toString())
+      personas.result.some((e) => e.dni.toString() === dni.toString())
     ) {
       usuarios.some((e) => e.eMail.toString() === eMail.toString())
         ? correoNoOK()
