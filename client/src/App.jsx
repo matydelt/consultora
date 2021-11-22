@@ -30,6 +30,7 @@ import AdminClientes from "./components/admin/adminClients/clientes";
 import AdminBannedUsersPage from "./components/admin/adminBannedUsersPage/adminBannedUsersPage";
 import ModifierHome from "./components/admin/adminHome/modifierHome";
 import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/ConsultasUsuario";
+import UsuCaso from "./components/Usuario-casos/clientes";
 
 function App() {
   const dispatch = useDispatch();
@@ -84,12 +85,16 @@ function App() {
           {usuario?.adminId == null && 
           usuario?.abogadoId == null &&
           usuario?.clienteId != null ? <TurnosUsuarios/> : <ErrorPag/>}
-          {/* ConsultasUsuario */}
         </Route>
         <Route exact path={"/user/panel/consultas"}>
           {usuario?.adminId == null && 
           usuario?.abogadoId == null &&
           usuario?.clienteId != null ? <ConsultasUsuario/> : <ErrorPag/>}
+        </Route>
+        <Route exact path={"/user/panel/casos"}>
+          {usuario?.adminId == null && 
+          usuario?.abogadoId == null &&
+          usuario?.clienteId != null ? <UsuCaso/> : <ErrorPag/>}
         </Route>
         <Route exact path={"/admin"} component={usuario?.adminId != null ? AdminPage : ErrorPag}/>
         <Route exact path={"/admin/users"} component={usuario?.adminId != null ? AdminUsersPage : ErrorPag} />

@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { putAbogado, getMaterias } from "../../redux/actions";
 import Casos from "../casos/casos";
-import { Link } from "react-router-dom";
+import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
 import Footer from "../home-Abogado/Footer/Footer";
 import "./clientes.css";
 import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
+import UsuarioNavBar from "../homeUsuario/usuarioNavBar/UsuarioNavBar";
 
-export default function Clientes() {
+export default function UsuCaso() {
   //muestra cards de cada cliente con sus casos
   const [clientes, setClientes] = useState([]);
   const [flag, setFlag] = useState(false);
@@ -128,8 +129,8 @@ export default function Clientes() {
   };
 
   return (
-    <div >
-    <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} />
+    <div >      
+      <UsuarioNavBar/>
     <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
       <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
         <button
@@ -144,14 +145,6 @@ export default function Clientes() {
         >
           Historial
         </button>
-        <Link to="/user/abogado/nuevo-caso" 
-          className=" button-about mt-3 mb-3" >
-          {/* <button
-          className=" button-about mt-3 mb-3"
-        > */}
-          Crear Nuevo Caso
-        {/* </button> */}
-        </Link>
         <select
           className="form-select"
           aria-label="Default select example"

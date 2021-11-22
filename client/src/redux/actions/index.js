@@ -174,6 +174,7 @@ export function putAbogado(abogado) {
   return async function (dispatch) {
     try {
       const aux = await axios.put("/abogado", abogado);
+      console.log(aux);
       return dispatch({
         type: "PUT_ABOGADO",
         payload: aux.data,

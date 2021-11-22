@@ -136,7 +136,7 @@ const FormCasos = ({ cliente }) => {
   console.log(input)
   return (
     <div >
-    <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} />
+    {/* <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} /> */}
     <div className="container">
       <div className="accordion accordion-flush ancho" id="accordionFlushExample">
         <div className="accordion-item">

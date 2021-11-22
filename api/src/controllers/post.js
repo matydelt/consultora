@@ -57,7 +57,7 @@ const postTickets = async (req, res, next) => {
 
       const tickets = await Ticket.create(ticket)
 
-      tickets.setCasos(cass)
+      cass.setTicket(tickets)
 
       res.json({
         cass, tickets

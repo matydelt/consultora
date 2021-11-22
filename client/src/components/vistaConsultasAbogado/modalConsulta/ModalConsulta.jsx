@@ -57,6 +57,7 @@ export default function ModalConsulta({ usuario, modalId }) {
 
         })
       }
+      dispatch(setCliente(consulta.email, usuario.abogado.id));
       setRespuesta("");
     });
   }
