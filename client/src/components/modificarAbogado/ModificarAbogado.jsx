@@ -8,6 +8,7 @@ import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
 import Footer from "../home-Abogado/Footer/Footer";
 
 import "./ModificarAbogado.css";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
 export default function ModificarAbogado() {
   let [form, setForm] = useState({
@@ -181,7 +182,7 @@ export default function ModificarAbogado() {
   return (
     <>
     <div >
-      <NavAbogado />
+<SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} />
       {usuario?.abogado?.id ? (
         <div className="container shadow p-5 bg-light animate__animated animate__fadeIn animate__faster">
           <h2 className="">Modificar perfil</h2>

@@ -4,6 +4,7 @@ import { putAbogado } from "../../../redux/actions";
 import FormCasos from "../../FormCasos/FormCasos";
 import Footer from "../Footer/Footer";
 import NavAbogado from "../NavAbogado/NavAbogado";
+import SideBarAbogado from "../SideBarAbogado/SideBarAbogado";
 import CardClients from "./cardClients";
 
 export default function Clients() {
@@ -25,7 +26,7 @@ export default function Clients() {
   return (
     
     <div >
-      <NavAbogado />
+    <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} />
     <div className="d-flex justify-content-center">
       <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column conteiner justify-content-center">
         {clientes.map((e) => {

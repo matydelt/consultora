@@ -7,6 +7,7 @@ import "./HomeAbogado.css";
 import { putAbogado } from "../../redux/actions";
 import Footer from "./Footer/Footer";
 import NavAbogado from "./NavAbogado/NavAbogado";
+import SideBarAbogado from "./SideBarAbogado/SideBarAbogado";
 
 export default function HomeAbogado() {
   const { usuario, abogado } = useSelector((state) => state);
@@ -20,7 +21,7 @@ export default function HomeAbogado() {
     <Redirect to="/" />
   ) : (
     <div >
-      <NavAbogado />
+    <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} />
     <div>
       <div className="jumbotron  jumbotron-fluid body-home">
         <h1 className="display-4">¡Bienvenido!</h1>

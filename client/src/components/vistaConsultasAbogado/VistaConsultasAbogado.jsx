@@ -8,6 +8,7 @@ import TablaVistasConsultas from "./tablaVistasConsultas/TablaVistasConsultas";
 import "./VistaConsultasAbogados.css";
 import Footer from "../home-Abogado/Footer/Footer";
 import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
 export default function VistaConsultasAbogado() {
   let [busquedaTodas, setBusquedaTodas] = useState("");
@@ -41,7 +42,7 @@ export default function VistaConsultasAbogado() {
   ) : (
     <>
     <div >
-      <NavAbogado />
+    <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} />
       <ModalConsulta usuario={usuario} modalId={`modalConsulta`} />
 
       <nav className="text-center mt-5">

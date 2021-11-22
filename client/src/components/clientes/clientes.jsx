@@ -6,6 +6,7 @@ import Casos from "../casos/casos";
 import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
 import Footer from "../home-Abogado/Footer/Footer";
 import "./clientes.css";
+import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
 export default function Clientes() {
   //muestra cards de cada cliente con sus casos
@@ -128,7 +129,7 @@ export default function Clientes() {
 
   return (
     <div >
-      <NavAbogado/>
+    <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} />
     <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-row">
       <div className="mt-3 me-3 ms-3 d-inline-flex flex-column">
         <button
