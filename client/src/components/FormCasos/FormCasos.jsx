@@ -3,13 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { postCasos } from "../../redux/actions";
 import NavAbogado from "../home-Abogado/NavAbogado/NavAbogado";
-import Footer from "../home-Abogado/Footer/Footer";
 import "./FormCasos.css";
-import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
 const FormCasos = ({ cliente }) => {
   const dispatch = useDispatch()
-  const { materias, usuario } = useSelector(state => state)
+  const { materias } = useSelector(state => state)
   console.log(cliente)
   const [input, setInput] = useState({
     detalle: null,
@@ -135,8 +133,6 @@ const FormCasos = ({ cliente }) => {
   }
   console.log(input)
   return (
-    <div >
-    {/* <SideBarAbogado imagenAbogado={usuario?.abogado?.imagen} /> */}
     <div className="container">
       <div className="accordion accordion-flush ancho" id="accordionFlushExample">
         <div className="accordion-item">
@@ -216,8 +212,6 @@ const FormCasos = ({ cliente }) => {
           </div>
         </div>
       </div>
-    </div>
-      <Footer />
     </div>
   );
 };

@@ -144,14 +144,6 @@ export default function Clientes() {
         >
           Historial
         </button>
-        <Link to="/user/abogado/nuevo-caso" 
-          className=" button-about mt-3 mb-3" >
-          {/* <button
-          className=" button-about mt-3 mb-3"
-        > */}
-          Crear Nuevo Caso
-        {/* </button> */}
-        </Link>
         <select
           className="form-select"
           aria-label="Default select example"

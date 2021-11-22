@@ -6,6 +6,7 @@ export function getMaterias() {
   return async function (dispatch) {
     try {
       const json = await axios.get("/materias");
+      console.log("materisa",json);
       return dispatch({
         type: "GET_MATERIAS",
         payload: json.data,

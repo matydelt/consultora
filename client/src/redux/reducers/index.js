@@ -20,9 +20,10 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_MATERIAS":
+      const getmaterias = action.payload;
       return {
         ...state,
-        abogados: abogadoMateria,
+        materias: getmaterias,
       };
       case 'GET_MATERIAS_SITE':
         const materias = action.payload;
