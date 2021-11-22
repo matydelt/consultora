@@ -26,6 +26,8 @@ const {
 const postTickets = async (req, res, next) => {
   const { title, unit_price, casoid, consultaid } = req.body;
 
+  console.log(title, unit_price, casoid, consultaid);
+
   let preference = {
     items: [
       {
@@ -36,8 +38,10 @@ const postTickets = async (req, res, next) => {
     ],
   };
   try {
-    const response = await mercadopago.preferences.create(preference);
 
+    const response = await mercadopago.preferences.create(preference)
+
+    // console.log(response.body.init_point);
     let ticket = {
       titulo: title,
       precio: unit_price,
@@ -45,34 +49,34 @@ const postTickets = async (req, res, next) => {
       n_operacion: "",
       estatus: "pending",
       detalle_estatus: "not accredited",
-      medioDePago: "No information",
-    };
+      medioDePago: "No information"
+    }
     // Tickets.create(ticket)
     if (!!casoid) {
-      const cass = await Consulta.findByPk(casoid);
+      const cass = await Consulta.findByPk(casoid)
 
-      const tickets = await Ticket.create(ticket);
+      const tickets = await Ticket.create(ticket)
 
-      tickets.setCasos(cass);
-
-      res.json({
-        cass,
-        tickets,
-      });
-    } else {
-      const consul = await Consulta.findByPk(consultaid);
-
-      const tickets = await consul.setTicket(tickets);
-
-      tickets.setConsultum(consul);
+      tickets.setCasos(cass)
 
       res.json({
-        consul,
-        tickets,
+        cass, tickets
       });
-      // res.sendStatus(200);
+    } 
+    else {
+      const consul = await Consulta.findByPk(consultaid)
+      
+      const tickets = await Ticket.create(ticket)
+    
+      consul.setTicket(tickets)
+  
+      res.json({
+          consul, tickets
+      });
+        // res.sendStatus(200);
     }
-  } catch {
+  }
+  catch {
     (function (error) {
       console.log(error);
     });

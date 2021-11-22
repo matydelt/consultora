@@ -57,7 +57,6 @@ export default function ModalConsulta({ usuario, modalId }) {
 
         })
       }
-      dispatch(setCliente(consulta.email, usuario.abogado.id));
       setRespuesta("");
     });
   }
@@ -155,13 +154,13 @@ export default function ModalConsulta({ usuario, modalId }) {
             {!consulta?.abogadoId ? (
               <div>
                 <div className="bg-light border-top p-2 align-middle">
-                  <div class="form-floating my-3 mx-1">
+                  <div className="form-floating my-3 mx-1">
                     <textarea
                       type="text"
                       name="respuesta"
                       onChange={modificarCampos}
                       value={respuesta}
-                      class="form-control"
+                      className="form-control"
                       id="respuesta"
                       placeholder="Precio"
                     ></textarea>
@@ -169,10 +168,10 @@ export default function ModalConsulta({ usuario, modalId }) {
                       Escribir un mensaje al cliente
                     </label>
                   </div>
-                  <div class="form-floating my-3 mx-1">
+                  <div className="form-floating my-3 mx-1">
                     <input
                       type="number"
-                      class="form-control"
+                      className="form-control"
                       min="0"
                       onChange={(e) => {
                         setPrice(e.target.value);

@@ -8,6 +8,8 @@ router.post("/tickets/new", (req, res) => post.postTickets(req, res));
 
 router.get("/tickets", (req, res) => get.getTickets(req, res));
 
+router.post("/tickets/webhooks", (req, res) => post.postPago(req, res));
+
 router.put("/tickets/edit", (req, res) => put.modificarTicket(req, res));
 
 module.exports = router;

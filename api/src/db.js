@@ -100,7 +100,8 @@ Abogado.hasMany(Consulta);
 // Ticket.hasOne(Consulta);
 Consulta.hasOne(Ticket);
 
-Ticket.hasOne(Casos);
+// Ticket.hasOne(Casos);
+Casos.hasOne(Ticket);
 
 Abogado.hasMany(Dia);
 Dia.hasMany(Turno);
