@@ -19,10 +19,16 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
-
-// Syncing all the models at once.
+var server_port = process.env.YOUR_PORT || process.env.PORT || 80;
+var server_host = process.env.YOUR_HOST || '0.0.0.0';
 conn.sync({ force: false }).then(() => {
-  server.listen(process.env.PORT, async () => {
-    console.log("%s listening at " + process.env.PORT); // eslint-disable-line no-console
+  server.listen(server_port, server_host, function () {
+    console.log('Listening on port %d', server_port);
   });
 });
+// Syncing all the models at once.
+// conn.sync({ force: false }).then(() => {
+//   server.listen(process.env.PORT || "3001", process.env.HOST || '0.0.0.0', async () => {
+//     console.log("%s listening at " + process.env.PORT); // eslint-disable-line no-console
+//   });
+// });

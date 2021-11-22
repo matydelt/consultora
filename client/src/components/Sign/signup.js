@@ -7,16 +7,15 @@ import {
   postUsuario,
 } from "../../redux/actions/index.js";
 import { correoNoOK, createNOOK, createOK, dniNoOK } from "./alert.js";
-import { Link } from "react-router-dom";
 import md5 from "md5";
-import Navbar from "../home-page/Navbar/Navbar.jsx";
-
 import "./sign.css";
+import { useHistory } from "react-router";
 
-export const Signup = ({history}) => {
+export const Signup = () => {
   const { usuarios, personas } = useSelector((state) => state);
 
   const dispatch = useDispatch();
+  let history = useHistory();
 
   useEffect(() => {
     dispatch(getPersonas());
@@ -32,8 +31,7 @@ export const Signup = ({history}) => {
 
   const auth = getAuth();
 
-  const GoTo = async (e) => {
-    e.preventDefault();
+  async function GoTo() {
     if (
       usuarios.some((e) => e.eMail.toString() === eMail.toString()) ||
       personas.some((e) => e.dni.toString() === dni.toString())
@@ -42,7 +40,7 @@ export const Signup = ({history}) => {
         ? correoNoOK()
         : dniNoOK();
     } else {
-      await createUserWithEmailAndPassword(auth, eMail, md5(password))
+      await createUserWithEmailAndPassword(auth, eMail, password)
         .then(() => {
           console.log("no rompio");
           dispatch(
@@ -55,7 +53,7 @@ export const Signup = ({history}) => {
               password: md5(password),
             })
           );
-          history.push('/ingreso')
+          history.push("/ingreso");
           createOK();
         })
         .catch((error) => {
@@ -70,7 +68,7 @@ export const Signup = ({history}) => {
       setEmail("");
       setPassword("");
     }
-  };
+  }
   return (
     <>
       <div className="form_container sign_up_container">

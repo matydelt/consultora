@@ -12,7 +12,7 @@ import {
   updatePassword,
 } from "@firebase/auth";
 import Dashboard from "../../Dashboard/Dashboard";
-import Sidebar from "../Sidebar/Sidebar";
+import FoldOutMenu from "../Sidebar/FoldOutMenu";
 import AdminUsersPage from "../adminUsersPage/adminUsersPage";
 import AdminNewUsersPage from "../adminNewUsersPage/adminNewUsersPage";
 import AdminClientes from "../adminClients/clientes";
@@ -27,11 +27,12 @@ export default function AdminPage() {
     dispatch(getUsuarios());
     dispatch(getClientes());
   }, []);
-  if (usuario.adminId === undefined) return (<Redirect to="/" />)
+  if (usuario.adminId === undefined) return <Redirect to="/" />;
   return (
     <div style={{ backgroundColor: "#EEEEEE" }}>
-      <div style={{ display: "flex", marginTop: "20px" }}>
-        <Sidebar />
+      <FoldOutMenu />
+
+      <div style={{ display: "flex", paddingTop: "20px" }}>
         <Switch>
           <Route path="/admin" exact component={Dashboard} />
           <Route path="/admin/users" exact component={AdminUsersPage} />

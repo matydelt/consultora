@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const ButtonSubmit = ({ type, text }) => {
   return (
@@ -6,6 +7,11 @@ const ButtonSubmit = ({ type, text }) => {
       <button type={type}>{text}</button>
     </>
   );
+};
+
+ButtonSubmit.propTypes = {
+  type: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default ButtonSubmit;

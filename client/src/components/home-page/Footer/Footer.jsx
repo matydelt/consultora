@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav";
 import Logo from "../assets/img/logo-blacno-sin-fondo.png";
 import { Facebook, Instagram } from "../assets/svg";
@@ -14,13 +15,10 @@ const Footer = ({ direccion, contacto }) => {
             <h4>Solucionaremos tus inquitudes</h4>
             <p>
               Nuestra meta es solucionar tus problemas jurídicos para que tu
-              vida civíl o jurídica sea prospera, sin inquietudes. Si deseas
-              contactarnos de manera rápida hazlo aquí:
+              vida civíl o jurídica sea prospera, sin inquietudes.
             </p>
           </div>
-          <div className="button_footer">
-            <ButtonsNav text="Presiona Aquí" link="#" />
-          </div>
+
           <div className="iconos">
             <Instagram />
             <Facebook />
@@ -32,15 +30,11 @@ const Footer = ({ direccion, contacto }) => {
         <div className="footer_info">
           <div>
             <h5>Contacto</h5>
-            <p>
-              {contacto ? contacto : "actualmente no tenemos"}
-            </p>
+            <p>{contacto ? contacto : "actualmente no tenemos"}</p>
           </div>
           <div>
             <h5>Dirección</h5>
-            <p>
-              {direccion ? direccion : "actualmente no tenemos"}
-            </p>
+            <p>{direccion ? direccion : "actualmente no tenemos"}</p>
           </div>
         </div>
 
@@ -55,6 +49,11 @@ const Footer = ({ direccion, contacto }) => {
       </div>
     </div>
   );
+};
+
+Footer.propTypes = {
+  direccion: PropTypes.string,
+  contacto: PropTypes.string,
 };
 
 export default Footer;

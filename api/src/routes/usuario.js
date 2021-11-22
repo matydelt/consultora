@@ -45,9 +45,7 @@ router.put("/bann", put.setBann); //bannea usuario
 
 router.post("/usuario", (req, res) => post.setUsuarios(req, res)); //crea usuario
 
-router.post("/forzar-reinicio-password", (req, res) =>
-  post.reiniciarPassword(req, res)
-);
+router.post("/newpass", (req, res) => post.reiniciarPassword(req, res));
 
 router.post("/persona", (req, res) => post.setPersona(req, res)); //crea persona
 
@@ -60,6 +58,7 @@ router.put("/abogado", (req, res) => put.getAbogado(req, res)); // get  abogado
 router.put("/abogado/:eMail", (req, res) => put.modificarAbogado(req, res)); // modificar abogado, actualizar foto etc
 
 router.put("/cliente/actualizar", put.clienteAbogado)
+router.put("/cliente/actualizar", put.clienteAbogado);
 router.put("/cliente/actualizar", put.clienteAbogado);
 router.get("/abogados-cliente", (req, res) => get.getAbogadosCliente(req, res));
 

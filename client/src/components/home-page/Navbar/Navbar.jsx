@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Logo from "../assets/img/buffet-buffet-law.png";
 import ButtonsNav from "../../ButtonsNav/ButtonsNav";
 import { Link } from "react-router-dom";
@@ -11,18 +12,28 @@ import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import ButtonScroll from "./ButtonScroll/ButtonScroll";
 const Navbar = ({ navId }) => {
-  let usuario = useSelector((state) => state.usuario);
+  let { usuario } = useSelector((state) => state);
+  // const dispatch = useDispatch();
+  // const auth = getAuth();
+  // const history = useHistory();
+
+  // const logout = () => {
+  //   signOut(auth)
+  //     .then(() => {
+  //       dispatch(getUsuario({}));
+  //       history.push("/");
+  //       toast.info("La sesión fue finalizada");
+  //       localStorage.removeItem("username");
+  //     })
+  //     .catch((error) => {
+  //       // An error happened.
+  //     });
+  // };
 
   return (
     <nav id={navId} className="col-12 col-xl-12">
       {console.log(usuario)}
       <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
-        <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
-
-        <li className="col-xl-1">
-          <ButtonScroll text="Materias" idScroll="#materias" />
-        </li>
-
         <li>
           {usuario.adminId ? (
             <Link to="/admin">Admin Page</Link>
@@ -32,25 +43,34 @@ const Navbar = ({ navId }) => {
         </li>
 
         <li className="col-xl-1">
+          <ButtonScroll text="Materias" idScroll="#materias" />
+        </li>
+        <li className="col-xl-1">
           <ButtonScroll text="Nosotros" idScroll="#about" />
         </li>
 
         <li className="col-xl-1">
           <ButtonsNav link="/abogados" text="Nuestro Equipo" />
         </li>
+        <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
 
         {localStorage.getItem("username") || usuario.firstName ? (
           <li>
-            {usuario && !usuario.abogadoId && (
+            {usuario && usuario.adminId && usuario.abogadoId === null && (
               <ButtonsNav
-                link="/user/panel"
+                link="/admin"
                 text={localStorage.getItem("username") || usuario.firstName}
               />
             )}
 
-            {usuario?.abogadoId && (
+            {(usuario?.abogadoId || usuario?.dataValues?.abogado?.id) && (
               <ButtonsNav link="/user/abogado" text={usuario.firstName} />
             )}
+            {usuario &&
+              usuario.adminId === null &&
+              usuario.abogadoId === null && (
+                <ButtonsNav link="/user/panel" text={usuario.firstName} />
+              )}
           </li>
         ) : (
           <li className="col-xl-1">
@@ -60,6 +80,10 @@ const Navbar = ({ navId }) => {
       </ul>
     </nav>
   );
+};
+
+Navbar.propTypes = {
+  navId: PropTypes.string.isRequired,
 };
 
 export default Navbar;

@@ -492,14 +492,16 @@ async function getDias(req, res) {
 
   let dias = [];
   try {
-    if (abogadoFlag && !periodoFiltrar || (abogadoFlag && desde && !periodoFiltrar)) {
+    if (
+      (abogadoFlag && !periodoFiltrar) ||
+      (abogadoFlag && desde && !periodoFiltrar)
+    ) {
+      console.log("IF");
 
-      console.log('IF');
+      desde = parseInt(desde);
 
-      desde = parseInt(desde)
-
-      let limit = 15
-      let offset = 0 + (desde - 1) * limit
+      let limit = 15;
+      let offset = 0 + (desde - 1) * limit;
 
       dias = await Dia.findAndCountAll({
         where: {
@@ -509,16 +511,19 @@ async function getDias(req, res) {
         offset: offset,
         limit: limit,
         order: [["fecha", "DESC"]],
-        include: [{ model: Turno }]
+        include: [{ model: Turno }],
       });
     } else if (abogadoFlag && periodoFiltrar && !desde) {
-      console.log('ELSE IF');
       dias = await Dia.findAll({
         where: {
           fecha: {
             // [Op.notBetween]: [new Date(new Date().getFullYear(), parseInt(periodoFiltrar), 1), new Date(new Date().getFullYear(), parseInt(periodoFiltrar)+1, 0)]
             [Op.gt]: new Date(new Date().getFullYear(), periodoFiltrar, 1),
-            [Op.lte]: new Date(new Date().getFullYear(), parseInt(periodoFiltrar) + 1, 0 + 1)
+            [Op.lte]: new Date(
+              new Date().getFullYear(),
+              parseInt(periodoFiltrar) + 1,
+              0 + 1
+            ),
           },
           abogadoId,
         },
@@ -526,7 +531,7 @@ async function getDias(req, res) {
         order: [["fecha", "DESC"]],
       });
     } else {
-      console.log('ELSE');
+      console.log("ELSE");
       dias = await Dia.findAll({
         where: {
           fecha: { [Op.gte]: new Date().getTime() },
@@ -564,17 +569,31 @@ async function about(req, res) {
   }
 }
 async function getDia(req, res) {
-  const { diaId } = req.query;
+  const { diaId, fechaHoy } = req.query;
 
   try {
-    const dia = await Dia.findByPk(diaId);
+    if (fechaHoy) {
+      const dia = await Dia.findAll({ 
+        where: {
+          fecha: { 
+            [Op.gte]: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
+             [Op.lt]: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()+1)
+           }
+        }
+      })
+      return res.json(dia)
+    } 
+    
+    if (diaId) {
+      const dia = await Dia.findByPk(diaId);
 
-    const turnos = await dia.getTurnos({
-      order: [["hora", "ASC"]],
-      include: [{ model: Cliente, include: [{ model: Persona }] }],
-    });
+      const turnos = await dia.getTurnos({
+        order: [["hora", "ASC"]],
+        include: [{ model: Cliente, include: [{ model: Persona }] }],
+      }); 
+      return res.json({ dia, turnos });
+    }
 
-    return res.json({ dia, turnos });
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);

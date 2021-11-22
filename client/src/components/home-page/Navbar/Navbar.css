@@ -41,6 +41,10 @@ nav ul .imgLogo {
     text-transform: uppercase;
 }
 
+#menu ul li a:last-child {
+    width: 250px !important;
+}
+
 /* width: 50% !important; */
 
 #menu ul img {

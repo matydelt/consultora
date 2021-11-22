@@ -17,6 +17,7 @@ import {
   postUsuario,
   getPersonas,
   getUsuarios,
+  modificarClave,
 } from "../../redux/actions";
 import {
   sessionERR,
@@ -53,11 +54,9 @@ export const Signin = () => {
   const [eMail, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayname, setDisplayName] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const auth = getAuth();
   const google = new GoogleAuthProvider();
-
   const loginGoogle = () => {
     setPersistence(auth, browserSessionPersistence)
       .then(async () => {
@@ -140,7 +139,7 @@ export const Signin = () => {
     await signInWithEmailAndPassword(auth, eMail, md5(password))
       .then((userCredential) => {
         // Signed in
-        setLoading(true)
+        // setLoading(true)
         console.log("login");
         // const user = userCredential.user;
         dispatch(getUsuario({ eMail: eMail }));

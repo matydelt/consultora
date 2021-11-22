@@ -26,8 +26,15 @@
 .boton-eliminar-imagen:hover {
     z-index: 9999999999999999 !important;
     display: block !important;
-
 }
+
+.medalla-hover {
+    transition: 0.2s ease-out;
+}
+.medalla-hover:hover {
+    background-color: rgba(128, 128, 128, 0.164) !important;
+}
+
 
 .body_modificar_abogado_perfil {
     min-height: 700px;

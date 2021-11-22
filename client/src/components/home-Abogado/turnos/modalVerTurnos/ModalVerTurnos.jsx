@@ -1,34 +1,10 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import swal from 'sweetalert';
-import { actionCancelarTurno, getDia } from '../../../../redux/actions';
+import React from 'react';
+import { useSelector } from 'react-redux';
+
 
 export default function ModalVerTurnos() {
 
     const { dia } = useSelector(state => state);
-
-    // const dispatch = useDispatch();
-
-
-
-    // function cancelarTurno(turnoId) {
-    //     swal({
-    //         title: "Cancelar y eliminar",
-    //         text: "El turno se eliminará y el cliente será notificado por email ¿Continuar?",
-    //         icon: "warning",
-    //         buttons: true,
-    //     }
-    //     ).then((willDelete) => {
-    //         if (willDelete) {
-    //             dispatch(actionCancelarTurno(turnoId, true));
-    //             toast.success('El turno fue cancelado');
-    //             dispatch(getDia(dia?.dia?.id));
-    //         }
-    //     }).catch(err => toast.error('Ocurrió un problema al cancelar el turno'));
-    // };
-
-
 
     return (<>
         <div className="modal fade" id="modalVerTurnos" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

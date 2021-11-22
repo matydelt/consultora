@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
+import "./NavUsuario.css";
 
 const NavUsuario = () => {
   return (
     <div>
-      <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
-        <ul className="navbar-nav">
-          <li className="nav-item">
+      <nav id="menu-usuario">
+        <ul>
+          <li>
             <Link to="/" className="nav-link">
               Home
             </Link>
           </li>
           {/* <li className="nav-item">Mis Casos</li> */}
-          <li className="nav-item">Añadir un Caso</li>
+          <li>Añadir un Caso</li>
         </ul>
       </nav>
     </div>

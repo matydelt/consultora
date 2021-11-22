@@ -399,6 +399,18 @@ export function setCliente(cliente, abogado) {
       });
   };
 }
+export function modificarClave(Usuario) {
+  return (dispatch) => {
+    axios
+      .put("http://localhost:3001/newpass", Usuario)
+      .then((response) => {
+        return dispatch({ type: "POST_CLAVE" });
+      })
+      .catch((err) => {
+        console.log("ruta no existe");
+      });
+  };
+}
 
 export function getClientes() {
   return (dispatch) => {
@@ -468,7 +480,6 @@ export function getItems() {
   return async (dispatch) => {
     try {
       const response = await axios.get("/items/find");
-      console.log(response)
       return dispatch({ type: "GET_ITEMS", payload: response.data });
     } catch (error) {
       console.log(error);
@@ -498,7 +509,7 @@ export function deleteItem(item) {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 export function getDia(diaId) {
   return (dispatch) => {
@@ -537,6 +548,3 @@ export function actionEliminarDia(diaId) {
       });
   };
 }
-
-
-

@@ -61,11 +61,11 @@ export default function FormCita({ history }) {
   useEffect(() => {
     console.log(usuario);
     setInput({
-      nombre: usuario.firstName,
-      apellido: usuario.lastName,
-      dni: usuario.dni,
-      telefono: usuario.celular,
-      email: usuario.eMail,
+      nombre: usuario?.firstName,
+      apellido: usuario?.lastName,
+      dni: usuario?.dni,
+      telefono: usuario?.celular,
+      email: usuario?.eMail,
     });
   }, [usuario]);
 

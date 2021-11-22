@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "@firebase/auth";
 import {
@@ -21,9 +21,12 @@ import HomeAbogado from "./components/home-Abogado/HomeAbogado";
 import NavAbogado from "./components/home-Abogado/NavAbogado/NavAbogado";
 import Footer from "./components/home-Abogado/Footer/Footer";
 import Signin from "./components/Sign/singnin";
+import Signup from "./components/Sign/signup";
+import Loaded from "./components/Loaded/Loaded";
 import FormCasos from "./components/FormCasos/FormCasos";
 import HomeUsuario from "./components/homeUsuario/HomeUsuario";
 import ConsultasUsuario from "./components/homeUsuario/consultasUsuario/ConsultasUsuario";
+import TurnosUsuarios from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPage from "./components/admin/adminPage/adminPage";
@@ -57,11 +60,12 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App container-fluid p-0">
+    <div>
       <Switch>
         <Route exact path="/">
           <HomePage />
         </Route>
+        <Route path="/admin" component={AdminPage}></Route>
         <Route exact path="/materias/:materia">
           <SiteMateria />
         </Route>
@@ -74,63 +78,51 @@ function App() {
         <Route exact path="/abogados">
           <Perfiles />
         </Route>
-        <Route
-          path="/admin"
-          render={(props) => (
-            <AdminPage props={props} adminId={usuario.adminId} />
-          )}
-        />
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/Cambiopass" component={NewPass} />
 
-        {/* <div className="abosoluteDiv"> */}
+        {/* <div> */}
         <Route exact path="/cita" component={FormCita} />
-          <Route exact path="/user/panel">
-            <HomeUsuario />
-          </Route>
-          <Route exact path="/user/panel/consultas">
-            <ConsultasUsuario />
-          </Route>
-          <Route exact path="/user/panel/turnos">
-            <TurnosUsuario />
-          </Route>
+
+        <Route exact path="/user/panel">
+          <HomeUsuario />
+        </Route>
+        <Route exact path="/user/panel/consultas">
+          <ConsultasUsuario />
+        </Route>
+        <Route exact path="/user/panel/turnos">
+          <TurnosUsuarios />
+        </Route>
         {/* </div> */}
-
-
-        {/* <div className="abosoluteDiv"> */}
-          <Route exact path="/user/abogado">
-            <HomeAbogado />
-          </Route>
-          <Route exact path="/user/abogado/clientes">
-            <Clients />
-          </Route>
-          <Route exact path="/user/abogado/consultas">
-            <VistaConsultasAbogado />
-          </Route>
-          <Route exact path="/user/abogado/casos">
-            <Clientes />
-          </Route>
-          <Route
-            exact
-            path="/user/abogado/modificar-perfil"
-            component={ModificarAbogado}
-          ></Route>
-          <Route path="/user/abogado/gestionar-turnos">
-            <TurnosAbogado></TurnosAbogado>
-          </Route>
-          <Route exact path="/user/abogado/nuevo-caso">
-            <FormCasos />
-          </Route>
-          <Footer />
-          {/* <Route exact path={"/user/abogado/gestionar-turnos"}>
-            <TurnosAbogado />
-          </Route> */}
+        {/* <div> */}
+        {/* <NavAbogado /> */}
+        <Route exact path="/user/abogado">
+          <HomeAbogado />
+        </Route>
+        <Route exact path="/user/abogado/clientes">
+          <Clients />
+        </Route>
+        <Route exact path="/user/abogado/consultas">
+          <VistaConsultasAbogado />
+        </Route>
+        <Route exact path="/user/abogado/casos">
+          <Clientes />
+        </Route>
+        <Route
+          exact
+          path="/user/abogado/modificar-perfil"
+          component={ModificarAbogado}
+        ></Route>
+        <Route exact path="/user/abogado/gestionar-turnos">
+          <TurnosAbogado />
+        </Route>
+        <Route exact path="/user/abogado/nuevo-caso">
+          <FormCasos />
+        </Route>
+        <Footer />
         {/* </div> */}
       </Switch>
-      {/* <Route exact path="/form-resena">
-        <CrearResena></CrearResena>{" "}
-      </Route> */}
-      <ToastContainer></ToastContainer>
+      <ToastContainer />
     </div>
   );
 }

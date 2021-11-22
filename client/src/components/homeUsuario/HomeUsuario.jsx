@@ -26,7 +26,7 @@ export default function HomeAbogado() {
           <li>Ver el estado de sus consultas y casos</li>
         </ul>
       </div>
-      <Footer />  
+      <Footer />
     </div>
   );
 }

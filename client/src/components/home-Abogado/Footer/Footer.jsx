@@ -2,7 +2,6 @@ import React from "react";
 import "./Footer.css";
 import LogoBlanco from "../../home-page/assets/img/logo-blacno-sin-fondo.png";
 
-
 const Footer = () => {
   return (
     <footer class="Footer_homeAbogado">
