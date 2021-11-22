@@ -120,9 +120,9 @@ function App() {
         <Route exact path= "/user/abogado/gestionar-turnos" >
           {usuario?.abogadoId != null ? <TurnosAbogado /> : <ErrorPag/>}
         </Route>
-        <Route exact path= "/user/abogado/nuevo-caso" >
+        {/* <Route exact path= "/user/abogado/nuevo-caso" >
           {usuario?.abogadoId != null ? <FormCasos /> : <ErrorPag/>}
-        </Route>
+        </Route> */}
         <Route component={ErrorPag} path="/:rest*" />
       </Switch>
       <ToastContainer />
