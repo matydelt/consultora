@@ -12,7 +12,6 @@ import VistaConsultasAbogado from "./components/vistaConsultasAbogado/VistaConsu
 import Clientes from "./components/clientes/clientes";
 import HomeAbogado from "./components/home-Abogado/HomeAbogado";
 import Signin from "./components/Sign/singnin";
-import FormCasos from "./components/FormCasos/FormCasos";
 import HomeUsuario from "./components/homeUsuario/HomeUsuario";
 import TurnosUsuarios from "./components/homeUsuario/turnosUsuario/TurnosUsuario";
 import { ToastContainer } from "react-toastify";
@@ -120,9 +119,6 @@ function App() {
         <Route exact path= "/user/abogado/gestionar-turnos" >
           {usuario?.abogadoId != null ? <TurnosAbogado /> : <ErrorPag/>}
         </Route>
-        {/* <Route exact path= "/user/abogado/nuevo-caso" >
-          {usuario?.abogadoId != null ? <FormCasos /> : <ErrorPag/>}
-        </Route> */}
         <Route component={ErrorPag} path="/:rest*" />
       </Switch>
       <ToastContainer />
