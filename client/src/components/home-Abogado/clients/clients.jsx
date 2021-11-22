@@ -5,6 +5,7 @@ import FormCasos from "../../FormCasos/FormCasos";
 import SideBarAbogado from "../SideBarAbogado/SideBarAbogado";
 import CardClients from "./cardClients";
 import "./client.css";
+import Footer from "../Footer/Footer";
 
 export default function Clients() {
   //muestra cards de cada cliente con sus casos
@@ -24,21 +25,24 @@ export default function Clients() {
 
   return (
     <div className="Abogado_Clientes hidden">
-      <SideBarAbogado />
-      <div className="d-flex justify-content-center">
-        <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column conteiner justify-content-center">
-          {clientes.map((e) => {
-            const { id, persona } = e;
+      <div>
+        <SideBarAbogado />
+        <div className="height_abogado d-flex justify-content-center">
+          <div className="mt-3 me-3 ms-3 mb-3 d-inline-flex flex-column conteiner justify-content-center">
+            {clientes.map((e) => {
+              const { id, persona } = e;
 
-            return (
-              <div className=" mt-3 me-3 ms-3 mb-3 card ">
-                <CardClients persona={persona} />
+              return (
+                <div className=" mt-3 me-3 ms-3 mb-3 card ">
+                  <CardClients persona={persona} />
 
-                <FormCasos cliente={id} />
-              </div>
-            );
-          })}
+                  <FormCasos cliente={id} />
+                </div>
+              );
+            })}
+          </div>
         </div>
+        <Footer />
       </div>
     </div>
   );

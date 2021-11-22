@@ -36,8 +36,9 @@ nav ul .imgLogo {
 #menu ul li a {
     display  : inline-block;
     color    : #033663;
-    font-size: 20px;
+    font-size: 17px;
     position : relative;
+    text-transform: uppercase;
 }
 
 /* width: 50% !important; */

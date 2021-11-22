@@ -37,8 +37,8 @@
     padding       : 40px;
     background    : #03366365;
     opacity       : 0;
-    transform     : scale(1);
-    transition    : 0.2s;
+    /* transform     : scale(1); */
+    transition    : all 1.3s ease;
 }
 
 .site_materia_img_name .hover_verMas p {
@@ -47,7 +47,8 @@
     border: solid 1px #fff;
     padding: 8px;
     cursor: pointer;
-    transition: .4s;
+    opacity: 0;
+    transition: .5s;
     transform: scale(0.80);
 }
 
@@ -58,8 +59,13 @@
     border: solid 1px #033663fb;
 }
 
+.site_materia_img_name .hover_verMas:hover p {
+    opacity: 1;
+}
+
 .site_materia_img_name .hover_verMas:hover {
     opacity: 1;
+    transform: scale(4), translateZ(0);
 }
 
 .site_materia_img_name:hover img {

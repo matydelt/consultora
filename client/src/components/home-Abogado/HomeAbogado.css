@@ -1,3 +1,11 @@
+.body_home_abogado {
+ position: relative;
+}
+
+.body_home_abogado nav {
+  margin-bottom: 30px;
+}
+
 .jumbotron {
   /* 
   margin-left: 20px;
@@ -52,4 +60,8 @@
 .body-home {
   border-radius   : 10px;
   background-color: #e6e4e4;
+}
+
+.body_home_abogado footer {
+  margin-top: 30px;
 }

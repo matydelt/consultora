@@ -18,7 +18,7 @@ const Navbar = ({ navId }) => {
       {console.log(usuario)}
       <ul className="widht_li row col-xxl-12 justify-content-evenly align-items-center border-bottom">
         <img src={Logo} alt="Logo" className="col-xl-1 imgLogo" />
-        
+
         <li className="col-xl-1">
           <ButtonScroll text="Materias" idScroll="#materias" />
         </li>

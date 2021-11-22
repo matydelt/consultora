@@ -31,3 +31,7 @@
     font-size: 30px;
     transform: translate(-15%, 15%);
 }
+
+.Footer_homeAbogado .p_img_footer .p_grupo10 {
+    z-index: 1;
+}

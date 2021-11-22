@@ -5,6 +5,7 @@ import { Redirect } from "react-router";
 import { getConsultas } from "../../redux/actions";
 import ModalConsulta from "./modalConsulta/ModalConsulta";
 import TablaVistasConsultas from "./tablaVistasConsultas/TablaVistasConsultas";
+import Footer from '../home-Abogado/Footer/Footer'
 import "./VistaConsultasAbogados.css";
 import SideBarAbogado from "../home-Abogado/SideBarAbogado/SideBarAbogado";
 
@@ -92,7 +93,7 @@ export default function VistaConsultasAbogado() {
           </button>
         </div>
       </nav>
-      <div className="tab-content" id="nav-tabContent">
+      <div className="height_abogado tab-content" id="nav-tabContent">
         <div
           className="tab-pane fade show active"
           id="nav-home"
@@ -120,6 +121,7 @@ export default function VistaConsultasAbogado() {
         </div>
         {/* <div className="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div> */}
       </div>
+      <Footer />
     </div>
   );
 }

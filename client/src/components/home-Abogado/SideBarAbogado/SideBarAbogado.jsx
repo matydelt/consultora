@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { getAuth, signOut } from "@firebase/auth";
 import { getUsuario } from "../../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import LogoBlanco from "../../home-page/assets/img/logo-blacno-sin-fondo.png";
 
 const SideBarAbogado = ({ imagenAbogado }) => {
   let usuario = useSelector((state) => state.usuario);
+  const location = useLocation();
 
   const history = useHistory();
 
@@ -50,13 +51,74 @@ const SideBarAbogado = ({ imagenAbogado }) => {
               alt="abogado"
             />
           </Link>
-          <Link to="/user/abogado">Home 🏠</Link>
-          <Link to="/user/abogado/modificar-perfil">Detalles 👨‍🎓</Link>
-          <Link to="/user/abogado/casos">Casos 📔</Link>
-          <Link to="/user/abogado/consultas">Consultas 💭</Link>
-          <Link to="/user/abogado/clientes">Clientes 🙋‍♂️</Link>
-          <Link to="/user/abogado/gestionar-turnos">Turnos</Link>
-          <Link to="/admin">Admin</Link>
+          <Link
+            className={
+              location.pathname === "/user/abogado"
+                ? "selectedAbogado"
+                : undefined
+            }
+            to="/user/abogado"
+          >
+            Home 🏠
+          </Link>
+          <Link
+            className={
+              location.pathname === "/user/abogado/modificar-perfil"
+                ? "selectedAbogado"
+                : undefined
+            }
+            to="/user/abogado/modificar-perfil"
+          >
+            Detalles 👨‍🎓
+          </Link>
+          <Link
+            className={
+              location.pathname === "/user/abogado/casos"
+                ? "selectedAbogado"
+                : undefined
+            }
+            to="/user/abogado/casos"
+          >
+            Casos 📔
+          </Link>
+          <Link
+            className={
+              location.pathname === "/user/abogado/consultas"
+                ? "selectedAbogado"
+                : undefined
+            }
+            to="/user/abogado/consultas"
+          >
+            Consultas 💭
+          </Link>
+          <Link
+            className={
+              location.pathname === "/user/abogado/clientes"
+                ? "selectedAbogado"
+                : undefined
+            }
+            to="/user/abogado/clientes"
+          >
+            Clientes 🙋‍♂️
+          </Link>
+          <Link
+            className={
+              location.pathname === "/user/abogado/gestionar-turnos"
+                ? "selectedAbogado"
+                : undefined
+            }
+            to="/user/abogado/gestionar-turnos"
+          >
+            Turnos
+          </Link>
+          <Link
+            className={
+              location.pathname === "/admin" ? "selectedAbogado" : undefined
+            }
+            to="/admin"
+          >
+            Admin
+          </Link>
           <button onClick={logout}>Salir ❌</button>
         </ul>
       </div>

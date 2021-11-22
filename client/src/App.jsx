@@ -83,7 +83,7 @@ function App() {
         <Route exact path="/ingreso" component={Signin} />
         <Route exact path="/Cambiopass" component={NewPass} />
 
-        <div className="abosoluteDiv">
+        {/* <div className="abosoluteDiv"> */}
         <Route exact path="/cita" component={FormCita} />
           <Route exact path="/user/panel">
             <HomeUsuario />
@@ -94,10 +94,10 @@ function App() {
           <Route exact path="/user/panel/turnos">
             <TurnosUsuario />
           </Route>
-        </div>
+        {/* </div> */}
 
 
-        <div className="abosoluteDiv">
+        {/* <div className="abosoluteDiv"> */}
           <Route exact path="/user/abogado">
             <HomeAbogado />
           </Route>
@@ -125,7 +125,7 @@ function App() {
           {/* <Route exact path={"/user/abogado/gestionar-turnos"}>
             <TurnosAbogado />
           </Route> */}
-        </div>
+        {/* </div> */}
       </Switch>
       {/* <Route exact path="/form-resena">
         <CrearResena></CrearResena>{" "}

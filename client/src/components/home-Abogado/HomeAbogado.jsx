@@ -6,6 +6,7 @@ import { Redirect } from "react-router";
 import "./HomeAbogado.css";
 import { putAbogado } from "../../redux/actions";
 import SideBarAbogado from "./SideBarAbogado/SideBarAbogado";
+import Footer from '../home-Abogado/Footer/Footer'
 
 export default function HomeAbogado() {
   const { usuario, abogado } = useSelector((state) => state);
@@ -20,10 +21,10 @@ export default function HomeAbogado() {
   return !usuario.abogadoId ? (
     <Redirect to="/" />
   ) : (
-    <div className="hidden">
+    <div className="body_home_abogado">
       <SideBarAbogado imagenAbogado={abogado.imagen} />
       <div className="jumbotron  jumbotron-fluid body-home">
-        <h1 className="display-4">Bienvenido, {abogado.firstName}</h1>
+        <h1 className="display-4">Bienvenid@, {abogado.firstName}</h1>
         <p className="lead ">
           En este sitio podrás encontrar todo lo necesario para poder gestionar
           tus casos, consultas y clientes, Para poder navegar puedes utilizar
@@ -101,6 +102,7 @@ export default function HomeAbogado() {
           </a>
         </p>
       </div>
+      <Footer/>
     </div>
   );
 }

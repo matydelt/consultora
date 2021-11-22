@@ -28,3 +28,16 @@
     display: block !important;
 
 }
+
+.body_modificar_abogado_perfil {
+    min-height: 700px;
+}
+
+.body_modificar_abogado_perfil nav {
+    margin-bottom: 30px;
+}
+
+.body_modificar_abogado_perfil footer {
+    margin-top: 30px;
+    position: relative;
+}

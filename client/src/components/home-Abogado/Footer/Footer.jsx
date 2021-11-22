@@ -11,7 +11,7 @@ const Footer = () => {
           <img src={LogoBlanco} alt="Logo" />
           <p>BL</p>
         </div>
-        <p className="">Grupo 10 - &copy; {new Date().getFullYear()} </p>
+        <p className="p_grupo10">Grupo 10 - &copy; {new Date().getFullYear()} </p>
       </div>
     </footer>
   );
